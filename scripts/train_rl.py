@@ -41,6 +41,8 @@ def main(argv=None) -> int:
     parser.add_argument("--wall-clock-s", type=float, default=None)
     parser.add_argument("--out-dir", type=Path, default=None)
     args = parser.parse_args(argv)
+    if str(args.split).lower() in {"test", "testing"}:
+        raise SystemExit("TEST is forbidden for training, checkpoint selection, and config decisions.")
 
     train_routes = load_split_routes(args.split, network_group=args.network_group)
     val_routes = load_split_routes("validation", network_group=args.network_group)
@@ -63,6 +65,7 @@ def main(argv=None) -> int:
             out = args.out_dir or (CHECKPOINTS_DIR / "LegacyTwoStageDDQN" / f"seed_{seed}")
             manifest = train_ddqn(
                 train_routes=train_routes,
+                val_routes=val_routes,
                 config_seed=seed,
                 gradient_steps=int(raw["gradient_steps"]),
                 batch_size=int(raw["batch_size"]),
@@ -72,6 +75,9 @@ def main(argv=None) -> int:
                 d_model=int(raw["d_model"]),
                 wall_clock_s=args.wall_clock_s,
                 out_dir=out,
+                val_interval=int(raw.get("val_interval", 50)),
+                val_max_routes=args.max_val_routes,
+                early_stopping_patience=int(raw.get("early_stopping_patience", 20)),
             )
             print(manifest["status"], out)
         return 0

@@ -155,51 +155,64 @@ def min_departure_soc_for_arc(
     return float(soc)
 
 
-def energy_continuable_stations(simulator: FixedRouteSimulator) -> Set[str]:
-    """Stations from which the next frozen node is reachable with full-battery hops.
+def continuation_hop_ranks(simulator: FixedRouteSimulator) -> Dict[str, int]:
+    """Backward hop ranks from the next frozen customer/depot.
 
-    Intermediate recharges to max SOC are allowed. Time windows are ignored.
+    Rank 0 is the next frozen node (not a station key). Rank 1 stations can
+    reach it at full battery. Rank ``k+1`` stations can reach at least one
+    station of rank ``k`` or lower. Stations missing from the result have no
+    finite rank and are not energy-continuable.
+
+    Energy only: time windows and charging duration are ignored.
     """
     nxt = simulator.next_frozen_node_id()
     stations = list(station_ids_of(simulator))
-    good: Set[str] = set()
+    ranks: Dict[str, int] = {}
     for station_id in stations:
         if _full_battery_reach(simulator, station_id, nxt):
-            good.add(station_id)
-    changed = True
-    while changed:
-        changed = False
+            ranks[station_id] = 1
+    k = 1
+    while True:
+        added = []
         for station_id in stations:
-            if station_id in good:
+            if station_id in ranks:
                 continue
-            if any(_full_battery_reach(simulator, station_id, other) for other in good):
-                good.add(station_id)
-                changed = True
-    return good
+            if any(_full_battery_reach(simulator, station_id, other) for other in ranks):
+                added.append(station_id)
+        if not added:
+            break
+        k += 1
+        for station_id in added:
+            ranks[station_id] = k
+    return ranks
+
+
+def energy_continuable_stations(simulator: FixedRouteSimulator) -> Set[str]:
+    """Stations with a finite continuation hop rank. Time windows are ignored."""
+    return set(continuation_hop_ranks(simulator))
 
 
 def continuation_departure_soc(simulator: FixedRouteSimulator, station_id: str) -> Optional[float]:
-    """Min departure SOC at ``station_id`` for a progress-making first hop.
+    """Min departure SOC at ``station_id`` for a rank-decreasing first hop.
 
-    Direct hops to the next frozen node are always considered. Hops to other
-    continuable stations count only if they reduce Euclidean distance to that
-    frozen node, so the bound cannot license station ping-pong.
+    A station action is continuation-valid only with a finite hop rank. For
+    rank ``r``, the bound is the cheapest feasible first hop to the next frozen
+    node or to a station of strictly lower rank. Station cycles are excluded
+    without assuming Euclidean progress.
+
+    Energy only: not a globally exact time-window feasibility guarantee.
     """
     nxt = simulator.next_frozen_node_id()
-    good = energy_continuable_stations(simulator)
+    ranks = continuation_hop_ranks(simulator)
+    rank = ranks.get(station_id)
+    if rank is None:
+        return None
     candidates: List[float] = []
     direct = min_departure_soc_for_arc(simulator, station_id, nxt)
     if direct is not None:
         candidates.append(direct)
-    here = simulator.network.node(station_id)
-    goal = simulator.network.node(nxt)
-    here_d = (here.x - goal.x) ** 2 + (here.y - goal.y) ** 2
-    for other in good:
-        if other == station_id:
-            continue
-        node = simulator.network.node(other)
-        other_d = (node.x - goal.x) ** 2 + (node.y - goal.y) ** 2
-        if other_d >= here_d - 1e-12:
+    for other, other_rank in ranks.items():
+        if other == station_id or other_rank >= rank:
             continue
         hop = min_departure_soc_for_arc(simulator, station_id, other)
         if hop is not None:

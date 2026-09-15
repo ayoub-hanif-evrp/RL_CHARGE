@@ -83,10 +83,6 @@ class ShieldedRouteEnv:
         return self._features()
 
     def step(self, discrete_index: int, u: float = 0.0) -> StepInfo:
-        if self.ablation.discrete_u:
-            from baselines.discrete_ppo import snap_u
-
-            u = snap_u(u)
         if discrete_index == CONTINUE_INDEX:
             u = 0.0
         t0 = self.simulator.state.time.value

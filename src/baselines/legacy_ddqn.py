@@ -1,14 +1,17 @@
-"""Legacy two-stage DDQN *method* on the new simulator.
+"""Legacy two-stage Double DQN *method* on the new simulator.
 
 This is not the old environment. Features and encoder are the Part 3A ones.
 One optimizer. Target encoder and both target heads are copied and frozen.
 SOC levels are the historical six-level grid 0.5 ... 1.0.
+
+Double DQN: the online network selects the next discrete action (and, for a
+station, the charge level at that station). The frozen target network evaluates
+that exact pair. CONTINUE has no charge-level Q term.
 """
 
 from __future__ import annotations
 
 from copy import deepcopy
-from typing import Sequence
 
 import torch
 from torch import nn
@@ -22,23 +25,51 @@ from .common import BaselineResult, run_discrete_policy
 SOC_LEVELS = (0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
 
 
+def double_dqn_next_value(
+    online_disc: torch.Tensor,
+    online_soc: torch.Tensor,
+    target_disc: torch.Tensor,
+    target_soc: torch.Tensor,
+) -> torch.Tensor:
+    """Online selects; target evaluates. ``online_soc`` is [B, n_stations, L]."""
+    next_a = online_disc.argmax(dim=-1)
+    gathered_disc = target_disc.gather(1, next_a.unsqueeze(-1)).squeeze(-1)
+    is_station = next_a > 0
+    station_idx = (next_a - 1).clamp(min=0)
+    batch = torch.arange(online_disc.size(0), device=online_disc.device)
+    soc_for_station = online_soc[batch, station_idx]
+    next_level = soc_for_station.argmax(dim=-1)
+    target_soc_for_station = target_soc[batch, station_idx]
+    gathered_soc = target_soc_for_station.gather(1, next_level.unsqueeze(-1)).squeeze(-1)
+    return gathered_disc + torch.where(is_station, gathered_soc, torch.zeros_like(gathered_soc))
+
+
 class TwoHeadQ(nn.Module):
     def __init__(self, d_model: int = 64, n_heads: int = 4, n_layers: int = 1):
         super().__init__()
         self.encoder = HybridEncoder(d_model=d_model, n_heads=n_heads, n_layers=n_layers)
         self.station_head = nn.Linear(d_model, 1)
         self.continue_head = nn.Linear(d_model, 1)
-        self.soc_head = nn.Linear(d_model, len(SOC_LEVELS))
+        self.soc_head = nn.Sequential(
+            nn.Linear(2 * d_model, d_model),
+            nn.Tanh(),
+            nn.Linear(d_model, len(SOC_LEVELS)),
+        )
 
     def q_values(self, features) -> tuple[torch.Tensor, torch.Tensor]:
         from rl.policy import features_to_batch
 
         batch = features_to_batch(features)
         encoded = self.encoder(batch)
-        continue_q = self.continue_head(encoded["h"])
-        station_q = self.station_head(encoded["station_embed"]).squeeze(-1)
+        h = encoded["h"]
+        station_embed = encoded["station_embed"]
+        continue_q = self.continue_head(h)
+        station_q = self.station_head(station_embed).squeeze(-1)
         q_discrete = torch.cat([continue_q, station_q], dim=-1)
-        q_soc = self.soc_head(encoded["h"])
+        soc_in = torch.cat(
+            [h.unsqueeze(1).expand(-1, station_embed.size(1), -1), station_embed], dim=-1
+        )
+        q_soc = self.soc_head(soc_in)
         mask = batch["discrete_mask"]
         if mask.size(-1) != q_discrete.size(-1):
             if mask.size(-1) < q_discrete.size(-1):
@@ -86,7 +117,7 @@ class LegacyTwoStageDDQN:
         discrete = int(torch.argmax(q_discrete, dim=-1).item())
         if discrete == 0:
             return 0, 0.0
-        level = int(torch.argmax(q_soc, dim=-1).item())
+        level = int(torch.argmax(q_soc[0, discrete - 1], dim=-1).item())
         target_soc = self.soc_levels[level]
         from simulation.shield import soc_interval_for_station, station_ids_of
 

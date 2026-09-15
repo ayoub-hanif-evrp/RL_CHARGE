@@ -95,10 +95,6 @@ class HybridPPO:
         self.        rng = np.random.default_rng(config.seed)
 
     def _executed_u(self, env: ShieldedRouteEnv, discrete: int, u: float) -> float:
-        if env.ablation.discrete_u:
-            from baselines.discrete_ppo import snap_u
-
-            u = float(snap_u(u))
         if discrete == 0:
             return 0.0
         return float(u)
@@ -187,30 +183,16 @@ class HybridPPO:
                 entropies = []
                 for local, transition_index in enumerate(idx):
                     transition = buffer.transitions[int(transition_index)]
-                    features = transition.features
-                    net = self.policy.forward(features, device=self.device)
-                    dist = torch.distributions.Categorical(logits=net["logits"])
-                    discrete = torch.tensor(
-                        [transition.discrete_index], device=self.device
-                    )
-                    log_disc = dist.log_prob(discrete)
-                    is_station = transition.discrete_index > 0
-                    station_index = max(transition.discrete_index - 1, 0)
-                    alpha = net["alpha"][0, station_index]
-                    beta = net["beta"][0, station_index]
-                    u = torch.tensor(
-                        min(1.0 - cfg.u_eps, max(cfg.u_eps, transition.u)),
+                    evaluated = self.policy.evaluate_actions(
+                        transition.features,
+                        transition.discrete_index,
+                        transition.u,
+                        u_eps=cfg.u_eps,
                         device=self.device,
                     )
-                    log_beta = torch.distributions.Beta(alpha, beta).log_prob(u)
-                    log_prob = log_disc + (log_beta if is_station else 0.0)
-                    log_probs.append(log_prob.reshape([]))
-                    values.append(net["value"].reshape([]))
-                    beta_ent = torch.distributions.Beta(alpha, beta).entropy()
-                    ent = dist.entropy().reshape([]) + (
-                        beta_ent.reshape([]) if is_station else torch.zeros((), device=self.device)
-                    )
-                    entropies.append(ent)
+                    log_probs.append(evaluated["log_prob"].reshape([]))
+                    values.append(evaluated["value"].reshape([]))
+                    entropies.append(evaluated["entropy"].reshape([]))
                 log_probs = torch.stack(log_probs)
                 values = torch.stack(values)
                 entropies = torch.stack(entropies)

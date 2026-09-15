@@ -73,8 +73,8 @@ routing+charging DRL papers are **not** reproduced. See `docs/experiments.md`.
 | `GreedyMinimumSufficientCharge` | CONTINUE if legal; else min-detour reachable station to `soc_lower`. |
 | `GreedyFullCharge` | Same station rule; `soc_upper`. |
 | `OneStepLookahead` | Score CONTINUE vs each unmasked station+endpoint SOC by time. |
-| `DiscretePPO` | Same encoder; snap `u` to `{0,0.2,...,1}` **in the agent only**. |
-| `LegacyTwoStageDDQN` | Same features/encoder; two discrete heads; six SOC levels `0.5…1.0`; one optimizer; frozen target encoder **and** both target heads. This is the old *method*, not the old environment. |
+| `DiscretePPO` | Same encoder; **categorical** station action plus six charge levels `{0,0.2,...,1}` conditioned on the chosen station. No Beta sampling or snapping. Simulator stays continuous. |
+| `LegacyTwoStageDDQN` | Same features/encoder; two discrete heads; six SOC levels `0.5…1.0` **conditioned on the selected station**; one optimizer; frozen target encoder **and** both target heads. Double DQN: online selects, target evaluates. TRAIN for learning, VALIDATION for checkpoints. This is the old *method*, not the old environment. |
 
 None of these use `check_charging_needed` or `MAX_RL_STOPS`.
 

@@ -1,5 +1,6 @@
 {
-  "source": "e-VRO/frvcpy instances/frvcpy-instance.json plus tiny-instance.json",
+  "source": "tiny-instance.json smoke fixtures only; not official published FRVCP tours",
+  "official_published_tours": false,
   "equivalent_to_evrptwgr": "native_frvcp",
   "never_join_to_evrptwgr_splits": true,
   "routes": [
@@ -8,12 +9,6 @@
       "instance": "tiny-instance.json",
       "nodes": [0, 1, 0],
       "q_init": 16.0
-    },
-    {
-      "route_id": "vendor_prefix_0_1_2_0",
-      "instance": "frvcpy-instance.json",
-      "nodes": [0, 1, 2, 0],
-      "q_init": 16000.0
     }
   ]
 }

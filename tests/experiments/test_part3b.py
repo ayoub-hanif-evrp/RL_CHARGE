@@ -220,7 +220,11 @@ def test_official_frvcp_benchmark_is_isolated_from_splits():
     payload = json.loads((bench / "routes.json").read_text(encoding="utf-8"))
     assert payload["never_join_to_evrptwgr_splits"] is True
     assert payload["equivalent_to_evrptwgr"] == "native_frvcp"
+    assert payload["official_published_tours"] is False
     assert len(payload["routes"]) >= 20
+    testdata = EXTERNAL_DIR / "frvcpy" / "testdata.json"
+    assert testdata.is_file()
+    assert len(json.loads(testdata.read_text(encoding="utf-8"))) >= 100
     text = (bench / "README.md").read_text(encoding="utf-8").lower()
     assert "never" in text
     assert "2016-0020" in text or "montoya" in text

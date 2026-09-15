@@ -9,8 +9,10 @@ Vendored from:
 Original piecewise charging functions are copied unchanged. These instance IDs
 are **never** joined to EVRPTW-GR train/validation/test splits.
 
-`tiny-instance.json` and the two-route `../routes.json` remain unit-test/smoke
-fixtures only.
+`tiny-instance.json` and `../routes.json` remain unit-test/smoke
+fixtures only. Sequential node-ID tours in `routes.json` here are **not**
+official published FRVCP tours. Official reference tours with known
+objectives are `../testdata.json` on `../frvcpy-instance.json`.
 
 `frvcpy.solver.Solver` is exact for these native FRVCP instances. The EVRPTW-GR
 surrogate stays `not_equivalent`.

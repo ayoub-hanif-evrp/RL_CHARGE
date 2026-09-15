@@ -1,4 +1,9 @@
-"""Native FRVCP benchmark: official set plus optional tiny fixtures.
+"""Native FRVCP benchmark.
+
+Default: official e-VRO testdata.json routes on frvcpy-instance.json.
+--fixtures-only: tiny smoke fixtures (not official published tours).
+--montoya: optional XML sequential-ID tours for nonlinear sensitivity;
+those are NOT official published FRVCP tours.
 
 Never joined to EVRPTW-GR splits. Calls real ``frvcpy.solver.Solver``.
 """
@@ -17,11 +22,13 @@ if str(SRC) not in sys.path:
 
 from baselines.frvcp_greedy import greedy_frvcp  # noqa: E402
 from baselines.frvcpy_adapter import NOT_EQUIVALENT  # noqa: E402
+from baselines.frvcpy_reference import official_reference_specs, parity_against_testdata  # noqa: E402
 from baselines.frvcpy_solver import frvcpy_available, load_instance_json, optimality_gap_percent, solve_native  # noqa: E402
 from data.paths import EXTERNAL_DIR  # noqa: E402
-from experiments.batch import dump_run  # noqa: E402
 from experiments.isolation import require_scenario  # noqa: E402
 from experiments.provenance import detect_device, git_sha  # noqa: E402
+from routing.serialize import canonical_dumps  # noqa: E402
+from data.paths import RESULTS_DIR  # noqa: E402
 
 
 def _n_insertions(original, feas_route) -> int | None:
@@ -127,25 +134,61 @@ def _records_for_spec(root: Path, spec: dict, *, scenario: str, experiment_id: s
     ]
 
 
+def _dump(records: list[dict], run_id: str, extra: dict) -> Path:
+    raw = RESULTS_DIR / "raw" / f"{run_id}.jsonl"
+    raw.parent.mkdir(parents=True, exist_ok=True)
+    lines = [canonical_dumps(row) for row in records]
+    raw.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
+    run_dir = RESULTS_DIR / "runs" / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    (run_dir / "manifest.json").write_text(
+        canonical_dumps({"run_id": run_id, "n_records": len(records), **extra}) + "\n",
+        encoding="utf-8",
+    )
+    return raw
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", type=Path, default=EXTERNAL_DIR / "frvcpy")
     parser.add_argument("--run-id", default="frvcpy_native")
     parser.add_argument("--scenario", default="frvcpy_native")
-    parser.add_argument("--fixtures-only", action="store_true")
+    parser.add_argument("--fixtures-only", action="store_true", help="tiny fixtures, not official tours")
+    parser.add_argument("--montoya", action="store_true", help="optional sequential-ID XML tours")
+    parser.add_argument("--parity-only", action="store_true", help="run official testdata Solver parity and exit")
     args = parser.parse_args(argv)
     scenario = require_scenario(args.scenario)
+    if args.parity_only:
+        report = parity_against_testdata(args.data)
+        print(canonical_dumps(report))
+        if not report["available"]:
+            return 1
+        return 0 if not report["errors"] else 1
     if args.fixtures_only:
         routes_path = args.data / "routes.json"
         root = args.data
-    else:
+        specs = json.loads(routes_path.read_text(encoding="utf-8"))["routes"]
+        official = False
+    elif args.montoya:
         bench = args.data / "benchmark"
-        routes_path = bench / "routes.json" if (bench / "routes.json").is_file() else args.data / "routes.json"
-        root = bench if (bench / "routes.json").is_file() else args.data
-    routes = json.loads(routes_path.read_text(encoding="utf-8"))
+        routes_path = bench / "routes.json"
+        root = bench
+        payload = json.loads(routes_path.read_text(encoding="utf-8"))
+        specs = payload["routes"]
+        official = False
+    else:
+        root = args.data
+        specs = official_reference_specs(root)
+        official = True
     records = []
-    for spec in routes["routes"]:
-        records.extend(_records_for_spec(root, spec, scenario=scenario, experiment_id=args.run_id))
+    for spec in specs:
+        recs = _records_for_spec(root, spec, scenario=scenario, experiment_id=args.run_id)
+        if official and spec.get("known_obj") is not None:
+            recs[0]["known_obj"] = spec["known_obj"]
+            recs[0]["official_published_tour"] = True
+        else:
+            recs[0]["official_published_tour"] = False
+        records.extend(recs)
     records.append(
         {
             "method": "evrptwgr_surrogate_flag",
@@ -157,8 +200,14 @@ def main(argv=None) -> int:
             "note": "evrptwgr_to_frvcp_surrogate remains not_equivalent; not reported as EVRPTW-GR optimality",
         }
     )
-    path = dump_run(records, args.run_id, extra_manifest={"scenario": scenario})
-    print(f"wrote {len(records)} records to {path} frvcpy_available={frvcpy_available()} n_specs={len(routes['routes'])}")
+    extra = {
+        "scenario": scenario,
+        "official_published_tours": official,
+        "frvcpy_available": frvcpy_available(),
+        "n_specs": len(specs),
+    }
+    path = _dump(records, args.run_id, extra)
+    print(f"wrote {len(records)} records to {path} frvcpy_available={frvcpy_available()} n_specs={len(specs)} official={official}")
     return 0
 
 

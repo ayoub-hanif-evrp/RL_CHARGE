@@ -1,6 +1,9 @@
 {
   "equivalent_to_evrptwgr": "native_frvcp",
   "never_join_to_evrptwgr_splits": true,
+  "official_published_tours": false,
+  "role": "optional_nonlinear_sensitivity",
+  "note": "Sequential node-ID tours are NOT official published FRVCP routes. Official reference tours with known objectives are ../testdata.json on frvcpy-instance.json.",
   "source": "e-VRO/frvcpy + rafaelmartinelli/EVRPNLLib.jl (Montoya 2017 / VRP-REP 2016-0020)",
   "piecewise_charging": "original_unchanged",
   "routes": [

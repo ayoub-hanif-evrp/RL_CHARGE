@@ -5,7 +5,6 @@ from __future__ import annotations
 import torch
 
 from baselines.common import BaselineResult, run_discrete_policy
-from baselines.discrete_ppo import snap_u
 from rl.ablation import AblationConfig
 from rl.features import extract_features
 from rl.normalization import Normalizer
@@ -43,8 +42,6 @@ class HybridPolicyActor:
             output = self.policy.act(features, eval_mode=eval_mode)
         discrete = int(output.discrete_index.item())
         u = float(output.u.item())
-        if self.snap_discrete_u or self.ablation.discrete_u:
-            u = snap_u(u)
         if discrete == 0:
             u = 0.0
         return discrete, u

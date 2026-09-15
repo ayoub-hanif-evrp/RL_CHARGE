@@ -13,6 +13,14 @@ from .ablation import AblationConfig
 from .encoder import HybridEncoder
 from .features import FeatureBundle
 
+# Documented DiscretePPO charge-level grid. Agent-side only; simulator stays continuous.
+CHARGE_U_LEVELS = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0)
+N_CHARGE_LEVELS = len(CHARGE_U_LEVELS)
+
+
+def charge_level_from_u(u: float, grid: tuple[float, ...] = CHARGE_U_LEVELS) -> int:
+    return min(range(len(grid)), key=lambda i: abs(grid[i] - float(u)))
+
 
 @dataclass
 class PolicyOutput:
@@ -24,6 +32,7 @@ class PolicyOutput:
     logits: torch.Tensor
     alpha: torch.Tensor
     beta: torch.Tensor
+    charge_level: torch.Tensor
 
 
 class HybridPolicy(nn.Module):
@@ -51,6 +60,11 @@ class HybridPolicy(nn.Module):
             nn.Linear(2 * d_model, d_model),
             nn.Tanh(),
             nn.Linear(d_model, 2),
+        )
+        self.charge_level_head = nn.Sequential(
+            nn.Linear(2 * d_model, d_model),
+            nn.Tanh(),
+            nn.Linear(d_model, N_CHARGE_LEVELS),
         )
         self.value_head = nn.Linear(d_model, 1)
 
@@ -89,12 +103,14 @@ class HybridPolicy(nn.Module):
         beta_params = self.beta_head(beta_in)
         alpha = torch.nn.functional.softplus(beta_params[..., 0]) + 1.0
         beta = torch.nn.functional.softplus(beta_params[..., 1]) + 1.0
+        charge_logits = self.charge_level_head(beta_in)
         value = self.value_head(h).squeeze(-1)
         return {
             "logits": logits,
             "mask": mask,
             "alpha": alpha,
             "beta": beta,
+            "charge_logits": charge_logits,
             "value": value,
             "h": h,
             "station_embed": station_embed,
@@ -122,19 +138,41 @@ class HybridPolicy(nn.Module):
         station_index = (discrete - 1).clamp(min=0)
         alpha_sel = net["alpha"].gather(1, station_index.unsqueeze(-1)).squeeze(-1)
         beta_sel = net["beta"].gather(1, station_index.unsqueeze(-1)).squeeze(-1)
-        beta_dist = Beta(alpha_sel, beta_sel)
-        if eval_mode:
-            u = alpha_sel / (alpha_sel + beta_sel)
+        if self.ablation.discrete_u:
+            charge_logits = net["charge_logits"]
+            b = torch.arange(charge_logits.size(0), device=charge_logits.device)
+            selected_charge_logits = charge_logits[b, station_index]
+            charge_dist = torch.distributions.Categorical(logits=selected_charge_logits)
+            if eval_mode:
+                charge_level = torch.argmax(selected_charge_logits, dim=-1)
+            else:
+                charge_level = charge_dist.sample()
+            grid = torch.tensor(CHARGE_U_LEVELS, device=logits.device, dtype=alpha_sel.dtype)
+            u = grid[charge_level]
+            u = torch.where(is_station, u, torch.zeros_like(u))
+            charge_level = torch.where(is_station, charge_level, torch.full_like(charge_level, -1))
+            log_charge = charge_dist.log_prob(charge_level.clamp(min=0))
+            log_prob = log_pi_disc + torch.where(
+                is_station, log_charge, torch.zeros_like(log_charge)
+            )
+            entropy = entropy_disc + torch.where(
+                is_station, charge_dist.entropy(), torch.zeros_like(log_charge)
+            )
         else:
-            u = beta_dist.rsample()
-        u = u.clamp(1e-4, 1.0 - 1e-4)
-        log_beta = beta_dist.log_prob(u)
-        log_prob = log_pi_disc + torch.where(
-            is_station, log_beta, torch.zeros_like(log_beta)
-        )
-        entropy = entropy_disc + torch.where(
-            is_station, beta_dist.entropy(), torch.zeros_like(log_beta)
-        )
+            beta_dist = Beta(alpha_sel, beta_sel)
+            if eval_mode:
+                u = alpha_sel / (alpha_sel + beta_sel)
+            else:
+                u = beta_dist.rsample()
+            u = u.clamp(1e-4, 1.0 - 1e-4)
+            log_beta = beta_dist.log_prob(u)
+            log_prob = log_pi_disc + torch.where(
+                is_station, log_beta, torch.zeros_like(log_beta)
+            )
+            entropy = entropy_disc + torch.where(
+                is_station, beta_dist.entropy(), torch.zeros_like(log_beta)
+            )
+            charge_level = torch.full_like(discrete, -1)
         return PolicyOutput(
             discrete_index=discrete,
             u=u,
@@ -144,6 +182,7 @@ class HybridPolicy(nn.Module):
             logits=logits,
             alpha=alpha_sel,
             beta=beta_sel,
+            charge_level=charge_level,
         )
 
     def evaluate_actions(
@@ -163,6 +202,25 @@ class HybridPolicy(nn.Module):
         cat_ent = dist.entropy()
         is_station = int(discrete_index) > 0
         station_index = max(int(discrete_index) - 1, 0)
+        zero = torch.zeros((), device=net["logits"].device)
+        if self.ablation.discrete_u:
+            charge_logits = net["charge_logits"][0, station_index]
+            charge_dist = torch.distributions.Categorical(logits=charge_logits)
+            level = charge_level_from_u(u)
+            level_t = torch.tensor(level, device=net["logits"].device)
+            log_charge = charge_dist.log_prob(level_t)
+            charge_ent = charge_dist.entropy()
+            log_prob = log_disc.reshape([]) + (log_charge if is_station else zero)
+            entropy = cat_ent.reshape([]) + (charge_ent if is_station else zero)
+            return {
+                "log_prob": log_prob,
+                "entropy": entropy,
+                "value": net["value"].reshape([]),
+                "categorical_entropy": cat_ent.reshape([]),
+                "beta_entropy": zero,
+                "charge_entropy": charge_ent if is_station else zero,
+                "charge_level": level if is_station else -1,
+            }
         alpha = net["alpha"][0, station_index]
         beta = net["beta"][0, station_index]
         u_clamped = min(1.0 - u_eps, max(u_eps, float(u)))
@@ -178,6 +236,8 @@ class HybridPolicy(nn.Module):
             "value": net["value"].reshape([]),
             "categorical_entropy": cat_ent.reshape([]),
             "beta_entropy": beta_ent if is_station else torch.zeros_like(beta_ent),
+            "charge_entropy": zero,
+            "charge_level": -1,
         }
 
 

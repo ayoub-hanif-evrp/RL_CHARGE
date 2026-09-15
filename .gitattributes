@@ -7,3 +7,5 @@ data/raw/** -text -diff
 # must not rewrite them: the pinned SHA-256 values are of the working-tree bytes.
 data/routes/** -text
 data/splits/** -text
+data/external/frvcpy/testdata.json -text
+data/external/frvcpy/frvcpy-instance.json -text

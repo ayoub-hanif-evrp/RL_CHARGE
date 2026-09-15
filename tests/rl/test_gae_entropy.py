@@ -165,7 +165,7 @@ def test_conditional_beta_entropy_and_finite_near_endpoints(write_instance):
     assert torch.isfinite(low["entropy"]).all()
 
 
-def test_collect_stores_executed_u_after_snap(write_instance):
+def test_collect_stores_grid_u_for_discrete_ppo(write_instance):
     env, _, _, _ = _env(write_instance)
     env.ablation = AblationConfig.from_name("A1")
     config = PPOConfig(
