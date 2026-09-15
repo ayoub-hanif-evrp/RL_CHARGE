@@ -1,0 +1,12 @@
+Timestamp: 2025-12-04_13-23-31
+Device: cuda
+Epochs: 30
+Learning Rate: 0.001
+Gamma: 0.99
+Epsilon: 1.0 -> 0.01 (decay=0.999)
+Batch Size: 8
+Buffer Size: 10000
+Target Update Freq: 10
+
+Total Episodes: 8319
+Total Time: 59.6 min

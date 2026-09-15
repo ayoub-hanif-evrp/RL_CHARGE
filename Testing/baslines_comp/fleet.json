@@ -1,0 +1,902 @@
+{
+  "V1": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V2": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V3": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V4": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V5": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V6": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V7": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V8": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V9": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V10": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V11": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V12": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V13": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V14": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V15": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V16": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V17": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V18": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V19": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V20": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V21": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V22": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V23": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V24": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V25": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V26": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V27": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V28": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V29": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V30": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V31": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V32": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V33": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V34": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V35": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V36": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V37": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V38": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V39": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V40": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V41": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V42": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V43": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V44": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V45": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V46": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V47": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V48": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V49": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V50": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V51": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V52": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V53": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V54": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V55": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V56": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V57": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V58": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V59": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V60": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V61": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V62": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V63": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V64": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V65": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V66": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V67": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V68": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V69": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V70": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V71": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V72": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V73": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V74": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V75": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V76": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V77": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V78": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V79": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V80": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V81": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V82": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V83": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V84": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V85": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V86": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V87": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V88": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V89": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V90": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V91": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V92": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V93": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V94": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V95": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V96": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V97": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V98": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V99": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  },
+  "V100": {
+    "driving_range_km": 150,
+    "remaining_driving_range_km": 150,
+    "load_capacity_kg": 150,
+    "remaining_load_capacity_kg": 150,
+    "weight_kg": 3856,
+    "driver_profile": 0,
+    "battery_capacity_kwh": 150
+  }
+}
