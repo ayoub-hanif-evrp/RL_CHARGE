@@ -23,7 +23,15 @@ env/
 *.swp
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Secrets
 .env
 *.pem
+
+# Testing
+.pytest_cache/
+
+# Generated dataset metadata. data/raw stays tracked and immutable.
+data/processed/*
+!data/processed/.gitkeep

@@ -1,0 +1,4 @@
+# The raw dataset must round-trip through Git byte for byte. Line endings are
+# mixed in the published files (108 LF, 16 CRLF), so disable all EOL and text
+# normalisation here rather than letting Git rewrite them on checkout.
+data/raw/** -text -diff
