@@ -35,3 +35,5 @@ desktop.ini
 # Generated dataset metadata. data/raw stays tracked and immutable.
 data/processed/*
 !data/processed/.gitkeep
+data/routes/*
+!data/routes/.gitkeep

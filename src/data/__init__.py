@@ -3,9 +3,9 @@
 Every part of the project reads the raw dataset through this package. Parsing
 logic must not be duplicated elsewhere.
 
-Part 1 scope: ingestion, validation, and inspection only. No routing, energy
-consumption, charging behaviour, dataset splits, or reinforcement learning is
-implemented here.
+This package is ingestion, validation, and inspection only. Energy, charging,
+simulation, and route generation live in ``physics``, ``simulation``, and
+``routing``.
 """
 
 from .errors import (
@@ -30,6 +30,7 @@ from .paths import (
     PROCESSED_DIR,
     RAW_EVRPTW_GR_DIR,
     REPO_ROOT,
+    ROUTES_DIR,
     iter_instance_files,
     resolve_dataset_root,
 )
@@ -57,6 +58,7 @@ __all__ = [
     "PROCESSED_DIR",
     "RAW_EVRPTW_GR_DIR",
     "REPO_ROOT",
+    "ROUTES_DIR",
     "ScanResult",
     "Severity",
     "TerrainVariant",

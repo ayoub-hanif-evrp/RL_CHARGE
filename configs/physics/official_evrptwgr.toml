@@ -1,0 +1,38 @@
+# Default EVRPTW-GR physical profile.
+#
+# Mass and cargo capacity are the values hard-coded in the official linearized
+# Model 2 implementation (sinarastani/EVRPTW-GR, commit referenced in
+# docs/physics.md), not the raw Small_Network footer. Demir et al. (2012)
+# vehicle constants are copied from that same script.
+#
+# File Q, g, and v are still read from the instance. File r is recorded but
+# never multiplied into energy. File C and M are ignored under this profile.
+
+name = "official_evrptwgr"
+source = "EVRPTW-GR Model 2 linearized (sinarastani/EVRPTW-GR) and Demir et al. (2012)"
+
+use_instance_curb_mass = false
+use_instance_payload_capacity = false
+curb_mass_kg = 6350.0
+payload_capacity_kg = 3650.0
+
+# Demir / Model 2 constants
+rolling_resistance_coefficient = 0.01
+drag_coefficient = 0.7
+air_density_kg_m3 = 1.2041
+frontal_area_m2 = 3.912
+gravity_m_s2 = 9.81
+acceleration_m_s2 = 0.0
+drivetrain_efficiency = 0.9          # mu
+motor_efficiency = 0.9               # mu_train
+regenerative_efficiency = 0.8
+physics_speed_km_h = 60.0            # used ONLY inside the kW formula
+accessory_power_kw = 0.0             # KNV
+accessory_load_kw = 0.0              # p_acc
+powertrain_constant_kk = 1.0
+conversion_factor = 1.0
+
+min_soc_fraction = 0.0
+max_soc_fraction = 1.0
+initial_soc_fraction = 1.0           # thesis overnight full charge; MILP does not force this
+loop_guard_station_visits = 50       # programming-loop detector, not a scientific cap

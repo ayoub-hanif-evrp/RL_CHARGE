@@ -1,0 +1,34 @@
+# Profile that refuses to override instance C and M.
+#
+# Small_Network files omit M and often have C smaller than a single demand.
+# Loading this profile on those instances must fail rather than invent values.
+# Demir constants remain those of the official Model 2 script because the raw
+# files do not contain them.
+
+name = "raw_file"
+source = "Instance footer C and M; Demir/Model-2 constants for the energy equation only"
+
+use_instance_curb_mass = true
+use_instance_payload_capacity = true
+# curb_mass_kg and payload_capacity_kg are illegal to set as silent fallbacks.
+# They must come from the instance.
+
+rolling_resistance_coefficient = 0.01
+drag_coefficient = 0.7
+air_density_kg_m3 = 1.2041
+frontal_area_m2 = 3.912
+gravity_m_s2 = 9.81
+acceleration_m_s2 = 0.0
+drivetrain_efficiency = 0.9
+motor_efficiency = 0.9
+regenerative_efficiency = 0.8
+physics_speed_km_h = 60.0
+accessory_power_kw = 0.0
+accessory_load_kw = 0.0
+powertrain_constant_kk = 1.0
+conversion_factor = 1.0
+
+min_soc_fraction = 0.0
+max_soc_fraction = 1.0
+initial_soc_fraction = 1.0
+loop_guard_station_visits = 50

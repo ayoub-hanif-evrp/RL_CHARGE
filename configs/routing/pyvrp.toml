@@ -1,0 +1,24 @@
+# Customer-only pickup-VRPTW surrogate. Charging stations, battery, altitude,
+# and energy are omitted on purpose. This is Stage A route generation, not an
+# EVRPTW-GR solver.
+#
+# Stopping uses MaxIterations, never wall-clock MaxRuntime, so a given seed and
+# iteration budget is reproducible on one machine. Cross-platform bit-identity
+# is not claimed.
+
+generator = "pyvrp"
+routing_problem = "vrptw_pickup_customers_only"
+physics_profile = "official_evrptwgr"
+seed = 42
+distance_scale = 1000
+demand_scale = 10
+rounding_policy = "numpy_round_to_int64"
+stop = "MaxIterations"
+display = false
+fleet_policy = "one_vehicle_per_customer"
+demand_mapping = "pickup"
+
+[iterations]
+Small_Network = 10000
+Medium_Network = 20000
+Large_Network = 40000

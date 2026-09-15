@@ -32,8 +32,8 @@ data/
       Large_Network/
         50_Customers/Nearly_Level/           *.txt
   processed/                            <- generated, gitignored
-  routes/                               <- empty; reserved for a later part
-  splits/                               <- empty; reserved for a later part
+  routes/                               <- frozen customer routes (Part 2; generated files gitignored)
+  splits/                               <- empty; reserved for Part 3
 ```
 
 ### Instance file format
@@ -102,8 +102,17 @@ Two further quirks are handled silently by the parser because they are purely co
 
 ## Scope
 
-Part 1 covers data ingestion, validation, and inspection only.
+The canonical parser in [`src/data`](../src/data) is ingestion, validation, and
+inspection only.
 
-**Not implemented:** routing, energy consumption modelling, road-gradient or regenerative-braking equations, charging curves and charging behaviour, state of charge, travel-time or distance-to-energy conversions, train/validation/test splits, and reinforcement learning. `data/routes/` and `data/splits/` exist as placeholders for later parts and are intentionally empty.
+Physical energy, the fixed-route simulator, charging models, and PyVRP route
+generation live in [`src/physics`](../src/physics),
+[`src/simulation`](../src/simulation), and [`src/routing`](../src/routing).
+See [`docs/physics.md`](../docs/physics.md), [`docs/simulator.md`](../docs/simulator.md),
+and [`docs/routes.md`](../docs/routes.md).
 
-All dataset access must go through the canonical parser in [`src/data`](../src/data). Do not add a second parser.
+**Not implemented in this data package:** energy consumption, charging
+behaviour, or dataset splits. `data/splits/` remains a Part 3 placeholder.
+
+All dataset access must go through the canonical parser. Do not add a second
+parser.
