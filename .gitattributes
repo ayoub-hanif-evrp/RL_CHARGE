@@ -2,3 +2,8 @@
 # mixed in the published files (108 LF, 16 CRLF), so disable all EOL and text
 # normalisation here rather than letting Git rewrite them on checkout.
 data/raw/** -text -diff
+
+# Frozen corpus and splits are hashed in tests and freeze JSON. core.autocrlf
+# must not rewrite them: the pinned SHA-256 values are of the working-tree bytes.
+data/routes/** -text
+data/splits/** -text

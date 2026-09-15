@@ -9,29 +9,32 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - name: Install
         run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          python -m pip install --upgrade pip setuptools
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install numpy "pyvrp==0.14.0" pytest
+          pip install -e . --no-deps
       - name: Pytest
-        run: python -m pytest tests -q
+        run: python -m pytest tests -q --tb=short
 
   frvcpy:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
-          python-version: "3.10"
+          python-version: "3.11"
       - name: Install with frvcpy sidecar
         run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev,frvcpy]"
+          python -m pip install --upgrade pip setuptools
+          pip install numpy frvcpy
+          pip install -e . --no-deps
       - name: Native FRVCP smoke
         run: python scripts/run_frvcpy_benchmark.py --data data/external/frvcpy --scenario frvcpy_native --fixtures-only
