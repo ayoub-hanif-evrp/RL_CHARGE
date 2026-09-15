@@ -25,6 +25,7 @@ def main(argv=None) -> int:
     parser.add_argument("--max-expansions", type=int, default=20_000)
     parser.add_argument("--max-routes", type=int, default=None)
     parser.add_argument("--run-id", default="exact_small")
+    parser.add_argument("--scenario", default="exact_small")
     args = parser.parse_args(argv)
     routes = load_split_routes(args.split, max_customers=args.max_customers)
     if args.max_routes is not None:
@@ -47,6 +48,8 @@ def main(argv=None) -> int:
                 "network_group": route.network_group,
                 "split": args.split,
                 "seed": 0,
+                "scenario": args.scenario,
+                "experiment_id": args.run_id,
                 "feasible": result.feasible,
                 "reason": result.status,
                 "route_completion_time": result.route_completion_time,

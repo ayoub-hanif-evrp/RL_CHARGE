@@ -27,7 +27,7 @@ from physics.parameters import PhysicsProfile
 
 from .actions import Action, ChargeAction, ContinueAction
 from .events import ChargeEvent, CustomerServiceEvent, DepotEvent, TravelEvent
-from .feasibility import FeasibilityService, InfeasibilityReason
+from .feasibility import FeasibilityService, InfeasibilityReason, ZERO_CHARGE_EPS
 from .metrics import TrajectoryMetrics
 from .state import SimulatorState
 
@@ -208,6 +208,11 @@ class FixedRouteSimulator:
             return self._fail(InfeasibilityReason.INVALID_TARGET_SOC)
         if target_soc + 1e-12 < self.state.soc.value:
             return self._fail(InfeasibilityReason.INVALID_TARGET_SOC)
+        if (
+            self.state.current_node_id == action.station_id
+            and target_soc < self.state.soc.value + ZERO_CHARGE_EPS
+        ):
+            return self._fail(InfeasibilityReason.ZERO_CHARGE_NOOP)
         target_energy = BatteryEnergy(target_soc * battery.capacity.value)
         try:
             charge = self.charging_model.charging_time(

@@ -80,7 +80,7 @@ class LegacyTwoStageDDQN:
         return any(id(p) in opt_ids for p in self.target.parameters())
 
     def choose(self, simulator: FixedRouteSimulator, eval_mode: bool = True) -> tuple[int, float]:
-        features = extract_features(simulator)
+        features = extract_features(simulator, soc_interval="continuation_to_max")
         with torch.no_grad():
             q_discrete, q_soc = self.online.q_values(features)
         discrete = int(torch.argmax(q_discrete, dim=-1).item())

@@ -26,6 +26,7 @@ def main(argv=None) -> int:
     parser.add_argument("--cs-type", default="fast")
     parser.add_argument("--max-routes", type=int, default=None)
     parser.add_argument("--run-id", default="nonlinear_sensitivity")
+    parser.add_argument("--scenario", default="nonlinear_sensitivity")
     args = parser.parse_args(argv)
     routes = load_split_routes(args.split, network_group="Small_Network")
     if args.max_routes is not None:
@@ -49,6 +50,8 @@ def main(argv=None) -> int:
             "equivalent_to_evrptwgr": "not_original_evrptwgr",
             "charging_model": model.name,
             "cs_type": args.cs_type,
+            "scenario": args.scenario,
+            "experiment_id": args.run_id,
         }
         from experiments.evaluate import evaluate_policy
 

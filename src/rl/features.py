@@ -45,6 +45,7 @@ def extract_features(
     *,
     use_remaining_route: bool = True,
     use_terrain_load_features: bool = True,
+    soc_interval: str = "continuation_to_max",
 ) -> FeatureBundle:
     instance = simulator.instance
     state = simulator.state
@@ -87,7 +88,9 @@ def extract_features(
     station_rows = []
     station_mask = []
     for station_id in decision.station_ids:
-        station_rows.append(_station_features(simulator, station_id, next_id))
+        station_rows.append(
+            _station_features(simulator, station_id, next_id, soc_interval=soc_interval)
+        )
         station_mask.append(1.0)
     if station_rows:
         stations = np.stack(station_rows)
@@ -171,7 +174,9 @@ def _customer_features(simulator, node, order: int) -> np.ndarray:
     )
 
 
-def _station_features(simulator, station_id: str, next_id: str) -> np.ndarray:
+def _station_features(
+    simulator, station_id: str, next_id: str, *, soc_interval: str = "continuation_to_max"
+) -> np.ndarray:
     current = simulator.state.current_node_id
     station = simulator.network.node(station_id)
     arc_cf = simulator.network.arc(current, station_id)
@@ -183,7 +188,7 @@ def _station_features(simulator, station_id: str, next_id: str) -> np.ndarray:
     energy_fn = simulator.energy_model.energy_for_arc(
         station_id, next_id, simulator.state.payload
     )
-    interval = soc_interval_for_station(simulator, station_id)
+    interval = soc_interval_for_station(simulator, station_id, mode=soc_interval)
     detour = arc_cf.travel_time.value + arc_fn.travel_time.value - arc_cn.travel_time.value
     arrival = interval.soc_lower
     next_node = simulator.network.node(next_id)

@@ -26,6 +26,12 @@ class InfeasibilityReason(Enum):
     INVALID_STATE = "INVALID_STATE"
     LOOP_GUARD = "LOOP_GUARD"
     NO_FEASIBLE_ACTION = "NO_FEASIBLE_ACTION"
+    ZERO_CHARGE_NOOP = "ZERO_CHARGE_NOOP"
+    NO_ENERGY_CONTINUATION = "NO_ENERGY_CONTINUATION"
+
+
+# Same-station charges below this SOC increment are no-ops and must be rejected.
+ZERO_CHARGE_EPS = 1e-9
 
 
 @dataclass(frozen=True)

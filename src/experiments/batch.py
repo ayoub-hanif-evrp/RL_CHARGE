@@ -39,8 +39,18 @@ def evaluate_population(
     extra_context: Optional[dict] = None,
     charging_model=None,
     min_soc_fraction: Optional[float] = None,
+    scenario: Optional[str] = None,
+    experiment_id: Optional[str] = None,
 ) -> List[dict]:
-    context = extra_context or {}
+    context = dict(extra_context or {})
+    scenario = scenario or context.get("scenario")
+    if not scenario:
+        raise ValueError("scenario is required on every evaluation record")
+    from experiments.isolation import require_scenario
+
+    require_scenario(str(scenario))
+    context["scenario"] = str(scenario)
+    context["experiment_id"] = experiment_id or context.get("experiment_id") or context.get("run_id") or "unnamed"
     records = []
     for route in routes:
         instance = parse_route_instance(route)

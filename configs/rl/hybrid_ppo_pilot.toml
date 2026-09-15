@@ -1,0 +1,21 @@
+# Hybrid PPO TRAIN/VAL pilot ceiling. Not assumed sufficient; inspect curves.jsonl.
+
+learning_rate = 3e-4
+rollout_steps = 256
+minibatch_size = 32
+update_epochs = 4
+clip_eps = 0.2
+gamma = 1.0
+gae_lambda = 0.95
+entropy_coef = 0.01
+value_coef = 0.5
+max_grad_norm = 0.5
+d_model = 64
+n_heads = 4
+n_layers = 1
+dropout = 0.0
+budget_updates = 400
+eval_interval = 10
+early_stopping_patience = 20
+seed = 42
+u_eps = 1.0e-4

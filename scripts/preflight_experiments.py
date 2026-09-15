@@ -20,9 +20,30 @@ from routing.audit import audit_corpus  # noqa: E402
 from routing.serialize import canonical_dumps, read_jsonl  # noqa: E402
 
 
+PINNED_HASHES = {
+    "corpus.jsonl": "1796d817ff058fe0559021ab79ca97087ef3646c57744c2c883ecc37e85451e0",
+    "manifest.csv": "41bb8be3245f8f3b0800db4ba74cb19a2003236b6fbd0dbc1237e7cdfaee104d",
+    "corpus_metadata.json": "1ca8725199842f0a8d4a4e6fac2a31931ea3c9aaca833c2d253c6147469d9a96",
+}
+
+
+def _check_pinned(hashes: dict) -> list[str]:
+    errors = []
+    for name, expected in PINNED_HASHES.items():
+        got = hashes.get(name)
+        if got != expected:
+            errors.append(f"{name}: expected {expected}, got {got}")
+    return errors
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--skip-pytest", action="store_true")
+    parser.add_argument(
+        "--paper",
+        action="store_true",
+        help="Fail if the tree is dirty, hashes drift, pytest fails, audit fails, or leakage is detected.",
+    )
     args = parser.parse_args(argv)
     if not args.skip_pytest:
         proc = subprocess.run([sys.executable, "-m", "pytest", "tests", "-q"], cwd=ROOT)
@@ -35,22 +56,39 @@ def main(argv=None) -> int:
     assignment = assign_splits(parents, seed=42)
     routes = read_jsonl(ROUTES_DIR / "corpus.jsonl") if (ROUTES_DIR / "corpus.jsonl").is_file() else None
     assert_no_leakage(assignment, routes=routes)
+    hashes = frozen_hashes()
+    pin_errors = _check_pinned(hashes)
+    dirty = git_dirty()
     payload = {
         "git_sha": git_sha(),
-        "git_dirty": git_dirty(),
-        "hashes": frozen_hashes(),
+        "git_dirty": dirty,
+        "hashes": hashes,
         "device": device_info(),
         "corpus_ok": report.ok,
         "n_routes": report.n_routes,
         "n_instances": report.n_instances,
         "leakage_ok": True,
-        "note": "Paper-scale M1 training must start from a frozen commit of this SHA.",
+        "pinned_ok": not pin_errors,
+        "pin_errors": pin_errors,
+        "mode": "paper" if args.paper else "default",
+        "note": "Paper-scale training must start from a frozen commit of this SHA with git_dirty=false.",
     }
+    if args.paper:
+        failures = []
+        if dirty:
+            failures.append("git_dirty=true")
+        if pin_errors:
+            failures.extend(pin_errors)
+        if not report.ok:
+            failures.append("corpus_audit_failed")
+        if failures:
+            print(canonical_dumps({"paper_preflight_failed": failures, **payload}))
+            return 1
     out_dir = RESULTS_DIR / "summaries"
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "experiment_freeze.json").write_text(canonical_dumps(payload) + "\n", encoding="utf-8")
     print(canonical_dumps(payload))
-    print(f"device={detect_device()} dirty={git_dirty()} sha={git_sha()}")
+    print(f"device={detect_device()} dirty={dirty} sha={git_sha()} paper={args.paper}")
     return 0 if report.ok else 1
 
 

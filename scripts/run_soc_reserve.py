@@ -22,6 +22,7 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--levels", default="0,0.05,0.10,0.15")
     parser.add_argument("--split", default="test")
+    parser.add_argument("--scenario", default="soc_reserve")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--max-routes", type=int, default=None)
     parser.add_argument("--run-id", default="soc_reserve")
@@ -44,6 +45,8 @@ def main(argv=None) -> int:
             "corpus_sha256": hashes["corpus.jsonl"],
             "min_soc_fraction": level,
             "note": "soc_reserve_sensitivity_not_used_for_selection",
+            "scenario": args.scenario,
+            "experiment_id": args.run_id,
         }
         records.extend(
             evaluate_population(
@@ -54,6 +57,8 @@ def main(argv=None) -> int:
                 seed=0,
                 extra_context=ctx,
                 min_soc_fraction=level,
+                scenario=args.scenario,
+                experiment_id=args.run_id,
             )
         )
         if hybrid is not None:
@@ -66,6 +71,8 @@ def main(argv=None) -> int:
                     seed=args.seed,
                     extra_context=ctx,
                     min_soc_fraction=level,
+                    scenario=args.scenario,
+                    experiment_id=args.run_id,
                 )
             )
     path = dump_run(records, args.run_id)

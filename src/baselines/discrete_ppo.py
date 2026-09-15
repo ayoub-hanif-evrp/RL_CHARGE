@@ -32,7 +32,8 @@ class DiscretePPO:
     def choose(self, simulator: FixedRouteSimulator, eval_mode: bool = True) -> tuple[int, float]:
         from rl.features import extract_features
 
-        features = extract_features(simulator)
+        soc = getattr(getattr(self.policy, "ablation", None), "soc_interval", "continuation_to_max")
+        features = extract_features(simulator, soc_interval=soc)
         with torch.no_grad():
             output = self.policy.act(features, eval_mode=eval_mode)
         discrete = int(output.discrete_index.item())

@@ -33,8 +33,6 @@ def main(argv=None) -> int:
     val_routes = load_split_routes("validation")
     if args.max_train_routes is not None:
         train_routes = train_routes[: args.max_train_routes]
-    if args.max_val_routes is not None:
-        val_routes = val_routes[: args.max_val_routes]
     cfg_name = "hybrid_ppo_smoke.toml" if args.smoke else "hybrid_ppo.toml"
     cfg_path = REPO_ROOT / "configs" / "rl" / cfg_name
     device = detect_device()
@@ -52,6 +50,11 @@ def main(argv=None) -> int:
                 method=f"HybridPPO_{variant}",
                 device=device,
                 out_dir=out,
+                val_max_routes=(
+                    args.max_val_routes
+                    if args.max_val_routes is not None
+                    else (16 if args.smoke else None)
+                ),
             )
             print(variant, seed, manifest["status"])
     return 0

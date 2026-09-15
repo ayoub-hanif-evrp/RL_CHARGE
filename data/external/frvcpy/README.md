@@ -6,7 +6,9 @@ These instance IDs are **never** joined into EVRPTW-GR train/validation/test spl
 
 `frvcpy` is exact for FRVCP given the published energy matrix and piecewise charging curves. It is **not** exact for EVRPTW-GR (payload-dependent directed energy + Schneider customer time windows). `evrptwgr_to_frvcp_surrogate()` stays `not_equivalent`.
 
-## Files
+`tiny-instance.json` and `routes.json` (2 routes) are **unit-test/smoke fixtures only**.
+
+The official native set is `benchmark/` (Montoya / VRP-REP 2016-0020 XML + e-VRO JSON). Those IDs are **never** joined into EVRPTW-GR splits. See `benchmark/README.md`.
 
 | File | Role |
 | --- | --- |

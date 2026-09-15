@@ -32,27 +32,26 @@ class RolloutBuffer:
     def __len__(self) -> int:
         return len(self.transitions)
 
-    def compute_gae(self) -> None:
+    def compute_gae(self, bootstrap_value: float = 0.0) -> None:
+        """GAE-λ. ``bootstrap_value`` is V(s') after the last step if truncated."""
         advantage = 0.0
-        next_value = 0.0
+        next_value = float(bootstrap_value)
         advantages = []
         returns = []
         for transition in reversed(self.transitions):
+            nonterminal = 0.0 if transition.done else 1.0
             delta = (
                 transition.reward
-                + self.gamma * next_value * (0.0 if transition.done else 1.0)
+                + self.gamma * next_value * nonterminal
                 - transition.value
             )
             advantage = (
                 delta
-                + self.gamma
-                * self.gae_lambda
-                * (0.0 if transition.done else 1.0)
-                * advantage
+                + self.gamma * self.gae_lambda * nonterminal * advantage
             )
             advantages.append(advantage)
             returns.append(advantage + transition.value)
-            next_value = 0.0 if transition.done else transition.value
+            next_value = transition.value
         self.advantages = np.asarray(list(reversed(advantages)), dtype=np.float32)
         self.returns = np.asarray(list(reversed(returns)), dtype=np.float32)
 

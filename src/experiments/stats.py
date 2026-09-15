@@ -103,3 +103,115 @@ def summarize_method(rows: Sequence[dict], value_key: str) -> dict:
         "ci95_hi": ci["hi"],
         "n_clusters": ci["n_clusters"],
     }
+
+
+def per_seed_metrics(rows: Sequence[dict], value_key: str) -> Dict[int, dict]:
+    by_seed: Dict[int, List[dict]] = defaultdict(list)
+    for row in rows:
+        if row.get(value_key) is None:
+            continue
+        by_seed[int(row.get("seed", 0))].append(row)
+    return {seed: summarize_method(group, value_key) for seed, group in sorted(by_seed.items())}
+
+
+def mean_sd_across_training_seeds(rows: Sequence[dict], value_key: str) -> dict:
+    per_seed = per_seed_metrics(rows, value_key)
+    means = [stats["mean"] for stats in per_seed.values() if stats.get("mean") is not None]
+    arr = np.asarray(means, dtype=np.float64)
+    return {
+        "n_seeds": len(arr),
+        "mean_across_seeds": float(arr.mean()) if arr.size else None,
+        "sd_across_seeds": float(arr.std(ddof=1)) if arr.size > 1 else 0.0,
+        "per_seed": {str(seed): stats for seed, stats in per_seed.items()},
+        "resampling_unit": "training_seed_then_base_instance",
+    }
+
+
+def hierarchical_bootstrap_ci(
+    rows: Sequence[dict],
+    value_key: str,
+    cluster_key: str = "base_instance",
+    n_boot: int = 1000,
+    alpha: float = 0.05,
+    seed: int = 0,
+) -> dict:
+    """Bootstrap by drawing training seeds, then parents within each seed."""
+    nested: Dict[int, Dict[str, List[float]]] = defaultdict(lambda: defaultdict(list))
+    for row in rows:
+        if row.get(value_key) is None:
+            continue
+        train_seed = int(row.get("seed", 0))
+        parent = str(row.get(cluster_key) or row.get("route_id") or "unknown")
+        nested[train_seed][parent].append(float(row[value_key]))
+    seed_parent_mean = {
+        train_seed: {parent: float(np.mean(vals)) for parent, vals in parents.items()}
+        for train_seed, parents in nested.items()
+    }
+    seeds = list(seed_parent_mean)
+    if not seeds:
+        return {"mean": None, "lo": None, "hi": None, "n_seeds": 0, "n_clusters": 0}
+    rng = np.random.default_rng(seed)
+    boots = []
+    for _ in range(n_boot):
+        drawn_seeds = rng.choice(seeds, size=len(seeds), replace=True)
+        parent_vals = []
+        for train_seed in drawn_seeds:
+            parents = list(seed_parent_mean[int(train_seed)])
+            if not parents:
+                continue
+            drawn_parents = rng.choice(parents, size=len(parents), replace=True)
+            parent_vals.extend(seed_parent_mean[int(train_seed)][str(p)] for p in drawn_parents)
+        if parent_vals:
+            boots.append(float(np.mean(parent_vals)))
+    boots.sort()
+    point_vals = []
+    for parents in seed_parent_mean.values():
+        point_vals.extend(parents.values())
+    point = float(np.mean(point_vals)) if point_vals else None
+    lo = boots[int(alpha / 2 * len(boots))] if boots else None
+    hi = boots[int((1 - alpha / 2) * len(boots))] if boots else None
+    return {
+        "mean": point,
+        "lo": lo,
+        "hi": hi,
+        "n_seeds": len(seeds),
+        "n_clusters": int(sum(len(v) for v in seed_parent_mean.values()) / max(len(seeds), 1)),
+        "n_rows": len(rows),
+        "resampling_unit": "training_seed_then_base_instance",
+        "sd_across_seeds": mean_sd_across_training_seeds(rows, value_key)["sd_across_seeds"],
+    }
+
+
+def parent_mean_over_seeds(
+    rows: Sequence[dict],
+    value_key: str,
+    cluster_key: str = "base_instance",
+) -> Dict[str, float]:
+    """Mean over training seeds of the per-parent metric (learned methods)."""
+    nested: Dict[str, Dict[int, List[float]]] = defaultdict(lambda: defaultdict(list))
+    for row in rows:
+        if row.get(value_key) is None:
+            continue
+        parent = str(row.get(cluster_key) or row.get("route_id") or "unknown")
+        nested[parent][int(row.get("seed", 0))].append(float(row[value_key]))
+    out = {}
+    for parent, by_seed in nested.items():
+        seed_means = [float(np.mean(vals)) for vals in by_seed.values()]
+        out[parent] = float(np.mean(seed_means))
+    return out
+
+
+def paired_parent_diff_hierarchical(
+    rows_a: Sequence[dict],
+    rows_b: Sequence[dict],
+    value_key: str,
+    cluster_key: str = "base_instance",
+    *,
+    a_mean_over_seeds: bool = True,
+    b_mean_over_seeds: bool = False,
+) -> Dict[str, float]:
+    """Paired Hybrid vs baseline: matched parents. Learned side averages seeds."""
+    a = parent_mean_over_seeds(rows_a, value_key, cluster_key) if a_mean_over_seeds else cluster_means(rows_a, value_key, cluster_key)
+    b = parent_mean_over_seeds(rows_b, value_key, cluster_key) if b_mean_over_seeds else cluster_means(rows_b, value_key, cluster_key)
+    keys = sorted(set(a) & set(b))
+    return {key: a[key] - b[key] for key in keys}

@@ -92,33 +92,61 @@ class HybridPPO:
             ablation=self.ablation,
         ).to(self.device)
         self.optimizer = torch.optim.Adam(self.policy.parameters(), lr=config.learning_rate)
-        self.rng = np.random.default_rng(config.seed)
+        self.        rng = np.random.default_rng(config.seed)
+
+    def _executed_u(self, env: ShieldedRouteEnv, discrete: int, u: float) -> float:
+        if env.ablation.discrete_u:
+            from baselines.discrete_ppo import snap_u
+
+            u = float(snap_u(u))
+        if discrete == 0:
+            return 0.0
+        return float(u)
+
+    def _bootstrap_value(self, features) -> float:
+        with torch.no_grad():
+            net = self.policy.forward(features, device=self.device)
+            return float(net["value"].reshape([]).item())
+
+    def _append_step(self, buffer: RolloutBuffer, env: ShieldedRouteEnv, features, n_left: int) -> tuple:
+        with torch.no_grad():
+            output = self.policy.act(features, eval_mode=False)
+        discrete = int(output.discrete_index.item())
+        u = self._executed_u(env, discrete, float(output.u.item()))
+        with torch.no_grad():
+            evaluated = self.policy.evaluate_actions(
+                features, discrete, u, u_eps=self.config.u_eps, device=self.device
+            )
+            log_prob = float(evaluated["log_prob"].item())
+            value = float(output.value.item())
+        info = env.step(discrete, u)
+        buffer.add(
+            Transition(
+                discrete_index=info.executed_discrete,
+                u=info.executed_u,
+                log_prob=log_prob,
+                value=value,
+                reward=info.reward,
+                done=info.done,
+                features=features,
+            )
+        )
+        return info, n_left - 1
 
     def collect(self, env: ShieldedRouteEnv, n_steps: Optional[int] = None) -> RolloutBuffer:
         steps = n_steps or self.config.rollout_steps
         buffer = RolloutBuffer(gamma=self.config.gamma, gae_lambda=self.config.gae_lambda)
         features = env.reset()
-        for _ in range(steps):
-            with torch.no_grad():
-                output = self.policy.act(features, eval_mode=False)
-            discrete = int(output.discrete_index.item())
-            u = float(output.u.item())
-            info = env.step(discrete, u)
-            buffer.add(
-                Transition(
-                    discrete_index=discrete,
-                    u=u,
-                    log_prob=float(output.log_prob.item()),
-                    value=float(output.value.item()),
-                    reward=info.reward,
-                    done=info.done,
-                    features=features,
-                )
-            )
+        remaining = steps
+        while remaining > 0:
+            info, remaining = self._append_step(buffer, env, features, remaining)
             features = info.features
             if info.done:
                 features = env.reset()
-        buffer.compute_gae()
+        bootstrap = 0.0
+        if buffer.transitions and not buffer.transitions[-1].done:
+            bootstrap = self._bootstrap_value(features)
+        buffer.compute_gae(bootstrap_value=bootstrap)
         return buffer
 
     def collect_from_factory(self, env_factory, n_steps: Optional[int] = None) -> RolloutBuffer:
@@ -126,29 +154,18 @@ class HybridPPO:
         buffer = RolloutBuffer(gamma=self.config.gamma, gae_lambda=self.config.gae_lambda)
         env = env_factory()
         features = env.reset()
-        for _ in range(steps):
-            with torch.no_grad():
-                output = self.policy.act(features, eval_mode=False)
-            discrete = int(output.discrete_index.item())
-            u = float(output.u.item())
-            info = env.step(discrete, u)
-            buffer.add(
-                Transition(
-                    discrete_index=discrete,
-                    u=u,
-                    log_prob=float(output.log_prob.item()),
-                    value=float(output.value.item()),
-                    reward=info.reward,
-                    done=info.done,
-                    features=features,
-                )
-            )
+        remaining = steps
+        while remaining > 0:
+            info, remaining = self._append_step(buffer, env, features, remaining)
             if info.done:
                 env = env_factory()
                 features = env.reset()
             else:
                 features = info.features
-        buffer.compute_gae()
+        bootstrap = 0.0
+        if buffer.transitions and not buffer.transitions[-1].done:
+            bootstrap = self._bootstrap_value(features)
+        buffer.compute_gae(bootstrap_value=bootstrap)
         return buffer
 
     def update(self, buffer: RolloutBuffer) -> dict:
@@ -189,7 +206,11 @@ class HybridPPO:
                     log_prob = log_disc + (log_beta if is_station else 0.0)
                     log_probs.append(log_prob.reshape([]))
                     values.append(net["value"].reshape([]))
-                    entropies.append(dist.entropy().reshape([]))
+                    beta_ent = torch.distributions.Beta(alpha, beta).entropy()
+                    ent = dist.entropy().reshape([]) + (
+                        beta_ent.reshape([]) if is_station else torch.zeros((), device=self.device)
+                    )
+                    entropies.append(ent)
                 log_probs = torch.stack(log_probs)
                 values = torch.stack(values)
                 entropies = torch.stack(entropies)

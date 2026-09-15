@@ -41,7 +41,14 @@ value V(s)
 
 Eval mode: greedy discrete action and the Beta mean (deterministic).
 
-Feature normalization is **fit on train routes only**.
+Feature normalization is **fit on all TRAIN routes** (reset features) plus a
+TRAIN-only greedy-min dynamic pass. Validation and test statistics never enter
+the fit. Provenance (`n_routes`, `n_dynamic_states`, seed, git SHA) is stored
+in the checkpoint.
+
+Model selection on validation is lexicographic: maximize feasibility rate,
+then minimize all-routes completion time (`H` for failures). Paper/pilot
+evaluate the full validation population.
 
 ## Training budget
 

@@ -29,6 +29,8 @@ class StepInfo:
     features: FeatureBundle
     reason: Optional[InfeasibilityReason] = None
     extra: dict = field(default_factory=dict)
+    executed_discrete: int = 0
+    executed_u: float = 0.0
 
 
 class ShieldedRouteEnv:
@@ -68,6 +70,7 @@ class ShieldedRouteEnv:
             self.normalizer,
             use_remaining_route=self.ablation.use_remaining_route,
             use_terrain_load_features=self.ablation.use_terrain_load_features,
+            soc_interval=self.ablation.soc_interval,
         )
 
     def reset(self) -> FeatureBundle:
@@ -84,9 +87,20 @@ class ShieldedRouteEnv:
             from baselines.discrete_ppo import snap_u
 
             u = snap_u(u)
+        if discrete_index == CONTINUE_INDEX:
+            u = 0.0
         t0 = self.simulator.state.time.value
         h = self.horizon
         shield = evaluate_shield(self.simulator)
+        executed = {
+            "executed_discrete": int(discrete_index),
+            "executed_u": float(u),
+            "extra": {
+                "discrete_index": discrete_index,
+                "u": u,
+                "continue": discrete_index == CONTINUE_INDEX,
+            },
+        }
         if not shield.any_legal:
             reward = -(h - t0)
             self.return_value += reward
@@ -97,6 +111,7 @@ class ShieldedRouteEnv:
                 failed=True,
                 features=self._features(),
                 reason=InfeasibilityReason.NO_FEASIBLE_ACTION,
+                **executed,
             )
         if discrete_index >= len(shield.mask) or not shield.mask[discrete_index]:
             reward = -(h - t0)
@@ -108,6 +123,7 @@ class ShieldedRouteEnv:
                 failed=True,
                 features=self._features(),
                 reason=InfeasibilityReason.INVALID_STATE,
+                **executed,
             )
         action = action_from_discrete(
             self.simulator,
@@ -127,6 +143,7 @@ class ShieldedRouteEnv:
                 failed=True,
                 features=self._features(),
                 reason=result.reason,
+                **executed,
             )
         reward = -(t1 - t0)
         self.return_value += reward
@@ -136,5 +153,5 @@ class ShieldedRouteEnv:
             done=done,
             failed=False,
             features=self._features(),
-            extra={"discrete_index": discrete_index, "u": u, "continue": discrete_index == CONTINUE_INDEX},
+            **executed,
         )

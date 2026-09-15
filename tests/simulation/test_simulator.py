@@ -168,8 +168,8 @@ def test_loop_guard_is_not_three_stops(write_instance, tmp_path):
     sim = FixedRouteSimulator(
         instance, ("C1",), profile, LoadConvention.OFFICIAL_REFERENCE_PICKUP
     )
-    assert sim.step(ChargeAction("S1", 1.0)).feasible
-    assert sim.step(ChargeAction("S1", 1.0)).feasible
+    assert sim.step(ChargeAction("S1", 0.990)).feasible
+    assert sim.step(ChargeAction("S1", 0.995)).feasible
     result = sim.step(ChargeAction("S1", 1.0))
     assert not result.feasible
     assert result.reason is InfeasibilityReason.LOOP_GUARD

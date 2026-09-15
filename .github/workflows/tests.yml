@@ -1,0 +1,37 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Pytest
+        run: python -m pytest tests -q
+
+  frvcpy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install with frvcpy sidecar
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,frvcpy]"
+      - name: Native FRVCP smoke
+        run: python scripts/run_frvcpy_benchmark.py --data data/external/frvcpy --scenario frvcpy_native --fixtures-only

@@ -37,6 +37,7 @@ class HybridPolicyActor:
             self.normalizer,
             use_remaining_route=self.ablation.use_remaining_route,
             use_terrain_load_features=self.ablation.use_terrain_load_features,
+            soc_interval=self.ablation.soc_interval,
         )
         with torch.no_grad():
             output = self.policy.act(features, eval_mode=eval_mode)

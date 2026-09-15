@@ -146,6 +146,40 @@ class HybridPolicy(nn.Module):
             beta=beta_sel,
         )
 
+    def evaluate_actions(
+        self,
+        features: FeatureBundle,
+        discrete_index: int,
+        u: float,
+        *,
+        u_eps: float = 1e-4,
+        device=None,
+    ) -> dict:
+        """Log-prob and entropy of an already-executed (discrete, u) pair."""
+        net = self.forward(features, device=device)
+        dist = torch.distributions.Categorical(logits=net["logits"])
+        discrete = torch.tensor([int(discrete_index)], device=net["logits"].device)
+        log_disc = dist.log_prob(discrete)
+        cat_ent = dist.entropy()
+        is_station = int(discrete_index) > 0
+        station_index = max(int(discrete_index) - 1, 0)
+        alpha = net["alpha"][0, station_index]
+        beta = net["beta"][0, station_index]
+        u_clamped = min(1.0 - u_eps, max(u_eps, float(u)))
+        u_t = torch.tensor(u_clamped, device=net["logits"].device)
+        beta_dist = Beta(alpha, beta)
+        log_beta = beta_dist.log_prob(u_t)
+        beta_ent = beta_dist.entropy()
+        log_prob = log_disc.reshape([]) + (log_beta if is_station else torch.zeros_like(log_beta))
+        entropy = cat_ent.reshape([]) + (beta_ent if is_station else torch.zeros_like(beta_ent))
+        return {
+            "log_prob": log_prob,
+            "entropy": entropy,
+            "value": net["value"].reshape([]),
+            "categorical_entropy": cat_ent.reshape([]),
+            "beta_entropy": beta_ent if is_station else torch.zeros_like(beta_ent),
+        }
+
 
 def features_to_batch(features: FeatureBundle, device=None) -> dict:
     def _t(array):

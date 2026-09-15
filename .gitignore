@@ -36,6 +36,11 @@ desktop.ini
 checkpoints/
 results/raw/
 results/runs/
+results/smoke/raw/
+results/smoke/runs/
+
+# FRVCP download cache (XML/JSON under benchmark/ are tracked)
+data/external/frvcpy/benchmark/zips/
 
 # Generated dataset metadata. data/raw stays tracked and immutable.
 data/processed/*

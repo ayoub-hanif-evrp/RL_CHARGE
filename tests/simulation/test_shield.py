@@ -1,11 +1,20 @@
-"""Feasibility shield: masks transitions, does not choose when to charge."""
+"""Feasibility shield: energy-continuation bound, no-op mask, A2 vs FULL intervals."""
 
 from conftest import node_row
 from data.parser import parse_instance
 from domain.load_convention import LoadConvention
 from physics.parameters import PhysicsProfile
 from simulation.actions import ChargeAction, ContinueAction
-from simulation.shield import evaluate_shield, map_u_to_target_soc, soc_interval_for_station
+from simulation.feasibility import InfeasibilityReason
+from simulation.shield import (
+    ARRIVAL_TO_MAX,
+    CONTINUATION_TO_MAX,
+    continuation_departure_soc,
+    energy_continuable_stations,
+    evaluate_shield,
+    map_u_to_target_soc,
+    soc_interval_for_station,
+)
 from simulation.simulator import FixedRouteSimulator
 
 
@@ -41,7 +50,7 @@ def test_station_masked_when_unreachable(write_instance):
     assert decision.mask[1] is False
 
 
-def test_station_legal_even_if_cannot_reach_next_customer(write_instance):
+def test_no_path_station_masked(write_instance):
     nodes = [
         node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
         node_row("S0", "f", 1.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
@@ -50,7 +59,94 @@ def test_station_legal_even_if_cannot_reach_next_customer(write_instance):
     sim = _sim(write_instance, nodes, ("C1",))
     decision = evaluate_shield(sim)
     assert decision.mask[0] is False
+    assert decision.mask[1] is False
+    assert decision.station_reasons[0] is InfeasibilityReason.NO_ENERGY_CONTINUATION
+    assert "S0" not in energy_continuable_stations(sim)
+
+
+def test_direct_continuation_unmasks_station(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S0", "f", 40.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 90.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    decision = evaluate_shield(sim)
+    assert decision.continue_legal is False
     assert decision.mask[1] is True
+    assert "S0" in energy_continuable_stations(sim)
+    bound = continuation_departure_soc(sim, "S0")
+    assert bound is not None
+    assert bound > 0.0
+
+
+def test_station_station_customer_continuation(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S0", "f", 10.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S_mid", "f", 55.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 125.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    good = energy_continuable_stations(sim)
+    assert "S_mid" in good
+    assert "S0" in good
+    decision = evaluate_shield(sim)
+    ids = list(decision.station_ids)
+    assert decision.mask[1 + ids.index("S0")] is True
+    assert decision.mask[1 + ids.index("S_mid")] is True
+
+
+def test_full_vs_a2_intervals_differ(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S0", "f", 40.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 90.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    full = soc_interval_for_station(sim, "S0", mode=CONTINUATION_TO_MAX)
+    a2 = soc_interval_for_station(sim, "S0", mode=ARRIVAL_TO_MAX)
+    assert full.soc_upper == a2.soc_upper
+    assert full.soc_lower > a2.soc_lower + 1e-6
+    assert map_u_to_target_soc(sim, "S0", 0.0, mode=CONTINUATION_TO_MAX) == full.soc_lower
+    assert map_u_to_target_soc(sim, "S0", 0.0, mode=ARRIVAL_TO_MAX) == a2.soc_lower
+    assert map_u_to_target_soc(sim, "S0", 1.0, mode=CONTINUATION_TO_MAX) == full.soc_upper
+
+
+def test_computed_min_target_soc_matches_continuation(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S0", "f", 40.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 90.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    interval = soc_interval_for_station(sim, "S0", mode=CONTINUATION_TO_MAX)
+    bound = continuation_departure_soc(sim, "S0")
+    arrival = a2_lower = soc_interval_for_station(sim, "S0", mode=ARRIVAL_TO_MAX).soc_lower
+    assert interval.soc_lower == max(arrival, bound)
+    assert a2_lower == arrival
+
+
+def test_same_station_zero_charge_cannot_loop(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S0", "f", 1.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 2.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    first = sim.step(ChargeAction("S0", 1.0))
+    assert first.feasible
+    decision = evaluate_shield(sim)
+    assert decision.mask[1] is False
+    assert decision.station_reasons[0] is InfeasibilityReason.ZERO_CHARGE_NOOP
+    noop = sim.step(ChargeAction("S0", 1.0))
+    assert not noop.feasible
+    assert noop.reason is InfeasibilityReason.ZERO_CHARGE_NOOP
+    sim2 = _sim(write_instance, nodes, ("C1",))
+    mid = sim2.step(ChargeAction("S0", 0.992))
+    assert mid.feasible
+    again = sim2.step(ChargeAction("S0", 1.0))
+    assert again.feasible
 
 
 def test_u_maps_to_soc_interval_endpoints(write_instance):

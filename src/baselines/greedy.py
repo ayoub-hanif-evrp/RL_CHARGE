@@ -18,6 +18,9 @@ def _detour_time(simulator: FixedRouteSimulator, station_id: str) -> float:
 
 
 def _greedy_choose(simulator: FixedRouteSimulator, u: float) -> tuple[int, float]:
+    from simulation.feasibility import ZERO_CHARGE_EPS
+    from simulation.shield import CONTINUATION_TO_MAX, map_u_to_target_soc
+
     shield = evaluate_shield(simulator)
     if shield.continue_legal:
         return CONTINUE_INDEX, 0.0
@@ -25,6 +28,10 @@ def _greedy_choose(simulator: FixedRouteSimulator, u: float) -> tuple[int, float
     best_detour = None
     for i, station_id in enumerate(shield.station_ids, start=1):
         if not shield.mask[i]:
+            continue
+        target = map_u_to_target_soc(simulator, station_id, u, mode=CONTINUATION_TO_MAX)
+        at_station = simulator.state.current_node_id == station_id
+        if at_station and target < simulator.state.soc.value + ZERO_CHARGE_EPS:
             continue
         detour = _detour_time(simulator, station_id)
         if best_detour is None or detour < best_detour:
@@ -41,7 +48,11 @@ class GreedyMinimumSufficientCharge:
     name = "GreedyMinimumSufficientCharge"
 
     def __call__(self, simulator: FixedRouteSimulator, eval_mode: bool = True) -> BaselineResult:
-        return run_discrete_policy(simulator, lambda sim: _greedy_choose(sim, 0.0))
+        from simulation.shield import CONTINUATION_TO_MAX
+
+        return run_discrete_policy(
+            simulator, lambda sim: _greedy_choose(sim, 0.0), soc_mode=CONTINUATION_TO_MAX
+        )
 
 
 class GreedyFullCharge:
@@ -50,4 +61,8 @@ class GreedyFullCharge:
     name = "GreedyFullCharge"
 
     def __call__(self, simulator: FixedRouteSimulator, eval_mode: bool = True) -> BaselineResult:
-        return run_discrete_policy(simulator, lambda sim: _greedy_choose(sim, 1.0))
+        from simulation.shield import CONTINUATION_TO_MAX
+
+        return run_discrete_policy(
+            simulator, lambda sim: _greedy_choose(sim, 1.0), soc_mode=CONTINUATION_TO_MAX
+        )

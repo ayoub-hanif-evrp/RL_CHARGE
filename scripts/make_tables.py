@@ -55,15 +55,32 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--raw", type=Path, default=RESULTS_DIR / "raw")
     parser.add_argument("--out", type=Path, default=RESULTS_DIR / "tables")
+    parser.add_argument("--scenario", required=True)
     args = parser.parse_args(argv)
+    from experiments.isolation import filter_scenario, require_scenario
+
+    scenario = require_scenario(args.scenario)
     rows = _load(args.raw)
+    rows = [r for r in rows if r.get("scenario") == scenario]
+    if scenario == "main_test":
+        rows = [r for r in rows if r.get("split") == "test"]
     out = args.out
     out.mkdir(parents=True, exist_ok=True)
 
-    test_like = [r for r in rows if r.get("split") in {None, "test", "validation", "train"} and r.get("method") not in {None, "frvcpy_Solver", "FRVCPGreedyMin", "FRVCPGreedyFull", "LabelSettingRCSPP", "evrptwgr_surrogate_flag"}]
-    primary = [r for r in test_like if r.get("split") == "test" or r.get("split") is None]
-    if not primary:
-        primary = test_like
+    test_like = [
+        r
+        for r in rows
+        if r.get("method")
+        not in {
+            None,
+            "frvcpy_Solver",
+            "FRVCPGreedyMin",
+            "FRVCPGreedyFull",
+            "LabelSettingRCSPP",
+            "evrptwgr_surrogate_flag",
+        }
+    ]
+    primary = list(test_like)
     groups = _method_groups(primary)
 
     table_a = []
@@ -142,10 +159,11 @@ def main(argv=None) -> int:
                 table_d.append({"method": method, "slice": key, "value": label, "n": s.get("n") or 0, "mean": s.get("mean")})
     _md(out / "table_D_size_family.md", "Table D — size / C-R-RC / schedule", table_d, ["method", "slice", "value", "n", "mean"])
 
-    ablations = [r for r in rows if str(r.get("method", "")).startswith("HybridPPO_")]
-    for row in rows:
-        if row.get("method") == "HybridPPO":
-            ablations.append({**row, "method": "HybridPPO_FULL"})
+    ablations = [r for r in rows if scenario == "ablation" and str(r.get("method", "")).startswith("HybridPPO_")]
+    if scenario == "ablation":
+        for row in rows:
+            if row.get("method") == "HybridPPO":
+                ablations.append({**row, "method": "HybridPPO_FULL"})
     table_e = []
     for method, group in sorted(_method_groups(ablations).items()):
         feas = [r for r in group if r.get("feasible") and r.get("route_completion_time") is not None]

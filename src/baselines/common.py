@@ -23,7 +23,7 @@ def run_discrete_policy(
     choose: Callable[[FixedRouteSimulator], tuple[int, float]],
     *,
     max_steps: int = 10_000,
-    soc_mode: str = "arrival_to_max",
+    soc_mode: str = "continuation_to_max",
 ) -> BaselineResult:
     total = 0.0
     steps = 0

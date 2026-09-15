@@ -22,7 +22,12 @@ from routing.serialize import canonical_dumps
 from experiments.actors import HybridPolicyActor
 from experiments.dataset import parse_route_instance
 from experiments.evaluate import evaluate_policy
-from experiments.provenance import run_manifest, sha256_file
+from experiments.provenance import git_sha, run_manifest, sha256_file
+from simulation.shield import CONTINUATION_TO_MAX, action_from_discrete, evaluate_shield
+
+
+DYNAMIC_NORMALIZER_SEED = 0
+DYNAMIC_NORMALIZER_MAX_STEPS = 256
 
 
 def _concat_feature_arrays(vals):
@@ -36,24 +41,82 @@ def _concat_feature_arrays(vals):
     return np.concatenate(arrays, axis=0)
 
 
-def fit_normalizer(routes: List[FrozenRoute], ablation: AblationConfig) -> Normalizer:
+def _append_bundle(bundles: dict, feat) -> None:
+    arrays = feat.as_arrays()
+    for key, value in arrays.items():
+        bundles[key].append(value)
+
+
+def fit_normalizer(
+    routes: List[FrozenRoute],
+    ablation: AblationConfig,
+    *,
+    dynamic: bool = True,
+    seed: int = DYNAMIC_NORMALIZER_SEED,
+    max_dynamic_steps: int = DYNAMIC_NORMALIZER_MAX_STEPS,
+) -> tuple[Normalizer, dict]:
+    """Fit on every TRAIN reset plus TRAIN-only greedy-min rollouts. Never val/test."""
+    from baselines.greedy import _greedy_choose
+
     bundles = {"global": [], "next": [], "remaining": [], "stations": []}
+    n_dynamic = 0
+    rng_seed = int(seed)
+    _ = rng_seed  # documented TRAIN-only seed; greedy-min is deterministic
     for route in routes:
         instance = parse_route_instance(route)
         profile = PhysicsProfile.from_instance(instance)
-        sim = ShieldedRouteEnv(
-            instance, route, profile, LoadConvention.OFFICIAL_REFERENCE_PICKUP, ablation=ablation
-        ).simulator
+        env = ShieldedRouteEnv(
+            instance,
+            route,
+            profile,
+            LoadConvention.OFFICIAL_REFERENCE_PICKUP,
+            ablation=ablation,
+        )
+        sim = env.simulator
         feat = extract_features(
             sim,
             use_remaining_route=ablation.use_remaining_route,
             use_terrain_load_features=ablation.use_terrain_load_features,
+            soc_interval=ablation.soc_interval,
         )
-        arrays = feat.as_arrays()
-        for key, value in arrays.items():
-            bundles[key].append(value)
+        _append_bundle(bundles, feat)
+        if not dynamic:
+            continue
+        steps = 0
+        while not sim.state.completed and steps < int(max_dynamic_steps):
+            shield = evaluate_shield(sim)
+            if not shield.any_legal:
+                break
+            discrete, u = _greedy_choose(sim, 0.0)
+            if discrete >= len(shield.mask) or not shield.mask[discrete]:
+                break
+            result = sim.step(
+                action_from_discrete(sim, discrete, u, soc_mode=ablation.soc_interval)
+            )
+            if not result.feasible:
+                break
+            feat = extract_features(
+                sim,
+                use_remaining_route=ablation.use_remaining_route,
+                use_terrain_load_features=ablation.use_terrain_load_features,
+                soc_interval=ablation.soc_interval,
+            )
+            _append_bundle(bundles, feat)
+            n_dynamic += 1
+            steps += 1
     stacked = {key: _concat_feature_arrays(vals) for key, vals in bundles.items() if vals}
-    return Normalizer.empty().fit(stacked)
+    normalizer = Normalizer.empty().fit(stacked)
+    provenance = {
+        "n_routes": len(routes),
+        "n_dynamic_states": int(n_dynamic),
+        "seed": int(seed),
+        "max_dynamic_steps": int(max_dynamic_steps),
+        "split": "train",
+        "policy": "GreedyMinimumSufficientCharge",
+        "soc_interval": ablation.soc_interval or CONTINUATION_TO_MAX,
+        "git_sha": git_sha(),
+    }
+    return normalizer, provenance
 
 
 def evaluate_routes(routes: List[FrozenRoute], actor, max_routes: Optional[int] = None) -> dict:
@@ -74,6 +137,14 @@ def evaluate_routes(routes: List[FrozenRoute], actor, max_routes: Optional[int] 
     }
 
 
+def _lexicographic_better(feas: float, completion: float, best_feas: float, best_completion: float) -> bool:
+    if feas > best_feas + 1e-12:
+        return True
+    if abs(feas - best_feas) <= 1e-12 and completion + 1e-9 < best_completion:
+        return True
+    return False
+
+
 def train_hybrid_ppo(
     *,
     train_routes: List[FrozenRoute],
@@ -84,16 +155,17 @@ def train_hybrid_ppo(
     device: str = "cpu",
     out_dir: Optional[Path] = None,
     wall_clock_s: Optional[float] = None,
-    val_max_routes: int = 16,
+    val_max_routes: Optional[int] = None,
 ) -> dict:
     ablation = ablation or AblationConfig()
     out_dir = Path(out_dir) if out_dir is not None else CHECKPOINTS_DIR / method / f"seed_{config.seed}"
     out_dir.mkdir(parents=True, exist_ok=True)
     sampler = HierarchicalSampler(train_routes, seed=config.seed)
-    normalizer = fit_normalizer(train_routes[: min(32, len(train_routes))], ablation)
+    normalizer, normalizer_provenance = fit_normalizer(train_routes, ablation)
     trainer = HybridPPO(config, device=device, ablation=ablation)
     started = time.perf_counter()
-    best_val = float("inf")
+    best_feas = -1.0
+    best_completion = float("inf")
     best_path = out_dir / "best.pt"
     patience = 0
     curves = []
@@ -129,9 +201,10 @@ def train_hybrid_ppo(
             val = evaluate_routes(val_routes, actor, max_routes=val_max_routes)
             row["val_feasibility"] = val["feasibility"]
             row["val_completion_all"] = val["mean_completion_all"]
-            score = val["mean_completion_all"]
-            if score + 1e-9 < best_val:
-                best_val = score
+            row["val_n"] = val["n"]
+            if _lexicographic_better(val["feasibility"], val["mean_completion_all"], best_feas, best_completion):
+                best_feas = val["feasibility"]
+                best_completion = val["mean_completion_all"]
                 patience = 0
                 ckpt_hash = save_checkpoint(
                     best_path,
@@ -140,7 +213,12 @@ def train_hybrid_ppo(
                     config=config,
                     normalizer=normalizer,
                     ablation=ablation,
-                    extra={"update": update, "val": val["mean_completion_all"]},
+                    extra={
+                        "update": update,
+                        "val_feasibility": val["feasibility"],
+                        "val_completion_all": val["mean_completion_all"],
+                        "normalizer_provenance": normalizer_provenance,
+                    },
                 )
                 row["checkpoint_sha256"] = ckpt_hash
             else:
@@ -159,7 +237,7 @@ def train_hybrid_ppo(
         config=config,
         normalizer=normalizer,
         ablation=ablation,
-        extra={"status": status},
+        extra={"status": status, "normalizer_provenance": normalizer_provenance},
     )
     runtime = time.perf_counter() - started
     manifest = run_manifest(
@@ -168,15 +246,21 @@ def train_hybrid_ppo(
         ablation=ablation.name,
         status=status,
         runtime_s=runtime,
-        best_val_completion_all=best_val,
+        best_val_feasibility=best_feas if best_feas >= 0.0 else None,
+        best_val_completion_all=best_completion if best_completion < float("inf") else None,
         checkpoint=str(best_path if best_path.is_file() else last_path),
         sampling=HierarchicalSampler.name,
         n_train_routes=len(train_routes),
         n_val_routes=len(val_routes),
+        val_max_routes=val_max_routes,
+        normalizer_provenance=normalizer_provenance,
     )
     if best_path.is_file():
         manifest["checkpoint_sha256"] = sha256_file(best_path)
     (out_dir / "manifest.json").write_text(canonical_dumps(manifest) + "\n", encoding="utf-8")
+    (out_dir / "normalizer_provenance.json").write_text(
+        canonical_dumps(normalizer_provenance) + "\n", encoding="utf-8"
+    )
     (out_dir / "curves.jsonl").write_text(
         "\n".join(canonical_dumps(row) for row in curves) + ("\n" if curves else ""),
         encoding="utf-8",

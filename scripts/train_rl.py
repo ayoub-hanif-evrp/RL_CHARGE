@@ -46,8 +46,6 @@ def main(argv=None) -> int:
     val_routes = load_split_routes("validation", network_group=args.network_group)
     if args.max_train_routes is not None:
         train_routes = train_routes[: args.max_train_routes]
-    if args.max_val_routes is not None:
-        val_routes = val_routes[: args.max_val_routes]
     if not train_routes:
         raise SystemExit("no train routes")
     device = detect_device()
@@ -95,6 +93,11 @@ def main(argv=None) -> int:
             device=device,
             out_dir=out,
             wall_clock_s=args.wall_clock_s,
+            val_max_routes=(
+                args.max_val_routes
+                if args.max_val_routes is not None
+                else (16 if args.smoke else None)
+            ),
         )
         print(manifest["status"], out)
     return 0

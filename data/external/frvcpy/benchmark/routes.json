@@ -1,0 +1,461 @@
+{
+  "equivalent_to_evrptwgr": "native_frvcp",
+  "never_join_to_evrptwgr_splits": true,
+  "source": "e-VRO/frvcpy + rafaelmartinelli/EVRPNLLib.jl (Montoya 2017 / VRP-REP 2016-0020)",
+  "piecewise_charging": "original_unchanged",
+  "routes": [
+    {
+      "route_id": "official_frvcpy-instance_tour",
+      "instance": "json/frvcpy-instance.json",
+      "nodes": [
+        0,
+        1,
+        2,
+        0
+      ],
+      "q_init": 16000.0,
+      "source": "Montoya_2017_VRPREP_2016-0020_or_e-VRO"
+    },
+    {
+      "route_id": "official_tc0c10s2cf1_tour",
+      "instance_xml": "xml/tc0c10s2cf1.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc0c10s2ct1_tour",
+      "instance_xml": "xml/tc0c10s2ct1.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc0c10s3cf1_tour",
+      "instance_xml": "xml/tc0c10s3cf1.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc0c10s3ct1_tour",
+      "instance_xml": "xml/tc0c10s3ct1.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s2cf2_tour",
+      "instance_xml": "xml/tc1c10s2cf2.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s2cf3_tour",
+      "instance_xml": "xml/tc1c10s2cf3.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s2cf4_tour",
+      "instance_xml": "xml/tc1c10s2cf4.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s2ct2_tour",
+      "instance_xml": "xml/tc1c10s2ct2.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s2ct3_tour",
+      "instance_xml": "xml/tc1c10s2ct3.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s2ct4_tour",
+      "instance_xml": "xml/tc1c10s2ct4.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s3cf2_tour",
+      "instance_xml": "xml/tc1c10s3cf2.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s3cf3_tour",
+      "instance_xml": "xml/tc1c10s3cf3.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s3cf4_tour",
+      "instance_xml": "xml/tc1c10s3cf4.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s3ct2_tour",
+      "instance_xml": "xml/tc1c10s3ct2.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s3ct3_tour",
+      "instance_xml": "xml/tc1c10s3ct3.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc1c10s3ct4_tour",
+      "instance_xml": "xml/tc1c10s3ct4.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc2c10s2cf0_tour",
+      "instance_xml": "xml/tc2c10s2cf0.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc2c10s2ct0_tour",
+      "instance_xml": "xml/tc2c10s2ct0.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc2c10s3cf0_tour",
+      "instance_xml": "xml/tc2c10s3cf0.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_tc2c10s3ct0_tour",
+      "instance_xml": "xml/tc2c10s3ct0.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    },
+    {
+      "route_id": "official_vrprep-instance_tour",
+      "instance_xml": "xml/vrprep-instance.xml",
+      "nodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        0
+      ],
+      "q_init": null,
+      "source": "Montoya_2017_VRPREP_2016-0020",
+      "needs_translate": true
+    }
+  ]
+}

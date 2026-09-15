@@ -123,7 +123,7 @@ def test_ablation_a4_zeros_payload_and_a3_skips_remaining(write_instance):
     skipped = extract_features(env.simulator, use_remaining_route=False)
     assert float(skipped.remaining.sum()) == 0.0
     assert AblationConfig.from_name("A1").discrete_u
-    assert AblationConfig.from_name("A2").soc_interval == "min_to_max"
+    assert AblationConfig.from_name("A2").soc_interval == "arrival_to_max"
     assert AblationConfig.from_name("A5").station_encoder == "pool"
 
 
@@ -208,6 +208,24 @@ def test_tiny_native_frvcp_greedy_and_optional_solver():
         assert solved.status in {"optimal", "frvcpy_not_installed"}
 
 
+def test_official_frvcp_benchmark_is_isolated_from_splits():
+    bench = EXTERNAL_DIR / "frvcpy" / "benchmark"
+    assert (EXTERNAL_DIR / "frvcpy" / "tiny-instance.json").is_file()
+    assert (EXTERNAL_DIR / "frvcpy" / "routes.json").is_file()
+    assert (bench / "README.md").is_file()
+    assert (bench / "hashes.json").is_file()
+    assert (bench / "routes.json").is_file()
+    xmls = list((bench / "xml").glob("*.xml"))
+    assert len(xmls) >= 20
+    payload = json.loads((bench / "routes.json").read_text(encoding="utf-8"))
+    assert payload["never_join_to_evrptwgr_splits"] is True
+    assert payload["equivalent_to_evrptwgr"] == "native_frvcp"
+    assert len(payload["routes"]) >= 20
+    text = (bench / "README.md").read_text(encoding="utf-8").lower()
+    assert "never" in text
+    assert "2016-0020" in text or "montoya" in text
+
+
 def test_attention_and_pool_encoders_run(write_instance):
     env, _, _, _ = _env(write_instance)
     for name in ("FULL", "A3", "A5", "ATTENTION"):
@@ -223,3 +241,6 @@ def test_hybrid_ppo_paper_config_exists():
     assert cfg.rollout_steps == 256
     smoke = PPOConfig.from_toml(REPO_ROOT / "configs" / "rl" / "hybrid_ppo_smoke.toml")
     assert smoke.budget_updates == 2
+    pilot = PPOConfig.from_toml(REPO_ROOT / "configs" / "rl" / "hybrid_ppo_pilot.toml")
+    assert pilot.budget_updates == 400
+    assert pilot.early_stopping_patience == 20

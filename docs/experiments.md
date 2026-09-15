@@ -26,6 +26,23 @@ verified bug appears.
 Paper: `42,43,44,45,46`. Extended: `42…51`. Ablations: `42,43,44`.
 Do not pick the best seed. Config: `configs/experiments/seeds.toml`.
 
+## Multi-seed statistics
+
+Do not collapse every training seed into one parent mean as the only
+uncertainty. Report:
+
+1. Per-seed metrics.
+2. Mean and SD **across training seeds**.
+3. Parent-cluster uncertainty.
+
+Hierarchical bootstrap resampling unit: **training seed, then
+`base_instance`**. Paired Hybrid vs baseline tests match parents; learned
+methods use the mean-over-seeds per parent unless the comparison is the same
+seed. Holm correction is over comparisons.
+
+SOC-reserve rows use `scenario=soc_reserve` and never enter Hybrid PPO
+`scenario=main_test` sample sizes.
+
 ## Hardware
 
 CUDA if `torch.cuda.is_available()`, else CPU. Device is recorded in each
@@ -36,30 +53,42 @@ run manifest.
 ```bash
 python -m pytest tests -q
 python scripts/audit_corpus.py --routes data/routes
-python scripts/preflight_experiments.py
+python scripts/preflight_experiments.py --paper
 python scripts/train_rl.py --method hybrid_ppo --split train --seeds paper
 python scripts/train_rl.py --method discrete_ppo --seeds paper
 python scripts/train_rl.py --method legacy_ddqn --seeds paper
 python scripts/train_rl.py --method attention_ppo --seeds paper
 python scripts/run_ablations.py --seeds ablation
-python scripts/run_baselines.py --split test
-python scripts/evaluate.py --split test --methods all --eval-mode
-python scripts/run_frvcpy_benchmark.py --data data/external/frvcpy
+python scripts/run_baselines.py --split test --scenario main_test
+python scripts/evaluate.py --split test --scenario main_test --methods hybrid_ppo,discrete_ppo,attention_ppo,legacy_ddqn --seeds paper
+python scripts/evaluate.py --split test --scenario ablation --methods A1,A2,A3,A4,A5 --seeds ablation
+python scripts/run_frvcpy_benchmark.py --data data/external/frvcpy --scenario frvcpy_native
 python scripts/run_exact_small.py --split test --max-customers 5
 python scripts/run_soc_reserve.py --levels 0,0.05,0.10,0.15
-python scripts/analyze_results.py
-python scripts/make_tables.py
+python scripts/analyze_results.py --scenario main_test --split test
+python scripts/make_tables.py --scenario main_test
 python scripts/make_figures.py
 ```
 
-Smoke (not paper): add `--smoke` to `train_rl.py` / `run_ablations.py`.
+Smoke (not paper): add `--smoke` to `train_rl.py` / `run_ablations.py` and use
+`--scenario smoke`. `--methods all` is smoke-only.
+
+Pilot (TRAIN/VAL only, not TEST): `configs/rl/hybrid_ppo_pilot.toml` then inspect
+`curves.jsonl` under `results/pilot/`. Do not choose the paper budget from TEST.
 
 Size-generalization is extra (`scripts/run_size_generalization.py`), never the
 headline test number.
 
-Paper Hybrid PPO budget is in `configs/rl/hybrid_ppo.toml`
-(`budget_updates=200`, `rollout_steps=256`). Smoke stays in
-`configs/rl/hybrid_ppo_smoke.toml`.
+Paper Hybrid PPO budget is chosen from the TRAIN/VAL pilot (see
+`results/pilot/`). The starting ceiling is `configs/rl/hybrid_ppo_pilot.toml`.
+Smoke stays in `configs/rl/hybrid_ppo_smoke.toml`.
+
+Validation model selection (paper/pilot): full validation population,
+lexicographic **feasibility rate then** all-routes completion time (`H` for
+failures). Smoke may cap `val_max_routes`.
+
+Feature normalization is fit on **all TRAIN routes** (reset features) plus a
+TRAIN-only greedy-min dynamic pass. Val/test states never enter the fit.
 
 ## Result files
 
