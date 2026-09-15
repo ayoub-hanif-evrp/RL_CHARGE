@@ -93,6 +93,10 @@ class PyVRPConfig:
             raise InvalidPhysicsParameterError(
                 "EVRPTW-GR customer routing must map demand to PyVRP pickup, not delivery"
             )
+        if raw["fleet_policy"] != "unrestricted_fleet_with_fixed_cost":
+            raise InvalidPhysicsParameterError(
+                "fleet_policy must be 'unrestricted_fleet_with_fixed_cost'"
+            )
         iterations = {str(k): int(v) for k, v in dict(raw["iterations"]).items()}
         return cls(
             generator=str(raw["generator"]),

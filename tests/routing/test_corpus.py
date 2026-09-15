@@ -61,6 +61,7 @@ def test_corpus_attempts_all_instances_without_charging_filter(raw_root, tmp_pat
         generator=StubGenerator(),
         config=PyVRPConfig.from_toml(),
         instance_files=files,
+        annotate_tw=False,
     )
     assert result.attempted == 124
     assert result.failures == []
@@ -83,8 +84,98 @@ def test_failures_are_recorded_not_dropped(write_instance, tmp_path):
         config=PyVRPConfig.from_toml(),
         instance_files=[path],
         parse=lambda p: parse_instance(p, root=root),
+        annotate_tw=False,
     )
     assert result.attempted == 1
     assert len(result.failures) == 1
     assert "solver boom" in result.failures[0].error
     assert result.routes == []
+
+
+def test_terrain_reuse_copies_canonical_sequences(tmp_path):
+    from conftest import build_instance_text, node_row
+
+    nodes_l = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 1000.0, 0.0, 0.0),
+        node_row("S0", "f", 0.0, 0.0, 0.0, 0.0, 1000.0, 0.0, 0.0),
+        node_row("C1", "c", 1.0, 0.0, 10.0, 0.0, 1000.0, 1.0, 0.1),
+        node_row("C2", "c", 2.0, 0.0, 10.0, 0.0, 1000.0, 1.0, 0.2),
+    ]
+    nodes_nl = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 1000.0, 0.0, 0.0),
+        node_row("S0", "f", 0.0, 0.0, 0.0, 0.0, 1000.0, 0.0, 0.0),
+        node_row("C1", "c", 1.0, 0.0, 10.0, 0.0, 1000.0, 1.0, 0.5),
+        node_row("C2", "c", 2.0, 0.0, 10.0, 0.0, 1000.0, 1.0, 0.8),
+    ]
+    root = tmp_path / "EVRPTW_GR"
+    l_dir = root / "Small_Network" / "5_Customers" / "Level"
+    nl_dir = root / "Small_Network" / "5_Customers" / "Nearly_Level"
+    l_dir.mkdir(parents=True)
+    nl_dir.mkdir(parents=True)
+    (l_dir / "c101C5_L.txt").write_text(build_instance_text(nodes=nodes_l), encoding="utf-8")
+    (nl_dir / "c101C5_NL.txt").write_text(build_instance_text(nodes=nodes_nl), encoding="utf-8")
+
+    class CountingGenerator(StubGenerator):
+        calls = 0
+
+        def generate(self, instance, profile):
+            type(self).calls += 1
+            return super().generate(instance, profile)
+
+    CountingGenerator.calls = 0
+    files = sorted(root.rglob("*.txt"))
+    result = generate_corpus(
+        dataset_root=root,
+        out_dir=tmp_path / "routes",
+        generator=CountingGenerator(),
+        config=PyVRPConfig.from_toml(),
+        instance_files=files,
+        parse=lambda p: parse_instance(p, root=root),
+        annotate_tw=False,
+    )
+    assert CountingGenerator.calls == 1
+    assert result.attempted == 2
+    assert len(result.routes) == 2
+    sequences = {route.raw_instance_id: route.customer_ids for route in result.routes}
+    assert sequences["c101C5_L"] == sequences["c101C5_NL"]
+    reused = [route for route in result.routes if route.terrain_reuse]
+    canonical = [route for route in result.routes if not route.terrain_reuse]
+    assert len(canonical) == 1
+    assert canonical[0].raw_instance_id == "c101C5_L"
+    assert reused[0].route_source_instance_id == "c101C5_L"
+
+
+def test_terrain_matrix_mismatch_fails_group(tmp_path):
+    from conftest import build_instance_text, node_row
+
+    nodes_l = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 1000.0, 0.0, 0.0),
+        node_row("S0", "f", 0.0, 0.0, 0.0, 0.0, 1000.0, 0.0, 0.0),
+        node_row("C1", "c", 1.0, 0.0, 10.0, 0.0, 1000.0, 1.0, 0.0),
+        node_row("C2", "c", 2.0, 0.0, 10.0, 0.0, 1000.0, 1.0, 0.0),
+    ]
+    nodes_nl = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 1000.0, 0.0, 0.0),
+        node_row("S0", "f", 0.0, 0.0, 0.0, 0.0, 1000.0, 0.0, 0.0),
+        node_row("C1", "c", 9.0, 0.0, 10.0, 0.0, 1000.0, 1.0, 0.0),
+        node_row("C2", "c", 2.0, 0.0, 10.0, 0.0, 1000.0, 1.0, 0.0),
+    ]
+    root = tmp_path / "EVRPTW_GR"
+    l_dir = root / "Small_Network" / "5_Customers" / "Level"
+    nl_dir = root / "Small_Network" / "5_Customers" / "Nearly_Level"
+    l_dir.mkdir(parents=True)
+    nl_dir.mkdir(parents=True)
+    (l_dir / "c101C5_L.txt").write_text(build_instance_text(nodes=nodes_l), encoding="utf-8")
+    (nl_dir / "c101C5_NL.txt").write_text(build_instance_text(nodes=nodes_nl), encoding="utf-8")
+    files = sorted(root.rglob("*.txt"))
+    result = generate_corpus(
+        dataset_root=root,
+        out_dir=tmp_path / "routes",
+        generator=StubGenerator(),
+        config=PyVRPConfig.from_toml(),
+        instance_files=files,
+        parse=lambda p: parse_instance(p, root=root),
+        annotate_tw=False,
+    )
+    assert result.routes == []
+    assert len(result.failures) == 2

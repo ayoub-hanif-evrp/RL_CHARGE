@@ -1,0 +1,3 @@
+# Hierarchical episode sampling declared here so L/NL/VG siblings are not overweighted.
+name = "parent_then_route_then_terrain"
+description = "Sample a train parent uniformly, then a vehicle index, then a terrain variant."

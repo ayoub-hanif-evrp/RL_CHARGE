@@ -1,0 +1,10 @@
+# Legacy DDQN smoke budget.
+
+gradient_steps = 50
+batch_size = 8
+target_sync = 10
+replay_size = 200
+learning_rate = 1.0e-3
+d_model = 32
+gamma = 1.0
+seed = 42

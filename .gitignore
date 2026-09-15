@@ -32,8 +32,16 @@ desktop.ini
 # Testing
 .pytest_cache/
 
+# Experiment artifacts (tables/summaries/figures stay tracked)
+checkpoints/
+results/raw/
+results/runs/
+
 # Generated dataset metadata. data/raw stays tracked and immutable.
 data/processed/*
 !data/processed/.gitkeep
 data/routes/*
 !data/routes/.gitkeep
+!data/routes/corpus.jsonl
+!data/routes/manifest.csv
+!data/routes/corpus_metadata.json

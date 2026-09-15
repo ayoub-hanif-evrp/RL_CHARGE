@@ -4,17 +4,29 @@ import pytest
 
 from conftest import node_row
 from data.parser import parse_instance
+from domain.load_convention import LoadConvention
 from physics.parameters import PhysicsProfile
 from simulation.actions import ChargeAction, ContinueAction
 from simulation.feasibility import InfeasibilityReason
 from simulation.simulator import FixedRouteSimulator, run_continue_only
 
 
-def _sim(write_instance, nodes=None, customers=("C1", "C2"), filename="c101C5_L.txt"):
+def _sim(
+    write_instance,
+    nodes=None,
+    customers=("C1", "C2"),
+    filename="c101C5_L.txt",
+    load_convention=LoadConvention.OFFICIAL_REFERENCE_PICKUP,
+    **kwargs,
+):
     path, root = write_instance(filename=filename, nodes=nodes)
     instance = parse_instance(path, root=root)
     profile = PhysicsProfile.from_instance(instance)
-    return FixedRouteSimulator(instance, customers, profile), instance, profile
+    return (
+        FixedRouteSimulator(instance, customers, profile, load_convention, **kwargs),
+        instance,
+        profile,
+    )
 
 
 def test_early_arrival_waits_before_service(write_instance):
@@ -153,7 +165,9 @@ def test_loop_guard_is_not_three_stops(write_instance, tmp_path):
     path, root = write_instance(nodes=nodes)
     instance = parse_instance(path, root=root)
     profile = PhysicsProfile.from_instance(instance, config_dir=tmp_path)
-    sim = FixedRouteSimulator(instance, ("C1",), profile)
+    sim = FixedRouteSimulator(
+        instance, ("C1",), profile, LoadConvention.OFFICIAL_REFERENCE_PICKUP
+    )
     assert sim.step(ChargeAction("S1", 1.0)).feasible
     assert sim.step(ChargeAction("S1", 1.0)).feasible
     result = sim.step(ChargeAction("S1", 1.0))
@@ -177,3 +191,44 @@ def test_metrics_have_no_total_cost(write_instance):
     assert "energy_objective" in payload
     assert "total_distance" in payload
     assert "total_energy_consumed" in payload
+    assert payload["load_convention"] == LoadConvention.OFFICIAL_REFERENCE_PICKUP.value
+
+
+def test_load_convention_is_required(write_instance):
+    path, root = write_instance()
+    instance = parse_instance(path, root=root)
+    profile = PhysicsProfile.from_instance(instance)
+    with pytest.raises((TypeError, ValueError)):
+        FixedRouteSimulator(instance, ("C1", "C2"), profile)
+
+
+def test_delivery_decreases_payload_and_changes_first_arc_energy(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S0", "f", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 5.0, 0.0, 80.0, 0.0, 10_000.0, 1.0, 0.0),
+        node_row("C2", "c", 6.0, 0.0, 20.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    pickup, instance, _ = _sim(
+        write_instance,
+        nodes=nodes,
+        customers=("C1", "C2"),
+        load_convention=LoadConvention.OFFICIAL_REFERENCE_PICKUP,
+    )
+    delivery, _, _ = _sim(
+        write_instance,
+        nodes=nodes,
+        customers=("C1", "C2"),
+        load_convention=LoadConvention.DELIVERY,
+    )
+    assert pickup.state.payload.value == pytest.approx(0.0)
+    assert delivery.state.payload.value == pytest.approx(100.0)
+    assert pickup.step(ContinueAction()).feasible
+    assert delivery.step(ContinueAction()).feasible
+    assert pickup.state.payload.value == pytest.approx(80.0)
+    assert delivery.state.payload.value == pytest.approx(20.0)
+    pickup_arc = [e for e in pickup.state.events if e.kind == "travel"][0]
+    delivery_arc = [e for e in delivery.state.events if e.kind == "travel"][0]
+    assert pickup_arc.energy_net.value != delivery_arc.energy_net.value
+    assert pickup_arc.payload_before.value == pytest.approx(0.0)
+    assert delivery_arc.payload_before.value == pytest.approx(100.0)

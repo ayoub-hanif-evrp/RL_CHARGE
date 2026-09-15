@@ -17,6 +17,9 @@ RAW_EVRPTW_GR_DIR = RAW_DIR / "EVRPTW_GR"
 PROCESSED_DIR = DATA_DIR / "processed"
 ROUTES_DIR = DATA_DIR / "routes"
 SPLITS_DIR = DATA_DIR / "splits"
+EXTERNAL_DIR = DATA_DIR / "external"
+RESULTS_DIR = REPO_ROOT / "results"
+CHECKPOINTS_DIR = REPO_ROOT / "checkpoints"
 
 INSTANCE_SUFFIX = ".txt"
 

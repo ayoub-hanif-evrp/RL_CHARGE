@@ -1,0 +1,9 @@
+# Parent-level Solomon-Schneider splits. Seed 42. Ratios 20/6/6.
+
+seed = 42
+n_train_parents = 20
+n_validation_parents = 6
+n_test_parents = 6
+unit = "base_instance"
+large_repair = true
+documented_large_swap = ["c108", "c101"]

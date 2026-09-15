@@ -13,7 +13,8 @@ trigger and no six-level SOC grid.
 
 - `ContinueAction`: travel to the next frozen customer, or to the depot if the
   sequence is finished. Applies load-dependent directional energy, waiting,
-  service, then **pickup** (`payload += demand`). Advances the customer index.
+  service, then the required `LoadConvention` (pickup: `payload += demand`;
+  delivery: `payload -= demand`). Advances the customer index.
 - `ChargeAction(station_id, target_soc)`: travel to that station and charge
   continuously to `target_soc ∈ [current_soc, max_soc]`. Does **not** advance
   the customer index. Multiple station visits between two customers are legal.
@@ -53,21 +54,20 @@ Silent success is forbidden. Global existence of a charging schedule is
 charged, station visits, terminal SOC, and feasibility **separate**. There is
 no mixed-unit `total_cost`.
 
-`EnergyObjective` is the named EVRPTW-GR-compatible objective: the sum of net
-arc energies (Model 2 `sum(hh * distance)`).
+`CompletionTimeObjective` is the primary experimental objective (route
+completion time). `EnergyObjective` remains the named EVRPTW-GR Model 2 energy
+sum. They are never added together. There is no mixed-unit `total_cost`.
+
+`LoadConvention` is required. Default experiments use
+`OFFICIAL_REFERENCE_PICKUP`. `DELIVERY` is sensitivity only.
+
+## Feasibility shield
+
+See [`docs/feasibility.md`](feasibility.md). The shield masks illegal
+transitions; it does not decide when to charge.
 
 ## Legacy code
 
-The following Training/Testing modules still exist on disk for Git history and
-will be replaced in Part 3. Do not import them from the new scientific core:
-
-- `Training/environment.py`, `helper_functions.py`, `matrices_creator.py` and
-  the identical Testing copies (1:1:1 distance=time=energy, rule-based charge
-  trigger, six-level portions)
-- `Training/ddqn_agent.py`, `neural_networks.py`
-- `Testing/baslines_comp/*`
-- `fleet.json` (synthetic)
-- `Dataset_splitting.ipynb`
-
-Official Model 2 allows at most one station between two customers. This
-simulator does not inherit that MILP restriction.
+The old Training/Testing stack is deleted from `main` after the new simulator
+baselines exist. Git history remains the archive. Do not reimplement
+price-based NS/CS/ES or mixed-unit `total_cost`.

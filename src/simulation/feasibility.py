@@ -25,6 +25,7 @@ class InfeasibilityReason(Enum):
     UNKNOWN_STATION = "UNKNOWN_STATION"
     INVALID_STATE = "INVALID_STATE"
     LOOP_GUARD = "LOOP_GUARD"
+    NO_FEASIBLE_ACTION = "NO_FEASIBLE_ACTION"
 
 
 @dataclass(frozen=True)

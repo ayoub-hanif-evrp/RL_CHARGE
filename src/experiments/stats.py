@@ -1,0 +1,105 @@
+"""Cluster-aware statistics. Routes that share a parent are not independent."""
+
+from __future__ import annotations
+
+from collections import defaultdict
+from typing import Dict, Iterable, List, Sequence, Tuple
+
+import numpy as np
+
+
+def cluster_means(rows: Sequence[dict], value_key: str, cluster_key: str = "base_instance") -> Dict[str, float]:
+    buckets: Dict[str, List[float]] = defaultdict(list)
+    for row in rows:
+        if row.get(value_key) is None:
+            continue
+        cluster = row.get(cluster_key) or row.get("route_id") or row.get("method") or "unknown"
+        buckets[str(cluster)].append(float(row[value_key]))
+    return {key: float(np.mean(vals)) for key, vals in buckets.items()}
+
+
+def cluster_bootstrap_ci(
+    rows: Sequence[dict],
+    value_key: str,
+    cluster_key: str = "base_instance",
+    n_boot: int = 1000,
+    alpha: float = 0.05,
+    seed: int = 0,
+) -> dict:
+    clusters = cluster_means(rows, value_key, cluster_key)
+    names = list(clusters)
+    values = np.array([clusters[name] for name in names], dtype=np.float64)
+    if values.size == 0:
+        return {"mean": None, "lo": None, "hi": None, "n_clusters": 0}
+    rng = np.random.default_rng(seed)
+    boots = []
+    for _ in range(n_boot):
+        draw = rng.choice(values, size=values.size, replace=True)
+        boots.append(float(draw.mean()))
+    boots.sort()
+    lo = boots[int(alpha / 2 * n_boot)]
+    hi = boots[int((1 - alpha / 2) * n_boot)]
+    return {
+        "mean": float(values.mean()),
+        "median": float(np.median(values)),
+        "sd": float(values.std(ddof=1)) if values.size > 1 else 0.0,
+        "lo": lo,
+        "hi": hi,
+        "n_clusters": int(values.size),
+        "n_rows": len(rows),
+    }
+
+
+def paired_parent_diff(
+    rows_a: Sequence[dict],
+    rows_b: Sequence[dict],
+    value_key: str,
+    cluster_key: str = "base_instance",
+) -> Dict[str, float]:
+    a = cluster_means(rows_a, value_key, cluster_key)
+    b = cluster_means(rows_b, value_key, cluster_key)
+    keys = sorted(set(a) & set(b))
+    return {key: a[key] - b[key] for key in keys}
+
+
+def permutation_pvalue(diffs: Sequence[float], n_perm: int = 2000, seed: int = 0) -> float:
+    arr = np.asarray(list(diffs), dtype=np.float64)
+    if arr.size == 0:
+        return 1.0
+    observed = abs(arr.mean())
+    rng = np.random.default_rng(seed)
+    count = 0
+    for _ in range(n_perm):
+        signs = rng.choice([-1.0, 1.0], size=arr.size)
+        if abs((arr * signs).mean()) >= observed - 1e-15:
+            count += 1
+    return (count + 1) / (n_perm + 1)
+
+
+def holm(pvalues: Sequence[Tuple[str, float]]) -> List[Tuple[str, float, float]]:
+    ordered = sorted(pvalues, key=lambda item: item[1])
+    m = len(ordered)
+    adjusted = []
+    running = 0.0
+    for i, (name, p) in enumerate(ordered):
+        adj = min(1.0, p * (m - i))
+        running = max(running, adj)
+        adjusted.append((name, p, running))
+    by_name = {name: (p, adj) for name, p, adj in adjusted}
+    return [(name, by_name[name][0], by_name[name][1]) for name, _ in pvalues]
+
+
+def summarize_method(rows: Sequence[dict], value_key: str) -> dict:
+    usable = [row for row in rows if row.get(value_key) is not None]
+    values = np.array([float(row[value_key]) for row in usable], dtype=np.float64)
+    ci = cluster_bootstrap_ci(usable, value_key)
+    return {
+        "n": len(usable),
+        "mean": float(values.mean()) if values.size else None,
+        "median": float(np.median(values)) if values.size else None,
+        "sd": float(values.std(ddof=1)) if values.size > 1 else 0.0,
+        "cluster_mean": ci["mean"],
+        "ci95_lo": ci["lo"],
+        "ci95_hi": ci["hi"],
+        "n_clusters": ci["n_clusters"],
+    }

@@ -45,6 +45,7 @@ def main(argv=None) -> int:
         profile_name=args.profile,
         config=config,
         generator=generator,
+        write_metadata=True,
     )
     print(
         f"attempted={result.attempted} routes={len(result.routes)} "

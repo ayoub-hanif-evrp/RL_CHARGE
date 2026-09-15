@@ -1,0 +1,10 @@
+# Legacy two-stage DDQN paper budget. One optimizer; frozen target.
+
+gradient_steps = 50000
+batch_size = 32
+target_sync = 500
+replay_size = 20000
+learning_rate = 1.0e-3
+d_model = 64
+gamma = 1.0
+seed = 42

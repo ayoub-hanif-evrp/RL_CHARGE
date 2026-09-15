@@ -28,6 +28,7 @@ class TrajectoryMetrics:
     feasible: bool
     infeasibility_reason: Optional[InfeasibilityReason]
     energy_objective: Energy
+    load_convention: str
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -49,7 +50,18 @@ class TrajectoryMetrics:
             if self.infeasibility_reason is None
             else self.infeasibility_reason.value,
             "energy_objective": self.energy_objective.value,
+            "load_convention": self.load_convention,
         }
+
+
+class CompletionTimeObjective:
+    """Primary experimental objective: minimize route completion time."""
+
+    name = "CompletionTimeObjective"
+
+    @staticmethod
+    def value(metrics: TrajectoryMetrics) -> TravelTime:
+        return metrics.route_completion_time
 
 
 class EnergyObjective:
@@ -82,6 +94,7 @@ class MetricsAccumulator:
         completion_time: TravelTime,
         feasible: bool,
         reason: Optional[InfeasibilityReason],
+        load_convention: str,
     ) -> TrajectoryMetrics:
         net = Energy(self.total_net_energy)
         return TrajectoryMetrics(
@@ -101,4 +114,5 @@ class MetricsAccumulator:
             feasible=feasible,
             infeasibility_reason=reason,
             energy_objective=net,
+            load_convention=load_convention,
         )

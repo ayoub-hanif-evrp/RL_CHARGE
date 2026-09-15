@@ -7,9 +7,10 @@ and charging are separate stages:
 2. That sequence is frozen. Charging may insert station visits but must never
    reorder customers.
 
-This document describes the EVRPTW-GR physical energy model implemented in
-`src/physics`. Reinforcement learning, frvcpy, nonlinear charging curves, and
-train/validation/test splits belong to Part 3.
+Reinforcement learning, the feasibility shield, parent-level splits, and the
+optional frvcpy adapter live in Part 3A. See [`docs/rl.md`](rl.md),
+[`docs/splits.md`](splits.md), and [`docs/feasibility.md`](feasibility.md).
+frvcpy is **not** exact for EVRPTW-GR.
 
 ## Units and sign conventions
 

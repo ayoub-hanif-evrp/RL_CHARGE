@@ -21,7 +21,11 @@ from physics.parameters import PhysicsProfile
 from physics.travel_time import travel_time
 
 from .config import PyVRPConfig
-from .fixed_route import CHARGING_FEASIBILITY_UNVERIFIED, FrozenRoute
+from .fixed_route import (
+    CHARGING_FEASIBILITY_UNVERIFIED,
+    FLEET_POLICY_UNRESTRICTED,
+    FrozenRoute,
+)
 
 DATASET_NAME = "EVRPTW-GR"
 DATASET_DOI = "10.17632/srfdbp2twv.1"
@@ -43,6 +47,18 @@ class IntegerRoutingMatrices:
 
 def scale_int(value: float, scale: int) -> int:
     return int(np.round(value * scale))
+
+
+def dominating_fixed_cost(n_customers: int, dmax: int) -> int:
+    """Lexicographic bound: one fewer vehicle always beats any distance gap.
+
+    Scaled distances are integers. Any solution uses at most ``n_customers +
+    n_vehicles <= 2 n`` edges, each at most ``Dmax``, so total distance
+    ``<= 2 n Dmax``. Therefore ``F = 2 n Dmax + 1``.
+    """
+    n = max(int(n_customers), 0)
+    dmax = max(int(dmax), 0)
+    return 2 * n * dmax + 1
 
 
 def build_customer_matrices(
@@ -111,11 +127,14 @@ class PyVRPGenerator:
         return importlib.metadata.version("pyvrp")
 
     def generate(
-        self, instance: EVRPTWGRInstance, profile: PhysicsProfile
+        self,
+        instance: EVRPTWGRInstance,
+        profile: PhysicsProfile,
+        matrices: Optional[IntegerRoutingMatrices] = None,
     ) -> List[FrozenRoute]:
         from pyvrp.stop import MaxIterations
 
-        matrices = build_customer_matrices(instance, profile, self.config)
+        matrices = matrices or build_customer_matrices(instance, profile, self.config)
         model = self._build_model(matrices)
         iterations = self.max_iterations_override
         if iterations is None:
@@ -157,8 +176,10 @@ class PyVRPGenerator:
                 name=matrices.location_ids[index],
             )
         n_clients = len(matrices.pickup)
-        if self.config.fleet_policy != "one_vehicle_per_customer":
+        if self.config.fleet_policy != FLEET_POLICY_UNRESTRICTED:
             raise ValueError(f"unsupported fleet_policy {self.config.fleet_policy!r}")
+        dmax = int(matrices.distance.max()) if matrices.distance.size else 0
+        fixed_cost = dominating_fixed_cost(n_clients, dmax)
         model.add_vehicle_type(
             num_available=max(n_clients, 1),
             capacity=[int(matrices.capacity)],
@@ -166,6 +187,9 @@ class PyVRPGenerator:
             tw_late=int(matrices.tw_late[0]),
             start_depot=depot,
             end_depot=depot,
+            fixed_cost=int(fixed_cost),
+            unit_distance_cost=1,
+            unit_duration_cost=0,
         )
         for i, frm in enumerate(locations):
             for j, to in enumerate(locations):
@@ -193,8 +217,16 @@ class PyVRPGenerator:
         depot_id = matrices.location_ids[0]
         assigned_ids: List[str] = []
         built: List[FrozenRoute] = []
-        objective = _unscaled(_solution_objective(result, solution), self.config.distance_scale)
-        for vehicle_index, route in enumerate(solution.routes()):
+        n_clients = len(matrices.pickup)
+        dmax = int(matrices.distance.max()) if matrices.distance.size else 0
+        fixed_cost = dominating_fixed_cost(n_clients, dmax)
+        solution_routes = list(solution.routes())
+        n_vehicles = len(solution_routes)
+        scaled_distance = sum(_route_distance(route) for route in solution_routes)
+        total_distance = _unscaled(scaled_distance, self.config.distance_scale)
+        lex = float(n_vehicles * fixed_cost + scaled_distance)
+        objective = total_distance
+        for vehicle_index, route in enumerate(solution_routes):
             customer_ids = _extract_customers(route, id_by_index, depot_id)
             assigned_ids.extend(customer_ids)
             demand = sum(instance.node_by_id(cid).demand for cid in customer_ids)
@@ -250,16 +282,118 @@ class PyVRPGenerator:
                     unassigned_customer_ids=(),
                     demand_mapping=self.config.demand_mapping,
                     fleet_policy=self.config.fleet_policy,
+                    base_instance=instance.metadata.base_instance,
+                    customer_folder=instance.metadata.customer_folder,
+                    n_vehicles=n_vehicles,
+                    total_distance=float(total_distance),
+                    fixed_vehicle_cost=int(fixed_cost),
+                    lexicographic_objective=lex,
+                    route_source_instance_id=instance.metadata.instance_id,
+                    terrain_reuse=False,
+                    routing_tw_feasible=None,
                 )
             )
         required = [node.string_id for node in instance.customers]
         unassigned = tuple(cid for cid in required if cid not in assigned_ids)
+        if not built:
+            built.append(
+                FrozenRoute(
+                    route_id=f"{instance.metadata.instance_id}__v0",
+                    source_dataset=DATASET_NAME,
+                    doi=DATASET_DOI,
+                    raw_instance_id=instance.metadata.instance_id,
+                    relative_path=instance.metadata.relative_path,
+                    network_group=instance.metadata.network_group.value,
+                    terrain_variant=instance.metadata.terrain_variant.value,
+                    customer_distribution=instance.metadata.customer_distribution,
+                    schedule_type=instance.metadata.schedule_type,
+                    generator=self.config.generator,
+                    generator_version=self.version,
+                    seed=self.config.seed,
+                    stop=self.config.stop,
+                    n_iterations=iterations,
+                    config_hash=self.config.fingerprint(),
+                    physics_profile=profile.name,
+                    capacity_policy=(
+                        "official_3650kg"
+                        if not profile.use_instance_payload_capacity
+                        else "instance_C"
+                    ),
+                    distance_scale=self.config.distance_scale,
+                    demand_scale=self.config.demand_scale,
+                    rounding_policy=self.config.rounding_policy,
+                    routing_problem=self.config.routing_problem,
+                    python=sys.version.split()[0],
+                    os_name=platform.system(),
+                    arch=platform.machine(),
+                    instance_sha256=instance_sha256(instance),
+                    vehicle_index=0,
+                    depot_id=instance.depot.string_id,
+                    customer_ids=(),
+                    route_demand=0.0,
+                    route_distance=0.0,
+                    route_duration_lower_bound=0.0,
+                    n_customers=0,
+                    routing_feasible=False,
+                    charging_feasibility_status=CHARGING_FEASIBILITY_UNVERIFIED,
+                    generation_runtime_s=float(runtime),
+                    routing_objective=0.0,
+                    unassigned_customer_ids=tuple(required),
+                    demand_mapping=self.config.demand_mapping,
+                    fleet_policy=self.config.fleet_policy,
+                    base_instance=instance.metadata.base_instance,
+                    customer_folder=instance.metadata.customer_folder,
+                    n_vehicles=0,
+                    total_distance=0.0,
+                    fixed_vehicle_cost=int(fixed_cost),
+                    lexicographic_objective=0.0,
+                    route_source_instance_id=instance.metadata.instance_id,
+                    terrain_reuse=False,
+                    routing_tw_feasible=None,
+                )
+            )
+            return built
         return [
             FrozenRoute.from_dict(
                 {**route.to_dict(), "unassigned_customer_ids": list(unassigned)}
             )
             for route in built
         ]
+
+
+def retarget_routes(
+    routes: Sequence[FrozenRoute],
+    target,
+    *,
+    source_instance_id: str,
+    terrain_reuse: bool,
+) -> List[FrozenRoute]:
+    """Copy customer sequences onto a terrain sibling. Sequences stay identical."""
+    retargeted: List[FrozenRoute] = []
+    for route in routes:
+        demand = sum(target.node_by_id(cid).demand for cid in route.customer_ids)
+        payload = route.to_dict()
+        payload.update(
+            {
+                "route_id": f"{target.metadata.instance_id}__v{route.vehicle_index}",
+                "raw_instance_id": target.metadata.instance_id,
+                "relative_path": target.metadata.relative_path,
+                "network_group": target.metadata.network_group.value,
+                "terrain_variant": target.metadata.terrain_variant.value,
+                "customer_distribution": target.metadata.customer_distribution,
+                "schedule_type": target.metadata.schedule_type,
+                "base_instance": target.metadata.base_instance,
+                "customer_folder": target.metadata.customer_folder,
+                "instance_sha256": instance_sha256(target),
+                "depot_id": target.depot.string_id,
+                "customer_ids": list(route.customer_ids),
+                "route_demand": float(demand),
+                "route_source_instance_id": source_instance_id,
+                "terrain_reuse": bool(terrain_reuse),
+            }
+        )
+        retargeted.append(FrozenRoute.from_dict(payload))
+    return retargeted
 
 
 def _extract_customers(route, id_by_index, depot_id: str) -> List[str]:

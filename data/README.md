@@ -32,8 +32,8 @@ data/
       Large_Network/
         50_Customers/Nearly_Level/           *.txt
   processed/                            <- generated, gitignored
-  routes/                               <- frozen customer routes (Part 2; generated files gitignored)
-  splits/                               <- empty; reserved for Part 3
+  routes/                               <- frozen customer routes (compact corpus tracked)
+  splits/                               <- parent-level train/val/test splits
 ```
 
 ### Instance file format
@@ -105,14 +105,15 @@ Two further quirks are handled silently by the parser because they are purely co
 The canonical parser in [`src/data`](../src/data) is ingestion, validation, and
 inspection only.
 
-Physical energy, the fixed-route simulator, charging models, and PyVRP route
-generation live in [`src/physics`](../src/physics),
-[`src/simulation`](../src/simulation), and [`src/routing`](../src/routing).
-See [`docs/physics.md`](../docs/physics.md), [`docs/simulator.md`](../docs/simulator.md),
-and [`docs/routes.md`](../docs/routes.md).
+Physical energy, the fixed-route simulator, charging models, PyVRP route
+generation, the feasibility shield, Hybrid PPO, and parent-level splits live in
+[`src/physics`](../src/physics), [`src/simulation`](../src/simulation),
+[`src/routing`](../src/routing), [`src/rl`](../src/rl),
+[`src/baselines`](../src/baselines), and [`src/experiments`](../src/experiments).
 
-**Not implemented in this data package:** energy consumption, charging
-behaviour, or dataset splits. `data/splits/` remains a Part 3 placeholder.
+See [`docs/physics.md`](../docs/physics.md), [`docs/simulator.md`](../docs/simulator.md),
+[`docs/routes.md`](../docs/routes.md), [`docs/rl.md`](../docs/rl.md),
+[`docs/splits.md`](../docs/splits.md), and [`docs/feasibility.md`](../docs/feasibility.md).
 
 All dataset access must go through the canonical parser. Do not add a second
 parser.

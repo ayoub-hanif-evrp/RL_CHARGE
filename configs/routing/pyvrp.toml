@@ -15,7 +15,7 @@ demand_scale = 10
 rounding_policy = "numpy_round_to_int64"
 stop = "MaxIterations"
 display = false
-fleet_policy = "one_vehicle_per_customer"
+fleet_policy = "unrestricted_fleet_with_fixed_cost"
 demand_mapping = "pickup"
 
 [iterations]

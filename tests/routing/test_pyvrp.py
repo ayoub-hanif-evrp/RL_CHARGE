@@ -20,6 +20,7 @@ def test_config_uses_pickup_and_max_iterations():
     assert config.demand_mapping == "pickup"
     assert config.stop == "MaxIterations"
     assert config.routing_problem == "vrptw_pickup_customers_only"
+    assert config.fleet_policy == "unrestricted_fleet_with_fixed_cost"
 
 
 def test_terrain_variants_have_identical_customer_matrices():
@@ -96,6 +97,8 @@ def test_pyvrp_generates_customer_only_routes(write_instance):
         assert route.stop == "MaxIterations"
         assert route.charging_feasibility_status == "unverified"
         assert route.demand_mapping == "pickup"
+        assert route.fleet_policy == "unrestricted_fleet_with_fixed_cost"
+        assert route.fixed_vehicle_cost > 0
         assert "S0" not in route.customer_ids
         for cid in route.customer_ids:
             assert cid in customer_ids
@@ -103,3 +106,64 @@ def test_pyvrp_generates_customer_only_routes(write_instance):
         assert len(route.customer_ids) == len(set(route.customer_ids))
         assert route.route_demand <= profile.payload_capacity_kg + 1e-9
     assert set(assigned).issubset(customer_ids)
+
+
+def test_dominating_fixed_cost_formula():
+    from routing.pyvrp_generator import dominating_fixed_cost
+
+    assert dominating_fixed_cost(2, 10000) == 2 * 2 * 10000 + 1
+
+
+def test_fixed_cost_prefers_fewer_vehicles_on_nonmetric_toy(write_instance):
+    """Two singletons are shorter in distance; F still returns one vehicle."""
+    from routing.pyvrp_generator import IntegerRoutingMatrices, dominating_fixed_cost
+
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S0", "f", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 1.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+        node_row("C2", "c", 0.0, 1.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    path, root = write_instance(nodes=nodes)
+    instance = parse_instance(path, root=root)
+    profile = PhysicsProfile.from_instance(instance)
+    dmax = 10_000
+    distance = np.array(
+        [
+            [0, 1, 1],
+            [1, 0, dmax],
+            [1, dmax, 0],
+        ],
+        dtype=np.int64,
+    )
+    duration = np.array(
+        [
+            [0, 1, 1],
+            [1, 0, 1],
+            [1, 1, 0],
+        ],
+        dtype=np.int64,
+    )
+    matrices = IntegerRoutingMatrices(
+        location_ids=("D0", "C1", "C2"),
+        distance=distance,
+        duration=duration,
+        pickup=(10, 10),
+        tw_early=(0, 0, 0),
+        tw_late=(10_000_000, 10_000_000, 10_000_000),
+        service=(0, 0, 0),
+        capacity=36500,
+        distance_scale=1000,
+        demand_scale=10,
+    )
+    two_vehicle_distance = 4
+    one_vehicle_distance = 1 + dmax + 1
+    assert two_vehicle_distance < one_vehicle_distance
+    f = dominating_fixed_cost(2, dmax)
+    assert 1 * f + one_vehicle_distance < 2 * f + two_vehicle_distance
+    generator = PyVRPGenerator(_config(), max_iterations_override=200)
+    routes = generator.generate(instance, profile, matrices=matrices)
+    assigned = [cid for route in routes for cid in route.customer_ids]
+    assert len(routes) == 1
+    assert set(assigned) == {"C1", "C2"}
+    assert routes[0].n_vehicles == 1

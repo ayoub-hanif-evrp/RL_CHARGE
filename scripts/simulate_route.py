@@ -14,6 +14,7 @@ if str(SRC) not in sys.path:
 
 from data.parser import parse_instance  # noqa: E402
 from data.paths import RAW_EVRPTW_GR_DIR  # noqa: E402
+from domain.load_convention import LoadConvention  # noqa: E402
 from physics.parameters import DEFAULT_PROFILE_NAME, PhysicsProfile  # noqa: E402
 from routing.serialize import loads_route  # noqa: E402
 from simulation.simulator import FixedRouteSimulator, run_continue_only  # noqa: E402
@@ -30,7 +31,12 @@ def main(argv=None) -> int:
     route = loads_route(raw)
     instance = parse_instance(RAW_EVRPTW_GR_DIR / route.relative_path)
     profile = PhysicsProfile.from_instance(instance, name=args.profile)
-    simulator = FixedRouteSimulator(instance, route.customer_ids, profile)
+    simulator = FixedRouteSimulator(
+        instance,
+        route.customer_ids,
+        profile,
+        LoadConvention.OFFICIAL_REFERENCE_PICKUP,
+    )
     if args.policy != "continue":
         raise SystemExit(f"unsupported policy {args.policy}")
     result = run_continue_only(simulator)

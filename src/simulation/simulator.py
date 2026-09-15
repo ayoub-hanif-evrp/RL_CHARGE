@@ -7,10 +7,17 @@ no rule-based charging trigger and no discrete six-level SOC grid.
 
 from __future__ import annotations
 
+import copy
 from dataclasses import dataclass
 from typing import Optional, Sequence, Tuple
 
 from data.models import EVRPTWGRInstance, Node, NodeType
+from domain.load_convention import (
+    LoadConvention,
+    initial_payload_kg,
+    payload_after_service_kg,
+    require_load_convention,
+)
 from domain.quantities import BatteryEnergy, Energy, PayloadMass, SocFraction, TravelTime
 from physics.battery import BatteryModel
 from physics.charging import BenchmarkCompatibleLinearChargingModel, ChargingModel
@@ -39,10 +46,12 @@ class FixedRouteSimulator:
         instance: EVRPTWGRInstance,
         customer_ids: Sequence[str],
         profile: PhysicsProfile,
+        load_convention,
         charging_model: Optional[ChargingModel] = None,
         network: Optional[DirectedArcNetwork] = None,
         energy_model: Optional[EnergyModel] = None,
         battery_model: Optional[BatteryModel] = None,
+        ignore_energy: bool = False,
     ):
         self.instance = instance
         self.customer_ids: Tuple[str, ...] = tuple(customer_ids)
@@ -52,7 +61,9 @@ class FixedRouteSimulator:
         for cid in self.customer_ids:
             if cid not in customers:
                 raise ValueError(f"{cid} is not a customer of this instance")
+        self.load_convention = require_load_convention(load_convention)
         self.profile = profile
+        self.ignore_energy = bool(ignore_energy)
         self.depot_id = instance.depot.string_id
         self.network = network or DirectedArcNetwork(instance, profile.average_velocity)
         self.energy_model = energy_model or EnergyModel(self.network, profile)
@@ -63,14 +74,51 @@ class FixedRouteSimulator:
         self.feasibility = FeasibilityService(self.energy_model, self.battery_model)
         self.state = self._initial_state()
 
+    @property
+    def horizon(self) -> float:
+        return float(self.instance.depot.due_date)
+
+    @property
+    def load_convention_name(self) -> str:
+        return self.load_convention.value
+
+    def next_frozen_node_id(self) -> str:
+        if self.state.next_customer_index < len(self.customer_ids):
+            return self.customer_ids[self.state.next_customer_index]
+        return self.depot_id
+
+    def remaining_customer_ids(self) -> Tuple[str, ...]:
+        return self.customer_ids[self.state.next_customer_index :]
+
+    def clone(self) -> "FixedRouteSimulator":
+        cloned = FixedRouteSimulator(
+            self.instance,
+            self.customer_ids,
+            self.profile,
+            self.load_convention,
+            charging_model=self.charging_model,
+            network=self.network,
+            energy_model=self.energy_model,
+            battery_model=self.battery_model,
+            ignore_energy=self.ignore_energy,
+        )
+        cloned.state = copy.deepcopy(self.state)
+        return cloned
+
     def _initial_state(self) -> SimulatorState:
         battery = self.battery_model.initial_state()
+        payload = PayloadMass(
+            initial_payload_kg(self.load_convention, self.instance, self.customer_ids)
+        )
+        if payload.value > self.profile.payload_capacity_kg + 1e-9:
+            # Still construct the state; the first service/step records the violation.
+            pass
         state = SimulatorState(
             current_node_id=self.depot_id,
             time=TravelTime(0.0),
             battery_energy=battery.energy,
             soc=battery.soc,
-            payload=PayloadMass(0.0),
+            payload=payload,
             next_customer_index=0,
             n_station_visits_since_last_customer=0,
             completed=False,
@@ -90,12 +138,15 @@ class FixedRouteSimulator:
         self.state = self._initial_state()
         return self.state
 
-    def metrics(self, feasible: bool = True, reason: Optional[InfeasibilityReason] = None) -> TrajectoryMetrics:
+    def metrics(
+        self, feasible: bool = True, reason: Optional[InfeasibilityReason] = None
+    ) -> TrajectoryMetrics:
         return self.state.metrics.snapshot(
             terminal_soc=self.state.soc,
             completion_time=self.state.time,
             feasible=feasible and self.state.completed,
             reason=reason,
+            load_convention=self.load_convention_name,
         )
 
     def step(self, action: Action) -> TransitionResult:
@@ -200,17 +251,33 @@ class FixedRouteSimulator:
         check = self.feasibility.can_reach(
             self.state.current_node_id, to_id, self.state.payload, self._battery()
         )
-        if not check.battery_feasible:
+        if not self.ignore_energy and not check.battery_feasible:
             return self._fail(InfeasibilityReason.INSUFFICIENT_ENERGY)
-        applied = self.battery_model.apply_arc_energy(self._battery(), check.energy.net_energy)
+        if self.ignore_energy:
+            applied_energy = Energy(0.0)
+            battery_after = self.state.battery_energy
+            soc_after = self.state.soc
+            ceiling_hit = False
+            consumed = Energy(0.0)
+            recovered = Energy(0.0)
+            net = Energy(0.0)
+        else:
+            applied = self.battery_model.apply_arc_energy(self._battery(), check.energy.net_energy)
+            applied_energy = check.energy.net_energy
+            battery_after = applied.after.energy
+            soc_after = applied.after.soc
+            ceiling_hit = applied.ceiling_hit
+            consumed = check.energy.consumed_energy
+            recovered = check.energy.recovered_energy
+            net = check.energy.net_energy
         arc = self.network.arc(self.state.current_node_id, to_id)
         departure = self.state.time
         arrival = TravelTime(departure.value + arc.travel_time.value)
         self.state.metrics.total_distance += arc.distance.value
         self.state.metrics.total_travel_time += arc.travel_time.value
-        self.state.metrics.total_energy_consumed += check.energy.consumed_energy.value
-        self.state.metrics.total_energy_regenerated += check.energy.recovered_energy.value
-        self.state.metrics.total_net_energy += check.energy.net_energy.value
+        self.state.metrics.total_energy_consumed += consumed.value
+        self.state.metrics.total_energy_regenerated += recovered.value
+        self.state.metrics.total_net_energy += net.value
         self.state.events.append(
             TravelEvent(
                 kind="travel",
@@ -221,20 +288,20 @@ class FixedRouteSimulator:
                 altitude_difference=arc.delta_altitude,
                 gradient_percent=arc.gradient_percent,
                 payload_before=self.state.payload,
-                energy_net=check.energy.net_energy,
-                energy_consumed=check.energy.consumed_energy,
-                energy_recovered=check.energy.recovered_energy,
+                energy_net=net,
+                energy_consumed=consumed,
+                energy_recovered=recovered,
                 battery_before=self.state.battery_energy,
-                battery_after=applied.after.energy,
+                battery_after=battery_after,
                 departure_time=departure,
                 arrival_time=arrival,
-                ceiling_hit=applied.ceiling_hit,
+                ceiling_hit=ceiling_hit,
             )
         )
         self.state.current_node_id = to_id
         self.state.time = arrival
-        self.state.battery_energy = applied.after.energy
-        self.state.soc = applied.after.soc
+        self.state.battery_energy = battery_after
+        self.state.soc = soc_after
         return None
 
     def _serve_customer(self, node: Node) -> Optional[TransitionResult]:
@@ -244,7 +311,11 @@ class FixedRouteSimulator:
         if service_start.value > node.due_date + 1e-12:
             self.state.metrics.time_window_violations += 1
             return self._fail(InfeasibilityReason.TIME_WINDOW_VIOLATION)
-        new_payload_value = self.state.payload.value + node.demand
+        new_payload_value = payload_after_service_kg(
+            self.load_convention, self.state.payload.value, node.demand
+        )
+        if new_payload_value < -1e-9:
+            return self._fail(InfeasibilityReason.CAPACITY_VIOLATION)
         if new_payload_value > self.profile.payload_capacity_kg + 1e-9:
             return self._fail(InfeasibilityReason.CAPACITY_VIOLATION)
         service_time = TravelTime(node.service_time)
@@ -276,17 +347,23 @@ class FixedRouteSimulator:
     def _battery(self):
         return self.battery_model.state_from_soc(self.state.soc.value)
 
+    def _snapshot(
+        self, feasible: bool, reason: Optional[InfeasibilityReason]
+    ) -> TrajectoryMetrics:
+        return self.state.metrics.snapshot(
+            terminal_soc=self.state.soc,
+            completion_time=self.state.time,
+            feasible=feasible,
+            reason=reason,
+            load_convention=self.load_convention_name,
+        )
+
     def _ok(self) -> TransitionResult:
         return TransitionResult(
             feasible=True,
             reason=None,
             state=self.state,
-            metrics=self.state.metrics.snapshot(
-                terminal_soc=self.state.soc,
-                completion_time=self.state.time,
-                feasible=self.state.completed,
-                reason=None,
-            ),
+            metrics=self._snapshot(self.state.completed, None),
         )
 
     def _fail(self, reason: InfeasibilityReason) -> TransitionResult:
@@ -294,12 +371,7 @@ class FixedRouteSimulator:
             feasible=False,
             reason=reason,
             state=self.state,
-            metrics=self.state.metrics.snapshot(
-                terminal_soc=self.state.soc,
-                completion_time=self.state.time,
-                feasible=False,
-                reason=reason,
-            ),
+            metrics=self._snapshot(False, reason),
         )
 
 

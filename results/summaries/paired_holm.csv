@@ -1,0 +1,16 @@
+comparison,p_raw,p_holm
+HybridPPO vs GreedyMinimumSufficientCharge,1.0,1.0
+HybridPPO vs GreedyFullCharge,0.25287356321839083,1.0
+HybridPPO vs OneStepLookahead,1.0,1.0
+HybridPPO vs DiscretePPO,1.0,1.0
+HybridPPO vs AttentionPPO,0.5007496251874063,1.0
+HybridPPO vs LegacyTwoStageDDQN,0.24037981009495252,1.0
+HybridPPO vs HybridPPO_A1,1.0,1.0
+HybridPPO vs HybridPPO_A2,0.496751624187906,1.0
+HybridPPO vs HybridPPO_A3,0.5002498750624688,1.0
+HybridPPO vs HybridPPO_A4,1.0,1.0
+HybridPPO vs HybridPPO_A5,0.5002498750624688,1.0
+HybridPPO vs LabelSettingRCSPP,1.0,1.0
+HybridPPO vs frvcpy_Solver,1.0,1.0
+HybridPPO vs FRVCPGreedyMin,1.0,1.0
+HybridPPO vs FRVCPGreedyFull,1.0,1.0

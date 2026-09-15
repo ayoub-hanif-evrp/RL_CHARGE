@@ -1,0 +1,15 @@
+block,method,route_id,duration,gap_percent,feasible,note
+native_FRVCP_exact,frvcpy_Solver,tiny_0_1_0,,,False,native_frvcp
+native_FRVCP_exact,FRVCPGreedyMin,tiny_0_1_0,2.3455882352941178,,True,native_frvcp
+native_FRVCP_exact,FRVCPGreedyFull,tiny_0_1_0,2.764411764705882,,True,native_frvcp
+native_FRVCP_exact,frvcpy_Solver,vendor_prefix_0_1_2_0,,,False,native_frvcp
+native_FRVCP_exact,FRVCPGreedyMin,vendor_prefix_0_1_2_0,,,False,native_frvcp
+native_FRVCP_exact,FRVCPGreedyFull,vendor_prefix_0_1_2_0,10.004441663357362,,False,native_frvcp
+EVRPTW-GR_Montoya_sensitivity_not_exact,GreedyMinimumSufficientCharge,c101C10_L__v0,300.8328677803526,,False,not original EVRPTW-GR
+EVRPTW-GR_Montoya_sensitivity_not_exact,HybridPPO,c101C10_L__v0,1371.883400061613,,False,not original EVRPTW-GR
+EVRPTW-GR_Montoya_sensitivity_not_exact,GreedyMinimumSufficientCharge,c101C10_L__v1,1132.0,,False,not original EVRPTW-GR
+EVRPTW-GR_Montoya_sensitivity_not_exact,HybridPPO,c101C10_L__v1,1132.0,,False,not original EVRPTW-GR
+EVRPTW-GR_Montoya_sensitivity_not_exact,GreedyMinimumSufficientCharge,c101C10_L__v2,837.605551275464,,False,not original EVRPTW-GR
+EVRPTW-GR_Montoya_sensitivity_not_exact,HybridPPO,c101C10_L__v2,382.11969481040603,,False,not original EVRPTW-GR
+EVRPTW-GR_Montoya_sensitivity_not_exact,GreedyMinimumSufficientCharge,c101C10_NL__v0,278.0710678118655,,False,not original EVRPTW-GR
+EVRPTW-GR_Montoya_sensitivity_not_exact,HybridPPO,c101C10_NL__v0,757.0,,False,not original EVRPTW-GR

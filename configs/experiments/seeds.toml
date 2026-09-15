@@ -1,0 +1,4 @@
+# Paper experiment seeds. Do not pick the best seed after the fact.
+paper = [42, 43, 44, 45, 46]
+extended = [42, 43, 44, 45, 46, 47, 48, 49, 50, 51]
+ablation = [42, 43, 44]
