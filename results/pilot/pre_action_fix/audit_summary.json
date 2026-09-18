@@ -1,0 +1,587 @@
+{
+  "label": "failed_pre_paper_hybrid_ppo_pilot",
+  "test_used": false,
+  "baseline_summaries": [
+    {
+      "split": "train",
+      "method": "GreedyMinimumSufficientCharge",
+      "n_routes": 132,
+      "n_feasible": 3,
+      "feasibility_rate": 0.022727272727272728,
+      "mean_completion_feasible": 196.49852526930974,
+      "median_completion_feasible": 187.93394237415416,
+      "failure_reasons": {
+        "NO_FEASIBLE_ACTION": 111,
+        "ZERO_CHARGE_NOOP": 12,
+        "MASK_VIOLATION": 6
+      },
+      "reason_histogram_including_success": {
+        "NO_FEASIBLE_ACTION": 111,
+        "ZERO_CHARGE_NOOP": 12,
+        "MASK_VIOLATION": 6,
+        "success": 3
+      },
+      "mean_station_visits": 14.878787878787879,
+      "median_station_visits": 1.0,
+      "sum_consecutive_same_station": 0,
+      "n_routes_with_consecutive_same_station": 0,
+      "n_loop_guard": 37
+    },
+    {
+      "split": "train",
+      "method": "GreedyFullCharge",
+      "n_routes": 132,
+      "n_feasible": 8,
+      "feasibility_rate": 0.06060606060606061,
+      "mean_completion_feasible": 954.4174178720642,
+      "median_completion_feasible": 451.9248185682577,
+      "failure_reasons": {
+        "NO_FEASIBLE_ACTION": 100,
+        "ZERO_CHARGE_NOOP": 24
+      },
+      "reason_histogram_including_success": {
+        "NO_FEASIBLE_ACTION": 100,
+        "ZERO_CHARGE_NOOP": 24,
+        "success": 8
+      },
+      "mean_station_visits": 20.696969696969695,
+      "median_station_visits": 3.0,
+      "sum_consecutive_same_station": 0,
+      "n_routes_with_consecutive_same_station": 0,
+      "n_loop_guard": 52
+    },
+    {
+      "split": "train",
+      "method": "OneStepLookahead",
+      "n_routes": 132,
+      "n_feasible": 9,
+      "feasibility_rate": 0.06818181818181818,
+      "mean_completion_feasible": 257.6744024045804,
+      "median_completion_feasible": 189.37278694784055,
+      "failure_reasons": {
+        "NO_FEASIBLE_ACTION": 122,
+        "ZERO_CHARGE_NOOP": 1
+      },
+      "reason_histogram_including_success": {
+        "NO_FEASIBLE_ACTION": 122,
+        "success": 9,
+        "ZERO_CHARGE_NOOP": 1
+      },
+      "mean_station_visits": 30.734848484848484,
+      "median_station_visits": 50.0,
+      "sum_consecutive_same_station": 865,
+      "n_routes_with_consecutive_same_station": 64,
+      "n_loop_guard": 76
+    },
+    {
+      "split": "validation",
+      "method": "GreedyMinimumSufficientCharge",
+      "n_routes": 77,
+      "n_feasible": 20,
+      "feasibility_rate": 0.2597402597402597,
+      "mean_completion_feasible": 178.12048681258656,
+      "median_completion_feasible": 176.85016596489572,
+      "failure_reasons": {
+        "NO_FEASIBLE_ACTION": 51,
+        "ZERO_CHARGE_NOOP": 3,
+        "MASK_VIOLATION": 3
+      },
+      "reason_histogram_including_success": {
+        "NO_FEASIBLE_ACTION": 51,
+        "success": 20,
+        "ZERO_CHARGE_NOOP": 3,
+        "MASK_VIOLATION": 3
+      },
+      "mean_station_visits": 11.103896103896103,
+      "median_station_visits": 1,
+      "sum_consecutive_same_station": 0,
+      "n_routes_with_consecutive_same_station": 0,
+      "n_loop_guard": 16
+    },
+    {
+      "split": "validation",
+      "method": "GreedyFullCharge",
+      "n_routes": 77,
+      "n_feasible": 18,
+      "feasibility_rate": 0.23376623376623376,
+      "mean_completion_feasible": 183.37379274101895,
+      "median_completion_feasible": 184.33491872360577,
+      "failure_reasons": {
+        "ZERO_CHARGE_NOOP": 9,
+        "NO_FEASIBLE_ACTION": 50
+      },
+      "reason_histogram_including_success": {
+        "ZERO_CHARGE_NOOP": 9,
+        "success": 18,
+        "NO_FEASIBLE_ACTION": 50
+      },
+      "mean_station_visits": 18.948051948051948,
+      "median_station_visits": 1,
+      "sum_consecutive_same_station": 0,
+      "n_routes_with_consecutive_same_station": 0,
+      "n_loop_guard": 28
+    },
+    {
+      "split": "validation",
+      "method": "OneStepLookahead",
+      "n_routes": 77,
+      "n_feasible": 12,
+      "feasibility_rate": 0.15584415584415584,
+      "mean_completion_feasible": 170.49349183279958,
+      "median_completion_feasible": 164.8660687473185,
+      "failure_reasons": {
+        "NO_FEASIBLE_ACTION": 64,
+        "ZERO_CHARGE_NOOP": 1
+      },
+      "reason_histogram_including_success": {
+        "NO_FEASIBLE_ACTION": 64,
+        "success": 12,
+        "ZERO_CHARGE_NOOP": 1
+      },
+      "mean_station_visits": 29.90909090909091,
+      "median_station_visits": 50,
+      "sum_consecutive_same_station": 388,
+      "n_routes_with_consecutive_same_station": 27,
+      "n_loop_guard": 44
+    }
+  ],
+  "union_feasibility": [
+    {
+      "split": "train",
+      "n_routes": 132,
+      "n_union_feasible": 14,
+      "union_rate": 0.10606060606060606,
+      "note": "Diagnostic lower bound only. Routes outside the union are not claimed infeasible. This is not an exact feasibility oracle."
+    },
+    {
+      "split": "validation",
+      "n_routes": 77,
+      "n_union_feasible": 22,
+      "union_rate": 0.2857142857142857,
+      "note": "Diagnostic lower bound only. Routes outside the union are not claimed infeasible. This is not an exact feasibility oracle."
+    }
+  ],
+  "action_cardinality": {
+    "train": {
+      "n_states": 828,
+      "m_stations": {
+        "min": 2,
+        "max": 21,
+        "mean": 10.171497584541063,
+        "histogram": {
+          "21": 288,
+          "4": 136,
+          "3": 147,
+          "5": 139,
+          "6": 87,
+          "7": 22,
+          "2": 9
+        }
+      },
+      "n_legal_stations": {
+        "min": 0,
+        "max": 21,
+        "mean": 4.814009661835748,
+        "histogram": {
+          "0": 77,
+          "1": 107,
+          "2": 154,
+          "3": 142,
+          "4": 112,
+          "5": 53,
+          "6": 32,
+          "7": 12,
+          "8": 14,
+          "9": 10,
+          "10": 7,
+          "11": 12,
+          "12": 7,
+          "13": 3,
+          "14": 5,
+          "15": 8,
+          "16": 5,
+          "17": 5,
+          "18": 2,
+          "19": 5,
+          "20": 33,
+          "21": 23
+        }
+      },
+      "frac_continue_legal": 0.5253623188405797,
+      "mean_structural_unmasked_p_continue": 0.14297843863061255,
+      "mean_structural_unmasked_p_charge": 0.8570215613693877
+    },
+    "validation": {
+      "n_states": 448,
+      "m_stations": {
+        "min": 4,
+        "max": 21,
+        "mean": 10.462053571428571,
+        "histogram": {
+          "21": 145,
+          "5": 114,
+          "4": 110,
+          "8": 79
+        }
+      },
+      "n_legal_stations": {
+        "min": 0,
+        "max": 21,
+        "mean": 4.787946428571429,
+        "histogram": {
+          "0": 38,
+          "1": 58,
+          "2": 52,
+          "3": 89,
+          "4": 59,
+          "5": 49,
+          "6": 9,
+          "7": 11,
+          "8": 21,
+          "9": 7,
+          "10": 2,
+          "11": 10,
+          "12": 6,
+          "13": 5,
+          "14": 2,
+          "15": 2,
+          "16": 1,
+          "17": 2,
+          "18": 2,
+          "19": 1,
+          "20": 19,
+          "21": 3
+        }
+      },
+      "frac_continue_legal": 0.5558035714285714,
+      "mean_structural_unmasked_p_continue": 0.1258229617604618,
+      "mean_structural_unmasked_p_charge": 0.8741770382395384
+    }
+  },
+  "probability_mass": {
+    "untrained_train": {
+      "label": "untrained",
+      "n_states": 332,
+      "mean_p_continue": 0.6653125379907797,
+      "mean_p_charge": 0.33468746282501155,
+      "median_p_continue": 0.9784707129001617,
+      "frac_p_charge_gt_0_8": 0.2921686746987952,
+      "frac_p_continue_lt_0_1": 0.26506024096385544
+    },
+    "untrained_validation": {
+      "label": "untrained",
+      "n_states": 277,
+      "mean_p_continue": 0.5630681204612935,
+      "mean_p_charge": 0.4369318915552743,
+      "median_p_continue": 0.7865333557128906,
+      "frac_p_charge_gt_0_8": 0.37906137184115524,
+      "frac_p_continue_lt_0_1": 0.33574007220216606
+    },
+    "seed42_best_train": {
+      "label": "seed42_best",
+      "n_states": 332,
+      "mean_p_continue": 0.14500749561127768,
+      "mean_p_charge": 0.8549925051180713,
+      "median_p_continue": 0.1510465368628502,
+      "frac_p_charge_gt_0_8": 0.6536144578313253,
+      "frac_p_continue_lt_0_1": 0.44879518072289154
+    },
+    "seed42_best_validation": {
+      "label": "seed42_best",
+      "n_states": 277,
+      "mean_p_continue": 0.11068948214396243,
+      "mean_p_charge": 0.8893105185419213,
+      "median_p_continue": 0.08875180780887604,
+      "frac_p_charge_gt_0_8": 0.8339350180505415,
+      "frac_p_continue_lt_0_1": 0.5415162454873647
+    },
+    "seed43_best_train": {
+      "label": "seed43_best",
+      "n_states": 332,
+      "mean_p_continue": 0.4789282032344715,
+      "mean_p_charge": 0.5210717961596079,
+      "median_p_continue": 0.579962968826294,
+      "frac_p_charge_gt_0_8": 0.2891566265060241,
+      "frac_p_continue_lt_0_1": 0.26506024096385544
+    },
+    "seed43_best_validation": {
+      "label": "seed43_best",
+      "n_states": 277,
+      "mean_p_continue": 0.39872464467687296,
+      "mean_p_charge": 0.6012753531040913,
+      "median_p_continue": 0.5044376850128174,
+      "frac_p_charge_gt_0_8": 0.37906137184115524,
+      "frac_p_continue_lt_0_1": 0.33212996389891697
+    },
+    "seed43_last_train": {
+      "label": "seed43_last",
+      "n_states": 332,
+      "mean_p_continue": 0.11207555416366226,
+      "mean_p_charge": 0.8879244432347008,
+      "median_p_continue": 0.023605155758559704,
+      "frac_p_charge_gt_0_8": 0.8433734939759037,
+      "frac_p_continue_lt_0_1": 0.713855421686747
+    },
+    "seed43_last_validation": {
+      "label": "seed43_last",
+      "n_states": 277,
+      "mean_p_continue": 0.08301081610776295,
+      "mean_p_charge": 0.9169891859919156,
+      "median_p_continue": 0.024955715984106064,
+      "frac_p_charge_gt_0_8": 0.9097472924187726,
+      "frac_p_continue_lt_0_1": 0.7617328519855595
+    }
+  },
+  "same_station": {
+    "seed42_best": {
+      "checkpoint": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL code\\checkpoints\\HybridPPO\\seed_42\\best.pt",
+      "splits": {
+        "train": {
+          "n_routes": 132,
+          "n_feasible": 0,
+          "sum_consecutive_same_station": 1445,
+          "mean_consecutive_same_station": 10.946969696969697,
+          "sum_repeat_energy": 5527.944766229075,
+          "sum_repeat_time": 9012.233104451483,
+          "mean_repeat_energy_on_repeat_routes": 92.13241277048456,
+          "failure_reasons": {
+            "NO_FEASIBLE_ACTION": 97,
+            "ZERO_CHARGE_NOOP": 35
+          },
+          "n_loop_guard": 97,
+          "frac_continue_actions": 0.006910500589920782
+        },
+        "validation": {
+          "n_routes": 77,
+          "n_feasible": 0,
+          "sum_consecutive_same_station": 789,
+          "mean_consecutive_same_station": 10.246753246753247,
+          "sum_repeat_energy": 3182.1691945307175,
+          "sum_repeat_time": 3507.137990540354,
+          "mean_repeat_energy_on_repeat_routes": 81.59408191104401,
+          "failure_reasons": {
+            "NO_FEASIBLE_ACTION": 48,
+            "ZERO_CHARGE_NOOP": 29
+          },
+          "n_loop_guard": 48,
+          "frac_continue_actions": 0.0013855213023900243
+        }
+      }
+    },
+    "seed43_best": {
+      "checkpoint": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL code\\checkpoints\\HybridPPO\\seed_43\\best.pt",
+      "splits": {
+        "train": {
+          "n_routes": 132,
+          "n_feasible": 2,
+          "sum_consecutive_same_station": 2092,
+          "mean_consecutive_same_station": 15.848484848484848,
+          "sum_repeat_energy": 1029.002103738055,
+          "sum_repeat_time": 1548.4363941879542,
+          "mean_repeat_energy_on_repeat_routes": 13.192334663308394,
+          "failure_reasons": {
+            "ZERO_CHARGE_NOOP": 77,
+            "NO_FEASIBLE_ACTION": 53
+          },
+          "n_loop_guard": 4,
+          "frac_continue_actions": 0.1519756838905775
+        },
+        "validation": {
+          "n_routes": 77,
+          "n_feasible": 16,
+          "sum_consecutive_same_station": 943,
+          "mean_consecutive_same_station": 12.246753246753247,
+          "sum_repeat_energy": 314.45009060448393,
+          "sum_repeat_time": 371.5837929938426,
+          "mean_repeat_energy_on_repeat_routes": 8.498651097418483,
+          "failure_reasons": {
+            "ZERO_CHARGE_NOOP": 36,
+            "NO_FEASIBLE_ACTION": 25
+          },
+          "n_loop_guard": 2,
+          "frac_continue_actions": 0.18944844124700239
+        }
+      }
+    },
+    "seed43_last": {
+      "checkpoint": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL code\\checkpoints\\HybridPPO\\seed_43\\last.pt",
+      "splits": {
+        "train": {
+          "n_routes": 132,
+          "n_feasible": 0,
+          "sum_consecutive_same_station": 2139,
+          "mean_consecutive_same_station": 16.204545454545453,
+          "sum_repeat_energy": 757.540974162431,
+          "sum_repeat_time": 1376.6135516598886,
+          "mean_repeat_energy_on_repeat_routes": 9.238304562956477,
+          "failure_reasons": {
+            "ZERO_CHARGE_NOOP": 132
+          },
+          "n_loop_guard": 0,
+          "frac_continue_actions": 0.0
+        },
+        "validation": {
+          "n_routes": 77,
+          "n_feasible": 0,
+          "sum_consecutive_same_station": 1519,
+          "mean_consecutive_same_station": 19.727272727272727,
+          "sum_repeat_energy": 543.23565735171,
+          "sum_repeat_time": 463.8252069218475,
+          "mean_repeat_energy_on_repeat_routes": 9.366132023305344,
+          "failure_reasons": {
+            "ZERO_CHARGE_NOOP": 77
+          },
+          "n_loop_guard": 0,
+          "frac_continue_actions": 0.0
+        }
+      }
+    }
+  },
+  "reward_invariance": {
+    "initial_time_is_zero": true,
+    "algebra": "G = -t_fail + -(H - t_fail) = -H when t0=0",
+    "n_failed_rollouts_checked": 36,
+    "n_exactly_minus_H": 36,
+    "max_abs_G_plus_H": 0.0,
+    "confirmed": true,
+    "demonstrations": [
+      {
+        "route_id": "c102_50_21_NL__v0",
+        "policy": "greedy_min",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "NO_FEASIBLE_ACTION",
+        "n_steps": 53,
+        "n_customers_served_index": 3,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v0",
+        "policy": "random_legal",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "NO_FEASIBLE_ACTION",
+        "n_steps": 50,
+        "n_customers_served_index": 0,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v0",
+        "policy": "always_first_station_u05",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "ZERO_CHARGE_NOOP",
+        "n_steps": 0,
+        "n_customers_served_index": 0,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v1",
+        "policy": "greedy_min",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "ZERO_CHARGE_NOOP",
+        "n_steps": 2,
+        "n_customers_served_index": 2,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v1",
+        "policy": "random_legal",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "NO_FEASIBLE_ACTION",
+        "n_steps": 50,
+        "n_customers_served_index": 0,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v1",
+        "policy": "always_first_station_u05",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "ZERO_CHARGE_NOOP",
+        "n_steps": 0,
+        "n_customers_served_index": 0,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v2",
+        "policy": "greedy_min",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "NO_FEASIBLE_ACTION",
+        "n_steps": 4,
+        "n_customers_served_index": 3,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v2",
+        "policy": "random_legal",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "NO_FEASIBLE_ACTION",
+        "n_steps": 50,
+        "n_customers_served_index": 0,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v2",
+        "policy": "always_first_station_u05",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "ZERO_CHARGE_NOOP",
+        "n_steps": 0,
+        "n_customers_served_index": 0,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v3",
+        "policy": "greedy_min",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "NO_FEASIBLE_ACTION",
+        "n_steps": 58,
+        "n_customers_served_index": 6,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v3",
+        "policy": "random_legal",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "NO_FEASIBLE_ACTION",
+        "n_steps": 50,
+        "n_customers_served_index": 0,
+        "matches_minus_H": true
+      },
+      {
+        "route_id": "c102_50_21_NL__v3",
+        "policy": "always_first_station_u05",
+        "H": 1236.0,
+        "G": -1236.0,
+        "G_plus_H": 0.0,
+        "reason": "ZERO_CHARGE_NOOP",
+        "n_steps": 0,
+        "n_customers_served_index": 0,
+        "matches_minus_H": true
+      }
+    ],
+    "implication": "Every failed episode on a given route has the same return -H, regardless of how many customers were served. When feasibility is near zero this is a sparse, indistinguishable learning signal."
+  },
+  "semantics": {
+    "charge_action": "One ChargeAction travels to the station (no-op if already there) then charges continuously to target_soc under linear dt = g * \u0394E.",
+    "same_station_repeat_useful": "Under linear charging, a second same-station charge only adds energy if the first action left SOC below max. The first action could have chosen u=1 and reached max in one step. Repeats burn the loop-guard counter and are not scientifically required."
+  }
+}
