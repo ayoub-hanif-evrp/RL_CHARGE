@@ -22,9 +22,15 @@ reported separately and never mixed into a scalar cost.
 
 Feasible step: `r = -(t' - t)` (travel, wait, service, charge).
 
-Successful episode: `G ≈ -route_completion_time`.
+Successful episode: `G = -route_completion_time`.
 
-Shield dead-end: `r_fail = -(H - t)`.
+Terminal failure: `r_fail = -(H - t) - L_remaining(state)`, so
+`G_failure = -H - L_remaining(state_failure)` from `t0 = 0`.
+`L_remaining` is a method-independent lower bound in time units on the
+remaining frozen-route travel and service. It is **not** a second reported
+objective. Among failures, more route progress (smaller `L_remaining`) is
+preferred. Failures remain strictly worse than a feasible completion unless
+`L_remaining = 0`.
 
 ## Policy
 
@@ -46,9 +52,10 @@ TRAIN-only greedy-min dynamic pass. Validation and test statistics never enter
 the fit. Provenance (`n_routes`, `n_dynamic_states`, seed, git SHA) is stored
 in the checkpoint.
 
-Model selection on validation is lexicographic: maximize feasibility rate,
-then minimize all-routes completion time (`H` for failures). Paper/pilot
-evaluate the full validation population.
+Model selection on validation is lexicographic on **parent-balanced**
+metrics: maximize mean-over-parents feasibility, then minimize mean-over-parents
+all-routes completion (`H` for failures). Route-weighted VAL numbers stay in
+the logs. Paper/pilot evaluate the full validation population.
 
 ## Training budget
 

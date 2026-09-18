@@ -139,15 +139,16 @@ def test_same_station_zero_charge_cannot_loop(write_instance):
     assert first.feasible
     decision = evaluate_shield(sim)
     assert decision.mask[1] is False
-    assert decision.station_reasons[0] is InfeasibilityReason.ZERO_CHARGE_NOOP
+    assert decision.station_reasons[0] is InfeasibilityReason.STATION_REVISIT
     noop = sim.step(ChargeAction("S0", 1.0))
     assert not noop.feasible
-    assert noop.reason is InfeasibilityReason.ZERO_CHARGE_NOOP
+    assert noop.reason is InfeasibilityReason.STATION_REVISIT
     sim2 = _sim(write_instance, nodes, ("C1",))
     mid = sim2.step(ChargeAction("S0", 0.992))
     assert mid.feasible
     again = sim2.step(ChargeAction("S0", 1.0))
-    assert again.feasible
+    assert not again.feasible
+    assert again.reason is InfeasibilityReason.STATION_REVISIT
 
 
 def test_u_maps_to_soc_interval_endpoints(write_instance):
@@ -214,3 +215,109 @@ def test_continuation_allows_geometrically_farther_station_hop(write_instance):
     assert min_departure_soc_for_arc(sim, "S_near", "C1") is None
     assert min_departure_soc_for_arc(sim, "S_near", "S_far") is not None
     assert bound == min_departure_soc_for_arc(sim, "S_near", "S_far")
+
+
+def test_same_station_cannot_be_selected_twice_before_customer(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S1", "f", 1.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S2", "f", 2.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 3.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    ids = list(evaluate_shield(sim).station_ids)
+    assert sim.step(ChargeAction("S1", 1.0)).feasible
+    decision = evaluate_shield(sim)
+    assert decision.mask[1 + ids.index("S1")] is False
+    assert decision.station_reasons[ids.index("S1")] is InfeasibilityReason.STATION_REVISIT
+    assert decision.mask[1 + ids.index("S2")] is True
+
+
+def test_s1_s2_s1_cycle_is_masked(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S1", "f", 1.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S2", "f", 2.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 3.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    ids = list(evaluate_shield(sim).station_ids)
+    assert sim.step(ChargeAction("S1", 1.0)).feasible
+    assert sim.step(ChargeAction("S2", 1.0)).feasible
+    decision = evaluate_shield(sim)
+    assert decision.mask[1 + ids.index("S1")] is False
+    assert decision.mask[1 + ids.index("S2")] is False
+    back = sim.step(ChargeAction("S1", 1.0))
+    assert not back.feasible
+    assert back.reason is InfeasibilityReason.STATION_REVISIT
+
+
+def test_s1_s2_customer_is_allowed(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S1", "f", 1.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S2", "f", 2.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 3.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+        node_row("C2", "c", 4.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1", "C2"))
+    assert sim.step(ChargeAction("S1", 1.0)).feasible
+    assert sim.step(ChargeAction("S2", 1.0)).feasible
+    assert sim.step(ContinueAction()).feasible
+    assert sim.state.served_customers == ["C1"]
+
+
+def test_station_reusable_after_customer_progress(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S1", "f", 1.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 2.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+        node_row("C2", "c", 3.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1", "C2"))
+    ids = list(evaluate_shield(sim).station_ids)
+    assert sim.step(ChargeAction("S1", 1.0)).feasible
+    assert evaluate_shield(sim).mask[1 + ids.index("S1")] is False
+    assert sim.step(ContinueAction()).feasible
+    assert evaluate_shield(sim).mask[1 + ids.index("S1")] is True
+    assert sim.step(ChargeAction("S1", 1.0)).feasible
+
+
+def test_zero_charge_noop_still_rejected_on_first_visit(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S0", "f", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 2.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    target = float(sim.state.soc.value)
+    result = sim.step(ChargeAction("S0", target))
+    assert not result.feasible
+    assert result.reason is InfeasibilityReason.ZERO_CHARGE_NOOP
+
+
+def test_legal_rollout_does_not_reselect_for_zero_charge_noop(write_instance):
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S1", "f", 1.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S2", "f", 2.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 3.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    from simulation.shield import action_from_discrete
+
+    reasons = []
+    steps = 0
+    while not sim.state.completed and steps < 20:
+        decision = evaluate_shield(sim)
+        if not decision.any_legal:
+            break
+        idx = next(i for i, ok in enumerate(decision.mask) if ok)
+        result = sim.step(action_from_discrete(sim, idx, 1.0))
+        if not result.feasible:
+            reasons.append(result.reason)
+            break
+        steps += 1
+    assert InfeasibilityReason.ZERO_CHARGE_NOOP not in reasons
+    assert InfeasibilityReason.STATION_REVISIT not in reasons
+

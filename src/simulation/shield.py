@@ -248,6 +248,8 @@ def _station_legal(
         simulator.profile.loop_guard_station_visits
     ):
         return False, InfeasibilityReason.LOOP_GUARD
+    if station_id in simulator.state.stations_visited_since_progress:
+        return False, InfeasibilityReason.STATION_REVISIT
     try:
         node = simulator.network.node(station_id)
     except KeyError:

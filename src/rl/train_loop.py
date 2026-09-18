@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import time
+from collections import defaultdict
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional, Sequence
 
 from data.paths import CHECKPOINTS_DIR, RESULTS_DIR
 from domain.load_convention import LoadConvention
@@ -122,18 +123,52 @@ def fit_normalizer(
 def evaluate_routes(routes: List[FrozenRoute], actor, max_routes: Optional[int] = None) -> dict:
     selected = routes if max_routes is None else routes[:max_routes]
     records = []
+    parents: List[str] = []
     for route in selected:
         instance = parse_route_instance(route)
         result = evaluate_policy(instance=instance, route=route, policy=actor, eval_mode=True)
         records.append(result)
+        parents.append(str(route.base_instance or route.raw_instance_id))
     n = max(len(records), 1)
     feas = sum(1 for r in records if r.feasible) / n
     times = [r.completion_time_all_routes() for r in records]
+    balanced = parent_balanced_metrics(parents, records)
     return {
         "n": len(records),
         "feasibility": feas,
         "mean_completion_all": float(sum(times) / n),
+        "parent_balanced_feasibility": balanced["feasibility"],
+        "parent_balanced_completion_all": balanced["completion_all"],
+        "n_parents": balanced["n_parents"],
         "records": records,
+    }
+
+
+def parent_balanced_metrics(
+    parents: Sequence[str],
+    records: Sequence,
+) -> Dict[str, float]:
+    """Equal weight per ``base_instance``, not per route.
+
+    parent feasibility = feasible routes of that parent / routes of that parent.
+    parent completion = mean all-routes completion (H for failures) of that parent.
+    The reported values are the unweighted mean of those parent means.
+    """
+    grouped: dict[str, list] = defaultdict(list)
+    for parent, record in zip(parents, records):
+        grouped[str(parent)].append(record)
+    if not grouped:
+        return {"feasibility": 0.0, "completion_all": 0.0, "n_parents": 0}
+    parent_feas = []
+    parent_comp = []
+    for recs in grouped.values():
+        n = max(len(recs), 1)
+        parent_feas.append(sum(1 for r in recs if r.feasible) / n)
+        parent_comp.append(sum(r.completion_time_all_routes() for r in recs) / n)
+    return {
+        "feasibility": float(sum(parent_feas) / len(parent_feas)),
+        "completion_all": float(sum(parent_comp) / len(parent_comp)),
+        "n_parents": len(grouped),
     }
 
 
@@ -166,6 +201,9 @@ def train_hybrid_ppo(
     started = time.perf_counter()
     best_feas = -1.0
     best_completion = float("inf")
+    best_update = None
+    best_route_feas = None
+    best_route_completion = None
     best_path = out_dir / "best.pt"
     patience = 0
     curves = []
@@ -201,10 +239,21 @@ def train_hybrid_ppo(
             val = evaluate_routes(val_routes, actor, max_routes=val_max_routes)
             row["val_feasibility"] = val["feasibility"]
             row["val_completion_all"] = val["mean_completion_all"]
+            row["val_parent_balanced_feasibility"] = val["parent_balanced_feasibility"]
+            row["val_parent_balanced_completion_all"] = val["parent_balanced_completion_all"]
             row["val_n"] = val["n"]
-            if _lexicographic_better(val["feasibility"], val["mean_completion_all"], best_feas, best_completion):
-                best_feas = val["feasibility"]
-                best_completion = val["mean_completion_all"]
+            row["val_n_parents"] = val["n_parents"]
+            if _lexicographic_better(
+                val["parent_balanced_feasibility"],
+                val["parent_balanced_completion_all"],
+                best_feas,
+                best_completion,
+            ):
+                best_feas = val["parent_balanced_feasibility"]
+                best_completion = val["parent_balanced_completion_all"]
+                best_update = update
+                best_route_feas = val["feasibility"]
+                best_route_completion = val["mean_completion_all"]
                 patience = 0
                 ckpt_hash = save_checkpoint(
                     best_path,
@@ -217,6 +266,8 @@ def train_hybrid_ppo(
                         "update": update,
                         "val_feasibility": val["feasibility"],
                         "val_completion_all": val["mean_completion_all"],
+                        "val_parent_balanced_feasibility": val["parent_balanced_feasibility"],
+                        "val_parent_balanced_completion_all": val["parent_balanced_completion_all"],
                         "normalizer_provenance": normalizer_provenance,
                     },
                 )
@@ -248,6 +299,10 @@ def train_hybrid_ppo(
         runtime_s=runtime,
         best_val_feasibility=best_feas if best_feas >= 0.0 else None,
         best_val_completion_all=best_completion if best_completion < float("inf") else None,
+        best_val_route_weighted_feasibility=best_route_feas,
+        best_val_route_weighted_completion_all=best_route_completion,
+        best_update=best_update,
+        checkpoint_selection="parent_balanced_lexicographic",
         checkpoint=str(best_path if best_path.is_file() else last_path),
         sampling=HierarchicalSampler.name,
         n_train_routes=len(train_routes),

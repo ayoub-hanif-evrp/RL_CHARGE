@@ -160,6 +160,8 @@ def test_loop_guard_is_not_three_stops(write_instance, tmp_path):
     nodes = [
         node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
         node_row("S1", "f", 1.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S2", "f", 1.2, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S3", "f", 1.4, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
         node_row("C1", "c", 2.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
     ]
     path, root = write_instance(nodes=nodes)
@@ -169,8 +171,8 @@ def test_loop_guard_is_not_three_stops(write_instance, tmp_path):
         instance, ("C1",), profile, LoadConvention.OFFICIAL_REFERENCE_PICKUP
     )
     assert sim.step(ChargeAction("S1", 0.990)).feasible
-    assert sim.step(ChargeAction("S1", 0.995)).feasible
-    result = sim.step(ChargeAction("S1", 1.0))
+    assert sim.step(ChargeAction("S2", 0.995)).feasible
+    result = sim.step(ChargeAction("S3", 1.0))
     assert not result.feasible
     assert result.reason is InfeasibilityReason.LOOP_GUARD
 

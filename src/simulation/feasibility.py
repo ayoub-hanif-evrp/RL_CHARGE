@@ -28,6 +28,7 @@ class InfeasibilityReason(Enum):
     NO_FEASIBLE_ACTION = "NO_FEASIBLE_ACTION"
     ZERO_CHARGE_NOOP = "ZERO_CHARGE_NOOP"
     NO_ENERGY_CONTINUATION = "NO_ENERGY_CONTINUATION"
+    STATION_REVISIT = "STATION_REVISIT"
 
 
 # Same-station charges below this SOC increment are no-ops and must be rejected.

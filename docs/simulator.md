@@ -17,11 +17,16 @@ trigger and no six-level SOC grid.
   delivery: `payload -= demand`). Advances the customer index.
 - `ChargeAction(station_id, target_soc)`: travel to that station and charge
   continuously to `target_soc ∈ [current_soc, max_soc]`. Does **not** advance
-  the customer index. Multiple station visits between two customers are legal.
+  the customer index. Distinct stations may be used between two frozen
+  customers; a station already visited since the last customer/depot progress
+  event is `STATION_REVISIT` (same-station drip charging and `S1→S2→S1`
+  cycles). After the next frozen customer is served, those stations may be
+  used again.
 
-A programming-loop guard (`loop_guard_station_visits`, default 50) exists only
-to stop infinite charge cycles. It is not a scientific "maximum three stops"
-constraint.
+A programming-loop guard (`loop_guard_station_visits`, default 50) remains a
+defensive backstop against infinite charge cycles. It is not a scientific
+"maximum three stops" constraint. True zero-ΔSOC charges at the current
+station are still `ZERO_CHARGE_NOOP`.
 
 ## Time windows
 
@@ -43,7 +48,8 @@ Every failed transition returns `TransitionResult.feasible = False` and an
 explicit `InfeasibilityReason`:
 
 `INSUFFICIENT_ENERGY`, `TIME_WINDOW_VIOLATION`, `CAPACITY_VIOLATION`,
-`INVALID_TARGET_SOC`, `UNKNOWN_STATION`, `INVALID_STATE`, `LOOP_GUARD`.
+`INVALID_TARGET_SOC`, `UNKNOWN_STATION`, `INVALID_STATE`, `LOOP_GUARD`,
+`STATION_REVISIT`, `ZERO_CHARGE_NOOP`.
 
 Silent success is forbidden. Global existence of a charging schedule is
 **not** claimed (`charging_feasibility_status = unverified` until Part 3).

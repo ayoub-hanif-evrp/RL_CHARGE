@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Set
 
 from domain.quantities import BatteryEnergy, PayloadMass, SocFraction, TravelTime
 
@@ -24,3 +24,4 @@ class SimulatorState:
     events: List[SimulatorEvent] = field(default_factory=list)
     metrics: MetricsAccumulator = field(default_factory=MetricsAccumulator)
     served_customers: List[str] = field(default_factory=list)
+    stations_visited_since_progress: Set[str] = field(default_factory=set)

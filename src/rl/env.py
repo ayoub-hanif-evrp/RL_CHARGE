@@ -9,6 +9,7 @@ from domain.load_convention import LoadConvention, require_load_convention
 from physics.parameters import PhysicsProfile
 from routing.fixed_route import FrozenRoute
 from simulation.feasibility import InfeasibilityReason
+from simulation.progress import failure_step_reward
 from simulation.shield import (
     CONTINUE_INDEX,
     action_from_discrete,
@@ -86,7 +87,6 @@ class ShieldedRouteEnv:
         if discrete_index == CONTINUE_INDEX:
             u = 0.0
         t0 = self.simulator.state.time.value
-        h = self.horizon
         shield = evaluate_shield(self.simulator)
         executed = {
             "executed_discrete": int(discrete_index),
@@ -98,7 +98,7 @@ class ShieldedRouteEnv:
             },
         }
         if not shield.any_legal:
-            reward = -(h - t0)
+            reward = failure_step_reward(self.simulator)
             self.return_value += reward
             self.failed = True
             return StepInfo(
@@ -110,7 +110,7 @@ class ShieldedRouteEnv:
                 **executed,
             )
         if discrete_index >= len(shield.mask) or not shield.mask[discrete_index]:
-            reward = -(h - t0)
+            reward = failure_step_reward(self.simulator)
             self.return_value += reward
             self.failed = True
             return StepInfo(
@@ -130,7 +130,7 @@ class ShieldedRouteEnv:
         result = self.simulator.step(action)
         t1 = self.simulator.state.time.value
         if not result.feasible:
-            reward = -(h - t0)
+            reward = failure_step_reward(self.simulator)
             self.return_value += reward
             self.failed = True
             return StepInfo(

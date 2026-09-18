@@ -1,0 +1,27 @@
+{
+  "checkpoint": "results\\pilot\\post_action_reward_fix\\seed_43\\last.pt",
+  "split": "validation",
+  "n_routes": 77,
+  "n_feasible": 13,
+  "feasibility": 0.16883116883116883,
+  "parent_balanced_feasibility": 0.06058846302748742,
+  "parent_balanced_completion_all": 1172.592695240087,
+  "mean_completion_all": 566.9323384146247,
+  "frac_continue": 0.38127090301003347,
+  "frac_charge": 0.6187290969899666,
+  "mean_u": 0.4408685616544775,
+  "sd_u": 0.11689543921306782,
+  "mean_target_soc": 0.7465128591692749,
+  "sd_target_soc": 0.15178336307804133,
+  "mean_station_visits": 4.805194805194805,
+  "repeated_station_actions": 0,
+  "consecutive_same_station_charges": 0,
+  "loop_guard_hits": 0,
+  "fail_reasons": {
+    "NO_FEASIBLE_ACTION": 64
+  },
+  "n_zero_charge_noop": 0,
+  "n_no_feasible_action": 64,
+  "mean_eval_entropy": 1.0229997107494633,
+  "nan_or_inf": false
+}

@@ -84,8 +84,9 @@ Paper Hybrid PPO budget is chosen from the TRAIN/VAL pilot (see
 Smoke stays in `configs/rl/hybrid_ppo_smoke.toml`.
 
 Validation model selection (paper/pilot): full validation population,
-lexicographic **feasibility rate then** all-routes completion time (`H` for
-failures). Smoke may cap `val_max_routes`.
+lexicographic **parent-balanced feasibility then** parent-balanced all-routes
+completion time (`H` for failures). Route-weighted VAL metrics are logged only.
+Smoke may cap `val_max_routes`.
 
 Feature normalization is fit on **all TRAIN routes** (reset features) plus a
 TRAIN-only greedy-min dynamic pass. Val/test states never enter the fit.

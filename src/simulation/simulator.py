@@ -170,6 +170,7 @@ class FixedRouteSimulator:
                 return service
             self.state.next_customer_index += 1
             self.state.n_station_visits_since_last_customer = 0
+            self.state.stations_visited_since_progress.clear()
             return self._ok()
         travel = self._travel(self.depot_id)
         if travel is not None:
@@ -179,6 +180,7 @@ class FixedRouteSimulator:
             self.state.metrics.time_window_violations += 1
             return self._fail(InfeasibilityReason.TIME_WINDOW_VIOLATION)
         self.state.completed = True
+        self.state.stations_visited_since_progress.clear()
         self.state.events.append(
             DepotEvent(
                 kind="depot_arrival",
@@ -191,6 +193,8 @@ class FixedRouteSimulator:
         return self._ok()
 
     def _charge(self, action: ChargeAction) -> TransitionResult:
+        if action.station_id in self.state.stations_visited_since_progress:
+            return self._fail(InfeasibilityReason.STATION_REVISIT)
         if self.state.n_station_visits_since_last_customer >= self.profile.loop_guard_station_visits:
             return self._fail(InfeasibilityReason.LOOP_GUARD)
         try:
@@ -233,6 +237,7 @@ class FixedRouteSimulator:
         self.state.battery_energy = applied.after.energy
         self.state.soc = applied.after.soc
         self.state.n_station_visits_since_last_customer += 1
+        self.state.stations_visited_since_progress.add(action.station_id)
         self.state.metrics.number_of_station_visits += 1
         self.state.metrics.total_charging_time += charge.charging_duration.value
         self.state.metrics.total_energy_charged += charge.energy_added.value

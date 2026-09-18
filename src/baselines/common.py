@@ -30,19 +30,32 @@ def run_discrete_policy(
     while not simulator.state.completed:
         shield = evaluate_shield(simulator)
         if not shield.any_legal:
-            total += -(simulator.horizon - simulator.state.time.value)
-            return BaselineResult(False, False, total, steps, extra={"dead_end": True})
+            from simulation.feasibility import InfeasibilityReason
+            from simulation.progress import failure_step_reward
+
+            total += failure_step_reward(simulator)
+            return BaselineResult(
+                False,
+                False,
+                total,
+                steps,
+                extra={"dead_end": True, "reason": InfeasibilityReason.NO_FEASIBLE_ACTION},
+            )
         t0 = simulator.state.time.value
         discrete, u = choose(simulator)
         if discrete >= len(shield.mask) or not shield.mask[discrete]:
-            total += -(simulator.horizon - t0)
+            from simulation.progress import failure_step_reward
+
+            total += failure_step_reward(simulator)
             return BaselineResult(False, False, total, steps)
         from simulation.shield import action_from_discrete
 
         result = simulator.step(action_from_discrete(simulator, discrete, u, soc_mode=soc_mode))
         t1 = simulator.state.time.value
         if not result.feasible:
-            total += -(simulator.horizon - t0)
+            from simulation.progress import failure_step_reward
+
+            total += failure_step_reward(simulator)
             return BaselineResult(False, False, total, steps, extra={"reason": result.reason})
         total += -(t1 - t0)
         steps += 1

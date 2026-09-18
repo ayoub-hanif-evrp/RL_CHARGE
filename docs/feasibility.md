@@ -22,9 +22,13 @@ At state `s`:
    there exists an *energy-continuation* path `f → (stations)* → next frozen
    node` using full-battery hops on the same directed `EnergyModel` /
    `BatteryModel` as the simulator (intermediate recharges to max SOC allowed).
-   Multiple hops stay legal. The loop-guard still applies. Same-station charges
-   with `target_SOC − arrival_SOC < ε` are masked as `ZERO_CHARGE_NOOP`.
-   Positive same-station charge remains legal.
+   Multiple hops stay legal unless that station was already visited since the
+   last frozen customer/depot progress event. Revisit cycles
+   (`S1 → S1`, `S1 → S2 → S1`) are masked as `STATION_REVISIT`. The
+   programming loop-guard remains a backstop. Same-station charges with
+   `target_SOC − arrival_SOC < ε` are still rejected as `ZERO_CHARGE_NOOP`.
+   After the next frozen customer is served, previously used stations may be
+   selected again.
 3. If a station is selected, the FULL transition-level SOC interval is
    `[max(soc_on_arrival, continuation_soc_lower), max_soc]`.
    `continuation_soc_lower` is the minimum **departure** SOC at `f` that can
@@ -34,9 +38,13 @@ At state `s`:
    validity only: `[soc_on_arrival, max_soc]`. Map `u ∈ [0, 1]` by
    `target_soc = soc_lower + u * (soc_upper - soc_lower)`.
 4. If every discrete bit is false, the episode is a terminal failure with
-   `r = -(H - t)` where `H` is the depot due date. Failure `r = -(H − t)` is
-   documented and is **not** the sole feasibility mechanism (model selection
-   is lexicographic on validation feasibility, then completion time).
+   `r_fail = -(H - t) - L_remaining(state)`, where `H` is the depot due date
+   and `L_remaining` is a frozen-route travel+service lower bound (charging
+   and waiting omitted). This is a horizon-derived failure-progress term, not
+   a second operational objective. Model selection is lexicographic on
+   **parent-balanced** validation feasibility, then parent-balanced
+   completion time. Route-weighted VAL metrics are logged but do not select
+   checkpoints.
 
 This continuation bound **is not globally exact**: it ignores time windows and
 charging duration. Hard TW checks stay in the simulator.
