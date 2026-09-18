@@ -1,0 +1,28 @@
+{
+  "checkpoint": "checkpoints\\HybridPPO\\seed_42\\best.pt",
+  "consecutive_same_station_charges": 804,
+  "episodes_with_station_repeat_or_ababa": 64,
+  "fail_reasons": {
+    "NO_FEASIBLE_ACTION": 48,
+    "ZERO_CHARGE_NOOP": 29
+  },
+  "feasibility": 0.0,
+  "frac_charge": 0.9986282578875172,
+  "frac_continue": 0.0013717421124828531,
+  "mean_completion_all": 576.5974025974026,
+  "mean_eval_entropy": 1.6311814613469378,
+  "mean_station_visits": 37.81818181818182,
+  "mean_target_soc": 0.7352607521346527,
+  "mean_u": 0.4829514488414094,
+  "min_eval_entropy": -0.06654518842697144,
+  "n_actions": 2916,
+  "n_completed": 0,
+  "n_feasible": 0,
+  "n_routes": 77,
+  "nan_or_inf": false,
+  "sd_eval_entropy": 0.7078587328502499,
+  "sd_station_visits": 18.11774424244019,
+  "sd_target_soc": 0.15317243906349043,
+  "sd_u": 0.012380112458317626,
+  "split": "validation"
+}
