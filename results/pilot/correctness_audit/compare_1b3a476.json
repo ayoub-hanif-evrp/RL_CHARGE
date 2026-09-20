@@ -1,0 +1,114 @@
+{
+  "audit": "correctness_audit_visited_continuation",
+  "baseline_commit": "1b3a47692243b622b8bf1010a325b4029285e381",
+  "test_used": false,
+  "ppo_trained": false,
+  "deterministic_comparison": {
+    "note": "Feasibility counts are unchanged versus 1b3a476. The visited-aware continuation graph converts some ZERO_CHARGE_NOOP failures into earlier NO_FEASIBLE_ACTION dead-ends. Union rates are a heuristic lower bound, not an exact oracle.",
+    "train": {
+      "n_routes": 132,
+      "union_feasible_before": 14,
+      "union_feasible_after": 14,
+      "union_rate": 0.10606060606060606,
+      "methods": {
+        "GreedyMinimumSufficientCharge": {
+          "n_feasible_before": 3,
+          "n_feasible_after": 3,
+          "parent_balanced_feasibility": 0.020512820512820513,
+          "NO_FEASIBLE_ACTION_before": 107,
+          "NO_FEASIBLE_ACTION_after": 115,
+          "ZERO_CHARGE_NOOP_before": 22,
+          "ZERO_CHARGE_NOOP_after": 14
+        },
+        "GreedyFullCharge": {
+          "n_feasible_before": 8,
+          "n_feasible_after": 8,
+          "parent_balanced_feasibility": 0.07467948717948718,
+          "NO_FEASIBLE_ACTION_before": 91,
+          "NO_FEASIBLE_ACTION_after": 99,
+          "ZERO_CHARGE_NOOP_before": 33,
+          "ZERO_CHARGE_NOOP_after": 25
+        },
+        "OneStepLookahead": {
+          "n_feasible_before": 9,
+          "n_feasible_after": 9,
+          "parent_balanced_feasibility": 0.06121794871794872,
+          "NO_FEASIBLE_ACTION_before": 123,
+          "NO_FEASIBLE_ACTION_after": 123,
+          "ZERO_CHARGE_NOOP_before": 0,
+          "ZERO_CHARGE_NOOP_after": 0
+        }
+      }
+    },
+    "validation": {
+      "n_routes": 77,
+      "union_feasible_before": 23,
+      "union_feasible_after": 23,
+      "union_rate": 0.2987012987012987,
+      "methods": {
+        "GreedyMinimumSufficientCharge": {
+          "n_feasible_before": 21,
+          "n_feasible_after": 21,
+          "parent_balanced_feasibility": 0.09698025551684088,
+          "NO_FEASIBLE_ACTION_before": 47,
+          "NO_FEASIBLE_ACTION_after": 50,
+          "ZERO_CHARGE_NOOP_before": 9,
+          "ZERO_CHARGE_NOOP_after": 6
+        },
+        "GreedyFullCharge": {
+          "n_feasible_before": 18,
+          "n_feasible_after": 18,
+          "parent_balanced_feasibility": 0.08478513356562138,
+          "NO_FEASIBLE_ACTION_before": 36,
+          "NO_FEASIBLE_ACTION_after": 43,
+          "ZERO_CHARGE_NOOP_before": 23,
+          "ZERO_CHARGE_NOOP_after": 16
+        },
+        "OneStepLookahead": {
+          "n_feasible_before": 12,
+          "n_feasible_after": 12,
+          "parent_balanced_feasibility": 0.05265195509097948,
+          "NO_FEASIBLE_ACTION_before": 65,
+          "NO_FEASIBLE_ACTION_after": 65,
+          "ZERO_CHARGE_NOOP_before": 0,
+          "ZERO_CHARGE_NOOP_after": 0
+        }
+      }
+    }
+  },
+  "restricted_search": {
+    "exact": false,
+    "action_set": "CONTINUE + {arrival SOC, max SOC}",
+    "max_expansions": 20000,
+    "stop_at_first_feasible": true,
+    "train": {
+      "n_routes": 132,
+      "n_feasible": 31,
+      "feasibility": 0.23484848484848486,
+      "parent_balanced_feasibility": 0.24034188034188034,
+      "n_timeout": 40,
+      "n_infeasible_for_action_set": 61
+    },
+    "validation": {
+      "n_routes": 77,
+      "n_feasible": 23,
+      "feasibility": 0.2987012987012987,
+      "parent_balanced_feasibility": 0.18399148277197055,
+      "n_timeout": 18,
+      "n_infeasible_for_action_set": 36
+    }
+  },
+  "combined_lower_bound_heuristic_or_restricted": {
+    "train": {"n_proven_feasible": 33, "rate": 0.25},
+    "validation": {"n_proven_feasible": 32, "rate": 0.4155844155844156}
+  },
+  "official_route_plans": {
+    "n_mapped_tours": 249,
+    "n_replay_feasible_charge_to_max": 192,
+    "n_replay_time_window": 56,
+    "n_replay_energy": 1,
+    "n_customer_seq_in_corpus": 20,
+    "n_customer_seq_in_train_instance": 6,
+    "n_customer_seq_in_validation_instance": 10
+  }
+}

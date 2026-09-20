@@ -217,6 +217,62 @@ def test_continuation_allows_geometrically_farther_station_hop(write_instance):
     assert bound == min_departure_soc_for_arc(sim, "S_near", "S_far")
 
 
+def test_continuation_does_not_use_already_visited_station(write_instance):
+    """B can reach C1 only through A; after visiting A, B is masked."""
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("A", "f", 50.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("B", "f", 0.0, 10.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 100.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    ranks_before = continuation_hop_ranks(sim)
+    assert ranks_before["A"] == 1
+    assert ranks_before["B"] == 2
+    assert sim.step(ChargeAction("A", 1.0)).feasible
+    assert "A" in sim.state.stations_visited_since_progress
+    ranks_after = continuation_hop_ranks(sim)
+    assert "A" not in ranks_after
+    assert "B" not in ranks_after
+    ids = list(evaluate_shield(sim).station_ids)
+    decision = evaluate_shield(sim)
+    assert decision.mask[1 + ids.index("A")] is False
+    assert decision.mask[1 + ids.index("B")] is False
+    assert decision.station_reasons[ids.index("B")] is InfeasibilityReason.NO_ENERGY_CONTINUATION
+
+
+def test_continuation_soc_lower_ignores_visited_station(write_instance):
+    """After A is visited, B remains valid via unvisited C; soc_lower never uses A."""
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("A", "f", 40.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("B", "f", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C", "f", 50.0, 40.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 100.0, 0.0, 10.0, 0.0, 10_000.0, 1.0, 0.0),
+    ]
+    sim = _sim(write_instance, nodes, ("C1",))
+    from simulation.shield import min_departure_soc_for_arc
+
+    hop_ba = min_departure_soc_for_arc(sim, "B", "A")
+    hop_bc = min_departure_soc_for_arc(sim, "B", "C")
+    hop_b_c1 = min_departure_soc_for_arc(sim, "B", "C1")
+    assert hop_ba is not None
+    assert hop_bc is not None
+    assert hop_b_c1 is None
+    assert hop_ba < hop_bc
+    assert sim.step(ChargeAction("A", 1.0)).feasible
+    ranks = continuation_hop_ranks(sim)
+    assert "A" not in ranks
+    assert ranks["C"] == 1
+    assert ranks["B"] == 2
+    ids = list(evaluate_shield(sim).station_ids)
+    decision = evaluate_shield(sim)
+    assert decision.mask[1 + ids.index("B")] is True
+    bound = continuation_departure_soc(sim, "B")
+    assert bound == hop_bc
+    assert bound != hop_ba
+
+
 def test_same_station_cannot_be_selected_twice_before_customer(write_instance):
     nodes = [
         node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),

@@ -147,3 +147,32 @@ def test_failures_at_different_progress_have_distinct_returns(write_instance):
     assert g_after == pytest.approx(-h - l_after)
     assert g_start < -h
     assert g_after < -h
+
+
+def test_mutating_failed_transition_uses_pre_action_time(write_instance):
+    """Travel then ZERO_CHARGE_NOOP must still give G = -H - L_failure, not +dt."""
+    from simulation.feasibility import InfeasibilityReason
+    from simulation.shield import evaluate_shield
+
+    nodes = [
+        node_row("D0", "d", 0.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("S0", "f", 1.0, 0.0, 0.0, 0.0, 10_000.0, 0.0, 0.0),
+        node_row("C1", "c", 2.0, 0.0, 10.0, 0.0, 10_000.0, 5.0, 0.0),
+    ]
+    env, sim, _ = _make(write_instance, customers=("C1",))
+    env.reset()
+    t0 = env.simulator.state.time.value
+    h = env.simulator.horizon
+    decision = evaluate_shield(env.simulator)
+    station_idx = 1 + list(decision.station_ids).index("S0")
+    assert decision.mask[station_idx]
+    info = env.step(station_idx, 0.0)
+    t1 = env.simulator.state.time.value
+    assert info.failed
+    assert info.reason is InfeasibilityReason.ZERO_CHARGE_NOOP
+    assert t1 > t0
+    l_fail = remaining_time_lower_bound(env.simulator)
+    assert env.return_value == pytest.approx(-h - l_fail)
+    assert env.return_value != pytest.approx(-h - l_fail + (t1 - t0))
+    assert info.reward == pytest.approx(-(h - t0) - l_fail)
+

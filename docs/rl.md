@@ -6,7 +6,9 @@ There is no KNN+GCN+CNN stack and no pair of DDQNs owning one encoder.
 ## MDP
 
 - **State:** simulator state, frozen remaining customer sequence, station
-  candidate features. See `src/rl/features.py`.
+  candidate features. Station attention uses the shield legality mask, so
+  visited/illegal stations contribute no attention mass. See
+  `src/rl/features.py`.
 - **Action:** discrete `{CONTINUE} ∪ stations`. If a station is chosen,
   continuous `u ∈ (0, 1)` is mapped through the shield SOC interval.
 - **Transition:** `FixedRouteSimulator`. Customer order is immutable.
@@ -24,8 +26,9 @@ Feasible step: `r = -(t' - t)` (travel, wait, service, charge).
 
 Successful episode: `G = -route_completion_time`.
 
-Terminal failure: `r_fail = -(H - t) - L_remaining(state)`, so
-`G_failure = -H - L_remaining(state_failure)` from `t0 = 0`.
+Terminal failure: `r_fail = -(H - t0) - L_remaining(failure_state)`, so
+`G_failure = -H - L_remaining(state_failure)` from initial time zero.
+`t0` is the pre-action clock even if the failed transition mutated time.
 `L_remaining` is a method-independent lower bound in time units on the
 remaining frozen-route travel and service. It is **not** a second reported
 objective. Among failures, more route progress (smaller `L_remaining`) is

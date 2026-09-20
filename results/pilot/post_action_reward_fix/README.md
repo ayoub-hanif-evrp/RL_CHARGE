@@ -10,6 +10,9 @@ TEST was not used.
 | `REPORT.md` | Decision, diagnostics, PRE vs POST |
 | `DIAGNOSTICS.md` | Greedy / lookahead TRAIN+VAL |
 | `pilot_comparison.json` | Machine-readable PRE vs POST |
-| `seed_{42,43}/` | curves, manifests, checkpoints, policy behaviour |
+| `seed_{42,43}/` | curves, manifests, hashes, policy behaviour |
+
+Large `.pt` checkpoints are gitignored (`results/pilot/**/*.pt`) and are not
+part of this archive. Keep compact manifests, curves, and SHA-256 hashes.
 
 **Decision: STOP. Do not freeze a paper budget.**

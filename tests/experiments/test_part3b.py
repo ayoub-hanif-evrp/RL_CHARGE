@@ -143,9 +143,10 @@ def test_label_setting_finishes_or_times_out_without_fake_exact(write_instance):
     env, instance, profile, route = _env(write_instance)
     result = solve_label_setting(instance, route, profile=profile, max_expansions=200)
     assert result.status in {"optimal_for_action_set", "infeasible", "timeout"}
+    assert result.exact_for == "restricted_linear_charging_extreme_points"
+    assert result.status != "exact"
     if result.status == "timeout":
         assert result.route_completion_time is None or result.feasible
-        assert result.status != "exact"
     if result.status == "optimal_for_action_set":
         assert result.feasible
         assert result.route_completion_time is not None

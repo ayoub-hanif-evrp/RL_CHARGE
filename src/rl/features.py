@@ -87,11 +87,11 @@ def extract_features(
     decision = evaluate_shield(simulator)
     station_rows = []
     station_mask = []
-    for station_id in decision.station_ids:
+    for i, station_id in enumerate(decision.station_ids):
         station_rows.append(
             _station_features(simulator, station_id, next_id, soc_interval=soc_interval)
         )
-        station_mask.append(1.0)
+        station_mask.append(1.0 if decision.mask[1 + i] else 0.0)
     if station_rows:
         stations = np.stack(station_rows)
         station_mask_arr = np.asarray(station_mask, dtype=np.float64)

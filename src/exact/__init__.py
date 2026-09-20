@@ -1,4 +1,7 @@
-"""Exact label-setting for frozen-route EVRPTW-GR. Timeouts are not called exact."""
+"""Restricted label-setting for frozen-route EVRPTW-GR.
+
+Not exact for continuous Hybrid PPO. Timeouts are not called exact.
+"""
 
 from .label_setting import LabelSettingResult, solve_label_setting
 

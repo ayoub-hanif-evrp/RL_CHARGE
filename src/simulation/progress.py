@@ -43,8 +43,16 @@ def remaining_time_lower_bound(simulator: FixedRouteSimulator) -> float:
     return max(0.0, float(total))
 
 
-def failure_step_reward(simulator: FixedRouteSimulator) -> float:
-    """Terminal failure reward: ``-(H - t) - L_remaining(state)``."""
-    t = float(simulator.state.time.value)
+def failure_step_reward(
+    simulator: FixedRouteSimulator, *, decision_time: float | None = None
+) -> float:
+    """Terminal failure reward: ``-(H - t0) - L_remaining(failure_state)``.
+
+    ``decision_time`` is the pre-action clock. Some infeasible transitions
+    mutate simulator time before returning; using post-failure time would
+    credit the failed action with ``+(t1 - t0)``. ``L_remaining`` is always
+    evaluated on the simulator's current (failure) state.
+    """
+    t = float(simulator.state.time.value) if decision_time is None else float(decision_time)
     h = float(simulator.horizon)
     return -(h - t) - remaining_time_lower_bound(simulator)

@@ -19,11 +19,12 @@ At state `s`:
    legal simulator `ContinueAction`: energy, customer/depot time window
    (`service_start ≤ due_date`), capacity after the load convention, known node.
 2. **Station `f`** is unmasked iff travel `current → f` is energy-feasible **and**
-   there exists an *energy-continuation* path `f → (stations)* → next frozen
-   node` using full-battery hops on the same directed `EnergyModel` /
-   `BatteryModel` as the simulator (intermediate recharges to max SOC allowed).
-   Multiple hops stay legal unless that station was already visited since the
-   last frozen customer/depot progress event. Revisit cycles
+   there exists an *energy-continuation* path `f → (unvisited stations)* →
+   next frozen node` using full-battery hops on the same directed
+   `EnergyModel` / `BatteryModel` as the simulator (intermediate recharges
+   to max SOC allowed). Stations already visited since the last customer
+   progress event are excluded from the continuation graph, so a candidate
+   cannot be certified through a now-illegal hop. Revisit cycles
    (`S1 → S1`, `S1 → S2 → S1`) are masked as `STATION_REVISIT`. The
    programming loop-guard remains a backstop. Same-station charges with
    `target_SOC − arrival_SOC < ε` are still rejected as `ZERO_CHARGE_NOOP`.
@@ -38,10 +39,11 @@ At state `s`:
    validity only: `[soc_on_arrival, max_soc]`. Map `u ∈ [0, 1]` by
    `target_soc = soc_lower + u * (soc_upper - soc_lower)`.
 4. If every discrete bit is false, the episode is a terminal failure with
-   `r_fail = -(H - t) - L_remaining(state)`, where `H` is the depot due date
-   and `L_remaining` is a frozen-route travel+service lower bound (charging
-   and waiting omitted). This is a horizon-derived failure-progress term, not
-   a second operational objective. Model selection is lexicographic on
+   `r_fail = -(H - t0) - L_remaining(failure_state)`, where `t0` is the
+   pre-action decision time, `H` is the depot due date, and `L_remaining`
+   is a frozen-route travel+service lower bound (charging and waiting
+   omitted). This is a horizon-derived failure-progress term, not a second
+   operational objective. Model selection is lexicographic on
    **parent-balanced** validation feasibility, then parent-balanced
    completion time. Route-weighted VAL metrics are logged but do not select
    checkpoints.

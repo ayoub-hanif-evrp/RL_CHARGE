@@ -38,6 +38,7 @@ results/raw/
 results/runs/
 results/smoke/raw/
 results/smoke/runs/
+results/pilot/**/*.pt
 
 # FRVCP download cache (XML/JSON under benchmark/ are tracked)
 data/external/frvcpy/benchmark/zips/

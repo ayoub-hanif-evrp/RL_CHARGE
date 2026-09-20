@@ -155,6 +155,12 @@ def min_departure_soc_for_arc(
     return float(soc)
 
 
+def _available_station_ids(simulator: FixedRouteSimulator) -> List[str]:
+    """Stations still legal as continuation hops in this frozen-route segment."""
+    visited = simulator.state.stations_visited_since_progress
+    return [station_id for station_id in station_ids_of(simulator) if station_id not in visited]
+
+
 def continuation_hop_ranks(simulator: FixedRouteSimulator) -> Dict[str, int]:
     """Backward hop ranks from the next frozen customer/depot.
 
@@ -163,10 +169,12 @@ def continuation_hop_ranks(simulator: FixedRouteSimulator) -> Dict[str, int]:
     station of rank ``k`` or lower. Stations missing from the result have no
     finite rank and are not energy-continuable.
 
-    Energy only: time windows and charging duration are ignored.
+    Only stations **not** already visited since the last customer/depot
+    progress event may appear as intermediate hops. Energy only: time windows
+    and charging duration are ignored.
     """
     nxt = simulator.next_frozen_node_id()
-    stations = list(station_ids_of(simulator))
+    stations = _available_station_ids(simulator)
     ranks: Dict[str, int] = {}
     for station_id in stations:
         if _full_battery_reach(simulator, station_id, nxt):
@@ -207,12 +215,13 @@ def continuation_departure_soc(simulator: FixedRouteSimulator, station_id: str) 
     rank = ranks.get(station_id)
     if rank is None:
         return None
+    visited = simulator.state.stations_visited_since_progress
     candidates: List[float] = []
     direct = min_departure_soc_for_arc(simulator, station_id, nxt)
     if direct is not None:
         candidates.append(direct)
     for other, other_rank in ranks.items():
-        if other == station_id or other_rank >= rank:
+        if other == station_id or other in visited or other_rank >= rank:
             continue
         hop = min_departure_soc_for_arc(simulator, station_id, other)
         if hop is not None:

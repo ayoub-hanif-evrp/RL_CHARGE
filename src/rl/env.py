@@ -98,7 +98,7 @@ class ShieldedRouteEnv:
             },
         }
         if not shield.any_legal:
-            reward = failure_step_reward(self.simulator)
+            reward = failure_step_reward(self.simulator, decision_time=t0)
             self.return_value += reward
             self.failed = True
             return StepInfo(
@@ -110,7 +110,7 @@ class ShieldedRouteEnv:
                 **executed,
             )
         if discrete_index >= len(shield.mask) or not shield.mask[discrete_index]:
-            reward = failure_step_reward(self.simulator)
+            reward = failure_step_reward(self.simulator, decision_time=t0)
             self.return_value += reward
             self.failed = True
             return StepInfo(
@@ -130,7 +130,7 @@ class ShieldedRouteEnv:
         result = self.simulator.step(action)
         t1 = self.simulator.state.time.value
         if not result.feasible:
-            reward = failure_step_reward(self.simulator)
+            reward = failure_step_reward(self.simulator, decision_time=t0)
             self.return_value += reward
             self.failed = True
             return StepInfo(

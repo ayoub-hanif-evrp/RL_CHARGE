@@ -1,4 +1,7 @@
-"""Exact label-setting on small frozen EVRPTW-GR routes. Timeouts are not called exact."""
+"""Restricted label-setting on small frozen EVRPTW-GR routes.
+
+Not exact for continuous Hybrid PPO. Timeouts are never called exact.
+"""
 
 from __future__ import annotations
 
@@ -38,10 +41,10 @@ def main(argv=None) -> int:
         result = solve_label_setting(
             instance, route, profile=profile, max_expansions=args.max_expansions
         )
-        exact = result.status == "optimal_for_action_set"
+        optimal_for_set = result.status == "optimal_for_action_set"
         records.append(
             {
-                "method": "LabelSettingRCSPP",
+                "method": "RestrictedLabelSetting",
                 "route_id": route.route_id,
                 "base_instance": route.base_instance,
                 "terrain": route.terrain_variant,
@@ -54,11 +57,12 @@ def main(argv=None) -> int:
                 "reason": result.status,
                 "route_completion_time": result.route_completion_time,
                 "completion_time_all_routes": result.route_completion_time
-                if result.feasible and exact
+                if result.feasible and optimal_for_set
                 else float(instance.depot.due_date),
                 "n_station_visits": result.n_station_visits,
                 "n_expansions": result.n_expansions,
-                "exact": exact,
+                "exact": False,
+                "exact_for": result.exact_for,
                 "n_customers": route.n_customers,
                 "git_sha": git_sha(),
                 "device": detect_device(),

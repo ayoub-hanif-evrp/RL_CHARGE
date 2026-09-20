@@ -118,8 +118,9 @@ def test_discrete_eval_is_deterministic_and_on_grid(write_instance):
     assert int(first.discrete_index.item()) == int(second.discrete_index.item())
     assert float(first.u.item()) == pytest.approx(float(second.u.item()))
     if int(first.discrete_index.item()) > 0:
-        assert float(first.u.item()) in CHARGE_U_LEVELS
-        assert int(first.charge_level.item()) == charge_level_from_u(float(first.u.item()))
+        u_val = float(first.u.item())
+        assert any(abs(u_val - level) < 1e-5 for level in CHARGE_U_LEVELS)
+        assert int(first.charge_level.item()) == charge_level_from_u(u_val)
     else:
         assert float(first.u.item()) == pytest.approx(0.0)
 

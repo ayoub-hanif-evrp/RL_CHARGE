@@ -18,8 +18,12 @@ verified bug appears.
 - **frvcpy** is exact only on native Montoya/FRVCP instances under
   `data/external/frvcpy/`. Those IDs are never joined to EVRPTW-GR splits.
   `evrptwgr_to_frvcp_surrogate()` remains `not_equivalent`.
-- Label-setting on 5-customer frozen routes is exact for the linear-charging
-  extreme-point action set if it finishes. Timeouts are `timeout`, not exact.
+- Restricted label-setting searches CONTINUE plus linear-charging extreme
+  points `{arrival SOC, max SOC}`. A finish is **optimal for that action
+  set only**, never exact for continuous Hybrid PPO. The discrete state
+  includes `stations_visited_since_progress` and a (time, SOC) Pareto
+  frontier. Timeouts are `timeout`. Do not treat it as a global charging
+  oracle.
 
 ## Seeds
 
@@ -63,7 +67,8 @@ python scripts/run_baselines.py --split test --scenario main_test
 python scripts/evaluate.py --split test --scenario main_test --methods hybrid_ppo,discrete_ppo,attention_ppo,legacy_ddqn --seeds paper
 python scripts/evaluate.py --split test --scenario ablation --methods A1,A2,A3,A4,A5 --seeds ablation
 python scripts/run_frvcpy_benchmark.py --data data/external/frvcpy --scenario frvcpy_native
-python scripts/run_exact_small.py --split test --max-customers 5
+python scripts/run_restricted_search.py --splits train,validation
+python scripts/run_exact_small.py --split train --max-customers 5
 python scripts/run_soc_reserve.py --levels 0,0.05,0.10,0.15
 python scripts/analyze_results.py --scenario main_test --split test
 python scripts/make_tables.py --scenario main_test
