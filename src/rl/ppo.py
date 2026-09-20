@@ -92,7 +92,7 @@ class HybridPPO:
             ablation=self.ablation,
         ).to(self.device)
         self.optimizer = torch.optim.Adam(self.policy.parameters(), lr=config.learning_rate)
-        self.        rng = np.random.default_rng(config.seed)
+        self.rng = np.random.default_rng(config.seed)
 
     def _executed_u(self, env: ShieldedRouteEnv, discrete: int, u: float) -> float:
         if discrete == 0:
@@ -173,6 +173,12 @@ class HybridPPO:
             [t.log_prob for t in buffer.transitions], device=self.device
         )
         losses = []
+        policy_losses = []
+        value_losses = []
+        entropies_out = []
+        approx_kls = []
+        clip_fractions = []
+        grad_norms = []
         for _ in range(cfg.update_epochs):
             for idx in buffer.minibatches(cfg.minibatch_size, self.rng):
                 batch_adv = advantages[idx]
@@ -201,13 +207,31 @@ class HybridPPO:
                 clipped = torch.clamp(ratio, 1.0 - cfg.clip_eps, 1.0 + cfg.clip_eps) * batch_adv
                 policy_loss = -torch.min(unclipped, clipped).mean()
                 value_loss = 0.5 * (batch_ret - values).pow(2).mean()
-                loss = policy_loss + cfg.value_coef * value_loss - cfg.entropy_coef * entropies.mean()
+                entropy = entropies.mean()
+                loss = policy_loss + cfg.value_coef * value_loss - cfg.entropy_coef * entropy
+                log_ratio = log_probs - batch_old
+                approx_kl = 0.5 * log_ratio.pow(2).mean()
+                clip_fraction = (ratio.sub(1.0).abs() > cfg.clip_eps).float().mean()
                 self.optimizer.zero_grad()
                 loss.backward()
-                nn.utils.clip_grad_norm_(self.policy.parameters(), cfg.max_grad_norm)
+                grad_norm = nn.utils.clip_grad_norm_(self.policy.parameters(), cfg.max_grad_norm)
                 self.optimizer.step()
                 losses.append(float(loss.item()))
-        return {"loss": float(np.mean(losses) if losses else 0.0)}
+                policy_losses.append(float(policy_loss.item()))
+                value_losses.append(float(value_loss.item()))
+                entropies_out.append(float(entropy.item()))
+                approx_kls.append(float(approx_kl.item()))
+                clip_fractions.append(float(clip_fraction.item()))
+                grad_norms.append(float(grad_norm.detach().cpu() if torch.is_tensor(grad_norm) else grad_norm))
+        return {
+            "loss": float(np.mean(losses) if losses else 0.0),
+            "policy_loss": float(np.mean(policy_losses) if policy_losses else 0.0),
+            "value_loss": float(np.mean(value_losses) if value_losses else 0.0),
+            "entropy": float(np.mean(entropies_out) if entropies_out else 0.0),
+            "approx_kl": float(np.mean(approx_kls) if approx_kls else 0.0),
+            "clip_fraction": float(np.mean(clip_fractions) if clip_fractions else 0.0),
+            "grad_norm": float(np.mean(grad_norms) if grad_norms else 0.0),
+        }
 
     def smoke_train(self, env: ShieldedRouteEnv, updates: int = 1) -> dict:
         stats = {}

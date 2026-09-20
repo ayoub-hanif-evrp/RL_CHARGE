@@ -234,7 +234,16 @@ def train_hybrid_ppo(
             break
         buffer = trainer.collect_from_factory(env_factory)
         stats = trainer.update(buffer)
-        row = {"update": update, "loss": stats["loss"]}
+        row = {
+            "update": update,
+            "loss": stats["loss"],
+            "policy_loss": stats["policy_loss"],
+            "value_loss": stats["value_loss"],
+            "entropy": stats["entropy"],
+            "approx_kl": stats["approx_kl"],
+            "clip_fraction": stats["clip_fraction"],
+            "grad_norm": stats["grad_norm"],
+        }
         if update % max(int(config.eval_interval), 1) == 0 or update == config.budget_updates - 1:
             val = evaluate_routes(val_routes, actor, max_routes=val_max_routes)
             row["val_feasibility"] = val["feasibility"]

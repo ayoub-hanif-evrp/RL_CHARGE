@@ -78,7 +78,7 @@
   },
   "restricted_search": {
     "exact": false,
-    "action_set": "CONTINUE + {arrival SOC, max SOC}",
+    "action_set": "CONTINUE + {continuation-minimum SOC, maximum SOC}",
     "max_expansions": 20000,
     "stop_at_first_feasible": true,
     "train": {
@@ -96,11 +96,19 @@
       "parent_balanced_feasibility": 0.18399148277197055,
       "n_timeout": 18,
       "n_infeasible_for_action_set": 36
-    }
+    },
+    "exact_for": "restricted_continuation_or_full_soc",
+    "terminology_note": "Label correction only: the algorithm used action_from_discrete() under continuation_to_max, so the restricted action set is CONTINUE + {continuation-minimum SOC, maximum SOC}. Numerical counts are unchanged."
   },
   "combined_lower_bound_heuristic_or_restricted": {
-    "train": {"n_proven_feasible": 33, "rate": 0.25},
-    "validation": {"n_proven_feasible": 32, "rate": 0.4155844155844156}
+    "train": {
+      "n_proven_feasible": 33,
+      "rate": 0.25
+    },
+    "validation": {
+      "n_proven_feasible": 32,
+      "rate": 0.4155844155844156
+    }
   },
   "official_route_plans": {
     "n_mapped_tours": 249,

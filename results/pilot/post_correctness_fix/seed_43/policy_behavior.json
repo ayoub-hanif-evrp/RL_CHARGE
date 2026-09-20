@@ -1,0 +1,29 @@
+{
+  "checkpoint": "results\\pilot\\post_correctness_fix\\seed_43\\best.pt",
+  "split": "validation",
+  "n_routes": 77,
+  "n_feasible": 22,
+  "feasibility": 0.2857142857142857,
+  "parent_balanced_feasibility": 0.10104529616724739,
+  "parent_balanced_completion_all": 1170.3968550186837,
+  "mean_completion_all": 561.0757817065762,
+  "frac_continue": 0.4807692307692308,
+  "frac_charge": 0.5192307692307693,
+  "mean_u": 0.35921525388253656,
+  "sd_u": 0.0962280545142615,
+  "mean_target_soc": 0.7374429022896659,
+  "sd_target_soc": 0.15902800558010208,
+  "mean_station_visits": 3.857142857142857,
+  "repeated_station_actions": 0,
+  "consecutive_same_station_charges": 0,
+  "loop_guard_hits": 0,
+  "fail_reasons": {
+    "NO_FEASIBLE_ACTION": 54,
+    "ZERO_CHARGE_NOOP": 1
+  },
+  "n_zero_charge_noop": 1,
+  "n_no_feasible_action": 54,
+  "n_station_revisit": 0,
+  "mean_eval_entropy": 0.6376844241333594,
+  "nan_or_inf": false
+}

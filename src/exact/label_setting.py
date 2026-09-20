@@ -1,8 +1,10 @@
 """Restricted label-setting search on a frozen customer sequence.
 
-Charge decisions are CONTINUE plus the linear-charging extreme points
-``{arrival SOC, max SOC}``. This is **not** exact for continuous Hybrid PPO.
-Timeouts are recorded as ``timeout`` and never filled with a heuristic.
+Charge decisions are CONTINUE plus ``{continuation-minimum SOC, maximum SOC}``
+via ``action_from_discrete`` under ``continuation_to_max`` (``u=0`` is the
+continuation-aware lower bound, not arrival SOC). This is **not** exact for
+continuous Hybrid PPO. Timeouts are recorded as ``timeout`` and never filled
+with a heuristic.
 
 A feasible finish is a lower bound on charging feasibility for this restricted
 action set. Infeasible/timeout does **not** prove the continuous problem is
@@ -30,7 +32,7 @@ class LabelSettingResult:
     route_completion_time: Optional[float]
     n_expansions: int
     n_station_visits: int
-    exact_for: str = "restricted_linear_charging_extreme_points"
+    exact_for: str = "restricted_continuation_or_full_soc"
 
 
 def _discrete_key(sim: FixedRouteSimulator) -> Tuple:

@@ -18,12 +18,13 @@ verified bug appears.
 - **frvcpy** is exact only on native Montoya/FRVCP instances under
   `data/external/frvcpy/`. Those IDs are never joined to EVRPTW-GR splits.
   `evrptwgr_to_frvcp_surrogate()` remains `not_equivalent`.
-- Restricted label-setting searches CONTINUE plus linear-charging extreme
-  points `{arrival SOC, max SOC}`. A finish is **optimal for that action
-  set only**, never exact for continuous Hybrid PPO. The discrete state
-  includes `stations_visited_since_progress` and a (time, SOC) Pareto
-  frontier. Timeouts are `timeout`. Do not treat it as a global charging
-  oracle.
+- Restricted label-setting searches CONTINUE plus
+  `{continuation-minimum SOC, maximum SOC}` (`u=0`/`u=1` through
+  `continuation_to_max`, not arrival SOC). A finish is feasible/optimal
+  for that restricted action set only (`restricted_continuation_or_full_soc`),
+  never exact for continuous Hybrid PPO. The discrete state includes
+  `stations_visited_since_progress` and a (time, SOC) Pareto frontier.
+  Timeouts are `timeout`. Do not treat it as a global charging oracle.
 
 ## Seeds
 

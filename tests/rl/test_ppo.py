@@ -1,5 +1,7 @@
 """Hybrid PPO, reward, normalization, Beta, and eval determinism."""
 
+import math
+
 import numpy as np
 import pytest
 import torch
@@ -147,6 +149,9 @@ def test_ppo_smoke_cpu(write_instance):
     trainer = HybridPPO(config, device="cpu")
     stats = trainer.smoke_train(env, updates=1)
     assert "loss" in stats
+    for key in ("policy_loss", "value_loss", "entropy", "approx_kl", "clip_fraction", "grad_norm"):
+        assert key in stats
+        assert math.isfinite(float(stats[key]))
     ids = {id(p) for p in trainer.optimizer.param_groups[0]["params"]}
     assert ids == {id(p) for p in trainer.policy.parameters()}
 

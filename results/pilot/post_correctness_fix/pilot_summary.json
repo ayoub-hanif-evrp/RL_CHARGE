@@ -1,0 +1,97 @@
+{
+  "pilot": "post_correctness_fix",
+  "test_used": false,
+  "corpus_changed": false,
+  "hyperparameters_changed": false,
+  "git_sha_base": "1f9cdda07f6275932fe8b28cd33b9ae6a096eabe",
+  "git_dirty": true,
+  "protocol": {
+    "max_updates": 400,
+    "eval_interval": 10,
+    "early_stopping_patience": 20,
+    "checkpoint_selection": "parent_balanced_lexicographic_per_seed"
+  },
+  "restricted_search_label_correction": {
+    "previous_label": "CONTINUE + {arrival SOC, max SOC}",
+    "correct_label": "CONTINUE + {continuation-minimum SOC, maximum SOC}",
+    "exact_for": "restricted_continuation_or_full_soc",
+    "counts_unchanged": true
+  },
+  "seeds": {
+    "42": {
+      "status": "early_stop",
+      "updates_completed": 400,
+      "best_update": 200,
+      "best": {
+        "route_weighted_val_feasibility": 0.2727272727272727,
+        "n_feasible": 21,
+        "parent_balanced_val_feasibility": 0.09698025551684088,
+        "parent_balanced_completion_all": 1170.4711546851643,
+        "frac_continue": 0.48990825688073397,
+        "frac_charge": 0.5100917431192661,
+        "mean_u": 0.4846751018822622,
+        "sd_u": 0.0871060849587511,
+        "mean_station_visits": 3.6103896103896105,
+        "NO_FEASIBLE_ACTION": 50,
+        "ZERO_CHARGE_NOOP": 6,
+        "STATION_REVISIT": 0,
+        "LOOP_GUARD": 0,
+        "nan_or_inf": false,
+        "checkpoint_sha256": "dea22c52d4897e6988e1abaaf2bf18e92e4cca0ac806f7706387d703165c42a4"
+      },
+      "last": {
+        "route_weighted_val_feasibility": 0.24675324675324675,
+        "n_feasible": 19,
+        "parent_balanced_val_feasibility": 0.08885017421602788,
+        "frac_continue": 0.44884488448844884,
+        "frac_charge": 0.5511551155115512,
+        "STATION_REVISIT": 0,
+        "LOOP_GUARD": 0,
+        "nan_or_inf": false,
+        "checkpoint_sha256": "d593af7fcc13c889cab2df1daac0bb0ed3905b50ada1c0a4fbed8781b58c98f7"
+      }
+    },
+    "43": {
+      "status": "completed",
+      "updates_completed": 400,
+      "best_update": 280,
+      "mid_training_dip_update": 170,
+      "mid_training_dip_route_weighted": 0.0,
+      "recovered": true,
+      "best": {
+        "route_weighted_val_feasibility": 0.2857142857142857,
+        "n_feasible": 22,
+        "parent_balanced_val_feasibility": 0.10104529616724739,
+        "parent_balanced_completion_all": 1170.3968550186837,
+        "frac_continue": 0.4807692307692308,
+        "frac_charge": 0.5192307692307693,
+        "mean_u": 0.35921525388253656,
+        "sd_u": 0.0962280545142615,
+        "mean_station_visits": 3.857142857142857,
+        "NO_FEASIBLE_ACTION": 54,
+        "ZERO_CHARGE_NOOP": 1,
+        "STATION_REVISIT": 0,
+        "LOOP_GUARD": 0,
+        "nan_or_inf": false,
+        "checkpoint_sha256": "b8cfff0401c9d571030e90a369c6b47447ec2198b4fce3b0f1ff4f246d83b4e8"
+      },
+      "last": {
+        "route_weighted_val_feasibility": 0.2727272727272727,
+        "n_feasible": 21,
+        "parent_balanced_val_feasibility": 0.09698025551684088,
+        "frac_continue": 0.4946236559139785,
+        "frac_charge": 0.5053763440860215,
+        "STATION_REVISIT": 0,
+        "LOOP_GUARD": 0,
+        "nan_or_inf": false,
+        "checkpoint_sha256": "2525c0807e31e51a28b38c3813edf399be4446e98e5b9301178cff56bbca5e70"
+      }
+    }
+  },
+  "ppo_diagnostics": {
+    "value_loss_dominates": true,
+    "note": "value_loss ~3.6e5 vs policy_loss ~1e-3; value_coef=0.5 unchanged. Grad norms thousands vs clip 0.5. All losses finite. No reward/value scaling applied."
+  },
+  "decision": "FREEZE_PROTOCOL",
+  "recommended_next": "Freeze max_updates=400, eval_interval=10, patience=20, per-seed best parent-balanced VAL checkpoint. Then 5-seed paper matrix. Do not change corpus or value_coef yet."
+}

@@ -107,7 +107,7 @@ def test_restricted_search_does_not_claim_full_exact(write_instance):
     result = solve_label_setting(
         instance, _route(instance, ("C1",)), profile=profile, max_expansions=500
     )
-    assert result.exact_for == "restricted_linear_charging_extreme_points"
+    assert result.exact_for == "restricted_continuation_or_full_soc"
     assert result.status != "exact"
 
 
@@ -128,7 +128,7 @@ def test_stop_at_first_feasible_does_not_claim_exact(write_instance):
         stop_at_first_feasible=True,
     )
     assert result.status in {"feasible_for_action_set", "infeasible", "timeout"}
-    assert result.exact_for == "restricted_linear_charging_extreme_points"
+    assert result.exact_for == "restricted_continuation_or_full_soc"
     if result.status == "feasible_for_action_set":
         assert result.feasible
         assert result.route_completion_time is not None

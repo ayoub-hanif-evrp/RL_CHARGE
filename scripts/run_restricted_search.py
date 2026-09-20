@@ -1,8 +1,9 @@
 """Restricted TRAIN/VAL label-setting search. TEST is forbidden.
 
-This is a lower bound on charging feasibility for CONTINUE plus linear
-charging extreme points {arrival SOC, max SOC}. Timeouts and infeasible
-statuses are not claims about the continuous Hybrid PPO action set.
+This is a lower bound on charging feasibility for CONTINUE plus
+{continuation-minimum SOC, maximum SOC} under continuation_to_max.
+Timeouts and infeasible statuses are not claims about the continuous
+Hybrid PPO action set.
 """
 
 from __future__ import annotations
@@ -76,9 +77,10 @@ def _summarize(split: str, rows: list[dict]) -> dict:
         "n_feasible_for_action_set": statuses.get("feasible_for_action_set", 0),
         "status_histogram": dict(statuses),
         "note": (
-            "Feasible counts are a lower bound for CONTINUE + {arrival, max} "
-            "SOC only, stopping at the first feasible label. Infeasible/timeout "
-            "does not prove continuous infeasibility."
+            "Feasible counts are a lower bound for CONTINUE + "
+            "{continuation-minimum SOC, maximum SOC} only, stopping at the "
+            "first feasible label. Infeasible/timeout does not prove "
+            "continuous infeasibility."
         ),
     }
 

@@ -13,6 +13,7 @@ They are not PyVRP customer-only frozen routes.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sys
@@ -368,7 +369,10 @@ def main() -> None:
 
     summary = {
         "test_used": False,
-        "xlsx": str(xlsx),
+        "xlsx": str(xlsx.relative_to(ROOT)).replace("\\", "/"),
+        "xlsx_source_repository": "https://github.com/sinarastani/EVRPTW-GR",
+        "xlsx_source_path": "Routes Plans.xlsx",
+        "xlsx_sha256": hashlib.sha256(xlsx.read_bytes()).hexdigest(),
         "official_indexing": "MILP2: 0 depot, 1..nc customers (file order), nc+1..nc+ns stations (file order), dummy depot",
         "n_official_data_rows": len(official_rows),
         "n_mapped_tours": n_tours,
@@ -381,10 +385,13 @@ def main() -> None:
         "n_customer_seq_in_validation_instance": n_seq_in_val,
         "note": (
             "Official tours are joint routing+charging under the original MILP. "
-            "Replay uses our FixedRouteSimulator with charge-to-max at every "
-            "official station insertion; failure can be physics/convention "
-            "mismatch, not proof that the MILP solution is wrong. Customer "
-            "sequence matches do not imply identical charging decisions."
+            "Successful charge-to-max replays show those tours are compatible "
+            "with our simulator. Failed charge-to-max replays do not prove "
+            "model disagreement: the spreadsheet does not reconstruct the "
+            "official continuous charging quantities, and overcharging can "
+            "create time-window violations. Customer sequence matches do not "
+            "imply identical charging decisions. Official plans do not replace "
+            "the PyVRP corpus."
         ),
     }
     out_path.write_text(json.dumps({"summary": summary, "tours": mapped}, indent=2) + "\n", encoding="utf-8")
