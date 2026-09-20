@@ -318,6 +318,9 @@ def train_hybrid_ppo(
         n_val_routes=len(val_routes),
         val_max_routes=val_max_routes,
         normalizer_provenance=normalizer_provenance,
+        max_env_transitions=int(config.budget_updates) * int(config.rollout_steps),
+        split_used_for_learning="train",
+        split_used_for_selection="validation",
     )
     if best_path.is_file():
         manifest["checkpoint_sha256"] = sha256_file(best_path)

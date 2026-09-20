@@ -62,10 +62,14 @@ the logs. Paper/pilot evaluate the full validation population.
 
 ## Training budget
 
-Paper Hybrid PPO: `configs/rl/hybrid_ppo.toml` (`budget_updates=200`,
-`rollout_steps=256`, val every 10 updates, patience 8). Smoke:
-`configs/rl/hybrid_ppo_smoke.toml`. `scripts/train_ppo.py` remains a CPU
-smoke helper. Paper training is `scripts/train_rl.py`.
+Learned PPO methods share a maximum interaction budget of **400 updates ×
+256 rollout steps = 102,400 environment transitions per seed**, with
+validation every 10 updates and early-stopping patience 20. Configs:
+`hybrid_ppo.toml`, `discrete_ppo.toml`, `attention_ppo.toml`. Legacy DDQN
+uses the same 102,400 TRAIN environment-transition ceiling
+(`gradient_steps` in `legacy_ddqn.toml`), with DDQN-specific replay and
+target-sync. Smoke: `configs/rl/hybrid_ppo_smoke.toml`. Paper training is
+`scripts/train_rl.py`.
 
 Seeds cover Python, NumPy, PyTorch, and hierarchical episode sampling
 (`parent → vehicle → terrain`). Paper seeds are `[42, 43, 44, 45, 46]`.
@@ -84,7 +88,7 @@ routing+charging DRL papers are **not** reproduced. See `docs/experiments.md`.
 | `GreedyFullCharge` | Same station rule; `soc_upper`. |
 | `OneStepLookahead` | Score CONTINUE vs each unmasked station+endpoint SOC by time. |
 | `DiscretePPO` | Same encoder; **categorical** station action plus six charge levels `{0,0.2,...,1}` conditioned on the chosen station. No Beta sampling or snapping. Simulator stays continuous. |
-| `LegacyTwoStageDDQN` | Same features/encoder; two discrete heads; six SOC levels `0.5…1.0` **conditioned on the selected station**; one optimizer; frozen target encoder **and** both target heads. Double DQN: online selects, target evaluates. TRAIN for learning, VALIDATION for checkpoints. This is the old *method*, not the old environment. |
+| `LegacyTwoStageDDQN` | Same features/encoder and TRAIN-only Normalizer; two discrete heads; six SOC levels `0.5…1.0` **conditioned on the selected station**; one optimizer; frozen target encoder **and** both target heads. Double DQN: online selects, target evaluates. TRAIN for learning, VALIDATION parent-balanced checkpoints. This is the old *method*, not the old environment. |
 
 None of these use `check_charging_needed` or `MAX_RL_STOPS`.
 

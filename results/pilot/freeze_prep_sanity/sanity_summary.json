@@ -1,0 +1,91 @@
+{
+  "methods": {
+    "DiscretePPO": {
+      "status": "early_stop",
+      "best_update": 150,
+      "best_val_feasibility": 0.07665505226480836,
+      "best_val_completion_all": 1171.7498470442456,
+      "best_val_route_weighted_feasibility": 0.2077922077922078,
+      "checkpoint_selection": "parent_balanced_lexicographic",
+      "split_used_for_learning": "train",
+      "split_used_for_selection": "validation",
+      "max_env_transitions": 102400,
+      "normalizer_split": "train",
+      "normalizer_n_routes": 132,
+      "losses": {
+        "n_rows": 351,
+        "finite": true,
+        "nonzero": true,
+        "last_loss": 89877.0513305664,
+        "n_nan": 0
+      },
+      "val_feasibility": 0.2077922077922078,
+      "val_n_feasible": 16,
+      "val_n_routes": 77,
+      "frac_continue": 0.4324786324786325,
+      "frac_charge": 0.5675213675213675,
+      "repeated_station_actions": 0,
+      "loop_guard_hits": 0,
+      "n_station_revisit": 0,
+      "nan_or_inf": false
+    },
+    "AttentionPPO": {
+      "status": "early_stop",
+      "best_update": 70,
+      "best_val_feasibility": 0.09291521486643438,
+      "best_val_completion_all": 1170.6774204408193,
+      "best_val_route_weighted_feasibility": 0.2597402597402597,
+      "checkpoint_selection": "parent_balanced_lexicographic",
+      "split_used_for_learning": "train",
+      "split_used_for_selection": "validation",
+      "max_env_transitions": 102400,
+      "normalizer_split": "train",
+      "normalizer_n_routes": 132,
+      "losses": {
+        "n_rows": 271,
+        "finite": true,
+        "nonzero": true,
+        "last_loss": 180802.83935546875,
+        "n_nan": 0
+      },
+      "val_feasibility": 0.2597402597402597,
+      "val_n_feasible": 20,
+      "val_n_routes": 77,
+      "frac_continue": 0.4059097978227061,
+      "frac_charge": 0.5940902021772939,
+      "repeated_station_actions": 0,
+      "loop_guard_hits": 0,
+      "n_station_revisit": 0,
+      "nan_or_inf": false
+    },
+    "LegacyTwoStageDDQN": {
+      "status": "early_stop",
+      "best_update": 12800,
+      "best_val_feasibility": 0.04432830042586141,
+      "best_val_completion_all": 1174.4142435326319,
+      "best_val_route_weighted_feasibility": 0.11688311688311688,
+      "checkpoint_selection": "parent_balanced_lexicographic",
+      "split_used_for_learning": "train",
+      "split_used_for_selection": "validation",
+      "max_env_transitions": 102400,
+      "normalizer_split": "train",
+      "normalizer_n_routes": 132,
+      "losses": {
+        "n_rows": 63970,
+        "finite": true,
+        "nonzero": true,
+        "last_loss": 6.242032737583104e+16,
+        "n_nan": 0
+      },
+      "val_feasibility": 0.11688311688311688,
+      "val_n_feasible": 9,
+      "val_n_routes": 77,
+      "frac_continue": 0.19474835886214442,
+      "frac_charge": 0.8052516411378556,
+      "repeated_station_actions": 0,
+      "loop_guard_hits": 0,
+      "n_station_revisit": 0,
+      "nan_or_inf": false
+    }
+  }
+}

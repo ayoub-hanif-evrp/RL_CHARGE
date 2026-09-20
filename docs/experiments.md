@@ -85,9 +85,12 @@ Pilot (TRAIN/VAL only, not TEST): `configs/rl/hybrid_ppo_pilot.toml` then inspec
 Size-generalization is extra (`scripts/run_size_generalization.py`), never the
 headline test number.
 
-Paper Hybrid PPO budget is chosen from the TRAIN/VAL pilot (see
-`results/pilot/`). The starting ceiling is `configs/rl/hybrid_ppo_pilot.toml`.
-Smoke stays in `configs/rl/hybrid_ppo_smoke.toml`.
+Paper Hybrid PPO budget is the TRAIN/VAL protocol frozen in
+`configs/rl/hybrid_ppo.toml`: 400 updates, 256 rollout steps, validation
+every 10, patience 20. DiscretePPO and AttentionPPO use the same maximum
+interaction budget (102,400 environment transitions per seed). Legacy
+DDQN matches that 102,400 TRAIN-transition ceiling. Smoke stays in
+`configs/rl/hybrid_ppo_smoke.toml`.
 
 Validation model selection (paper/pilot): full validation population,
 lexicographic **parent-balanced feasibility then** parent-balanced all-routes

@@ -12,6 +12,7 @@ that exact pair. CONTINUE has no charge-level Q term.
 from __future__ import annotations
 
 from copy import deepcopy
+from pathlib import Path
 
 import torch
 from torch import nn
@@ -96,6 +97,7 @@ class LegacyTwoStageDDQN:
         self.optimizer = torch.optim.Adam(self.online.parameters(), lr=lr)
         self.gamma = gamma
         self.soc_levels = SOC_LEVELS
+        self.normalizer = None
 
     def _freeze_target(self) -> None:
         self.target.eval()
@@ -111,7 +113,9 @@ class LegacyTwoStageDDQN:
         return any(id(p) in opt_ids for p in self.target.parameters())
 
     def choose(self, simulator: FixedRouteSimulator, eval_mode: bool = True) -> tuple[int, float]:
-        features = extract_features(simulator, soc_interval="continuation_to_max")
+        features = extract_features(
+            simulator, getattr(self, "normalizer", None), soc_interval="continuation_to_max"
+        )
         with torch.no_grad():
             q_discrete, q_soc = self.online.q_values(features)
         discrete = int(torch.argmax(q_discrete, dim=-1).item())
@@ -129,3 +133,16 @@ class LegacyTwoStageDDQN:
 
     def __call__(self, simulator: FixedRouteSimulator, eval_mode: bool = True) -> BaselineResult:
         return run_discrete_policy(simulator, lambda sim: self.choose(sim, eval_mode=eval_mode))
+
+
+def load_ddqn_agent(path: Path) -> LegacyTwoStageDDQN:
+    """Restore online weights and the TRAIN-only normalizer. TEST is never involved."""
+    from rl.normalization import Normalizer
+
+    payload = torch.load(Path(path), map_location="cpu", weights_only=False)
+    agent = LegacyTwoStageDDQN(d_model=int(payload.get("d_model", 64)))
+    agent.online.load_state_dict(payload["online"])
+    agent.sync_target()
+    if payload.get("normalizer"):
+        agent.normalizer = Normalizer.from_state_dict(payload["normalizer"])
+    return agent

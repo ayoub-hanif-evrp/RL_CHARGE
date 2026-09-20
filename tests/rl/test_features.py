@@ -83,3 +83,16 @@ def test_illegal_stations_receive_no_attention_mass(write_instance):
         batch["stations"][:, idx] = 999.0
         h2 = encoder(batch)["h"]
     assert torch.allclose(h1, h2)
+
+
+def test_fit_normalizer_never_loads_val_or_test():
+    import inspect
+
+    from rl import train_loop
+
+    source = inspect.getsource(train_loop.fit_normalizer)
+    assert "load_split_routes" not in source
+    assert "val_routes" not in source
+    assert "test_routes" not in source
+    assert train_loop.fit_normalizer.__doc__ is not None
+    assert "Never val/test" in train_loop.fit_normalizer.__doc__

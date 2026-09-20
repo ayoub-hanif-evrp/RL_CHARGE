@@ -78,6 +78,7 @@ def main(argv=None) -> int:
                 val_interval=int(raw.get("val_interval", 50)),
                 val_max_routes=args.max_val_routes,
                 early_stopping_patience=int(raw.get("early_stopping_patience", 20)),
+                learning_rate=float(raw.get("learning_rate", 1e-3)),
             )
             print(manifest["status"], out)
         return 0

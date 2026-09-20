@@ -1,0 +1,36 @@
+{
+  "checkpoint": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL code\\results\\pilot\\freeze_prep_sanity\\discrete_ppo\\seed_42\\best.pt",
+  "method": "HybridPPO",
+  "split": "validation",
+  "n_routes": 77,
+  "n_feasible": 16,
+  "feasibility": 0.2077922077922078,
+  "parent_balanced_feasibility": 0.07665505226480836,
+  "parent_balanced_completion_all": 1171.7498470442456,
+  "mean_completion_all": 565.235378909455,
+  "frac_continue": 0.4324786324786325,
+  "frac_charge": 0.5675213675213675,
+  "mean_u": 0.39036145923008403,
+  "mean_station_visits": 4.311688311688312,
+  "repeated_station_actions": 0,
+  "consecutive_same_station_charges": 0,
+  "loop_guard_hits": 0,
+  "fail_reasons": {
+    "NO_FEASIBLE_ACTION": 54,
+    "ZERO_CHARGE_NOOP": 7
+  },
+  "n_zero_charge_noop": 7,
+  "n_no_feasible_action": 54,
+  "n_station_revisit": 0,
+  "nan_or_inf": false,
+  "normalizer_provenance": {
+    "n_routes": 132,
+    "n_dynamic_states": 723,
+    "seed": 0,
+    "max_dynamic_steps": 256,
+    "split": "train",
+    "policy": "GreedyMinimumSufficientCharge",
+    "soc_interval": "continuation_to_max",
+    "git_sha": "a65192385a798d5878f24ac8a75fd4b8c9ed10e3"
+  }
+}

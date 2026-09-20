@@ -1,4 +1,5 @@
 # AttentionPPO architectural baseline (not a joint-routing paper clone).
+# Same maximum interaction budget as Hybrid PPO: 400 × 256 = 102400 env transitions.
 
 learning_rate = 3e-4
 rollout_steps = 256
@@ -14,8 +15,8 @@ d_model = 64
 n_heads = 4
 n_layers = 1
 dropout = 0.0
-budget_updates = 200
+budget_updates = 400
 eval_interval = 10
-early_stopping_patience = 8
+early_stopping_patience = 20
 seed = 42
 u_eps = 1.0e-4

@@ -1,0 +1,2 @@
+method=discrete_ppo seeds=[42] device=cpu n_train=132 n_val=77
+early_stop C:\Users\AYOUB\OneDrive - EMSI\Bureau\PHD_WORK\RL_charge\Code_source_RL_GNN_paper\RL code\results\pilot\freeze_prep_sanity\discrete_ppo\seed_42

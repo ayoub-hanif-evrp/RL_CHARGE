@@ -1,0 +1,36 @@
+{
+  "checkpoint": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL code\\results\\pilot\\freeze_prep_sanity\\legacy_ddqn\\seed_42\\last.pt",
+  "method": "LegacyTwoStageDDQN",
+  "split": "validation",
+  "n_routes": 77,
+  "n_feasible": 6,
+  "feasibility": 0.07792207792207792,
+  "parent_balanced_feasibility": 0.024390243902439022,
+  "parent_balanced_completion_all": 1174.6516808398776,
+  "mean_completion_all": 572.2897855403879,
+  "frac_continue": 0.1523972602739726,
+  "frac_charge": 0.8476027397260274,
+  "mean_u": 0.6329040970487873,
+  "mean_station_visits": 6.428571428571429,
+  "repeated_station_actions": 0,
+  "consecutive_same_station_charges": 0,
+  "loop_guard_hits": 0,
+  "fail_reasons": {
+    "ZERO_CHARGE_NOOP": 16,
+    "NO_FEASIBLE_ACTION": 55
+  },
+  "n_zero_charge_noop": 16,
+  "n_no_feasible_action": 55,
+  "n_station_revisit": 0,
+  "nan_or_inf": false,
+  "normalizer_provenance": {
+    "n_routes": 132,
+    "n_dynamic_states": 723,
+    "seed": 0,
+    "max_dynamic_steps": 256,
+    "split": "train",
+    "policy": "GreedyMinimumSufficientCharge",
+    "soc_interval": "continuation_to_max",
+    "git_sha": "a65192385a798d5878f24ac8a75fd4b8c9ed10e3"
+  }
+}
