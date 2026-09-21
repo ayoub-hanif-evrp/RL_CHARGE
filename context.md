@@ -47,10 +47,11 @@ train, evaluate, or tabulate DDQN for the paper. If something looks broken,
 **Package.** `rl-charge`, `src/` layout, Python **≥ 3.11**  
 **Branch.** `main`  
 **Methodology freeze SHA (historical).** `a40b5853f25308ac13af94f308fe8fcdfb258f21`  
-**Paper-code freeze.** The commit that lands this paper-scope cleanup is
-`PAPER_CODE_SHA`. After that commit, `results/summaries/experiment_freeze.json`
-records `paper_code_sha`. A later bookkeeping commit of that JSON is
-`snapshot_commit_sha` and is **not** the training SHA.
+**Paper-code freeze (`paper_code_sha`).** `a175ee43548a5d2d5154a9ae0731a01f7642a7f6`  
+All final training and evaluation must start from this SHA.  
+`results/summaries/experiment_freeze.json` records that `paper_code_sha`. A
+later bookkeeping commit of that JSON is `snapshot_commit_sha` and is **not**
+the training SHA.
 
 **User constraints that survive across chats.** They are hard, not suggestions:
 
@@ -790,9 +791,9 @@ Both jobs are required (`continue-on-error` was removed). Actions:
 | Manuscript | **Not started** |
 | Methodology tuning | **Stopped** unless a verified implementation bug appears |
 
-`paper_code_sha` is recorded in `results/summaries/experiment_freeze.json`
-after the paper-scope cleanup commit. Do not train from a later
-bookkeeping snapshot commit.
+`paper_code_sha` = `a175ee43548a5d2d5154a9ae0731a01f7642a7f6`
+(in `results/summaries/experiment_freeze.json`). Do not train from a later
+bookkeeping snapshot commit of that JSON.
 
 ---
 
