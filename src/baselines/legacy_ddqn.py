@@ -1,5 +1,7 @@
 """Legacy two-stage Double DQN *method* on the new simulator.
 
+Historical/internal implementation — not used in paper experiments.
+
 This is not the old environment. Features and encoder are the Part 3A ones.
 One optimizer. Target encoder and both target heads are copied and frozen.
 SOC levels are the historical six-level grid 0.5 ... 1.0.

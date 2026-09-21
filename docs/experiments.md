@@ -4,6 +4,29 @@ Training, evaluation, ablations, and statistics live here. The Part 3A MDP,
 shield, Hybrid PPO architecture, corpus, and splits are frozen unless a
 verified bug appears.
 
+## Paper scope
+
+**Proposed method (only one):** Hybrid PPO for fixed-route charging
+(WHEN + WHERE + HOW MUCH).
+
+**Deterministic baselines:** `GreedyMinimumSufficientCharge`,
+`GreedyFullCharge`, `OneStepLookahead`.
+
+**RL / architectural comparators:** DiscretePPO (continuous vs six-level
+categorical charge amount). AttentionPPO (node-type embedding on the same
+frozen-route actor; not a joint-routing paper clone).
+
+**Ablations of Hybrid PPO:** A1–A5.
+
+**External benchmark:** `frvcpy` only on native compatible FRVCP data.
+
+**Restricted EVRPTW-GR search:** diagnostic/reference only, with its
+documented action-set limitation (`restricted_continuation_or_full_soc`).
+
+**Not in the paper:** `LegacyTwoStageDDQN`. Do not train it for paper seeds,
+evaluate it on TEST, or put it in paper tables. Implementation may remain
+in the repo as historical/internal code.
+
 ## What is and is not compared
 
 - Primary objective: **route completion time**. Energy, distance, and times
@@ -61,11 +84,10 @@ python scripts/audit_corpus.py --routes data/routes
 python scripts/preflight_experiments.py --paper
 python scripts/train_rl.py --method hybrid_ppo --split train --seeds paper
 python scripts/train_rl.py --method discrete_ppo --seeds paper
-python scripts/train_rl.py --method legacy_ddqn --seeds paper
 python scripts/train_rl.py --method attention_ppo --seeds paper
 python scripts/run_ablations.py --seeds ablation
 python scripts/run_baselines.py --split test --scenario main_test
-python scripts/evaluate.py --split test --scenario main_test --methods hybrid_ppo,discrete_ppo,attention_ppo,legacy_ddqn --seeds paper
+python scripts/evaluate.py --split test --scenario main_test --methods hybrid_ppo,discrete_ppo,attention_ppo --seeds paper
 python scripts/evaluate.py --split test --scenario ablation --methods A1,A2,A3,A4,A5 --seeds ablation
 python scripts/run_frvcpy_benchmark.py --data data/external/frvcpy --scenario frvcpy_native
 python scripts/run_restricted_search.py --splits train,validation
@@ -88,8 +110,7 @@ headline test number.
 Paper Hybrid PPO budget is the TRAIN/VAL protocol frozen in
 `configs/rl/hybrid_ppo.toml`: 400 updates, 256 rollout steps, validation
 every 10, patience 20. DiscretePPO and AttentionPPO use the same maximum
-interaction budget (102,400 environment transitions per seed). Legacy
-DDQN matches that 102,400 TRAIN-transition ceiling. Smoke stays in
+interaction budget (102,400 environment transitions per seed). Smoke stays in
 `configs/rl/hybrid_ppo_smoke.toml`.
 
 Validation model selection (paper/pilot): full validation population,

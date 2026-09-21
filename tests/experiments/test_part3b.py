@@ -261,3 +261,18 @@ def test_hybrid_ppo_paper_config_exists():
     pilot = PPOConfig.from_toml(REPO_ROOT / "configs" / "rl" / "hybrid_ppo_pilot.toml")
     assert pilot.budget_updates == 400
     assert pilot.early_stopping_patience == 20
+
+
+def test_paper_docs_and_defaults_exclude_ddqn():
+    experiments = (REPO_ROOT / "docs" / "experiments.md").read_text(encoding="utf-8")
+    rl = (REPO_ROOT / "docs" / "rl.md").read_text(encoding="utf-8")
+    evaluate = (REPO_ROOT / "scripts" / "evaluate.py").read_text(encoding="utf-8")
+    analyze = (REPO_ROOT / "scripts" / "analyze_results.py").read_text(encoding="utf-8")
+    assert "--method legacy_ddqn" not in experiments
+    assert "legacy_ddqn" not in experiments
+    assert "LegacyTwoStageDDQN" not in rl
+    assert "legacy_ddqn.toml" not in rl
+    assert "hybrid_ppo,discrete_ppo,attention_ppo --seeds paper" in experiments
+    assert "legacy_ddqn" not in evaluate.split('"""', 2)[1]
+    assert 'default="HybridPPO,DiscretePPO,AttentionPPO"' in analyze
+    assert 'default="HybridPPO,DiscretePPO,AttentionPPO,LegacyTwoStageDDQN"' not in analyze

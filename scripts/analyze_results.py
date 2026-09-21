@@ -62,7 +62,7 @@ def main(argv=None) -> int:
     parser.add_argument("--split", default=None)
     parser.add_argument("--expect-n-routes", type=int, default=None)
     parser.add_argument("--expect-seeds", default=None, help="comma-separated seeds for learned methods")
-    parser.add_argument("--learned-methods", default="HybridPPO,DiscretePPO,AttentionPPO,LegacyTwoStageDDQN")
+    parser.add_argument("--learned-methods", default="HybridPPO,DiscretePPO,AttentionPPO")
     parser.add_argument("--stateless-methods", default="GreedyMinimumSufficientCharge,GreedyFullCharge,OneStepLookahead")
     args = parser.parse_args(argv)
     scenario = require_scenario(args.scenario)

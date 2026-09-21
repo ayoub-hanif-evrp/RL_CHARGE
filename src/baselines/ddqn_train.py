@@ -1,8 +1,7 @@
 """Legacy DDQN training on the new simulator. One optimizer; frozen target.
 
-Learning uses TRAIN routes only. Checkpoint selection and early stopping use
-VALIDATION parent-balanced metrics. TEST is never loaded here. Feature
-normalization is the same TRAIN-only fit used by the PPO pipeline.
+Historical/internal implementation — not used in paper experiments.
+Learning uses TRAIN routes only. TEST is never loaded here.
 """
 
 from __future__ import annotations

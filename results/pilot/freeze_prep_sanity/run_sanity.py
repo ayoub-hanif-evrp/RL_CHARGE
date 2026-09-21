@@ -1,6 +1,6 @@
-"""Seed-42 TRAIN/VAL sanity for DiscretePPO, AttentionPPO, LegacyTwoStageDDQN.
+"""Seed-42 TRAIN/VAL sanity for DiscretePPO and AttentionPPO.
 
-Not hyperparameter tuning. TEST is forbidden.
+Not hyperparameter tuning. TEST is forbidden. Legacy DDQN is not a paper method.
 """
 
 from __future__ import annotations
@@ -16,7 +16,6 @@ SANITY = Path(__file__).resolve().parent
 METHODS = (
     ("discrete_ppo", "discrete_ppo/seed_42", "DiscretePPO"),
     ("attention_ppo", "attention_ppo/seed_42", "AttentionPPO"),
-    ("legacy_ddqn", "legacy_ddqn/seed_42", "LegacyTwoStageDDQN"),
 )
 
 

@@ -1,10 +1,6 @@
-# Legacy two-stage DDQN paper budget. One optimizer; frozen target.
-#
-# Maximum TRAIN environment transitions match the PPO methods:
-#   400 updates × 256 rollout steps = 102400
-# One environment step per gradient step. Validation every 2560 steps
-# (the PPO eval cadence: every 10 updates). Target-sync and replay stay
-# DDQN-specific. Early stopping may halt sooner. TEST is never used.
+# Legacy/internal configuration — not used in paper experiments.
+# One optimizer; frozen target. Historical two-stage Double DQN on the
+# new simulator. Do not train, evaluate, or tabulate this method for the paper.
 
 gradient_steps = 102400
 batch_size = 32

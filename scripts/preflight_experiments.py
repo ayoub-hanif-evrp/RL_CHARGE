@@ -63,8 +63,10 @@ def main(argv=None) -> int:
     hashes = frozen_hashes()
     pin_errors = _check_pinned(hashes)
     dirty = git_dirty()
+    sha = git_sha()
     payload = {
-        "git_sha": git_sha(),
+        "paper_code_sha": sha,
+        "git_sha": sha,
         "git_dirty": dirty,
         "hashes": hashes,
         "device": device_info(),
@@ -75,7 +77,11 @@ def main(argv=None) -> int:
         "pinned_ok": not pin_errors,
         "pin_errors": pin_errors,
         "mode": "paper" if args.paper else "default",
-        "note": "Paper-scale training must start from a frozen commit of this SHA with git_dirty=false.",
+        "note": (
+            "paper_code_sha is the frozen code version for all paper training "
+            "and evaluation. A later commit of this JSON is bookkeeping only "
+            "(snapshot_commit_sha) and is not the training SHA."
+        ),
     }
     if args.paper:
         failures = []

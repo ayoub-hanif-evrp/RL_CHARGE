@@ -16,33 +16,54 @@ pinned hashes and the frozen SHA** win for the current stage.
 stops and choose how much to charge. It must **never** reorder customers, never
 solve joint routing+charging, and never invent a mixed-unit cost.
 
-**Current stage (17 Sep 2026).** TRAIN/VALIDATION Hybrid PPO **pilot**. Seed 42
-finished with **VAL feasibility 0.0**. Seed 43 is incomplete. TEST is unused.
-The five-seed paper matrix has **not** started. The manuscript has **not**
-started.
+**Proposed method (only one).** Hybrid PPO for fixed-route charging:
+WHEN + WHERE + HOW MUCH. DiscretePPO is a comparator (categorical charge
+amount), not a second proposed method. AttentionPPO is an optional
+architectural comparator. **Legacy DDQN is not part of the paper.**
+
+**Current stage (21 Sep 2026).** Methodology, simulator, shield, Hybrid PPO,
+and the TRAIN/VAL pilot protocol are **frozen**. The third Hybrid PPO
+TRAIN/VAL pilot succeeded sufficiently to freeze:
+
+- max updates 400
+- rollout steps 256
+- validation every 10
+- patience 20
+- per-seed best parent-balanced validation checkpoint
+
+Seeds 42 and 43 of that Hybrid PPO pilot are archived under
+`results/pilot/post_correctness_fix/`. TEST has **not** been used for final
+evaluation. The five-seed paper matrix, ablations, and manuscript have
+**not** started. Do not tune against VALIDATION further. No more
+methodology development unless a verified implementation bug occurs.
 
 **Default stance.** Do **not** redesign the MDP, Hybrid PPO, shield, corpus,
 splits, physics, or reward. Do **not** regenerate frozen routes. Do **not**
-touch TEST. Do **not** silently retune after seeing VAL. If something looks
-broken, **stop and report**.
+touch TEST until the user starts the final experiment phase. Do **not**
+train, evaluate, or tabulate DDQN for the paper. If something looks broken,
+**stop and report**.
 
 **Repo.** https://github.com/ayoub-hanif-evrp/RL_CHARGE.git  
 **Package.** `rl-charge`, `src/` layout, Python **≥ 3.11**  
 **Branch.** `main`  
-**Methodology freeze SHA (pilot).** `a40b5853f25308ac13af94f308fe8fcdfb258f21`  
-**Latest commit that added this briefing.** see `git log -1` (context.md may be
-newer than the methodology freeze).
+**Methodology freeze SHA (historical).** `a40b5853f25308ac13af94f308fe8fcdfb258f21`  
+**Paper-code freeze.** The commit that lands this paper-scope cleanup is
+`PAPER_CODE_SHA`. After that commit, `results/summaries/experiment_freeze.json`
+records `paper_code_sha`. A later bookkeeping commit of that JSON is
+`snapshot_commit_sha` and is **not** the training SHA.
 
 **User constraints that survive across chats.** They are hard, not suggestions:
 
 1. Do not redesign MDP / Hybrid PPO / corpus / splits.
 2. Do not regenerate frozen routes.
-3. Do not use TEST for tuning, budget, or the current pilot.
-4. Do not write the manuscript.
+3. Do not use TEST for tuning, budget, or method decisions.
+4. Do not write the manuscript until results exist.
 5. Do not start the 5-seed paper experiment until the user approves.
 6. Keep pinned corpus and split hashes (section 3) unchanged.
-7. If VAL feasibility stays near zero: stop and report; do not “fix” lr /
-   entropy / architecture / shield / reward without approval.
+7. Do not include Legacy DDQN in paper training, TEST evaluation, tables,
+   or manuscript experiment plans.
+8. If a verified implementation bug appears: stop and report; do not
+   silently retune lr / entropy / architecture / shield / reward.
 
 ---
 
@@ -93,9 +114,10 @@ narrower and cleaner:
 > policy** that minimizes **route completion time** under EVRPTW-GR physics
 > and a method-independent feasibility shield.
 
-Everything else (greedy, DiscretePPO, DDQN, AttentionPPO, native frvcpy,
-label-setting on tiny routes) is a **baseline or ablation**, not a second
-proposed method.
+Everything else (greedy heuristics, DiscretePPO, AttentionPPO, native frvcpy,
+restricted label-setting on tiny routes) is a **baseline, comparator, or
+ablation**, not a second proposed method. **Legacy DDQN is not a paper
+baseline.**
 
 ### 1.4 Two-stage methodology (frozen)
 
@@ -116,12 +138,14 @@ Failed episodes stay in every table (`feasible=false`). The all-routes
 completion metric substitutes depot due date **H** for failures so dropping
 infeasible routes cannot hide losses.
 
-Model selection (TRAIN/VAL): lexicographic
+Model selection (TRAIN/VAL): lexicographic **parent-balanced** metrics
 
-1. maximize **validation feasibility rate**
-2. then minimize **all-routes completion time** (H for failures)
+1. maximize mean-over-parents validation feasibility
+2. then minimize mean-over-parents all-routes completion time (`H` for failures)
 
-Evaluate **`best.pt`**, never `last.pt`, on the paper/pilot.
+Route-weighted VAL numbers stay in the logs. Evaluate **`best.pt`**, never
+`last.pt`, on the paper/pilot. Each seed may select its own best validation
+checkpoint.
 
 ---
 
@@ -155,14 +179,21 @@ sensitivity only.
 
 ## 3. Frozen scientific objects (do not regenerate)
 
-### 3.1 Git SHA for the methodology freeze
+### 3.1 Git SHA for the paper-code freeze
+
+The historical methodology freeze (pre-pilot) was:
 
 ```
 a40b5853f25308ac13af94f308fe8fcdfb258f21
 ```
 
-Paper preflight and the seed-42 pilot were run from this commit. Later commits
-may add docs (`context.md`) without changing science.
+**All final paper training and evaluation must use `paper_code_sha`** from
+`results/summaries/experiment_freeze.json` after the paper-scope cleanup is
+committed. That SHA is the code version. A later commit that only stores the
+preflight JSON is `snapshot_commit_sha` (bookkeeping) and must not be treated
+as the training SHA.
+
+Corpus and split hashes below are unchanged and still pinned.
 
 ### 3.2 Frozen route corpus
 
@@ -278,7 +309,7 @@ Actions (`src/simulation/actions.py`):
   the customer index. Multiple stations between two customers are legal.
 
 `target_soc` is continuous. There is no six-level grid inside the simulator.
-Discrete grids exist only inside DiscretePPO / DDQN **policies**.
+Discrete grids exist only inside comparator **policies** (DiscretePPO).
 
 Failed transitions return `feasible=False` plus an explicit
 `InfeasibilityReason` (`INSUFFICIENT_ENERGY`, `TIME_WINDOW_VIOLATION`,
@@ -387,8 +418,8 @@ Configs:
 
 | File | Role |
 | --- | --- |
-| `configs/rl/hybrid_ppo.toml` | Paper budget (`budget_updates=200`, patience 8) |
-| `configs/rl/hybrid_ppo_pilot.toml` | Pilot **ceiling** (400, patience 20). Not assumed sufficient. |
+| `configs/rl/hybrid_ppo.toml` | Frozen paper protocol: 400 updates, 256 steps, val every 10, patience 20 |
+| `configs/rl/hybrid_ppo_pilot.toml` | Same ceiling used by the accepted TRAIN/VAL pilot |
 | `configs/rl/hybrid_ppo_smoke.toml` | Smoke only |
 
 Shared knobs: `lr=3e-4`, `rollout_steps=256`, `minibatch=32`, `epochs=4`,
@@ -405,8 +436,10 @@ Shared knobs: `lr=3e-4`, `rollout_steps=256`, `minibatch=32`, `epochs=4`,
 | A3 | Zero remaining-route features |
 | A4 | Zero terrain/load features |
 | A5 | Mean-pool stations instead of attention |
-| AttentionPPO | Same Hybrid PPO + depot/customer/station type embedding. **Not** a paper clone. |
-| LegacyTwoStageDDQN | Two-head Q on the **new** simulator. True Double DQN: **online selects, target evaluates**. Charge head is station-conditioned. Historical SOC levels `0.5…1.0`. TRAIN learns, VAL selects checkpoints. |
+| AttentionPPO | Same Hybrid PPO + depot/customer/station type embedding. **Not** a paper clone. Architectural comparator only. |
+
+`LegacyTwoStageDDQN` exists under `src/baselines/` as **historical/internal
+code**. It is **not** in the paper experiment matrix.
 
 ### 5.6 Stateless baselines (new simulator only)
 
@@ -518,7 +551,7 @@ data/external/frvcpy/      native FRVCP + testdata.json
 
 configs/physics/           energy/charging profiles
 configs/routing/pyvrp.toml frozen generator settings
-configs/rl/                PPO / DDQN TOML
+configs/rl/                PPO TOML (legacy_ddqn.toml is internal, not paper)
 configs/experiments/       seeds.toml, splits.toml, sampling.toml
 
 checkpoints/               gitignored local training artifacts
@@ -627,11 +660,9 @@ Stop immediately and tell the user (do not auto-tune) if:
 
 - Read code/docs, add comments only if the user asked
 - Run pytest / preflight (preflight `--paper` requires a clean tree)
-- Finish **seed 43 only** if the user explicitly asks to continue the pilot
 - Expand `context.md` when the user asks for agent briefing
-- Fix a **verified implementation bug** that contradicts the frozen spec
-  (e.g. Double DQN was selecting with the target net). That is a bugfix, not
-  a redesign. Still do not then start TEST.
+- Fix a **verified implementation bug** that contradicts the frozen spec.
+  That is a bugfix, not a redesign. Still do not then start TEST.
 
 ### 9.4 Windows / Git pitfalls
 
@@ -693,57 +724,35 @@ python scripts/audit_corpus.py --routes data/routes
 python scripts/make_splits.py --out data/splits   # DO NOT rerun
 ```
 
-### 10.4 TRAIN / VALIDATION Hybrid PPO pilot (current stage)
+### 10.4 TRAIN / VALIDATION Hybrid PPO pilot (done)
 
-Preflight first on a **clean** tree:
+The accepted protocol is frozen in `configs/rl/hybrid_ppo.toml`. Archive:
+`results/pilot/post_correctness_fix/`. Do **not** rerun the pilot. Do **not**
+tune against VALIDATION further. `--split test` is rejected by `train_rl.py`.
 
-```bash
-python scripts/preflight_experiments.py --paper
-```
-
-Then:
-
-```bash
-python -u scripts/train_rl.py --method hybrid_ppo --split train --seeds 42,43 --config configs/rl/hybrid_ppo_pilot.toml
-```
-
-Do **not** pass `--smoke`. Do **not** cap `--max-train-routes` or
-`--max-val-routes`. `--split test` is rejected.
-
-Default checkpoint dir: `checkpoints/HybridPPO/seed_{seed}/`
-
-Keep under `results/pilot/` (not paper tables):
-
-- `curves.jsonl`
-- `manifest.json`
-- `best.pt`, `last.pt`
-- `normalizer_provenance.json`
-
-`--out-dir` is a **single** directory; both seeds would overwrite. Prefer one
-seed at a time if you set `--out-dir`.
-
-### 10.5 Other training (not now)
+### 10.5 Paper training (only when the user starts the experiment phase)
 
 ```bash
 python scripts/train_rl.py --method hybrid_ppo --split train --seeds paper
 python scripts/train_rl.py --method discrete_ppo --seeds paper
 python scripts/train_rl.py --method attention_ppo --seeds paper
-python scripts/train_rl.py --method legacy_ddqn --seeds paper
 python scripts/run_ablations.py --seeds ablation
 ```
 
-### 10.6 Evaluation / tables (TEST only after the method is frozen)
+Do **not** add `--method legacy_ddqn`. DDQN is not in the paper matrix.
+
+### 10.6 Evaluation / tables (TEST only after training from paper_code_sha)
 
 ```bash
 python scripts/run_baselines.py --split test --scenario main_test
-python scripts/evaluate.py --split test --scenario main_test --methods hybrid_ppo,discrete_ppo,attention_ppo,legacy_ddqn --seeds paper
+python scripts/evaluate.py --split test --scenario main_test --methods hybrid_ppo,discrete_ppo,attention_ppo --seeds paper
 python scripts/evaluate.py --split test --scenario ablation --methods A1,A2,A3,A4,A5 --seeds ablation
 python scripts/run_soc_reserve.py --levels 0,0.05,0.10,0.15
 python scripts/run_exact_small.py --split test --max-customers 5
 python scripts/run_frvcpy_benchmark.py --data data/external/frvcpy --scenario frvcpy_native
 python scripts/run_frvcpy_benchmark.py --parity-only
 python scripts/run_frvcpy_benchmark.py --fixtures-only
-python scripts/run_frvcpy_benchmark.py --montoya
+python scripts/run_restricted_search.py --splits train,validation
 python scripts/analyze_results.py --scenario main_test --split test
 python scripts/make_tables.py --scenario main_test
 python scripts/make_figures.py
@@ -763,65 +772,47 @@ Both jobs are required (`continue-on-error` was removed). Actions:
 
 ---
 
-## 11. Current status (17 Sep 2026)
+## 11. Current status (21 Sep 2026)
 
 | Item | State |
 | --- | --- |
-| Methodology freeze SHA | `a40b5853f25308ac13af94f308fe8fcdfb258f21` |
-| CI | Both jobs green on that SHA |
-| frvcpy parity | 133/133, max abs error ≈ 4.86e−7 |
-| Local tests | 174 passed (with frvcpy installed) |
+| Proposed method | Hybrid PPO only |
+| Paper Hybrid PPO protocol | 400 updates × 256 steps, val every 10, patience 20, per-seed parent-balanced `best.pt` |
+| Third TRAIN/VAL Hybrid PPO pilot | Accepted; archive `results/pilot/post_correctness_fix/` |
+| Seed 42 pilot best | update 200, 21/77 VAL feasible, parent-balanced ~9.7%, CONTINUE/CHARGE ~49/51, 0 revisits, 0 loop-guard, no NaNs |
+| Seed 43 pilot best | update 280, 22/77 VAL feasible, parent-balanced ~10.1%, last checkpoint stayed close |
+| Freeze-prep sanity (seed 42) | DiscretePPO and AttentionPPO end-to-end; DDQN sanity untracked from the paper archive |
+| DDQN | **Not in the paper.** Code/tests may remain as historical/internal. |
 | Corpus / split hashes | Unchanged, pinned in preflight |
-| TEST | **Not used** |
+| TEST | **Not used** for final evaluation |
 | 5-seed paper run | **Not started** |
 | Ablations | **Not started** |
 | Manuscript | **Not started** |
+| Methodology tuning | **Stopped** unless a verified implementation bug appears |
 
-### Pilot seed 42 (finished)
-
-- Device: **CPU**
-- Runtime: **2318 s** (~39 min), ≈ 11.6 s/update
-- Status: `early_stop` after **200** updates (patience 20 × interval 10)
-- Best checkpoint: **update 0**
-- Best VAL feasibility: **0.0** (0/77)
-- VAL completion-all: **576.60** (all-routes H)
-- Loss: large and noisy, finite (no NaN/Inf)
-- Artifacts: `checkpoints/HybridPPO/seed_42/`
-- Manifest recorded `git_dirty: true` because preflight had already written
-  `experiment_freeze.json`
-
-This is a **no-learning** signal on VAL. Do not silently retune.
-
-### Pilot seed 43 (not finished)
-
-Only `checkpoints/HybridPPO/seed_43/best.pt` exists (started ~14:34 on 16 Sep,
-then interrupted). No `curves.jsonl`, `last.pt`, or `manifest.json`.
-
-### Time estimates (CPU, sequential)
-
-- Finish seed 43: ~35–45 min if it early-stops like 42; ~70–80 min if it hits 400
-- Later 5-seed paper Hybrid PPO (if budget stays ~200): roughly 1.3–4 h CPU
-  depending on early stop vs full budget — **do not start it now**
-
-### What is not decided yet
-
-Paper `budget_updates` (`200` vs `300` vs `400`) waits until **both** pilot
-seeds exist, unless the user stops on the seed-42 pathology.
+`paper_code_sha` is recorded in `results/summaries/experiment_freeze.json`
+after the paper-scope cleanup commit. Do not train from a later
+bookkeeping snapshot commit.
 
 ---
 
-## 12. Exact next command (only when the user asks)
+## 12. Exact next commands (only when the user starts the experiment phase)
 
-Finish seed 43 only, still no TEST:
+Train from `paper_code_sha`, TRAIN/VAL only, no TEST until evaluation:
 
 ```bash
-python -u scripts/train_rl.py --method hybrid_ppo --split train --seeds 43 --config configs/rl/hybrid_ppo_pilot.toml
+python scripts/preflight_experiments.py --paper
+python scripts/train_rl.py --method hybrid_ppo --split train --seeds paper
+python scripts/train_rl.py --method discrete_ppo --seeds paper
+python scripts/train_rl.py --method attention_ppo --seeds paper
+python scripts/run_ablations.py --seeds ablation
 ```
 
-Then copy `checkpoints/HybridPPO/seed_{42,43}/` into `results/pilot/`, analyze
-VAL curves + `best.pt`, and only then freeze a paper `budget_updates`.
+Then, and only then, evaluate the untouched TEST population, native `frvcpy`,
+restricted-search reference, statistics, tables, and figures. Do **not**
+include `legacy_ddqn`.
 
-Do **not** run `--seeds paper` or `--split test` until that budget is approved.
+Do **not** run `--seeds paper` or `--split test` until the user asks.
 
 ---
 

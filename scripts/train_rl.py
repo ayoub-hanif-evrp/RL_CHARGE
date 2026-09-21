@@ -1,4 +1,8 @@
-"""Train Hybrid PPO, Discrete PPO, AttentionPPO, or Legacy DDQN on TRAIN routes only."""
+"""Train Hybrid PPO, Discrete PPO, or AttentionPPO on TRAIN routes only.
+
+Legacy DDQN remains available as an internal CLI (`--method legacy_ddqn`)
+but is not part of the paper experiments.
+"""
 
 from __future__ import annotations
 

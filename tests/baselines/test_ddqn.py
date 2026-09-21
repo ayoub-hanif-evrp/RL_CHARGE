@@ -57,11 +57,13 @@ def test_soc_head_is_station_conditioned():
     assert n_stations.shape[1] == 2 * 16
 
 
-def test_ddqn_paper_budget_matches_ppo_transitions():
+def test_ddqn_internal_config_is_not_a_paper_experiment():
     with (REPO_ROOT / "configs" / "rl" / "legacy_ddqn.toml").open("rb") as handle:
         raw = tomllib.load(handle)
-    assert int(raw["gradient_steps"]) == 400 * 256
-    assert int(raw["val_interval"]) == 10 * 256
+    text = (REPO_ROOT / "configs" / "rl" / "legacy_ddqn.toml").read_text(encoding="utf-8")
+    assert "not used in paper experiments" in text
+    assert int(raw["gradient_steps"]) == 102400
+    assert int(raw["val_interval"]) == 2560
     assert int(raw["early_stopping_patience"]) == 20
 
 

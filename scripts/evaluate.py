@@ -3,7 +3,7 @@
 Paper CLIs (do not mix seed groups in one --methods all run):
 
     python scripts/evaluate.py --split test --scenario main_test \\
-        --methods hybrid_ppo,discrete_ppo,attention_ppo,legacy_ddqn --seeds paper
+        --methods hybrid_ppo,discrete_ppo,attention_ppo --seeds paper
     python scripts/evaluate.py --split test --scenario ablation \\
         --methods A1,A2,A3,A4,A5 --seeds ablation
 """

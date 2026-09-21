@@ -57,35 +57,6 @@
       "loop_guard_hits": 0,
       "n_station_revisit": 0,
       "nan_or_inf": false
-    },
-    "LegacyTwoStageDDQN": {
-      "status": "early_stop",
-      "best_update": 12800,
-      "best_val_feasibility": 0.04432830042586141,
-      "best_val_completion_all": 1174.4142435326319,
-      "best_val_route_weighted_feasibility": 0.11688311688311688,
-      "checkpoint_selection": "parent_balanced_lexicographic",
-      "split_used_for_learning": "train",
-      "split_used_for_selection": "validation",
-      "max_env_transitions": 102400,
-      "normalizer_split": "train",
-      "normalizer_n_routes": 132,
-      "losses": {
-        "n_rows": 63970,
-        "finite": true,
-        "nonzero": true,
-        "last_loss": 6.242032737583104e+16,
-        "n_nan": 0
-      },
-      "val_feasibility": 0.11688311688311688,
-      "val_n_feasible": 9,
-      "val_n_routes": 77,
-      "frac_continue": 0.19474835886214442,
-      "frac_charge": 0.8052516411378556,
-      "repeated_station_actions": 0,
-      "loop_guard_hits": 0,
-      "n_station_revisit": 0,
-      "nan_or_inf": false
     }
   }
 }
