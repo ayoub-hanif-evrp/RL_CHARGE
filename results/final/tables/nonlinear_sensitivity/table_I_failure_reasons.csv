@@ -1,0 +1,6 @@
+method,n_rows,n_feasible,n_failed,reason,count
+FRVCPGreedyFull,22,0,22,no_cs_insertion,18
+FRVCPGreedyFull,22,0,22,t_max,4
+FRVCPGreedyMin,22,0,22,no_cs_insertion,22
+evrptwgr_surrogate_flag,1,0,1,unknown,1
+frvcpy_Solver,22,22,0,optimal,22

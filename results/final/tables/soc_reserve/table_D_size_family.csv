@@ -1,0 +1,17 @@
+method,slice,value,n_rows,feasibility,completion_all
+GreedyMinimumSufficientCharge,network_group,Large_Network,28,0.0,1236.0
+GreedyMinimumSufficientCharge,network_group,Medium_Network,36,0.1111111111111111,782.2858015553855
+GreedyMinimumSufficientCharge,network_group,Small_Network,132,0.022727272727272728,1111.3674453184265
+GreedyMinimumSufficientCharge,customer_distribution,c,120,0.058333333333333334,1446.9232636502181
+GreedyMinimumSufficientCharge,customer_distribution,r,28,0.0,560.0
+GreedyMinimumSufficientCharge,customer_distribution,rc,48,0.0,420.0
+GreedyMinimumSufficientCharge,schedule_type,1,160,0.04375,907.9424477376637
+GreedyMinimumSufficientCharge,schedule_type,2,36,0.0,1783.3333333333333
+HybridPPO,network_group,Large_Network,140,0.007142857142857143,1235.9861112447893
+HybridPPO,network_group,Medium_Network,180,0.1388888888888889,776.5902312743686
+HybridPPO,network_group,Small_Network,660,0.07575757575757576,1096.26011078645
+HybridPPO,customer_distribution,c,600,0.08833333333333333,1431.2385290612879
+HybridPPO,customer_distribution,r,140,0.08571428571428572,556.3065436050439
+HybridPPO,customer_distribution,rc,240,0.04583333333333333,415.5414032551459
+HybridPPO,schedule_type,1,800,0.09375,894.8464783715544
+HybridPPO,schedule_type,2,180,0.005555555555555556,1780.4377090303917

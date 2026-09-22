@@ -1,0 +1,5 @@
+method,n_routes,n_seeds,n_rows,route_weighted_feasibility,parent_balanced_feasibility,feasibility_ci95_lo,feasibility_ci95_hi,route_weighted_completion_all,parent_balanced_completion_all,completion_all_ci95_lo,completion_all_ci95_hi,seed_sd_completion_all,uncertainty,seeds
+FRVCPGreedyFull,133,1,133,0.21804511278195488,0.21804511278195488,0.15037593984962405,0.2932330827067669,7.931945836104548,7.931945836104548,7.31036057771009,8.48364372807953,,parent_cluster,0
+FRVCPGreedyMin,133,1,133,0.17293233082706766,0.17293233082706766,0.11278195488721804,0.24060150375939848,6.19084817110112,6.19084817110112,5.699071356489873,6.702325732233241,,parent_cluster,0
+evrptwgr_surrogate_flag,1,1,1,0.0,0.0,0.0,0.0,,,,,,parent_cluster,0
+frvcpy_Solver,133,1,133,1.0,1.0,1.0,1.0,7.93595754758522,7.93595754758522,7.683876994818771,8.174472327620087,,parent_cluster,0

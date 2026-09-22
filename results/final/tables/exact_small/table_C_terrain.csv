@@ -1,0 +1,4 @@
+method,terrain,n_rows,feasibility,completion_all,parent_balanced_completion_all
+RestrictedLabelSetting,L,9,0.6666666666666666,684.5215806682895,550.9898563504152
+RestrictedLabelSetting,NL,16,0.4375,810.2555626109657,511.11167578062225
+RestrictedLabelSetting,VG,9,0.4444444444444444,781.4577337765713,756.8746402659427

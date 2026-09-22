@@ -1,0 +1,6 @@
+# Table G — soc_reserve runtime
+
+| method | n | mean_runtime_s | median_runtime_s |
+| --- | --- | --- | --- |
+| GreedyMinimumSufficientCharge | 196 | 0.010732292857232541 | 0.004424450016813353 |
+| HybridPPO | 980 | 0.07654507285695551 | 0.02024544999585487 |

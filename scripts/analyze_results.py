@@ -24,12 +24,16 @@ from experiments.isolation import (
     validate_expected_counts,
 )  # noqa: E402
 from experiments.stats import (
+    attach_feas_rate,
     hierarchical_bootstrap_ci,
     holm,
     mean_sd_across_training_seeds,
     paired_parent_diff_hierarchical,
     permutation_pvalue,
     summarize_method,
+    exclude_non_paper_methods,
+    dedupe_soc_greedy,
+    LEARNED_PAPER_METHODS,
 )  # noqa: E402
 from routing.serialize import canonical_dumps  # noqa: E402
 
@@ -72,6 +76,9 @@ def main(argv=None) -> int:
     args.out = args.out or (RESULTS_DIR / "summaries" / scenario)
     rows = load_all_raw(args.raw)
     rows = filter_scenario(rows, scenario, split=split)
+    rows = exclude_non_paper_methods(rows)
+    if scenario == "soc_reserve":
+        rows = dedupe_soc_greedy(rows)
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "all_rows.jsonl").write_text(
         "\n".join(canonical_dumps({k: v for k, v in row.items() if k != "_source"}) for row in rows)
@@ -164,19 +171,127 @@ def main(argv=None) -> int:
             writer.writeheader()
             writer.writerows(summaries)
 
+    MAIN_COMPARATORS = (
+        "GreedyMinimumSufficientCharge",
+        "GreedyFullCharge",
+        "OneStepLookahead",
+        "DiscretePPO",
+        "AttentionPPO",
+    )
     hybrid = by_method.get("HybridPPO", [])
     tests = []
-    if hybrid:
+    parent_diff_rows = []
+    if hybrid and scenario == "main_test":
+        hybrid_feas = attach_feas_rate(hybrid)
+        for other_name in MAIN_COMPARATORS:
+            other = by_method.get(other_name, [])
+            if not other:
+                continue
+            learned_other = other_name in LEARNED_PAPER_METHODS or other_name.startswith("HybridPPO")
+            other_feas = attach_feas_rate(other)
+            for metric, left, right in (
+                ("completion_time_all_routes", hybrid, other),
+                ("feas_rate", hybrid_feas, other_feas),
+            ):
+                diffs = paired_parent_diff_hierarchical(
+                    left,
+                    right,
+                    metric,
+                    a_mean_over_seeds=True,
+                    b_mean_over_seeds=learned_other,
+                )
+                values = list(diffs.values())
+                arr = [float(v) for v in values]
+                p = permutation_pvalue(arr)
+                mean_diff = float(sum(arr) / len(arr)) if arr else None
+                median_diff = float(sorted(arr)[len(arr) // 2]) if arr else None
+                if arr and len(arr) % 2 == 0:
+                    median_diff = 0.5 * (sorted(arr)[len(arr) // 2 - 1] + sorted(arr)[len(arr) // 2])
+                test_id = f"HybridPPO vs {other_name} :: {metric}"
+                tests.append((test_id, p))
+                for parent, diff in diffs.items():
+                    parent_diff_rows.append(
+                        {
+                            "comparison": test_id,
+                            "base_instance": parent,
+                            "paired_difference": diff,
+                            "metric": metric,
+                            "comparator": other_name,
+                        }
+                    )
+                parent_diff_rows.append(
+                    {
+                        "comparison": test_id,
+                        "base_instance": "_summary",
+                        "paired_difference": mean_diff,
+                        "metric": metric,
+                        "comparator": other_name,
+                        "mean_paired_difference": mean_diff,
+                        "median_paired_difference": median_diff,
+                        "n_paired_parents": len(arr),
+                        "p_raw": p,
+                    }
+                )
+        adjusted = holm(tests)
+        adj_map = {name: (p, adj) for name, p, adj in adjusted}
+        with (args.out / "paired_holm.csv").open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(
+                handle,
+                fieldnames=[
+                    "comparison",
+                    "metric",
+                    "comparator",
+                    "mean_paired_difference",
+                    "median_paired_difference",
+                    "n_paired_parents",
+                    "p_raw",
+                    "p_holm",
+                    "test",
+                    "pairing",
+                    "holm_family",
+                ],
+            )
+            writer.writeheader()
+            for row in parent_diff_rows:
+                if row.get("base_instance") != "_summary":
+                    continue
+                name = row["comparison"]
+                p_raw, p_holm = adj_map[name]
+                writer.writerow(
+                    {
+                        "comparison": name,
+                        "metric": row["metric"],
+                        "comparator": row["comparator"],
+                        "mean_paired_difference": row["mean_paired_difference"],
+                        "median_paired_difference": row["median_paired_difference"],
+                        "n_paired_parents": row["n_paired_parents"],
+                        "p_raw": p_raw,
+                        "p_holm": p_holm,
+                        "test": "exact_sign_flip" if int(row["n_paired_parents"] or 0) <= 20 else "monte_carlo_sign_flip",
+                        "pairing": "matched_parents_mean_over_seeds_for_learned",
+                        "holm_family": "main_test HybridPPO vs 5 comparators x feasibility + all-routes completion",
+                    }
+                )
+        if parent_diff_rows:
+            keys = [
+                "comparison",
+                "base_instance",
+                "paired_difference",
+                "metric",
+                "comparator",
+            ]
+            with (args.out / "parent_paired_differences.csv").open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=keys, extrasaction="ignore")
+                writer.writeheader()
+                writer.writerows([r for r in parent_diff_rows if r.get("base_instance") != "_summary"])
+    elif hybrid:
+        tests = []
         for other_name, other in by_method.items():
             if other_name == "HybridPPO":
                 continue
-            if not other or "route_completion_time" not in other[0]:
+            if not other or "completion_time_all_routes" not in other[0]:
                 continue
-            learned_other = other_name in {
-                "DiscretePPO",
-                "AttentionPPO",
-                "LegacyTwoStageDDQN",
-            }
+            learned_other = other_name in LEARNED_PAPER_METHODS or other_name.startswith("HybridPPO")
             diffs = paired_parent_diff_hierarchical(
                 hybrid,
                 other,
@@ -185,20 +300,21 @@ def main(argv=None) -> int:
                 b_mean_over_seeds=learned_other,
             )
             p = permutation_pvalue(list(diffs.values()))
-            tests.append((other_name, p))
-        adjusted = holm(tests)
-        with (args.out / "paired_holm.csv").open("w", encoding="utf-8", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=["comparison", "p_raw", "p_holm", "pairing"])
-            writer.writeheader()
-            for name, p, adj in adjusted:
-                writer.writerow(
-                    {
-                        "comparison": f"HybridPPO vs {name}",
-                        "p_raw": p,
-                        "p_holm": adj,
-                        "pairing": "matched_parents_mean_over_seeds_for_learned",
-                    }
-                )
+            tests.append((f"HybridPPO vs {other_name}", p))
+        if tests:
+            adjusted = holm(tests)
+            with (args.out / "paired_holm.csv").open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=["comparison", "p_raw", "p_holm", "pairing"])
+                writer.writeheader()
+                for name, p, adj in adjusted:
+                    writer.writerow(
+                        {
+                            "comparison": name,
+                            "p_raw": p,
+                            "p_holm": adj,
+                            "pairing": "matched_parents_mean_over_seeds_for_learned",
+                        }
+                    )
     print(f"analyzed {len(rows)} rows, {len(summaries)} methods, scenario={scenario} split={split}")
     return 0
 

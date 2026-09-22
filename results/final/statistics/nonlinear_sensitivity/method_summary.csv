@@ -1,0 +1,4 @@
+method,scenario,split,n,feasibility_mean,feasibility_ci95_lo,feasibility_ci95_hi,time_feasible_mean,time_feasible_ci95_lo,time_feasible_ci95_hi,time_all_mean,time_all_ci95_lo,time_all_ci95_hi,time_all_hier_mean,time_all_hier_lo,time_all_hier_hi,sd_across_seeds,n_seeds,resampling_unit,runtime_mean
+FRVCPGreedyFull,nonlinear_sensitivity,,22,0.0,0.0,0.0,,,,2.0550464792252483,0.47648192228235453,4.110092958450497,2.0550464792252483,0.47648192228235453,4.110092958450497,0.0,1,training_seed_then_base_instance,
+FRVCPGreedyMin,nonlinear_sensitivity,,22,0.0,0.0,0.0,,,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,training_seed_then_base_instance,
+frvcpy_Solver,nonlinear_sensitivity,,22,1.0,1.0,1.0,inf,inf,inf,inf,inf,inf,inf,inf,inf,0.0,1,training_seed_then_base_instance,0.001160027271411805

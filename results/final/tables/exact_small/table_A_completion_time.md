@@ -1,0 +1,5 @@
+# Table A — exact_small performance (failures retained; H for infeasible completion)
+
+| method | n_routes | n_seeds | n_rows | route_weighted_feasibility | parent_balanced_feasibility | feasibility_ci95_lo | feasibility_ci95_hi | route_weighted_completion_all | parent_balanced_completion_all | completion_all_ci95_lo | completion_all_ci95_hi | seed_sd_completion_all | uncertainty | seeds |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| RestrictedLabelSetting | 34 | 1 | 34 | 0.5 | 0.36944444444444446 | 0.05555555555555555 | 0.6833333333333333 | 769.3500832876234 | 539.6616298439981 | 234.8713202636253 | 872.5076807568112 |  | parent_cluster | 0 |

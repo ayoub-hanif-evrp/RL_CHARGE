@@ -1,0 +1,6 @@
+comparison,p_raw,p_holm,pairing
+HybridPPO vs DiscretePPO,1.0,1.0,matched_parents_mean_over_seeds_for_learned
+HybridPPO vs HybridPPO_A2,0.625,1.0,matched_parents_mean_over_seeds_for_learned
+HybridPPO vs HybridPPO_A3,0.75,1.0,matched_parents_mean_over_seeds_for_learned
+HybridPPO vs HybridPPO_A4,1.0,1.0,matched_parents_mean_over_seeds_for_learned
+HybridPPO vs HybridPPO_A5,0.25,1.0,matched_parents_mean_over_seeds_for_learned

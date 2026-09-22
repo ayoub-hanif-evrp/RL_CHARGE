@@ -1,0 +1,10 @@
+# Table C — soc_reserve terrain (frozen terrain-sibling customer sequences)
+
+| method | terrain | n_rows | feasibility | completion_all | parent_balanced_completion_all |
+| --- | --- | --- | --- | --- | --- |
+| GreedyMinimumSufficientCharge | L | 44 | 0.0 | 1113.6363636363637 | 1365.2 |
+| GreedyMinimumSufficientCharge | NL | 108 | 0.06481481481481481 | 1032.1369596113536 | 1174.6833128382996 |
+| GreedyMinimumSufficientCharge | VG | 44 | 0.0 | 1113.6363636363637 | 1365.2 |
+| HybridPPO | L | 220 | 0.045454545454545456 | 1111.1415870716569 | 1363.3704971858817 |
+| HybridPPO | NL | 540 | 0.09259259259259259 | 1024.0242721611762 | 1167.6241109386558 |
+| HybridPPO | VG | 220 | 0.07272727272727272 | 1086.0532463632462 | 1353.0634283998284 |

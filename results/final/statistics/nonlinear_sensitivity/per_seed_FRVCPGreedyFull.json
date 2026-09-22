@@ -1,0 +1,1 @@
+{"mean_across_seeds":2.0550464792252483,"n_seeds":1,"per_seed":{"0":{"ci95_hi":4.110092958450497,"ci95_lo":0.47648192228235453,"cluster_mean":2.0550464792252483,"mean":2.0550464792252483,"median":0.0,"n":22,"n_clusters":22,"sd":4.486490885161684}},"resampling_unit":"training_seed_then_base_instance","sd_across_seeds":0.0}

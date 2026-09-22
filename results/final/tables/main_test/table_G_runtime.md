@@ -1,0 +1,10 @@
+# Table G — main_test runtime
+
+| method | n | mean_runtime_s | median_runtime_s |
+| --- | --- | --- | --- |
+| AttentionPPO | 245 | 0.10193337836820746 | 0.02614420000463724 |
+| DiscretePPO | 245 | 0.08699199428796121 | 0.026419000001624227 |
+| GreedyFullCharge | 49 | 0.017335214286244342 | 0.006640900042839348 |
+| GreedyMinimumSufficientCharge | 49 | 0.008868675522164119 | 0.0034745000302791595 |
+| HybridPPO | 245 | 0.09368315347023688 | 0.027854599989950657 |
+| OneStepLookahead | 49 | 0.08736308163735179 | 0.028481299988925457 |

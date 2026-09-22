@@ -1,0 +1,8 @@
+# Table G — frvcpy_native runtime
+
+| method | n | mean_runtime_s | median_runtime_s |
+| --- | --- | --- | --- |
+| FRVCPGreedyFull | 0 |  |  |
+| FRVCPGreedyMin | 0 |  |  |
+| evrptwgr_surrogate_flag | 0 |  |  |
+| frvcpy_Solver | 133 | 0.0012192022553435002 | 0.0008086999878287315 |

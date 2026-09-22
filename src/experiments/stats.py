@@ -66,6 +66,8 @@ def permutation_pvalue(diffs: Sequence[float], n_perm: int = 2000, seed: int = 0
     arr = np.asarray(list(diffs), dtype=np.float64)
     if arr.size == 0:
         return 1.0
+    if arr.size <= 20:
+        return exact_sign_flip_pvalue(arr)
     observed = abs(arr.mean())
     rng = np.random.default_rng(seed)
     count = 0
@@ -74,6 +76,26 @@ def permutation_pvalue(diffs: Sequence[float], n_perm: int = 2000, seed: int = 0
         if abs((arr * signs).mean()) >= observed - 1e-15:
             count += 1
     return (count + 1) / (n_perm + 1)
+
+
+def exact_sign_flip_pvalue(diffs: Sequence[float]) -> float:
+    """Two-sided sign-flip p-value by enumerating all 2^n assignments. n <= 20."""
+    arr = np.asarray(list(diffs), dtype=np.float64)
+    n = int(arr.size)
+    if n == 0:
+        return 1.0
+    if n > 20:
+        raise ValueError("exact sign-flip enumeration is only for n <= 20")
+    observed = abs(float(arr.mean()))
+    total = 1 << n
+    count = 0
+    for mask in range(total):
+        signed_sum = 0.0
+        for i in range(n):
+            signed_sum += -arr[i] if (mask >> i) & 1 else arr[i]
+        if abs(signed_sum / n) >= observed - 1e-15:
+            count += 1
+    return count / total
 
 
 def holm(pvalues: Sequence[Tuple[str, float]]) -> List[Tuple[str, float, float]]:
@@ -215,3 +237,66 @@ def paired_parent_diff_hierarchical(
     b = parent_mean_over_seeds(rows_b, value_key, cluster_key) if b_mean_over_seeds else cluster_means(rows_b, value_key, cluster_key)
     keys = sorted(set(a) & set(b))
     return {key: a[key] - b[key] for key in keys}
+
+
+PAPER_EXCLUDED_METHODS = {"LegacyTwoStageDDQN"}
+ABLATION_DISPLAY = {
+    "HybridPPO": "FULL",
+    "DiscretePPO": "A1",
+    "HybridPPO_FULL": "FULL",
+    "HybridPPO_A1": "A1",
+    "HybridPPO_A2": "A2",
+    "HybridPPO_A3": "A3",
+    "HybridPPO_A4": "A4",
+    "HybridPPO_A5": "A5",
+}
+LEARNED_PAPER_METHODS = {"HybridPPO", "DiscretePPO", "AttentionPPO"}
+STATELESS_PAPER_METHODS = {
+    "GreedyMinimumSufficientCharge",
+    "GreedyFullCharge",
+    "OneStepLookahead",
+}
+
+
+def exclude_non_paper_methods(rows: Sequence[dict]) -> List[dict]:
+    return [row for row in rows if str(row.get("method")) not in PAPER_EXCLUDED_METHODS]
+
+
+def map_ablation_method(name: str) -> str:
+    return ABLATION_DISPLAY.get(str(name), str(name))
+
+
+def parent_balanced_mean(
+    rows: Sequence[dict], value_key: str, cluster_key: str = "base_instance"
+) -> float | None:
+    means = cluster_means(rows, value_key, cluster_key)
+    if not means:
+        return None
+    return float(np.mean(list(means.values())))
+
+
+def route_weighted_mean(rows: Sequence[dict], value_key: str) -> float | None:
+    values = [float(row[value_key]) for row in rows if row.get(value_key) is not None]
+    if not values:
+        return None
+    return float(np.mean(values))
+
+
+def attach_feas_rate(rows: Sequence[dict]) -> List[dict]:
+    return [{**row, "feas_rate": 1.0 if row.get("feasible") else 0.0} for row in rows]
+
+
+def dedupe_soc_greedy(rows: Sequence[dict]) -> List[dict]:
+    """Keep one GreedyMinimumSufficientCharge row per (route_id, min_soc_fraction)."""
+    seen = set()
+    out: List[dict] = []
+    for row in rows:
+        if row.get("method") != "GreedyMinimumSufficientCharge":
+            out.append(row)
+            continue
+        key = (row.get("route_id"), row.get("min_soc_fraction"))
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(row)
+    return out

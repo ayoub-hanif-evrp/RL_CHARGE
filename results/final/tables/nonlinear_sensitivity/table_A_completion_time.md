@@ -1,0 +1,8 @@
+# Table A — nonlinear_sensitivity performance (failures retained; H for infeasible completion)
+
+| method | n_routes | n_seeds | n_rows | route_weighted_feasibility | parent_balanced_feasibility | feasibility_ci95_lo | feasibility_ci95_hi | route_weighted_completion_all | parent_balanced_completion_all | completion_all_ci95_lo | completion_all_ci95_hi | seed_sd_completion_all | uncertainty | seeds |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| FRVCPGreedyFull | 22 | 1 | 22 | 0.0 | 0.0 | 0.0 | 0.0 | 11.302755635738865 | 11.302755635738865 | 10.243521976784582 | 12.36198929469315 |  | parent_cluster | 0 |
+| FRVCPGreedyMin | 22 | 1 | 22 | 0.0 | 0.0 | 0.0 | 0.0 |  |  |  |  |  | parent_cluster | 0 |
+| evrptwgr_surrogate_flag | 1 | 1 | 1 | 0.0 | 0.0 | 0.0 | 0.0 |  |  |  |  |  | parent_cluster | 0 |
+| frvcpy_Solver | 22 | 1 | 22 | 1.0 | 1.0 | 1.0 | 1.0 | inf | inf | inf | inf |  | parent_cluster | 0 |
