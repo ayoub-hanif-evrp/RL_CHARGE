@@ -1,7 +1,8 @@
 {
   "paper_code_sha": "a175ee43548a5d2d5154a9ae0731a01f7642a7f6",
-  "results_analysis_code_sha": "7735be30a874517d26b977051159102a3c1190b9",
-  "note": "cleanup_commit_sha is the later commit that contains this cleanup file and is not recorded here.",
+  "final_analysis_code_sha": "23d3d9c7de87a9486160c9937f8b385dd4833d57",
+  "initial_results_archive_sha": "7735be30a874517d26b977051159102a3c1190b9",
+  "note": "paper_code_sha is the code used for all final TRAIN/VAL/TEST computation. final_analysis_code_sha is the commit containing the corrected final analysis pipeline. initial_results_archive_sha is the first archive of final raw results. A later bookkeeping commit may update this file; that later commit is metadata/documentation only and is not recorded here.",
   "corpus_hashes": {
     "corpus.jsonl": "1796d817ff058fe0559021ab79ca97087ef3646c57744c2c883ecc37e85451e0",
     "manifest.csv": "41bb8be3245f8f3b0800db4ba74cb19a2003236b6fbd0dbc1237e7cdfaee104d",

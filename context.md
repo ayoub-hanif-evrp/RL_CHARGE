@@ -29,9 +29,12 @@ The next phase is the manuscript.
 
 Paper training/evaluation code: `paper_code_sha =
 a175ee43548a5d2d5154a9ae0731a01f7642a7f6`.
-Results/analysis implementation: `results_analysis_code_sha =
-7735be30a874517d26b977051159102a3c1190b9`. A later analysis-only cleanup
-commit may exist; it is not a training SHA.
+Corrected final analysis pipeline: `final_analysis_code_sha =
+23d3d9c7de87a9486160c9937f8b385dd4833d57`.
+First archive of final raw results: `initial_results_archive_sha =
+7735be30a874517d26b977051159102a3c1190b9`.
+A later bookkeeping commit may exist; it is metadata/documentation only
+and is not a training SHA.
 
 **Default stance.** Do **not** redesign the MDP, Hybrid PPO, shield, corpus,
 splits, physics, or reward. Do **not** regenerate frozen routes. Do **not**
@@ -55,7 +58,8 @@ the training SHA.
 2. Do not regenerate frozen routes.
 3. Do not use TEST for tuning, budget, or method decisions.
 4. Do not write the manuscript until results exist.
-5. Do not start the 5-seed paper experiment until the user approves.
+5. The final five-seed experiment is complete. Do not rerun, retrain,
+   or reselect final models.
 6. Keep pinned corpus and split hashes (section 3) unchanged.
 7. Do not include Legacy DDQN in paper training, TEST evaluation, tables,
    or manuscript experiment plans.
@@ -787,9 +791,12 @@ Both jobs are required (`continue-on-error` was removed). Actions:
 
 `paper_code_sha` = `a175ee43548a5d2d5154a9ae0731a01f7642a7f6`
 
-`results_analysis_code_sha` = `7735be30a874517d26b977051159102a3c1190b9`
+`final_analysis_code_sha` = `23d3d9c7de87a9486160c9937f8b385dd4833d57`
 
-Do not train from a later analysis/cleanup commit.
+`initial_results_archive_sha` = `7735be30a874517d26b977051159102a3c1190b9`
+
+Do not train from a later analysis or bookkeeping commit. A later
+bookkeeping commit is metadata/documentation only.
 
 ---
 

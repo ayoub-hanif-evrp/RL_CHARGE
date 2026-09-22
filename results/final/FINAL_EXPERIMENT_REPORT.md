@@ -5,8 +5,12 @@ Generated from tracked raw records after analysis-only cleanup. No retraining. T
 ## A. Frozen methodology and provenance
 
 - paper_code_sha: `a175ee43548a5d2d5154a9ae0731a01f7642a7f6`
-- results_analysis_code_sha: `7735be30a874517d26b977051159102a3c1190b9`
-- cleanup_commit_sha: the git commit that contains this cleanup; newer than `results_analysis_code_sha`; not written into this file.
+  Code used for all final TRAIN/VAL/TEST computation.
+- final_analysis_code_sha: `23d3d9c7de87a9486160c9937f8b385dd4833d57`
+  Code containing the corrected final analysis pipeline (statistics, tables, terrain matching).
+- initial_results_archive_sha: `7735be30a874517d26b977051159102a3c1190b9`
+  First archive of final raw results and the pre-correction analysis commit.
+- later bookkeeping commit: metadata/documentation only; not recorded in this file.
 - Device: CPU. DDQN excluded. Methodology frozen. TEST is consumed.
 
 ## B–P. See generated tables

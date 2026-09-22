@@ -1,7 +1,8 @@
 {
   "note": "Superseded as the narrative summary by FINAL_EXPERIMENT_REPORT.md after analysis-only cleanup. Scenario statistics live under results/final/statistics/<scenario>/.",
   "paper_code_sha": "a175ee43548a5d2d5154a9ae0731a01f7642a7f6",
-  "results_analysis_code_sha": "7735be30a874517d26b977051159102a3c1190b9",
+  "final_analysis_code_sha": "23d3d9c7de87a9486160c9937f8b385dd4833d57",
+  "initial_results_archive_sha": "7735be30a874517d26b977051159102a3c1190b9",
   "matched_terrain_sibling_groups_test": 11,
   "nonlinear_sensitivity": "invalid_external_sensitivity / excluded_from_paper"
 }
