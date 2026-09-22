@@ -21,6 +21,7 @@ from experiments.stats import (
     dedupe_soc_greedy,
     exclude_non_paper_methods,
     map_ablation_method,
+    matched_terrain_route_ids,
     parent_balanced_mean,
     route_weighted_mean,
 )
@@ -54,6 +55,15 @@ def main(argv=None) -> int:
     parser.add_argument("--curves-root", type=Path, default=None, help="HybridPPO checkpoint root for learning curves")
     args = parser.parse_args(argv)
     scenario = require_scenario(args.scenario)
+    if scenario == "nonlinear_sensitivity":
+        args.out = args.out / scenario
+        args.out.mkdir(parents=True, exist_ok=True)
+        (args.out / "EXCLUDED.md").write_text(
+            "Excluded from the manuscript: invalid external nonlinear sensitivity.\n",
+            encoding="utf-8",
+        )
+        print(f"wrote exclusion note under {args.out}")
+        return 0
     try:
         import matplotlib
 
@@ -128,20 +138,26 @@ def main(argv=None) -> int:
         _save(fig, out / "completion_all_bars.png")
 
         fig, ax = plt.subplots(figsize=(6, 4))
-        terrains = sorted({str(r.get("terrain") or r.get("terrain_variant") or "") for r in rows} - {""})
+        matched_ids, n_groups = matched_terrain_route_ids(split="test")
+        terrains = ("L", "NL", "VG")
         methods = ("HybridPPO", "GreedyMinimumSufficientCharge")
         for method in methods:
             ys = []
             for terrain in terrains:
-                items = [r for r in rows if r.get("method") == method and str(r.get("terrain") or r.get("terrain_variant")) == terrain]
+                items = [
+                    r
+                    for r in rows
+                    if r.get("method") == method
+                    and r.get("route_id") in matched_ids
+                    and str(r.get("terrain") or r.get("terrain_variant")) == terrain
+                ]
                 ys.append(parent_balanced_mean(items, "completion_time_all_routes") or 0.0)
-            if terrains:
-                ax.plot(range(len(terrains)), ys, marker="o", label=method)
-        if terrains:
-            ax.set_xticks(list(range(len(terrains))))
-            ax.set_xticklabels(terrains)
-            ax.set_ylabel("parent-balanced completion (H for failures)")
-            ax.legend()
+            ax.plot(range(len(terrains)), ys, marker="o", label=method)
+        ax.set_xticks(list(range(len(terrains))))
+        ax.set_xticklabels(terrains)
+        ax.set_ylabel("parent-balanced completion (H for failures)")
+        ax.set_title(f"matched L/NL/VG siblings only (n_groups={n_groups})")
+        ax.legend()
         _save(fig, out / "terrain_comparison.png")
 
         fig, ax = plt.subplots(figsize=(7, 4))

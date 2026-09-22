@@ -1,22 +1,22 @@
-# Table C — main_test terrain (frozen terrain-sibling customer sequences)
+# Table C — main_test matched terrain siblings (complete L/NL/VG groups only; n_groups=11)
 
-| method | terrain | n_rows | feasibility | completion_all | parent_balanced_completion_all |
-| --- | --- | --- | --- | --- | --- |
-| AttentionPPO | L | 55 | 0.09090909090909091 | 1108.8469336339806 | 1361.6877513315858 |
-| AttentionPPO | NL | 135 | 0.1259259259259259 | 1026.4632037525112 | 1171.8902014952114 |
-| AttentionPPO | VG | 55 | 0.07272727272727272 | 1086.0532463632464 | 1353.0634283998284 |
-| DiscretePPO | L | 55 | 0.10909090909090909 | 1090.5107298568594 | 1319.9349191880797 |
-| DiscretePPO | NL | 135 | 0.05925925925925926 | 1030.3197664237603 | 1157.5548320940218 |
-| DiscretePPO | VG | 55 | 0.09090909090909091 | 1081.25346162237 | 1350.9515231138428 |
-| GreedyFullCharge | L | 11 | 0.09090909090909091 | 1063.2762186191278 | 1254.407680962081 |
-| GreedyFullCharge | NL | 27 | 0.1111111111111111 | 1026.6503444612497 | 1172.0530347143651 |
-| GreedyFullCharge | VG | 11 | 0.0 | 1113.6363636363637 | 1365.2 |
-| GreedyMinimumSufficientCharge | L | 11 | 0.0 | 1113.6363636363637 | 1365.2 |
-| GreedyMinimumSufficientCharge | NL | 27 | 0.07407407407407407 | 1030.6917327587087 | 1174.3007527890697 |
-| GreedyMinimumSufficientCharge | VG | 11 | 0.0 | 1113.6363636363637 | 1365.2 |
-| HybridPPO | L | 55 | 0.09090909090909091 | 1108.6120562734195 | 1361.515507933841 |
-| HybridPPO | NL | 135 | 0.11851851851851852 | 1023.6816361510635 | 1154.8816789253422 |
-| HybridPPO | VG | 55 | 0.07272727272727272 | 1086.0532463632464 | 1353.0634283998284 |
-| OneStepLookahead | L | 11 | 0.2727272727272727 | 1049.2519192793984 | 1336.8708444829354 |
-| OneStepLookahead | NL | 27 | 0.07407407407407407 | 1015.9290269932744 | 1170.3929777335138 |
-| OneStepLookahead | VG | 11 | 0.0 | 1113.6363636363637 | 1365.2 |
+| method | terrain | n_matched_sibling_groups | n_rows | route_weighted_feasibility | parent_balanced_feasibility | route_weighted_completion_all | parent_balanced_completion_all | note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| AttentionPPO | L | 11 | 55 | 0.09090909090909091 | 0.06666666666666667 | 1108.8469336339806 | 1361.6877513315858 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| AttentionPPO | NL | 11 | 55 | 0.18181818181818182 | 0.08 | 1094.214633897497 | 1356.6544389148987 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| AttentionPPO | VG | 11 | 55 | 0.07272727272727272 | 0.032 | 1086.0532463632464 | 1353.0634283998284 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| DiscretePPO | L | 11 | 55 | 0.10909090909090909 | 0.13333333333333336 | 1090.5107298568594 | 1319.9349191880797 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| DiscretePPO | NL | 11 | 55 | 0.05454545454545454 | 0.05600000000000001 | 1099.7621760413565 | 1342.7945689286475 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| DiscretePPO | VG | 11 | 55 | 0.09090909090909091 | 0.04 | 1081.25346162237 | 1350.9515231138428 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| GreedyFullCharge | L | 11 | 11 | 0.09090909090909091 | 0.2 | 1063.2762186191278 | 1254.407680962081 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| GreedyFullCharge | NL | 11 | 11 | 0.18181818181818182 | 0.08 | 1091.3207688409277 | 1355.3811382900083 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| GreedyFullCharge | VG | 11 | 11 | 0.0 | 0.0 | 1113.6363636363637 | 1365.2 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| GreedyMinimumSufficientCharge | L | 11 | 11 | 0.0 | 0.0 | 1113.6363636363637 | 1365.2 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| GreedyMinimumSufficientCharge | NL | 11 | 11 | 0.09090909090909091 | 0.04 | 1103.425363621729 | 1360.7071599935607 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| GreedyMinimumSufficientCharge | VG | 11 | 11 | 0.0 | 0.0 | 1113.6363636363637 | 1365.2 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO | L | 11 | 55 | 0.09090909090909091 | 0.06666666666666667 | 1108.6120562734195 | 1361.515507933841 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO | NL | 11 | 55 | 0.16363636363636364 | 0.10400000000000001 | 1088.6490388986288 | 1337.5267811304525 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO | VG | 11 | 55 | 0.07272727272727272 | 0.032 | 1086.0532463632464 | 1353.0634283998284 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| OneStepLookahead | L | 11 | 11 | 0.2727272727272727 | 0.12 | 1049.2519192793984 | 1336.8708444829354 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| OneStepLookahead | NL | 11 | 11 | 0.18181818181818182 | 0.08 | 1061.643975347128 | 1342.3233491527365 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| OneStepLookahead | VG | 11 | 11 | 0.0 | 0.0 | 1113.6363636363637 | 1365.2 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |

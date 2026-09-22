@@ -1,0 +1,2 @@
+method,seed,n_routes,n_feasible_routes,route_weighted_feasibility,parent_balanced_feasibility,note
+RestrictedLabelSetting,0,34,17,0.5,0.36944444444444446,"per-seed route episodes, not pooled unique TEST routes"

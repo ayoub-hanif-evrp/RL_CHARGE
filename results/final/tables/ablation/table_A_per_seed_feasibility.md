@@ -1,0 +1,22 @@
+# Table A per-seed feasibility — ablation
+
+| method | seed | n_routes | n_feasible_routes | route_weighted_feasibility | parent_balanced_feasibility | note |
+| --- | --- | --- | --- | --- | --- | --- |
+| DiscretePPO | 42 | 49 | 3 | 0.061224489795918366 | 0.06635802469135803 | per-seed route episodes, not pooled unique TEST routes |
+| DiscretePPO | 43 | 49 | 4 | 0.08163265306122448 | 0.06018518518518518 | per-seed route episodes, not pooled unique TEST routes |
+| DiscretePPO | 44 | 49 | 5 | 0.10204081632653061 | 0.1419753086419753 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO | 42 | 49 | 5 | 0.10204081632653061 | 0.0787037037037037 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO | 43 | 49 | 6 | 0.12244897959183673 | 0.08487654320987655 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO | 44 | 49 | 6 | 0.12244897959183673 | 0.08487654320987655 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A2 | 42 | 49 | 5 | 0.10204081632653061 | 0.0787037037037037 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A2 | 43 | 49 | 4 | 0.08163265306122448 | 0.07407407407407407 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A2 | 44 | 49 | 6 | 0.12244897959183673 | 0.13425925925925927 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A3 | 42 | 49 | 5 | 0.10204081632653061 | 0.0787037037037037 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A3 | 43 | 49 | 6 | 0.12244897959183673 | 0.08487654320987655 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A3 | 44 | 49 | 5 | 0.10204081632653061 | 0.0787037037037037 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A4 | 42 | 49 | 6 | 0.12244897959183673 | 0.08487654320987655 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A4 | 43 | 49 | 5 | 0.10204081632653061 | 0.0787037037037037 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A4 | 44 | 49 | 7 | 0.14285714285714285 | 0.09104938271604938 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A5 | 42 | 49 | 2 | 0.04081632653061224 | 0.012345679012345678 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A5 | 43 | 49 | 5 | 0.10204081632653061 | 0.0787037037037037 | per-seed route episodes, not pooled unique TEST routes |
+| HybridPPO_A5 | 44 | 49 | 5 | 0.10204081632653061 | 0.0787037037037037 | per-seed route episodes, not pooled unique TEST routes |

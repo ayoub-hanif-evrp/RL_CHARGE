@@ -69,9 +69,100 @@ def test_make_figures_and_tables_isolate_scenarios():
     assert "hierarchical_bootstrap_ci" in tables
     assert "official published tours" not in tables.lower()
     assert "official upstream e-VRO/frvcpy reference routes/objectives" in tables
-    assert "native Montoya/FRVCP nonlinear charging sensitivity" in tables
+    assert "excluded_from_paper" in tables
+    assert "parent_balanced_feasibility_ci95_lo" in tables
+    assert "parent_balanced_completion_all_ci95_lo" in tables
+    assert "matched L/NL/VG" in tables
+    assert "seed_mean_route_weighted_feasibility" in tables
     assert "exact_sign_flip" in analyze
     assert "feas_rate" in analyze
     assert "MAIN_COMPARATORS" in analyze
     assert '"FULL", "A1", "A2", "A3", "A4", "A5"' in tables or "FULL" in tables
     assert 'or ("feasible" if row.get("feasible") else "unknown")' in tables
+
+
+def test_matched_terrain_groups_require_all_three_terrains():
+    from experiments.stats import matched_terrain_sibling_groups
+    from routing.fixed_route import FrozenRoute
+
+    def route(route_id, terrain, customers=("C1", "C2"), vehicle=0, network="Small_Network"):
+        return FrozenRoute(
+            route_id=route_id,
+            source_dataset="t",
+            doi="t",
+            raw_instance_id="c101C5",
+            relative_path="x",
+            network_group=network,
+            terrain_variant=terrain,
+            customer_distribution="c",
+            schedule_type=1,
+            generator="pyvrp",
+            generator_version="0",
+            seed=42,
+            stop="MaxIterations",
+            n_iterations=1,
+            config_hash="h",
+            physics_profile="official_evrptwgr",
+            capacity_policy="file",
+            distance_scale=1,
+            demand_scale=1,
+            rounding_policy="none",
+            routing_problem="vrptw",
+            python="3",
+            os_name="t",
+            arch="t",
+            instance_sha256="h",
+            vehicle_index=vehicle,
+            depot_id="D0",
+            customer_ids=customers,
+            route_demand=1.0,
+            route_distance=1.0,
+            route_duration_lower_bound=1.0,
+            n_customers=len(customers),
+            routing_feasible=True,
+            charging_feasibility_status="unverified",
+            generation_runtime_s=0.0,
+            routing_objective=1.0,
+            base_instance="c101",
+            customer_folder="5_Customers",
+        )
+
+    complete = [
+        route("a_L", "L"),
+        route("a_NL", "NL"),
+        route("a_VG", "VG"),
+        route("b_NL", "NL", customers=("C9",), network="Large_Network"),
+    ]
+    groups = matched_terrain_sibling_groups(complete)
+    assert len(groups) == 1
+    assert set(groups[0]["route_ids"].values()) == {"a_L", "a_NL", "a_VG"}
+
+
+def test_seed_feasibility_summary_is_per_seed_not_pooled_unique_routes():
+    from experiments.stats import seed_feasibility_summary
+
+    rows = []
+    for seed, n_feas in ((42, 2), (43, 0)):
+        for i in range(3):
+            rows.append(
+                {
+                    "seed": seed,
+                    "route_id": f"r{i}",
+                    "base_instance": "p1" if i < 2 else "p2",
+                    "feasible": i < n_feas,
+                }
+            )
+    summary = seed_feasibility_summary(rows)
+    assert summary["n_seeds"] == 2
+    assert summary["mean_feasible_routes_per_seed"] == 1.0
+    assert summary["per_seed"]["42"]["n_feasible_routes"] == 2
+    assert summary["per_seed"]["43"]["n_feasible_routes"] == 0
+
+
+def test_logical_checkpoint_path_strips_windows_abs_path():
+    from experiments.stats import logical_checkpoint_path
+
+    raw = r"C:\Users\AYOUB\RL_CHARGE_PAPER\checkpoints\HybridPPO\seed_42\best.pt"
+    assert logical_checkpoint_path(raw) == "checkpoints/HybridPPO/seed_42/best.pt"
+    folder = r"C:\Users\AYOUB\RL_CHARGE_PAPER\checkpoints\HybridPPO\seed_42"
+    assert logical_checkpoint_path(folder, "best.pt") == "checkpoints/HybridPPO/seed_42/best.pt"

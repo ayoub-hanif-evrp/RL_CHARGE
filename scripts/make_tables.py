@@ -23,11 +23,14 @@ from experiments.stats import (
     cluster_bootstrap_ci,
     dedupe_soc_greedy,
     exclude_non_paper_methods,
+    filter_matched_terrain_rows,
     hierarchical_bootstrap_ci,
     map_ablation_method,
+    matched_terrain_route_ids,
     mean_sd_across_training_seeds,
     parent_balanced_mean,
     route_weighted_mean,
+    seed_feasibility_summary,
     summarize_method,
 )
 
@@ -74,39 +77,42 @@ def _method_row(method: str, group: List[dict]) -> dict:
     n_routes = len({row.get("route_id") for row in group})
     seeds = sorted({int(row.get("seed", 0)) for row in group})
     learned = _is_learned(method)
+    feas_seed = seed_feasibility_summary(group)
     if learned:
         time_ci = hierarchical_bootstrap_ci(group, "completion_time_all_routes")
         feas_ci = hierarchical_bootstrap_ci(tagged, "feas_rate")
         seed_stats = mean_sd_across_training_seeds(group, "completion_time_all_routes")
         n_seeds = seed_stats.get("n_seeds")
         sd = seed_stats.get("sd_across_seeds")
-        ci_lo = time_ci.get("lo")
-        ci_hi = time_ci.get("hi")
-        uncertainty = "hierarchical_seed_then_parent"
+        uncertainty = "hierarchical_seed_then_parent_for_parent_balanced_CI"
     else:
         time_ci = cluster_bootstrap_ci(group, "completion_time_all_routes")
         feas_ci = cluster_bootstrap_ci(tagged, "feas_rate")
         n_seeds = 1
         sd = None
-        ci_lo = time_ci.get("lo")
-        ci_hi = time_ci.get("hi")
-        uncertainty = "parent_cluster"
+        uncertainty = "parent_cluster_for_parent_balanced_CI"
     return {
         "method": method,
         "n_routes": n_routes,
         "n_seeds": n_seeds,
-        "n_rows": len(group),
+        "n_episode_rows": len(group),
+        "mean_feasible_routes_per_seed": feas_seed.get("mean_feasible_routes_per_seed"),
+        "seed_mean_route_weighted_feasibility": feas_seed.get("mean_route_weighted_feasibility_across_seeds"),
+        "seed_sd_route_weighted_feasibility": feas_seed.get("sd_route_weighted_feasibility_across_seeds"),
+        "seed_mean_parent_balanced_feasibility": feas_seed.get("mean_parent_balanced_feasibility_across_seeds"),
+        "seed_sd_parent_balanced_feasibility": feas_seed.get("sd_parent_balanced_feasibility_across_seeds"),
         "route_weighted_feasibility": route_weighted_mean(tagged, "feas_rate"),
         "parent_balanced_feasibility": parent_balanced_mean(tagged, "feas_rate"),
-        "feasibility_ci95_lo": feas_ci.get("lo"),
-        "feasibility_ci95_hi": feas_ci.get("hi"),
+        "parent_balanced_feasibility_ci95_lo": feas_ci.get("lo"),
+        "parent_balanced_feasibility_ci95_hi": feas_ci.get("hi"),
         "route_weighted_completion_all": route_weighted_mean(group, "completion_time_all_routes"),
         "parent_balanced_completion_all": parent_balanced_mean(group, "completion_time_all_routes"),
-        "completion_all_ci95_lo": ci_lo,
-        "completion_all_ci95_hi": ci_hi,
+        "parent_balanced_completion_all_ci95_lo": time_ci.get("lo"),
+        "parent_balanced_completion_all_ci95_hi": time_ci.get("hi"),
         "seed_sd_completion_all": sd,
         "uncertainty": uncertainty,
         "seeds": ",".join(str(s) for s in seeds),
+        "feasibility_count_note": feas_seed.get("note"),
     }
 
 
@@ -117,36 +123,90 @@ def main(argv=None) -> int:
     parser.add_argument("--scenario", required=True)
     args = parser.parse_args(argv)
     scenario = require_scenario(args.scenario)
+    out = args.out / scenario
+    out.mkdir(parents=True, exist_ok=True)
+    if scenario == "nonlinear_sensitivity":
+        _md(
+            out / "EXCLUDED.md",
+            "Excluded from the manuscript — invalid external nonlinear sensitivity",
+            [
+                {
+                    "status": "excluded_from_paper",
+                    "reason": "non-finite solver durations with feasible=true/reason=optimal; not manuscript-ready",
+                    "location": "results/final/excluded/invalid_external_sensitivity/",
+                }
+            ],
+            ["status", "reason", "location"],
+        )
+        print(f"wrote exclusion note under {out}")
+        return 0
     rows = exclude_non_paper_methods(_load(args.raw))
     rows = [row for row in rows if row.get("scenario") == scenario]
     if scenario in {"main_test", "ablation", "soc_reserve", "exact_small"}:
         rows = [row for row in rows if row.get("split") == "test" or scenario == "exact_small"]
     if scenario == "soc_reserve":
         rows = dedupe_soc_greedy(rows)
-    out = args.out / scenario
-    out.mkdir(parents=True, exist_ok=True)
     groups = _groups(rows)
 
     fields_a = [
         "method",
         "n_routes",
         "n_seeds",
-        "n_rows",
+        "n_episode_rows",
+        "mean_feasible_routes_per_seed",
+        "seed_mean_route_weighted_feasibility",
+        "seed_sd_route_weighted_feasibility",
+        "seed_mean_parent_balanced_feasibility",
+        "seed_sd_parent_balanced_feasibility",
         "route_weighted_feasibility",
         "parent_balanced_feasibility",
-        "feasibility_ci95_lo",
-        "feasibility_ci95_hi",
+        "parent_balanced_feasibility_ci95_lo",
+        "parent_balanced_feasibility_ci95_hi",
         "route_weighted_completion_all",
         "parent_balanced_completion_all",
-        "completion_all_ci95_lo",
-        "completion_all_ci95_hi",
+        "parent_balanced_completion_all_ci95_lo",
+        "parent_balanced_completion_all_ci95_hi",
         "seed_sd_completion_all",
         "uncertainty",
         "seeds",
+        "feasibility_count_note",
     ]
     table_a = [_method_row(method, group) for method, group in sorted(groups.items())]
-    title_a = f"Table A — {scenario} performance (failures retained; H for infeasible completion)"
+    title_a = (
+        f"Table A — {scenario} performance (failures retained; H for infeasible completion; "
+        "CIs are parent-balanced, not route-weighted; feasible counts are per-seed episodes)"
+    )
     _md(out / "table_A_completion_time.md", title_a, table_a, fields_a)
+    seed_rows = []
+    for method, group in sorted(groups.items()):
+        summary = seed_feasibility_summary(group)
+        for seed, stats in summary["per_seed"].items():
+            seed_rows.append(
+                {
+                    "method": method,
+                    "seed": seed,
+                    "n_routes": stats["n_routes"],
+                    "n_feasible_routes": stats["n_feasible_routes"],
+                    "route_weighted_feasibility": stats["route_weighted_feasibility"],
+                    "parent_balanced_feasibility": stats["parent_balanced_feasibility"],
+                    "note": "per-seed route episodes, not pooled unique TEST routes",
+                }
+            )
+    if seed_rows:
+        _md(
+            out / "table_A_per_seed_feasibility.md",
+            f"Table A per-seed feasibility — {scenario}",
+            seed_rows,
+            [
+                "method",
+                "seed",
+                "n_routes",
+                "n_feasible_routes",
+                "route_weighted_feasibility",
+                "parent_balanced_feasibility",
+                "note",
+            ],
+        )
 
     table_b = []
     for method, group in sorted(groups.items()):
@@ -196,29 +256,44 @@ def main(argv=None) -> int:
     )
 
     table_c = []
+    terrain_split = "test" if scenario in {"main_test", "ablation", "soc_reserve", "exact_small"} else None
+    matched_ids, n_sibling_groups = matched_terrain_route_ids(split=terrain_split)
     for method, group in sorted(groups.items()):
+        matched = [row for row in group if row.get("route_id") in matched_ids]
         by_t: Dict[str, List[dict]] = defaultdict(list)
-        for row in group:
+        for row in matched:
             by_t[str(row.get("terrain") or row.get("terrain_variant") or "")].append(row)
-        for terrain, items in sorted(by_t.items()):
-            if not terrain:
-                continue
+        for terrain in ("L", "NL", "VG"):
+            items = by_t.get(terrain, [])
             tagged = attach_feas_rate(items)
             table_c.append(
                 {
                     "method": method,
                     "terrain": terrain,
+                    "n_matched_sibling_groups": n_sibling_groups,
                     "n_rows": len(items),
-                    "feasibility": route_weighted_mean(tagged, "feas_rate"),
-                    "completion_all": route_weighted_mean(items, "completion_time_all_routes"),
+                    "route_weighted_feasibility": route_weighted_mean(tagged, "feas_rate"),
+                    "parent_balanced_feasibility": parent_balanced_mean(tagged, "feas_rate"),
+                    "route_weighted_completion_all": route_weighted_mean(items, "completion_time_all_routes"),
                     "parent_balanced_completion_all": parent_balanced_mean(items, "completion_time_all_routes"),
+                    "note": "matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded",
                 }
             )
     _md(
         out / "table_C_terrain.md",
-        f"Table C — {scenario} terrain (frozen terrain-sibling customer sequences)",
+        f"Table C — {scenario} matched terrain siblings (complete L/NL/VG groups only; n_groups={n_sibling_groups})",
         table_c,
-        ["method", "terrain", "n_rows", "feasibility", "completion_all", "parent_balanced_completion_all"],
+        [
+            "method",
+            "terrain",
+            "n_matched_sibling_groups",
+            "n_rows",
+            "route_weighted_feasibility",
+            "parent_balanced_feasibility",
+            "route_weighted_completion_all",
+            "parent_balanced_completion_all",
+            "note",
+        ],
     )
 
     table_d = []
@@ -260,11 +335,9 @@ def main(argv=None) -> int:
             ["method", "n_routes", "n_seeds", "n_rows"],
         )
 
-    if scenario in {"frvcpy_native", "nonlinear_sensitivity"}:
+    if scenario == "frvcpy_native":
         native_note = (
             "official upstream e-VRO/frvcpy reference routes/objectives; exact only for native FRVCP; not EVRPTW-GR"
-            if scenario == "frvcpy_native"
-            else "native Montoya/FRVCP nonlinear charging sensitivity; not original EVRPTW-GR"
         )
         table_f = []
         for method, group in sorted(groups.items()):
@@ -288,7 +361,7 @@ def main(argv=None) -> int:
                 times.append(value)
             table_f.append(
                 {
-                    "block": "native_FRVCP" if scenario == "frvcpy_native" else "native_Montoya_FRVCP_nonlinear_sensitivity",
+                    "block": "native_FRVCP",
                     "method": method,
                     "n_routes": len({row.get("route_id") for row in group if row.get("method") != "evrptwgr_surrogate_flag"}),
                     "n_feasible": len(feas),
@@ -315,8 +388,6 @@ def main(argv=None) -> int:
             ]
         title = (
             "Table F — native FRVCP (gaps only vs native frvcpy Solver; official upstream e-VRO/frvcpy reference routes/objectives; not EVRPTW-GR)"
-            if scenario == "frvcpy_native"
-            else "Table F — native Montoya/FRVCP nonlinear charging sensitivity (not original EVRPTW-GR)"
         )
         _md(
             out / "table_F_frvcpy.md",
@@ -361,7 +432,7 @@ def main(argv=None) -> int:
     else:
         _md(
             out / "table_F_frvcpy.md",
-            "Table F — native FRVCP (empty unless --scenario frvcpy_native or nonlinear_sensitivity)",
+            "Table F — native FRVCP (empty unless --scenario frvcpy_native)",
             [{"block": "not_this_scenario", "method": None, "route_id": None, "duration": None, "gap_percent": None, "feasible": None, "note": None}],
             ["block", "method", "route_id", "duration", "gap_percent", "feasible", "note"],
         )

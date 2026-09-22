@@ -1,0 +1,203 @@
+{
+  "status": "diagnostic_only",
+  "exact_global": false,
+  "action_set": "CONTINUE + {continuation-minimum SOC, maximum SOC}",
+  "n_eligible_small_routes": 34,
+  "n_proven_feasible_restricted": 17,
+  "known_feasible_route_ids": [
+    "c101C10_L__v0",
+    "c101C10_L__v1",
+    "c101C10_L__v2",
+    "c101C10_NL__v0",
+    "c101C10_NL__v1",
+    "c101C10_NL__v2",
+    "c101C10_VG__v0",
+    "c101C10_VG__v1",
+    "c101C10_VG__v2",
+    "c101C5_L__v0",
+    "c101C5_L__v1",
+    "c101C5_NL__v0",
+    "c101C5_NL__v1",
+    "c101C5_VG__v1",
+    "rc102C10_NL__v0",
+    "rc208C5_L__v0",
+    "rc208C5_NL__v0"
+  ],
+  "methods": {
+    "GreedyMinimumSufficientCharge": {
+      "n_episode_rows": 17,
+      "n_known_feasible_routes": 17,
+      "route_weighted_feasibility": 0.058823529411764705,
+      "mean_feasible_routes_per_seed": 1.0,
+      "per_seed": {
+        "0": {
+          "n_routes": 17,
+          "n_feasible_routes": 1,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.058823529411764705,
+          "parent_balanced_feasibility": 0.023809523809523808
+        }
+      }
+    },
+    "GreedyFullCharge": {
+      "n_episode_rows": 17,
+      "n_known_feasible_routes": 17,
+      "route_weighted_feasibility": 0.17647058823529413,
+      "mean_feasible_routes_per_seed": 3.0,
+      "per_seed": {
+        "0": {
+          "n_routes": 17,
+          "n_feasible_routes": 3,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.17647058823529413,
+          "parent_balanced_feasibility": 0.21428571428571427
+        }
+      }
+    },
+    "OneStepLookahead": {
+      "n_episode_rows": 17,
+      "n_known_feasible_routes": 17,
+      "route_weighted_feasibility": 0.29411764705882354,
+      "mean_feasible_routes_per_seed": 5.0,
+      "per_seed": {
+        "0": {
+          "n_routes": 17,
+          "n_feasible_routes": 5,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.29411764705882354,
+          "parent_balanced_feasibility": 0.11904761904761905
+        }
+      }
+    },
+    "HybridPPO": {
+      "n_episode_rows": 85,
+      "n_known_feasible_routes": 17,
+      "route_weighted_feasibility": 0.15294117647058825,
+      "mean_feasible_routes_per_seed": 2.6,
+      "per_seed": {
+        "42": {
+          "n_routes": 17,
+          "n_feasible_routes": 2,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.11764705882352941,
+          "parent_balanced_feasibility": 0.047619047619047616
+        },
+        "43": {
+          "n_routes": 17,
+          "n_feasible_routes": 3,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.17647058823529413,
+          "parent_balanced_feasibility": 0.07142857142857142
+        },
+        "44": {
+          "n_routes": 17,
+          "n_feasible_routes": 3,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.17647058823529413,
+          "parent_balanced_feasibility": 0.07142857142857142
+        },
+        "45": {
+          "n_routes": 17,
+          "n_feasible_routes": 1,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.058823529411764705,
+          "parent_balanced_feasibility": 0.023809523809523808
+        },
+        "46": {
+          "n_routes": 17,
+          "n_feasible_routes": 4,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.23529411764705882,
+          "parent_balanced_feasibility": 0.2380952380952381
+        }
+      }
+    },
+    "DiscretePPO": {
+      "n_episode_rows": 85,
+      "n_known_feasible_routes": 17,
+      "route_weighted_feasibility": 0.11764705882352941,
+      "mean_feasible_routes_per_seed": 2.0,
+      "per_seed": {
+        "42": {
+          "n_routes": 17,
+          "n_feasible_routes": 1,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.058823529411764705,
+          "parent_balanced_feasibility": 0.023809523809523808
+        },
+        "43": {
+          "n_routes": 17,
+          "n_feasible_routes": 2,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.11764705882352941,
+          "parent_balanced_feasibility": 0.047619047619047616
+        },
+        "44": {
+          "n_routes": 17,
+          "n_feasible_routes": 4,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.23529411764705882,
+          "parent_balanced_feasibility": 0.38095238095238093
+        },
+        "45": {
+          "n_routes": 17,
+          "n_feasible_routes": 2,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.11764705882352941,
+          "parent_balanced_feasibility": 0.19047619047619047
+        },
+        "46": {
+          "n_routes": 17,
+          "n_feasible_routes": 1,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.058823529411764705,
+          "parent_balanced_feasibility": 0.023809523809523808
+        }
+      }
+    },
+    "AttentionPPO": {
+      "n_episode_rows": 85,
+      "n_known_feasible_routes": 17,
+      "route_weighted_feasibility": 0.16470588235294117,
+      "mean_feasible_routes_per_seed": 2.8,
+      "per_seed": {
+        "42": {
+          "n_routes": 17,
+          "n_feasible_routes": 3,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.17647058823529413,
+          "parent_balanced_feasibility": 0.07142857142857142
+        },
+        "43": {
+          "n_routes": 17,
+          "n_feasible_routes": 3,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.17647058823529413,
+          "parent_balanced_feasibility": 0.07142857142857142
+        },
+        "44": {
+          "n_routes": 17,
+          "n_feasible_routes": 3,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.17647058823529413,
+          "parent_balanced_feasibility": 0.07142857142857142
+        },
+        "45": {
+          "n_routes": 17,
+          "n_feasible_routes": 2,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.11764705882352941,
+          "parent_balanced_feasibility": 0.047619047619047616
+        },
+        "46": {
+          "n_routes": 17,
+          "n_feasible_routes": 3,
+          "n_episode_rows": 17,
+          "route_weighted_feasibility": 0.17647058823529413,
+          "parent_balanced_feasibility": 0.07142857142857142
+        }
+      }
+    }
+  },
+  "note": "17/34 eligible <=5-customer routes have a proven feasible solution under the restricted action set. A miss on those routes is policy failure. The remaining 17 are not established as infeasible for continuous Hybrid PPO (timeout or restricted-infeasible only)."
+}

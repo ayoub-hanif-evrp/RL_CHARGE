@@ -7,7 +7,7 @@
     {
       "method": "HybridPPO",
       "seed": 42,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\HybridPPO\\seed_42",
+      "folder": "checkpoints/HybridPPO/seed_42",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -44,7 +44,7 @@
     {
       "method": "HybridPPO",
       "seed": 43,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\HybridPPO\\seed_43",
+      "folder": "checkpoints/HybridPPO/seed_43",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -81,7 +81,7 @@
     {
       "method": "HybridPPO",
       "seed": 44,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\HybridPPO\\seed_44",
+      "folder": "checkpoints/HybridPPO/seed_44",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -118,7 +118,7 @@
     {
       "method": "HybridPPO",
       "seed": 45,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\HybridPPO\\seed_45",
+      "folder": "checkpoints/HybridPPO/seed_45",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -155,7 +155,7 @@
     {
       "method": "HybridPPO",
       "seed": 46,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\HybridPPO\\seed_46",
+      "folder": "checkpoints/HybridPPO/seed_46",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -192,7 +192,7 @@
     {
       "method": "DiscretePPO",
       "seed": 42,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\DiscretePPO\\seed_42",
+      "folder": "checkpoints/DiscretePPO/seed_42",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -229,7 +229,7 @@
     {
       "method": "DiscretePPO",
       "seed": 43,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\DiscretePPO\\seed_43",
+      "folder": "checkpoints/DiscretePPO/seed_43",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -266,7 +266,7 @@
     {
       "method": "DiscretePPO",
       "seed": 44,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\DiscretePPO\\seed_44",
+      "folder": "checkpoints/DiscretePPO/seed_44",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -303,7 +303,7 @@
     {
       "method": "DiscretePPO",
       "seed": 45,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\DiscretePPO\\seed_45",
+      "folder": "checkpoints/DiscretePPO/seed_45",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -340,7 +340,7 @@
     {
       "method": "DiscretePPO",
       "seed": 46,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\DiscretePPO\\seed_46",
+      "folder": "checkpoints/DiscretePPO/seed_46",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -377,7 +377,7 @@
     {
       "method": "AttentionPPO",
       "seed": 42,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\AttentionPPO\\seed_42",
+      "folder": "checkpoints/AttentionPPO/seed_42",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -414,7 +414,7 @@
     {
       "method": "AttentionPPO",
       "seed": 43,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\AttentionPPO\\seed_43",
+      "folder": "checkpoints/AttentionPPO/seed_43",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -451,7 +451,7 @@
     {
       "method": "AttentionPPO",
       "seed": 44,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\AttentionPPO\\seed_44",
+      "folder": "checkpoints/AttentionPPO/seed_44",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -488,7 +488,7 @@
     {
       "method": "AttentionPPO",
       "seed": 45,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\AttentionPPO\\seed_45",
+      "folder": "checkpoints/AttentionPPO/seed_45",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -525,7 +525,7 @@
     {
       "method": "AttentionPPO",
       "seed": 46,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\AttentionPPO\\seed_46",
+      "folder": "checkpoints/AttentionPPO/seed_46",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -562,7 +562,7 @@
     {
       "method": "ablation_A2",
       "seed": 42,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A2\\seed_42",
+      "folder": "checkpoints/ablation_A2/seed_42",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -599,7 +599,7 @@
     {
       "method": "ablation_A2",
       "seed": 43,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A2\\seed_43",
+      "folder": "checkpoints/ablation_A2/seed_43",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -636,7 +636,7 @@
     {
       "method": "ablation_A2",
       "seed": 44,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A2\\seed_44",
+      "folder": "checkpoints/ablation_A2/seed_44",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -673,7 +673,7 @@
     {
       "method": "ablation_A3",
       "seed": 42,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A3\\seed_42",
+      "folder": "checkpoints/ablation_A3/seed_42",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -710,7 +710,7 @@
     {
       "method": "ablation_A3",
       "seed": 43,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A3\\seed_43",
+      "folder": "checkpoints/ablation_A3/seed_43",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -747,7 +747,7 @@
     {
       "method": "ablation_A3",
       "seed": 44,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A3\\seed_44",
+      "folder": "checkpoints/ablation_A3/seed_44",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -784,7 +784,7 @@
     {
       "method": "ablation_A4",
       "seed": 42,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A4\\seed_42",
+      "folder": "checkpoints/ablation_A4/seed_42",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -821,7 +821,7 @@
     {
       "method": "ablation_A4",
       "seed": 43,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A4\\seed_43",
+      "folder": "checkpoints/ablation_A4/seed_43",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -858,7 +858,7 @@
     {
       "method": "ablation_A4",
       "seed": 44,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A4\\seed_44",
+      "folder": "checkpoints/ablation_A4/seed_44",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -895,7 +895,7 @@
     {
       "method": "ablation_A5",
       "seed": 42,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A5\\seed_42",
+      "folder": "checkpoints/ablation_A5/seed_42",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -932,7 +932,7 @@
     {
       "method": "ablation_A5",
       "seed": 43,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A5\\seed_43",
+      "folder": "checkpoints/ablation_A5/seed_43",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,
@@ -969,7 +969,7 @@
     {
       "method": "ablation_A5",
       "seed": 44,
-      "folder": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL_CHARGE_PAPER\\checkpoints\\ablation_A5\\seed_44",
+      "folder": "checkpoints/ablation_A5/seed_44",
       "best_exists": true,
       "last_exists": true,
       "manifest_exists": true,

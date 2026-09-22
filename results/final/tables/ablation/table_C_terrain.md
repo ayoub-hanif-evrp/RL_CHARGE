@@ -1,22 +1,22 @@
-# Table C — ablation terrain (frozen terrain-sibling customer sequences)
+# Table C — ablation matched terrain siblings (complete L/NL/VG groups only; n_groups=11)
 
-| method | terrain | n_rows | feasibility | completion_all | parent_balanced_completion_all |
-| --- | --- | --- | --- | --- | --- |
-| DiscretePPO | L | 33 | 0.09090909090909091 | 1094.3647695314037 | 1327.2640539991621 |
-| DiscretePPO | NL | 81 | 0.07407407407407407 | 1026.5385405003924 | 1145.9297944825316 |
-| DiscretePPO | VG | 33 | 0.09090909090909091 | 1079.157467044967 | 1350.0292854997856 |
-| HybridPPO | L | 33 | 0.09090909090909091 | 1108.584692350708 | 1361.4954410571859 |
-| HybridPPO | NL | 81 | 0.14814814814814814 | 1024.3959805573768 | 1171.1107916814738 |
-| HybridPPO | VG | 33 | 0.06060606060606061 | 1090.6504325754324 | 1355.0861903331902 |
-| HybridPPO_A2 | L | 33 | 0.18181818181818182 | 1073.0457760557974 | 1295.5509655222463 |
-| HybridPPO_A2 | NL | 81 | 0.07407407407407407 | 1028.8161174542606 | 1172.7853962224665 |
-| HybridPPO_A2 | VG | 33 | 0.09090909090909091 | 1079.157467044967 | 1350.0292854997856 |
-| HybridPPO_A3 | L | 33 | 0.12121212121212122 | 1104.1518017625608 | 1359.5800219593043 |
-| HybridPPO_A3 | NL | 81 | 0.12345679012345678 | 1026.0451252247979 | 1171.609561226915 |
-| HybridPPO_A3 | VG | 33 | 0.06060606060606061 | 1090.6504325754324 | 1355.0861903331902 |
-| HybridPPO_A4 | L | 33 | 0.09090909090909091 | 1108.645785665302 | 1361.5402428212212 |
-| HybridPPO_A4 | NL | 81 | 0.13580246913580246 | 1027.8648396155213 | 1172.4571910645661 |
-| HybridPPO_A4 | VG | 33 | 0.12121212121212122 | 1074.7732823206948 | 1348.1002442211059 |
-| HybridPPO_A5 | L | 33 | 0.06060606060606061 | 1110.2772546706487 | 1362.7366534251423 |
-| HybridPPO_A5 | NL | 81 | 0.08641975308641975 | 1029.3410742658398 | 1172.9492889300436 |
-| HybridPPO_A5 | VG | 33 | 0.09090909090909091 | 1082.3092943873373 | 1351.4160895304283 |
+| method | terrain | n_matched_sibling_groups | n_rows | route_weighted_feasibility | parent_balanced_feasibility | route_weighted_completion_all | parent_balanced_completion_all | note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DiscretePPO | L | 11 | 33 | 0.09090909090909091 | 0.11111111111111112 | 1094.3647695314037 | 1327.2640539991621 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| DiscretePPO | NL | 11 | 33 | 0.09090909090909091 | 0.09333333333333334 | 1090.5127176446847 | 1327.8576148810791 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| DiscretePPO | VG | 11 | 33 | 0.09090909090909091 | 0.04 | 1079.157467044967 | 1350.0292854997856 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO | L | 11 | 33 | 0.09090909090909091 | 0.06666666666666667 | 1108.584692350708 | 1361.4954410571859 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO | NL | 11 | 33 | 0.18181818181818182 | 0.08 | 1094.3043846918404 | 1356.6939292644097 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO | VG | 11 | 33 | 0.06060606060606061 | 0.026666666666666665 | 1090.6504325754324 | 1355.0861903331902 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A2 | L | 11 | 33 | 0.18181818181818182 | 0.20444444444444443 | 1073.0457760557974 | 1295.5509655222463 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A2 | NL | 11 | 33 | 0.030303030303030304 | 0.013333333333333332 | 1102.143398105898 | 1360.1430951665952 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A2 | VG | 11 | 33 | 0.09090909090909091 | 0.04 | 1079.157467044967 | 1350.0292854997856 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A3 | L | 11 | 33 | 0.12121212121212122 | 0.07999999999999999 | 1104.1518017625608 | 1359.5800219593043 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A3 | NL | 11 | 33 | 0.18181818181818182 | 0.08 | 1093.9823787435 | 1356.55224664714 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A3 | VG | 11 | 33 | 0.06060606060606061 | 0.026666666666666665 | 1090.6504325754324 | 1355.0861903331902 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A4 | L | 11 | 33 | 0.09090909090909091 | 0.06666666666666667 | 1108.645785665302 | 1361.5402428212212 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A4 | NL | 11 | 33 | 0.21212121212121213 | 0.09333333333333334 | 1094.107201062913 | 1356.6071684676817 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A4 | VG | 11 | 33 | 0.12121212121212122 | 0.05333333333333333 | 1074.7732823206948 | 1348.1002442211059 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A5 | L | 11 | 33 | 0.06060606060606061 | 0.04444444444444444 | 1110.2772546706487 | 1362.7366534251423 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A5 | NL | 11 | 33 | 0.12121212121212122 | 0.05333333333333333 | 1100.7392438271488 | 1359.5252672839456 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |
+| HybridPPO_A5 | VG | 11 | 33 | 0.09090909090909091 | 0.04 | 1082.3092943873373 | 1351.4160895304283 | matched L/NL/VG sibling groups only; unmatched NL-only Medium/Large routes excluded |

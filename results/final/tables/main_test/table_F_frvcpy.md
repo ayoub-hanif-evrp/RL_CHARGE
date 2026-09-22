@@ -1,4 +1,4 @@
-# Table F — native FRVCP (empty unless --scenario frvcpy_native or nonlinear_sensitivity)
+# Table F — native FRVCP (empty unless --scenario frvcpy_native)
 
 | block | method | route_id | duration | gap_percent | feasible | note |
 | --- | --- | --- | --- | --- | --- | --- |

@@ -21,26 +21,22 @@ WHEN + WHERE + HOW MUCH. DiscretePPO is a comparator (categorical charge
 amount), not a second proposed method. AttentionPPO is an optional
 architectural comparator. **Legacy DDQN is not part of the paper.**
 
-**Current stage (21 Sep 2026).** Methodology, simulator, shield, Hybrid PPO,
-and the TRAIN/VAL pilot protocol are **frozen**. The third Hybrid PPO
-TRAIN/VAL pilot succeeded sufficiently to freeze:
+**Current stage (22 Sep 2026).** Final 5-seed training is **complete**.
+TEST evaluation is **complete**. TEST is **consumed** and must never be
+treated as fresh again. Final results are archived under `results/final/`.
+DDQN is excluded. Methodology is frozen. **No post-TEST tuning is allowed.**
+The next phase is the manuscript.
 
-- max updates 400
-- rollout steps 256
-- validation every 10
-- patience 20
-- per-seed best parent-balanced validation checkpoint
-
-Seeds 42 and 43 of that Hybrid PPO pilot are archived under
-`results/pilot/post_correctness_fix/`. TEST has **not** been used for final
-evaluation. The five-seed paper matrix, ablations, and manuscript have
-**not** started. Do not tune against VALIDATION further. No more
-methodology development unless a verified implementation bug occurs.
+Paper training/evaluation code: `paper_code_sha =
+a175ee43548a5d2d5154a9ae0731a01f7642a7f6`.
+Results/analysis implementation: `results_analysis_code_sha =
+7735be30a874517d26b977051159102a3c1190b9`. A later analysis-only cleanup
+commit may exist; it is not a training SHA.
 
 **Default stance.** Do **not** redesign the MDP, Hybrid PPO, shield, corpus,
 splits, physics, or reward. Do **not** regenerate frozen routes. Do **not**
-touch TEST until the user starts the final experiment phase. Do **not**
-train, evaluate, or tabulate DDQN for the paper. If something looks broken,
+retrain or reselect checkpoints. Do **not** use TEST for any new decision.
+Do **not** train, evaluate, or tabulate DDQN. If something looks broken,
 **stop and report**.
 
 **Repo.** https://github.com/ayoub-hanif-evrp/RL_CHARGE.git  
@@ -252,8 +248,9 @@ Expected counts:
 Leakage tests forbid any shared `base_instance`, `instance_id`, or `route_id`
 across splits.
 
-**TEST is forbidden** for training, checkpoint selection, hyperparameter
-decisions, budget choice, and the current pilot. `scripts/train_rl.py` raises
+**TEST is consumed.** It was evaluated once after checkpoint freeze. It is
+forbidden for training, checkpoint selection, hyperparameter decisions,
+budget choice, or any further method decision. `scripts/train_rl.py` raises
 if `--split test`.
 
 Hashes are also listed in `scripts/preflight_experiments.py` as `PINNED_HASHES`.
@@ -635,8 +632,8 @@ Smoke (`--smoke`) caps VAL (16 routes) and is **not paper**. Existing
 - Change physics formulas, typed quantities, shield hop ranks, Hybrid PPO
   architecture, or the reward without explicit user approval
 - Train or select checkpoints on TEST
-- Launch ` --seeds paper ` or ablations before the user freezes the budget
-- Write the manuscript
+- Retrain or reselect models after TEST
+- Write the manuscript as if TEST were still unused
 - Put pilot numbers into `results/tables/` or `results/figures/`
 - Silently change lr / entropy / width / patience after seeing VAL
 - Reintroduce the deleted `Training/` stack, mixed-unit `total_cost`,
@@ -773,47 +770,39 @@ Both jobs are required (`continue-on-error` was removed). Actions:
 
 ---
 
-## 11. Current status (21 Sep 2026)
+## 11. Current status (22 Sep 2026)
 
 | Item | State |
 | --- | --- |
 | Proposed method | Hybrid PPO only |
-| Paper Hybrid PPO protocol | 400 updates × 256 steps, val every 10, patience 20, per-seed parent-balanced `best.pt` |
-| Third TRAIN/VAL Hybrid PPO pilot | Accepted; archive `results/pilot/post_correctness_fix/` |
-| Seed 42 pilot best | update 200, 21/77 VAL feasible, parent-balanced ~9.7%, CONTINUE/CHARGE ~49/51, 0 revisits, 0 loop-guard, no NaNs |
-| Seed 43 pilot best | update 280, 22/77 VAL feasible, parent-balanced ~10.1%, last checkpoint stayed close |
-| Freeze-prep sanity (seed 42) | DiscretePPO and AttentionPPO end-to-end; DDQN sanity untracked from the paper archive |
-| DDQN | **Not in the paper.** Code/tests may remain as historical/internal. |
-| Corpus / split hashes | Unchanged, pinned in preflight |
-| TEST | **Not used** for final evaluation |
-| 5-seed paper run | **Not started** |
-| Ablations | **Not started** |
-| Manuscript | **Not started** |
-| Methodology tuning | **Stopped** unless a verified implementation bug appears |
+| Paper Hybrid PPO protocol | Frozen: 400 updates × 256 steps, val every 10, patience 20, per-seed parent-balanced `best.pt` |
+| 5-seed paper training | **Complete** (Hybrid/Discrete/Attention 42–46; A2–A5 42–44) |
+| TEST evaluation | **Complete**. TEST is consumed. |
+| Final archive | `results/final/` |
+| DDQN | **Not in the paper.** |
+| Corpus / split hashes | Unchanged, pinned |
+| Nonlinear Montoya | `invalid_external_sensitivity` / excluded from manuscript |
+| Manuscript | **Next phase.** Do not retune from TEST. |
+| Methodology tuning | **Stopped** |
 
 `paper_code_sha` = `a175ee43548a5d2d5154a9ae0731a01f7642a7f6`
-(in `results/summaries/experiment_freeze.json`). Do not train from a later
-bookkeeping snapshot commit of that JSON.
+
+`results_analysis_code_sha` = `7735be30a874517d26b977051159102a3c1190b9`
+
+Do not train from a later analysis/cleanup commit.
 
 ---
 
-## 12. Exact next commands (only when the user starts the experiment phase)
+## 12. What is allowed now
 
-Train from `paper_code_sha`, TRAIN/VAL only, no TEST until evaluation:
+Analysis-only corrections, manuscript drafting by the user, and provenance
+hygiene. Do **not** retrain, reselect checkpoints, or treat TEST as unused.
 
 ```bash
-python scripts/preflight_experiments.py --paper
-python scripts/train_rl.py --method hybrid_ppo --split train --seeds paper
-python scripts/train_rl.py --method discrete_ppo --seeds paper
-python scripts/train_rl.py --method attention_ppo --seeds paper
-python scripts/run_ablations.py --seeds ablation
+python scripts/analyze_results.py --raw results/final/raw --scenario main_test
+python scripts/make_tables.py --raw results/final/raw --scenario main_test --out results/final/tables
+python scripts/make_figures.py --raw results/final/raw --scenario main_test --out results/final/figures --curves-root results/final/training/HybridPPO
 ```
-
-Then, and only then, evaluate the untouched TEST population, native `frvcpy`,
-restricted-search reference, statistics, tables, and figures. Do **not**
-include `legacy_ddqn`.
-
-Do **not** run `--seeds paper` or `--split test` until the user asks.
 
 ---
 

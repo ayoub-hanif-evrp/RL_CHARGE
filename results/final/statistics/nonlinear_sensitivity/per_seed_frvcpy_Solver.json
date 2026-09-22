@@ -1,1 +1,0 @@
-{"mean_across_seeds":Infinity,"n_seeds":1,"per_seed":{"0":{"ci95_hi":Infinity,"ci95_lo":Infinity,"cluster_mean":Infinity,"mean":Infinity,"median":Infinity,"n":22,"n_clusters":22,"sd":NaN}},"resampling_unit":"training_seed_then_base_instance","sd_across_seeds":0.0}
