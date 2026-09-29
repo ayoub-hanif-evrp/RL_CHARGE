@@ -1,0 +1,94 @@
+{
+  "synthcharge": {
+    "train": {
+      "n_routes": 180,
+      "failures": [],
+      "cells": {
+        "C|long|charging_required": 15,
+        "C|long|no_charge_required": 5,
+        "C|medium|charging_required": 15,
+        "C|medium|no_charge_required": 5,
+        "C|short|charging_required": 15,
+        "C|short|no_charge_required": 5,
+        "R|long|charging_required": 15,
+        "R|long|no_charge_required": 5,
+        "R|medium|charging_required": 15,
+        "R|medium|no_charge_required": 5,
+        "R|short|charging_required": 15,
+        "R|short|no_charge_required": 5,
+        "RC|long|charging_required": 15,
+        "RC|long|no_charge_required": 5,
+        "RC|medium|charging_required": 15,
+        "RC|medium|no_charge_required": 5,
+        "RC|short|charging_required": 15,
+        "RC|short|no_charge_required": 5
+      }
+    },
+    "validation": {
+      "n_routes": 90,
+      "failures": [],
+      "cells": {
+        "C|long|charging_required": 8,
+        "C|long|no_charge_required": 2,
+        "C|medium|charging_required": 8,
+        "C|medium|no_charge_required": 2,
+        "C|short|charging_required": 8,
+        "C|short|no_charge_required": 2,
+        "R|long|charging_required": 8,
+        "R|long|no_charge_required": 2,
+        "R|medium|charging_required": 8,
+        "R|medium|no_charge_required": 2,
+        "R|short|charging_required": 8,
+        "R|short|no_charge_required": 2,
+        "RC|long|charging_required": 8,
+        "RC|long|no_charge_required": 2,
+        "RC|medium|charging_required": 8,
+        "RC|medium|no_charge_required": 2,
+        "RC|short|charging_required": 8,
+        "RC|short|no_charge_required": 2
+      }
+    },
+    "test": {
+      "n_routes": 90,
+      "failures": [],
+      "cells": {
+        "C|long|charging_required": 8,
+        "C|long|no_charge_required": 2,
+        "C|medium|charging_required": 8,
+        "C|medium|no_charge_required": 2,
+        "C|short|charging_required": 8,
+        "C|short|no_charge_required": 2,
+        "R|long|charging_required": 8,
+        "R|long|no_charge_required": 2,
+        "R|medium|charging_required": 8,
+        "R|medium|no_charge_required": 2,
+        "R|short|charging_required": 8,
+        "R|short|no_charge_required": 2,
+        "RC|long|charging_required": 8,
+        "RC|long|no_charge_required": 2,
+        "RC|medium|charging_required": 8,
+        "RC|medium|no_charge_required": 2,
+        "RC|short|charging_required": 8,
+        "RC|short|no_charge_required": 2
+      }
+    }
+  },
+  "failures": [],
+  "legacy_evrptwgr_challenge": {
+    "n_routes": 26,
+    "failures": [],
+    "cells": {}
+  },
+  "candidate_seeds_examined": {
+    "train": 1442,
+    "validation": 1343,
+    "test": 551
+  },
+  "candidate_route_rejections": {
+    "unverified_search_exhausted": 127,
+    "outside_length_bins": 2727,
+    "unverified_timeout": 1246,
+    "quota_full": 5783
+  },
+  "n_failures": 0
+}

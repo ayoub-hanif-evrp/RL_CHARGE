@@ -1,0 +1,10 @@
+{
+  "benchmark": "synthcharge_final",
+  "source_commit": "7934a73bbbe20b9be2a9b800127e5e8d4702d345",
+  "paper_arxiv": "2603.03230",
+  "physics_profile": "synthcharge_linear",
+  "n_train": 180,
+  "n_validation": 90,
+  "n_test": 90,
+  "not_evrptw_gr_gradient_physics": true
+}

@@ -1,0 +1,15 @@
+{
+  "role": "legacy_same_domain_challenge",
+  "not_a_fresh_test": true,
+  "n_routes": 26,
+  "n_duplicate_exact_instance_sequences": 0,
+  "n_replay_failed": 0,
+  "parents": [
+    "c101",
+    "c205",
+    "r110",
+    "r201",
+    "rc102",
+    "rc208"
+  ]
+}

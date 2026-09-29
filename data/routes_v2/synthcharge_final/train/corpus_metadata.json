@@ -1,0 +1,31 @@
+{
+  "benchmark": "synthcharge_final",
+  "split": "train",
+  "role": "development_split",
+  "source_commit": "7934a73bbbe20b9be2a9b800127e5e8d4702d345",
+  "paper_arxiv": "2603.03230",
+  "structural_screen_is_not_a_charging_certificate": true,
+  "physics_profile": "synthcharge_linear",
+  "n_routes": 180,
+  "quota_summary": {
+    "C|long|charging_required": 15,
+    "C|long|no_charge_required": 5,
+    "C|medium|charging_required": 15,
+    "C|medium|no_charge_required": 5,
+    "C|short|charging_required": 15,
+    "C|short|no_charge_required": 5,
+    "R|long|charging_required": 15,
+    "R|long|no_charge_required": 5,
+    "R|medium|charging_required": 15,
+    "R|medium|no_charge_required": 5,
+    "R|short|charging_required": 15,
+    "R|short|no_charge_required": 5,
+    "RC|long|charging_required": 15,
+    "RC|long|no_charge_required": 5,
+    "RC|medium|charging_required": 15,
+    "RC|medium|no_charge_required": 5,
+    "RC|short|charging_required": 15,
+    "RC|short|no_charge_required": 5
+  },
+  "one_route_per_instance": true
+}

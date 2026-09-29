@@ -1,0 +1,119 @@
+{
+  "V2_METHOD_FREEZE_SHA": "df35705c012b4ce88674a5b8906176c97838b06c",
+  "v2_development_sha": "aaa4a1a322086410ff359834861704dca19138ac",
+  "method": {
+    "name": "Hybrid-Action PPO",
+    "code_name": "HybridPPO",
+    "development_condition": "B2",
+    "definition": "HybridPPO + feasibility-aware energy-continuation SOC lower bound + optimistic time-feasibility SOC upper bound + one global TRAIN-only return scale",
+    "decisions": ["when to charge", "where to charge", "how much to charge"],
+    "learned_comparator": "DiscretePPO",
+    "excluded_from_final_matrix": ["DDQN", "SAC", "AttentionPPO"]
+  },
+  "ppo_hyperparameters": {
+    "learning_rate": 0.0003,
+    "rollout_steps": 256,
+    "minibatch_size": 32,
+    "update_epochs": 4,
+    "clip_eps": 0.2,
+    "gamma": 1.0,
+    "gae_lambda": 0.95,
+    "entropy_coef": 0.01,
+    "value_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "budget_updates": 400,
+    "eval_interval": 10,
+    "early_stopping_patience": 20,
+    "u_eps": 0.0001,
+    "config_sha256": {
+      "configs/rl/hybrid_ppo.toml": "598dba5d40d5b28ab7ad266a4f4090b908b9e116f2dfc79257fb34a8e6952d25",
+      "configs/rl/discrete_ppo.toml": "71e610d72a061c06d714ec56246cc30a734c6ec7654f95a8f025bcade6f962e4"
+    }
+  },
+  "architecture": {
+    "d_model": 64,
+    "n_heads": 4,
+    "n_layers": 1,
+    "dropout": 0.0,
+    "feedforward": 256,
+    "discrete_charge_grid": [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+  },
+  "shield": {
+    "lower_soc": "energy continuation requirement",
+    "upper_soc": "maximum charge compatible with an optimistic downstream time-window lower-bound schedule",
+    "time_aware_cap": "necessary-condition pruning only; it does not guarantee global future feasibility",
+    "charging_time": "g * energy_added",
+    "time_aware_envelope": true,
+    "return_scaling": true
+  },
+  "reward": {
+    "gamma": 1.0,
+    "raw_episode_return": "negative completion time of a successful episode",
+    "training_reward": "raw reward divided by one global TRAIN-only return scale",
+    "validation_units": "physical"
+  },
+  "return_scale": {
+    "definition": "maximum depot due date over TRAIN routes only",
+    "fit_split": "train",
+    "may_differ_across_datasets": true
+  },
+  "evaluation_mode": {
+    "checkpoint": "best.pt",
+    "primary": "maximize parent-balanced validation feasibility",
+    "secondary": "minimize parent-balanced validation all-routes completion time",
+    "test_split_rejected_by_training": true
+  },
+  "seeds": [42, 43, 44, 45, 46],
+  "official_evrptwgr": {
+    "profile_sha256": "f82c0790fbb8e86d986fb482fe02c1b315de2e93245d25f98fbd379361f6727a",
+    "payload_capacity_kg": 3650,
+    "capacity_policy": "official_evrptwgr_payload_capacity_3650kg",
+    "v1_corpus_sha256": {
+      "data/routes/corpus.jsonl": "1796d817ff058fe0559021ab79ca97087ef3646c57744c2c883ecc37e85451e0",
+      "data/routes/manifest.csv": "41bb8be3245f8f3b0800db4ba74cb19a2003236b6fbd0dbc1237e7cdfaee104d",
+      "data/routes/corpus_metadata.json": "1ca8725199842f0a8d4a4e6fac2a31931ea3c9aaca833c2d253c6147469d9a96",
+      "data/splits/train.json": "3aecd73e9472b8572e899a7e2da3f1f874f0e5a13250f5cd6d76d812002913ce",
+      "data/splits/validation.json": "1379aef7e92c308f90ab78674dec9994db72078c96cb1020ecc49d33eef69af4",
+      "data/splits/test.json": "9bf39fbf1f27aa57146879fb71922b0216f24f1eb37a4fd9a9a43b44b6c4b6d0",
+      "data/splits/split_metadata.json": "4740ab71737bfd9c04d37f258e57bfa4854a526da7c03b218ffe877818128900",
+      "results/final/PROVENANCE.json_committed_lf": "df2c6328ae5b2e54d32931d3be9fa8bf07b376e1d8c8c9316526573d9c2629cc"
+    }
+  },
+  "gold_corpus_sha256": {
+    "data/routes_v2/gold_official/corpus.jsonl": "393c8644db15d3a4ca2a752ecb693166935ba2f6b3a064846e2ea76de5c8de9a",
+    "data/routes_v2/gold_official/manifest.csv": "9c79d9c79dc33807c8ea38cc6a49aa3875a6853a895a143393130286c4c7b2bf",
+    "data/routes_v2/gold_official/corpus_metadata.json": "929aed15e749b66cec6b07a33df082fad562fd0c861cc233dba549d88d16437e",
+    "data/routes_v2/gold_official/certificates.jsonl": "806eec6f7009b619633a74d32ff4f57ebb772c55a0f1d9a8f4177f384cea65c1"
+  },
+  "certified_pyvrp_sha256": {
+    "data/routes_v2/certified_pyvrp/corpus.jsonl": "ac7c57d43f4ce0c1877e257430ea761bd01e77b28b22b26e674768ca1cac58c9",
+    "data/routes_v2/certified_pyvrp/manifest.csv": "d657b1eee478878174ea2146d1521de97c59af4753c3f48f673f67d437d52812",
+    "data/routes_v2/certified_pyvrp/corpus_metadata.json": "eb66f238bfd4db648c0f000a5db74a0fbf1ac4b8311eff106794e3c778cf88e3",
+    "data/routes_v2/certified_pyvrp/certificates.jsonl": "04bcd4e79e0a3b242315b97073088d7a7f2473d392aeb914811060531f8e6d6b",
+    "data/routes_v2/certified_pyvrp/repair_report.json": "e710c7eb4fdeeca61422239b671c182488ba3ea0436c2a8f2ef848d14d263611",
+    "data/routes_v2/certified_pyvrp/quarantine.jsonl": "49ff91fe095ad6899ff58c892858efa0cce7769f07a9aca78e70079c5b83f07f"
+  },
+  "metadata_note": "Gold and certified-PyVRP corpus.jsonl hashes changed from the development record only because capacity_policy and routing_tw_feasible were rewritten. Customer sequences and certificates were not regenerated.",
+  "synthcharge": {
+    "repository": "https://github.com/Merdo305/SynthCharge_v1.0",
+    "source_commit": "7934a73bbbe20b9be2a9b800127e5e8d4702d345",
+    "paper_arxiv": "2603.03230",
+    "paper_doi": "10.48550/arXiv.2603.03230",
+    "generator_sha256": "8dbcb3640baf36c4e1ebc7856975b895ff135406a7a56e7bfe33c15d93ae55a6",
+    "benchmark_specification_sha256": "ce78a65fc18320d06154e823b6e487ba74ef9acf868d531fdd16e934e430303c",
+    "structural_screen_is_not_a_charging_certificate": true,
+    "physics_profile": "synthcharge_linear",
+    "pulp_import_version": "4.0.0",
+    "pulp_used_for_admission": false
+  },
+  "packages": {
+    "python": "3.12.10",
+    "os": "Windows-11-10.0.26200",
+    "torch": "2.14.0+cpu",
+    "numpy": "2.5.3",
+    "pyvrp": "0.14.0",
+    "frvcpy": "0.1.1",
+    "cuda": false
+  },
+  "algorithm_changes_after_this_sha": "forbidden"
+}
