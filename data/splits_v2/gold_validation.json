@@ -1,0 +1,38 @@
+{
+  "split": "validation",
+  "instance_ids": [
+    "c108C25_NL",
+    "c202C10_NL",
+    "c202C10_VG",
+    "c202C15_NL",
+    "c202C15_VG",
+    "r102C10_NL",
+    "r102C10_VG",
+    "r102C15_NL",
+    "r102C25_NL",
+    "r102_50_21_NL",
+    "r209C15_VG",
+    "rc108C10_NL",
+    "rc108C10_VG",
+    "rc108C15_NL",
+    "rc108C5_NL",
+    "rc205C10_NL"
+  ],
+  "base_instances": [
+    "c108",
+    "c202",
+    "r102",
+    "r209",
+    "rc108",
+    "rc205"
+  ],
+  "n_routes": 47,
+  "consumed_test_parents_excluded": [
+    "c101",
+    "c205",
+    "r110",
+    "r201",
+    "rc102",
+    "rc208"
+  ]
+}

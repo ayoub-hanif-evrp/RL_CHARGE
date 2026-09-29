@@ -44,6 +44,7 @@ class PPOConfig:
     early_stopping_patience: int
     seed: int
     u_eps: float = 1e-4
+    return_scale: float = 1.0
 
     @classmethod
     def from_toml(cls, path: Path | None = None) -> "PPOConfig":
@@ -70,6 +71,7 @@ class PPOConfig:
             early_stopping_patience=int(raw["early_stopping_patience"]),
             seed=int(raw["seed"]),
             u_eps=float(raw.get("u_eps", 1e-4)),
+            return_scale=float(raw.get("return_scale", 1.0)),
         )
 
 
@@ -93,6 +95,13 @@ class HybridPPO:
         ).to(self.device)
         self.optimizer = torch.optim.Adam(self.policy.parameters(), lr=config.learning_rate)
         self.rng = np.random.default_rng(config.seed)
+        self.last_raw_episode_returns: list[float] = []
+
+    def scale_reward(self, raw_reward: float) -> float:
+        scale = float(self.config.return_scale)
+        if scale <= 0.0:
+            raise ValueError("return_scale must be a positive global constant")
+        return float(raw_reward) / scale
 
     def _executed_u(self, env: ShieldedRouteEnv, discrete: int, u: float) -> float:
         if discrete == 0:
@@ -116,13 +125,15 @@ class HybridPPO:
             log_prob = float(evaluated["log_prob"].item())
             value = float(output.value.item())
         info = env.step(discrete, u)
+        if info.done:
+            self.last_raw_episode_returns.append(float(env.return_value))
         buffer.add(
             Transition(
                 discrete_index=info.executed_discrete,
                 u=info.executed_u,
                 log_prob=log_prob,
                 value=value,
-                reward=info.reward,
+                reward=self.scale_reward(info.reward),
                 done=info.done,
                 features=features,
             )
@@ -131,6 +142,7 @@ class HybridPPO:
 
     def collect(self, env: ShieldedRouteEnv, n_steps: Optional[int] = None) -> RolloutBuffer:
         steps = n_steps or self.config.rollout_steps
+        self.last_raw_episode_returns = []
         buffer = RolloutBuffer(gamma=self.config.gamma, gae_lambda=self.config.gae_lambda)
         features = env.reset()
         remaining = steps
@@ -147,6 +159,7 @@ class HybridPPO:
 
     def collect_from_factory(self, env_factory, n_steps: Optional[int] = None) -> RolloutBuffer:
         steps = n_steps or self.config.rollout_steps
+        self.last_raw_episode_returns = []
         buffer = RolloutBuffer(gamma=self.config.gamma, gae_lambda=self.config.gae_lambda)
         env = env_factory()
         features = env.reset()
@@ -223,6 +236,8 @@ class HybridPPO:
                 approx_kls.append(float(approx_kl.item()))
                 clip_fractions.append(float(clip_fraction.item()))
                 grad_norms.append(float(grad_norm.detach().cpu() if torch.is_tensor(grad_norm) else grad_norm))
+        scaled_rewards = [float(step.reward) for step in buffer.transitions]
+        raw_episodes = list(self.last_raw_episode_returns)
         return {
             "loss": float(np.mean(losses) if losses else 0.0),
             "policy_loss": float(np.mean(policy_losses) if policy_losses else 0.0),
@@ -231,6 +246,10 @@ class HybridPPO:
             "approx_kl": float(np.mean(approx_kls) if approx_kls else 0.0),
             "clip_fraction": float(np.mean(clip_fractions) if clip_fractions else 0.0),
             "grad_norm": float(np.mean(grad_norms) if grad_norms else 0.0),
+            "grad_norm_preclip": float(np.mean(grad_norms) if grad_norms else 0.0),
+            "return_scale": float(self.config.return_scale),
+            "scaled_reward_mean": float(np.mean(scaled_rewards) if scaled_rewards else 0.0),
+            "raw_episode_return_mean": float(np.mean(raw_episodes) if raw_episodes else 0.0),
         }
 
     def smoke_train(self, env: ShieldedRouteEnv, updates: int = 1) -> dict:

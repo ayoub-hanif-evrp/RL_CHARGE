@@ -1,0 +1,8 @@
+{
+  "n_gold": 166,
+  "search_certified": 146,
+  "unverified_timeout": 20,
+  "unverified_search_exhausted": 0,
+  "wall_s": 89.13,
+  "priority": "remaining_then_higher_soc"
+}

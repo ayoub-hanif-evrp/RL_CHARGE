@@ -34,6 +34,7 @@ desktop.ini
 
 # Experiment artifacts (tables/summaries/figures stay tracked)
 checkpoints/
+checkpoints_v2/
 results/raw/
 results/runs/
 results/smoke/raw/

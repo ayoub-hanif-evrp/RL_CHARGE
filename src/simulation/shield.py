@@ -19,6 +19,7 @@ from data.models import NodeType
 from simulation.actions import ChargeAction, ContinueAction
 from simulation.feasibility import InfeasibilityReason, ZERO_CHARGE_EPS
 from simulation.simulator import FixedRouteSimulator
+from simulation.time_envelope import time_soc_cap
 
 
 CONTINUE_INDEX = 0
@@ -56,14 +57,25 @@ def station_ids_of(simulator: FixedRouteSimulator) -> Tuple[str, ...]:
     return tuple(node.string_id for node in simulator.instance.stations)
 
 
-def evaluate_shield(simulator: FixedRouteSimulator) -> ShieldDecision:
+def time_aware_enabled(simulator: FixedRouteSimulator, time_aware: Optional[bool] = None) -> bool:
+    if time_aware is not None:
+        return bool(time_aware)
+    return bool(getattr(simulator, "time_aware_envelope", False))
+
+
+def evaluate_shield(
+    simulator: FixedRouteSimulator, *, time_aware: Optional[bool] = None
+) -> ShieldDecision:
     stations = station_ids_of(simulator)
     continue_legal, continue_reason = _continue_legal(simulator)
     continuable = energy_continuable_stations(simulator)
+    use_time = time_aware_enabled(simulator, time_aware)
     station_mask: List[bool] = []
     station_reasons: List[Optional[InfeasibilityReason]] = []
     for station_id in stations:
-        legal, reason = _station_legal(simulator, station_id, continuable)
+        legal, reason = _station_legal(
+            simulator, station_id, continuable, time_aware=use_time
+        )
         station_mask.append(legal)
         station_reasons.append(reason)
     mask = (continue_legal, *station_mask)
@@ -80,6 +92,8 @@ def soc_interval_for_station(
     simulator: FixedRouteSimulator,
     station_id: str,
     mode: str = CONTINUATION_TO_MAX,
+    *,
+    time_aware: Optional[bool] = None,
 ) -> SocInterval:
     """Transition-level interval. Not claimed globally exact.
 
@@ -98,9 +112,15 @@ def soc_interval_for_station(
             soc_lower = float(arrival)
         else:
             soc_lower = max(float(arrival), float(bound))
-    if soc_lower > soc_upper:
+    if time_aware_enabled(simulator, time_aware):
+        cap = time_soc_cap(simulator, station_id)
+        if cap.applicable:
+            if cap.soc_upper is None:
+                return SocInterval(soc_lower=float(soc_lower), soc_upper=float(soc_lower) - 1.0)
+            soc_upper = min(float(soc_upper), float(cap.soc_upper))
+    if soc_lower > soc_upper and not time_aware_enabled(simulator, time_aware):
         soc_lower = soc_upper
-    return SocInterval(soc_lower=soc_lower, soc_upper=soc_upper)
+    return SocInterval(soc_lower=float(soc_lower), soc_upper=float(soc_upper))
 
 
 def map_u_to_target_soc(
@@ -108,8 +128,12 @@ def map_u_to_target_soc(
     station_id: str,
     u: float,
     mode: str = CONTINUATION_TO_MAX,
+    *,
+    time_aware: Optional[bool] = None,
 ) -> float:
-    target = soc_interval_for_station(simulator, station_id, mode=mode).map_u(u)
+    target = soc_interval_for_station(
+        simulator, station_id, mode=mode, time_aware=time_aware
+    ).map_u(u)
     current = _arrival_soc(simulator, station_id)
     return max(target, current)
 
@@ -119,12 +143,16 @@ def action_from_discrete(
     discrete_index: int,
     u: float = 0.0,
     soc_mode: str = CONTINUATION_TO_MAX,
+    *,
+    time_aware: Optional[bool] = None,
 ) -> ContinueAction | ChargeAction:
-    decision = evaluate_shield(simulator)
+    decision = evaluate_shield(simulator, time_aware=time_aware)
     if discrete_index == CONTINUE_INDEX:
         return ContinueAction()
     station_id = decision.station_ids[discrete_index - 1]
-    target = map_u_to_target_soc(simulator, station_id, u, mode=soc_mode)
+    target = map_u_to_target_soc(
+        simulator, station_id, u, mode=soc_mode, time_aware=time_aware
+    )
     return ChargeAction(station_id, target)
 
 
@@ -252,6 +280,8 @@ def _station_legal(
     simulator: FixedRouteSimulator,
     station_id: str,
     continuable: Set[str],
+    *,
+    time_aware: bool = False,
 ) -> Tuple[bool, Optional[InfeasibilityReason]]:
     if simulator.state.n_station_visits_since_last_customer >= (
         simulator.profile.loop_guard_station_visits
@@ -281,6 +311,10 @@ def _station_legal(
             return False, InfeasibilityReason.INSUFFICIENT_ENERGY
     if station_id not in continuable:
         return False, InfeasibilityReason.NO_ENERGY_CONTINUATION
+    if time_aware:
+        interval = soc_interval_for_station(simulator, station_id, time_aware=True)
+        if interval.soc_lower > interval.soc_upper + 1e-8:
+            return False, InfeasibilityReason.NO_TIME_CONTINUATION
     return True, None
 
 
@@ -302,3 +336,23 @@ def _arrival_soc(simulator: FixedRouteSimulator, station_id: str) -> float:
 
 def masked_indices(mask: Sequence[bool]) -> Tuple[int, ...]:
     return tuple(i for i, legal in enumerate(mask) if legal)
+
+
+def dead_end_diagnostic(simulator: FixedRouteSimulator) -> dict:
+    """Why the current decision has no legal action. Does not choose a repair."""
+    decision = evaluate_shield(simulator)
+    nxt = simulator.next_frozen_node_id()
+    node = simulator.network.node(nxt)
+    return {
+        "current_node": simulator.state.current_node_id,
+        "next_frozen_node": nxt,
+        "time": float(simulator.state.time.value),
+        "next_due_date": float(node.due_date),
+        "soc": float(simulator.state.soc.value),
+        "remaining_customers": len(simulator.remaining_customer_ids()),
+        "continue_reason": None if decision.continue_reason is None else decision.continue_reason.value,
+        "station_reasons": {
+            station_id: None if reason is None else reason.value
+            for station_id, reason in zip(decision.station_ids, decision.station_reasons)
+        },
+    }

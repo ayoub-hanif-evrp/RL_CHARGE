@@ -13,6 +13,7 @@ from simulation.progress import failure_step_reward
 from simulation.shield import (
     CONTINUE_INDEX,
     action_from_discrete,
+    dead_end_diagnostic,
     evaluate_shield,
 )
 from simulation.simulator import FixedRouteSimulator
@@ -58,6 +59,7 @@ class ShieldedRouteEnv:
             self.load_convention,
             charging_model=charging_model,
         )
+        self.simulator.time_aware_envelope = bool(self.ablation.time_aware)
         self.return_value = 0.0
         self.failed = False
 
@@ -101,6 +103,10 @@ class ShieldedRouteEnv:
             reward = failure_step_reward(self.simulator, decision_time=t0)
             self.return_value += reward
             self.failed = True
+            executed["extra"] = {
+                **executed["extra"],
+                "dead_end": dead_end_diagnostic(self.simulator),
+            }
             return StepInfo(
                 reward=reward,
                 done=True,

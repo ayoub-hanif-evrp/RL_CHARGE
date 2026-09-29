@@ -1,0 +1,17 @@
+{
+  "n_routes": 166,
+  "n_duplicate_exact_instance_sequences": 0,
+  "n_replay_failed": 0,
+  "n_train": 119,
+  "n_validation": 47,
+  "n_train_parents": 20,
+  "n_validation_parents": 6,
+  "test_parents_excluded": [
+    "c101",
+    "c205",
+    "r110",
+    "r201",
+    "rc102",
+    "rc208"
+  ]
+}

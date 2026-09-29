@@ -33,6 +33,7 @@ def run_discrete_policy(
         if not shield.any_legal:
             from simulation.feasibility import InfeasibilityReason
             from simulation.progress import failure_step_reward
+            from simulation.shield import dead_end_diagnostic
 
             total += failure_step_reward(simulator, decision_time=t0)
             return BaselineResult(
@@ -40,7 +41,10 @@ def run_discrete_policy(
                 False,
                 total,
                 steps,
-                extra={"dead_end": True, "reason": InfeasibilityReason.NO_FEASIBLE_ACTION},
+                extra={
+                    "dead_end": dead_end_diagnostic(simulator),
+                    "reason": InfeasibilityReason.NO_FEASIBLE_ACTION,
+                },
             )
         discrete, u = choose(simulator)
         if discrete >= len(shield.mask) or not shield.mask[discrete]:

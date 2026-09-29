@@ -14,6 +14,7 @@ class AblationConfig:
     use_terrain_load_features: bool = True
     station_encoder: str = "attention"
     node_type_embedding: bool = False
+    time_aware: bool = False
 
     @classmethod
     def from_name(cls, name: str) -> "AblationConfig":

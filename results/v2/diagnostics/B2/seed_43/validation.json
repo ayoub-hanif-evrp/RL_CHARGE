@@ -1,0 +1,36 @@
+{
+  "variant": "B2",
+  "seed": 43,
+  "time_aware": true,
+  "return_scale": 3390.0,
+  "n_train": 119,
+  "n_val": 47,
+  "best_update": 100,
+  "status": "early_stop",
+  "parent_balanced_feasibility": 0.9444444444444445,
+  "parent_balanced_completion_all": 907.3495474486696,
+  "route_weighted_feasibility": 0.851063829787234,
+  "mean_feasible_routes": 40.0,
+  "mean_completion_all": 494.30199186952945,
+  "diagnostic": {
+    "n": 47,
+    "n_feasible": 40,
+    "n_missed_known_feasible": 7,
+    "reason_histogram": {
+      "NO_FEASIBLE_ACTION": 7
+    },
+    "dead_end_reason_histogram": {
+      "INSUFFICIENT_ENERGY": 70,
+      "NO_TIME_CONTINUATION": 7,
+      "NO_ENERGY_CONTINUATION": 1
+    },
+    "mean_terminal_soc_feasible": 0.28855897133503616,
+    "mean_terminal_soc_failed": 0.20806667358514028,
+    "mean_charging_time_feasible": 162.78130467682394,
+    "mean_charging_time_failed": 10.453873262164421,
+    "mean_station_visits_feasible": 2.575,
+    "mean_station_visits_failed": 1.5714285714285714,
+    "mean_u": 0.4511801819867892,
+    "mean_fraction_u_near_upper": 0.13306878306878306
+  }
+}

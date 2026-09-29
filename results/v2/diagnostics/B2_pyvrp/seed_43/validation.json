@@ -1,0 +1,37 @@
+{
+  "variant": "B2_pyvrp",
+  "seed": 43,
+  "time_aware": true,
+  "return_scale": 3390.0,
+  "n_train": 277,
+  "n_val": 150,
+  "best_update": 210,
+  "status": "completed",
+  "parent_balanced_feasibility": 0.9035044719642243,
+  "parent_balanced_completion_all": 681.3961030172478,
+  "route_weighted_feasibility": 0.92,
+  "mean_feasible_routes": 138.0,
+  "mean_completion_all": 458.63659333322477,
+  "diagnostic": {
+    "n": 150,
+    "n_feasible": 138,
+    "n_missed_known_feasible": 12,
+    "reason_histogram": {
+      "NO_FEASIBLE_ACTION": 12
+    },
+    "dead_end_reason_histogram": {
+      "INSUFFICIENT_ENERGY": 77,
+      "NO_TIME_CONTINUATION": 7,
+      "STATION_REVISIT": 2,
+      "NO_ENERGY_CONTINUATION": 2
+    },
+    "mean_terminal_soc_feasible": 0.27311863036745265,
+    "mean_terminal_soc_failed": 0.3517819564707845,
+    "mean_charging_time_feasible": 71.72110810607002,
+    "mean_charging_time_failed": 52.42319401695298,
+    "mean_station_visits_feasible": 1.3623188405797102,
+    "mean_station_visits_failed": 1.0833333333333333,
+    "mean_u": 0.6191495410895971,
+    "mean_fraction_u_near_upper": 0.1566633597883598
+  }
+}

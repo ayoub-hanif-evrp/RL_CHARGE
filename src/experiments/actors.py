@@ -47,6 +47,7 @@ class HybridPolicyActor:
         return discrete, u
 
     def __call__(self, simulator: FixedRouteSimulator, eval_mode: bool = True) -> BaselineResult:
+        simulator.time_aware_envelope = bool(self.ablation.time_aware)
         return run_discrete_policy(
             simulator,
             lambda sim: self.choose(sim, eval_mode=eval_mode),

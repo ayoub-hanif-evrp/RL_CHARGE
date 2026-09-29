@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import time
 from collections import defaultdict
+from dataclasses import replace
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence
 
@@ -191,8 +192,11 @@ def train_hybrid_ppo(
     out_dir: Optional[Path] = None,
     wall_clock_s: Optional[float] = None,
     val_max_routes: Optional[int] = None,
+    return_scale: Optional[float] = None,
 ) -> dict:
     ablation = ablation or AblationConfig()
+    if return_scale is not None:
+        config = replace(config, return_scale=float(return_scale))
     out_dir = Path(out_dir) if out_dir is not None else CHECKPOINTS_DIR / method / f"seed_{config.seed}"
     out_dir.mkdir(parents=True, exist_ok=True)
     sampler = HierarchicalSampler(train_routes, seed=config.seed)
@@ -243,6 +247,10 @@ def train_hybrid_ppo(
             "approx_kl": stats["approx_kl"],
             "clip_fraction": stats["clip_fraction"],
             "grad_norm": stats["grad_norm"],
+            "grad_norm_preclip": stats.get("grad_norm_preclip", stats["grad_norm"]),
+            "return_scale": float(config.return_scale),
+            "scaled_reward_mean": stats.get("scaled_reward_mean"),
+            "raw_episode_return_mean": stats.get("raw_episode_return_mean"),
         }
         if update % max(int(config.eval_interval), 1) == 0 or update == config.budget_updates - 1:
             val = evaluate_routes(val_routes, actor, max_routes=val_max_routes)
@@ -278,6 +286,8 @@ def train_hybrid_ppo(
                         "val_parent_balanced_feasibility": val["parent_balanced_feasibility"],
                         "val_parent_balanced_completion_all": val["parent_balanced_completion_all"],
                         "normalizer_provenance": normalizer_provenance,
+                        "return_scale": float(config.return_scale),
+                        "time_aware_envelope": bool(ablation.time_aware),
                     },
                 )
                 row["checkpoint_sha256"] = ckpt_hash
