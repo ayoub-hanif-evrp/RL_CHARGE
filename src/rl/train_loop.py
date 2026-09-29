@@ -67,7 +67,7 @@ def fit_normalizer(
     _ = rng_seed  # documented TRAIN-only seed; greedy-min is deterministic
     for route in routes:
         instance = parse_route_instance(route)
-        profile = PhysicsProfile.from_instance(instance)
+        profile = PhysicsProfile.from_instance(instance, name=route.physics_profile or "official_evrptwgr")
         env = ShieldedRouteEnv(
             instance,
             route,
@@ -128,7 +128,13 @@ def evaluate_routes(routes: List[FrozenRoute], actor, max_routes: Optional[int] 
     parents: List[str] = []
     for route in selected:
         instance = parse_route_instance(route)
-        result = evaluate_policy(instance=instance, route=route, policy=actor, eval_mode=True)
+        result = evaluate_policy(
+            instance=instance,
+            route=route,
+            policy=actor,
+            eval_mode=True,
+            profile_name=route.physics_profile or "official_evrptwgr",
+        )
         records.append(result)
         parents.append(str(route.base_instance or route.raw_instance_id))
     n = max(len(records), 1)
@@ -182,6 +188,12 @@ def _lexicographic_better(feas: float, completion: float, best_feas: float, best
     return False
 
 
+def assert_learning_split(split: str) -> None:
+    """TRAIN and validation are the only splits that may enter learning code."""
+    if str(split) == "test":
+        raise ValueError("split=test is rejected for training, scaling, normalizers, and checkpoint selection")
+
+
 def train_hybrid_ppo(
     *,
     train_routes: List[FrozenRoute],
@@ -194,7 +206,9 @@ def train_hybrid_ppo(
     wall_clock_s: Optional[float] = None,
     val_max_routes: Optional[int] = None,
     return_scale: Optional[float] = None,
+    learning_split: str = "train",
 ) -> dict:
+    assert_learning_split(learning_split)
     ablation = ablation or AblationConfig()
     if return_scale is not None:
         config = replace(config, return_scale=float(return_scale))
@@ -217,7 +231,9 @@ def train_hybrid_ppo(
     def env_factory():
         sample = sampler.sample()
         instance = parse_route_instance(sample.route)
-        profile = PhysicsProfile.from_instance(instance)
+        profile = PhysicsProfile.from_instance(
+            instance, name=sample.route.physics_profile or "official_evrptwgr"
+        )
         return ShieldedRouteEnv(
             instance,
             sample.route,

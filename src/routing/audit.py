@@ -57,19 +57,31 @@ def annotate_routing_tw_feasibility(
     return annotated
 
 
-def _tw_replay(instance: EVRPTWGRInstance, route: FrozenRoute, profile_name: str) -> bool:
-    if not route.customer_ids:
+def routing_time_window_feasible(
+    instance: EVRPTWGRInstance,
+    customer_ids: Sequence[str],
+    profile_name: str = DEFAULT_PROFILE_NAME,
+) -> bool:
+    """Customer-order time-window replay with energy ignored.
+
+    This is independent of whether a charging schedule exists.
+    """
+    if not customer_ids:
         return False
     profile = PhysicsProfile.from_instance(instance, name=profile_name)
     simulator = FixedRouteSimulator(
         instance,
-        route.customer_ids,
+        tuple(customer_ids),
         profile,
         LoadConvention.OFFICIAL_REFERENCE_PICKUP,
         ignore_energy=True,
     )
     result = run_continue_only(simulator)
     return bool(result.feasible and simulator.state.completed)
+
+
+def _tw_replay(instance: EVRPTWGRInstance, route: FrozenRoute, profile_name: str) -> bool:
+    return routing_time_window_feasible(instance, route.customer_ids, profile_name)
 
 
 def audit_corpus(

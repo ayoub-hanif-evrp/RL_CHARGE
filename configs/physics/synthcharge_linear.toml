@@ -1,0 +1,33 @@
+# SynthCharge v1.0 linear EVRPTW. This is not EVRPTW-GR physics.
+# Energy is r * Euclidean distance. Payload does not change energy.
+# There is no altitude. The Demir constants below are unused placeholders
+# required by the shared loader; energy_law = linear_distance ignores them.
+
+name = "synthcharge_linear"
+source = "SynthCharge v1.0 linear energy (arXiv:2603.03230)"
+energy_law = "linear_distance"
+
+use_instance_curb_mass = false
+use_instance_payload_capacity = true
+curb_mass_kg = 1.0
+payload_capacity_kg = 1.5
+
+rolling_resistance_coefficient = 0.0
+drag_coefficient = 0.0
+air_density_kg_m3 = 0.0
+frontal_area_m2 = 0.0
+gravity_m_s2 = 0.0
+acceleration_m_s2 = 0.0
+drivetrain_efficiency = 1.0
+motor_efficiency = 1.0
+regenerative_efficiency = 1.0
+physics_speed_km_h = 1.0
+accessory_power_kw = 0.0
+accessory_load_kw = 0.0
+powertrain_constant_kk = 1.0
+conversion_factor = 1.0
+
+min_soc_fraction = 0.0
+max_soc_fraction = 1.0
+initial_soc_fraction = 1.0
+loop_guard_station_visits = 50

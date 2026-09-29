@@ -37,5 +37,10 @@ def load_split_routes(
 
 
 def parse_route_instance(route: FrozenRoute, dataset_root=None):
+    if route.physics_profile == "synthcharge_linear":
+        from data.paths import REPO_ROOT
+        from routing.synthcharge_instance import parse_synthcharge_instance
+
+        return parse_synthcharge_instance(REPO_ROOT / route.relative_path)
     root = Path(dataset_root) if dataset_root is not None else RAW_EVRPTW_GR_DIR
     return parse_instance(root / route.relative_path)

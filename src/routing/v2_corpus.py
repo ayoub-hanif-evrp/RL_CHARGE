@@ -20,6 +20,7 @@ from experiments.v2_scope import (
 )
 from physics.network import DirectedArcNetwork
 from physics.parameters import PhysicsProfile
+from routing.audit import routing_time_window_feasible
 from routing.fixed_route import FrozenRoute
 from routing.official_replay import certified_charge_to_max_trace
 from routing.serialize import canonical_dumps, read_jsonl
@@ -80,17 +81,31 @@ def make_frozen_route(
     generator: str,
     charging_feasibility_status: str,
     seed: int = 0,
+    profile_name: str | None = None,
 ) -> FrozenRoute:
     meta = instance.metadata
-    profile = PhysicsProfile.from_instance(instance)
+    profile = PhysicsProfile.from_instance(instance, name=profile_name or "official_evrptwgr")
     demand = route_demand(instance, customer_ids)
     distance = customer_only_distance(instance, customer_ids)
     digest = hashlib.sha256(Path(meta.path).read_bytes()).hexdigest()
     capacity_ok = demand <= float(profile.payload_capacity_kg) + 1e-9
+    if profile.name == "official_evrptwgr":
+        capacity_policy = "official_evrptwgr_payload_capacity_3650kg"
+    elif profile.name == "synthcharge_linear":
+        capacity_policy = "synthcharge_instance_load_capacity"
+    else:
+        capacity_policy = profile.name
+    tw_ok = routing_time_window_feasible(instance, tuple(customer_ids), profile.name)
+    if profile.name == "synthcharge_linear":
+        source_dataset = "SynthCharge"
+        doi = "10.48550/arXiv.2603.03230"
+    else:
+        source_dataset = "EVRPTW-GR"
+        doi = "10.17632/srfdbp2twv.1"
     return FrozenRoute(
         route_id=route_id,
-        source_dataset="EVRPTW-GR",
-        doi="10.17632/srfdbp2twv.1",
+        source_dataset=source_dataset,
+        doi=doi,
         raw_instance_id=meta.instance_id,
         relative_path=meta.relative_path,
         network_group=meta.network_group.value,
@@ -104,7 +119,7 @@ def make_frozen_route(
         n_iterations=0,
         config_hash="",
         physics_profile=profile.name,
-        capacity_policy="instance_load_capacity",
+        capacity_policy=capacity_policy,
         distance_scale=1,
         demand_scale=1,
         rounding_policy="unscaled",
@@ -132,7 +147,7 @@ def make_frozen_route(
         lexicographic_objective=distance,
         route_source_instance_id=meta.instance_id,
         terrain_reuse=False,
-        routing_tw_feasible=None,
+        routing_tw_feasible=bool(tw_ok),
     )
 
 
@@ -149,8 +164,12 @@ def global_return_scale(routes: Iterable[FrozenRoute]) -> float:
     """
     horizons = []
     for route in routes:
-        path = RAW_EVRPTW_GR_DIR / route.relative_path
-        instance = parse_instance(path)
+        if getattr(route, "physics_profile", "") == "synthcharge_linear":
+            from experiments.dataset import parse_route_instance
+
+            instance = parse_route_instance(route)
+        else:
+            instance = parse_instance(RAW_EVRPTW_GR_DIR / route.relative_path)
         horizons.append(float(instance.depot.due_date))
     if not horizons:
         raise ValueError("return scale requires at least one TRAIN route")
@@ -169,6 +188,18 @@ def iter_gold_tours(mapping: dict):
         parent = str(tour.get("base_instance") or "")
         replay = tour.get("replay") or {}
         if parent in CONSUMED_TEST_PARENT_SET or parent not in DEV_PARENT_SET:
+            continue
+        if not replay.get("feasible"):
+            continue
+        yield tour
+
+
+def iter_legacy_tours(mapping: dict):
+    """Successful official tours of the six historically consumed V1 TEST parents."""
+    for tour in mapping["tours"]:
+        parent = str(tour.get("base_instance") or "")
+        replay = tour.get("replay") or {}
+        if parent not in CONSUMED_TEST_PARENT_SET:
             continue
         if not replay.get("feasible"):
             continue
@@ -232,6 +263,71 @@ def build_gold_routes(mapping: dict | None = None) -> tuple[list[tuple[FrozenRou
         "n_train_parents": len({route.base_instance for route, extra in rows if extra["split"] == "train"}),
         "n_validation_parents": len({route.base_instance for route, extra in rows if extra["split"] == "validation"}),
         "test_parents_excluded": sorted(CONSUMED_TEST_PARENT_SET),
+    }
+    return rows, summary
+
+
+def build_legacy_challenge_routes(mapping: dict | None = None) -> tuple[list[tuple[FrozenRoute, dict]], dict]:
+    """Official charge-to-max skeletons for the six consumed V1 TEST parents only.
+
+    This set is a legacy same-domain challenge. It is not a fresh TEST and
+    must never enter V2 TRAIN or VAL.
+    """
+    mapping = mapping or load_mapping()
+    files = instance_index()
+    seen = set()
+    n_duplicate = 0
+    n_replay_failed = 0
+    rows = []
+    per_instance_index: dict[str, int] = defaultdict(int)
+    for tour in iter_legacy_tours(mapping):
+        instance_id = str(tour["instance_id"])
+        key = (instance_id, tuple(tour["customer_ids"]))
+        if key in seen:
+            n_duplicate += 1
+            continue
+        seen.add(key)
+        path = files.get(instance_id)
+        if path is None:
+            raise FileNotFoundError(instance_id)
+        instance = parse_instance(path)
+        if instance.metadata.base_instance not in CONSUMED_TEST_PARENT_SET:
+            raise AssertionError("legacy challenge admitted a non-consumed parent")
+        replayed = certified_charge_to_max_trace(instance, list(tour["tour"]))
+        if replayed is None:
+            n_replay_failed += 1
+            continue
+        customers, _actions, trace = replayed
+        vehicle_index = per_instance_index[instance_id]
+        per_instance_index[instance_id] += 1
+        route = make_frozen_route(
+            instance,
+            customers,
+            route_id=f"v2legacy_{instance_id}_{vehicle_index:03d}",
+            vehicle_index=vehicle_index,
+            generator="official_evrptwgr_route_plan",
+            charging_feasibility_status="certified_feasible",
+        )
+        extra = {
+            "v2_source": "official_evrptwgr_route_plan",
+            "benchmark_role": "legacy_same_domain_challenge",
+            "split": "legacy_same_domain_challenge",
+            "certificate_type": "charge_to_max_replay",
+            "certificate_sha256": certificate_sha256(trace),
+            "certificate_source_tour": list(tour["tour"]),
+            "certificate_completion_time": float(trace[-1]["time_after"]),
+            "certificate_station_visits": sum(1 for step in trace if step["kind"] == "CHARGE"),
+            "source_xlsx_sha256": XLSX_SHA256,
+            "certificate_trace": trace,
+        }
+        rows.append((route, extra))
+    summary = {
+        "role": "legacy_same_domain_challenge",
+        "not_a_fresh_test": True,
+        "n_routes": len(rows),
+        "n_duplicate_exact_instance_sequences": n_duplicate,
+        "n_replay_failed": n_replay_failed,
+        "parents": sorted({route.base_instance for route, _extra in rows}),
     }
     return rows, summary
 

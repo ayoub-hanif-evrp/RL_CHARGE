@@ -92,6 +92,7 @@ class PhysicsProfile:
     file_consumption_rate_unused: float
     use_instance_curb_mass: bool
     use_instance_payload_capacity: bool
+    energy_law: str = "demir_model2"
 
     @classmethod
     def from_instance(
@@ -178,6 +179,11 @@ class PhysicsProfile:
             raise InvalidPhysicsParameterError(
                 "loop_guard_station_visits must be a positive programming-loop limit"
             )
+        energy_law = str(raw.get("energy_law", "demir_model2"))
+        if energy_law not in {"demir_model2", "linear_distance"}:
+            raise InvalidPhysicsParameterError(
+                f"energy_law must be demir_model2 or linear_distance, got {energy_law!r}"
+            )
 
         return cls(
             name=str(name),
@@ -195,6 +201,7 @@ class PhysicsProfile:
             file_consumption_rate_unused=float(instance.vehicle.consumption_rate),
             use_instance_curb_mass=use_m,
             use_instance_payload_capacity=use_c,
+            energy_law=energy_law,
         )
 
 

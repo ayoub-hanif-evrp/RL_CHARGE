@@ -171,9 +171,9 @@ def trace_from_replay(sim: FixedRouteSimulator, n_events_before: int, kind: str,
     }
 
 
-def replay_action_trace(instance, customer_ids: Sequence[str], actions: Sequence[tuple]) -> Optional[list]:
+def replay_action_trace(instance, customer_ids: Sequence[str], actions: Sequence[tuple], profile=None) -> Optional[list]:
     """Replay actions on a fresh simulator. Return the trace only if the route completes."""
-    profile = PhysicsProfile.from_instance(instance)
+    profile = profile or PhysicsProfile.from_instance(instance)
     sim = FixedRouteSimulator(
         instance, tuple(customer_ids), profile, LoadConvention.OFFICIAL_REFERENCE_PICKUP
     )
@@ -206,10 +206,11 @@ def solve_charging_certificate(
     *,
     max_expansions: int = 8_000,
     max_seconds: float = 2.0,
+    profile=None,
 ) -> ChargingCertificate:
     """Best-first search for one simulator-valid charging trajectory."""
     customers = tuple(customer_ids)
-    profile = PhysicsProfile.from_instance(instance)
+    profile = profile or PhysicsProfile.from_instance(instance)
     root = FixedRouteSimulator(
         instance, customers, profile, LoadConvention.OFFICIAL_REFERENCE_PICKUP
     )
@@ -223,7 +224,7 @@ def solve_charging_certificate(
     def _finish(status: str, actions: tuple = ()) -> ChargingCertificate:
         runtime = perf_counter() - started
         if status == STATUS_CERTIFIED:
-            trace = replay_action_trace(instance, customers, actions)
+            trace = replay_action_trace(instance, customers, actions, profile=profile)
             if trace is None:
                 raise AssertionError("certificate replay failed after search reported a completed trajectory")
             digest = certificate_sha256(trace)

@@ -29,14 +29,33 @@ live under `results/final/`. Do not regenerate `data/routes/` or
 `data/splits/`, do not retrain V1 checkpoints, and do not retune V1 from
 TEST. DDQN stays out of V1.
 
-**V2 is the active methodological development.** It keeps HybridPPO
-(WHEN + WHERE + HOW MUCH) and learns charging on frozen customer sequences
-that have a simulator-valid charging certificate. V2 files live under
-`data/routes_v2/`, `data/splits_v2/`, `results/v2/`, and `checkpoints_v2/`.
-Development runs are TRAIN/VAL only. Do not create a V2 final TEST set and
-do not run a five-seed final experiment until a clean frozen V2 SHA exists.
-Dirty development runs must be labeled `dirty_exploratory`. Final V2
-experiments must start from a clean frozen V2 SHA.
+**V2 method is frozen as development condition B2.** The proposed method
+remains Hybrid-Action PPO (HybridPPO): WHEN + WHERE + HOW MUCH. The final
+V2 controller is HybridPPO plus the feasibility-aware energy-continuation
+SOC lower bound, plus the optimistic time-feasibility SOC upper bound, plus
+one global TRAIN-only return scale. Do not redesign it. DiscretePPO is the
+only learned comparator in the final matrix. DDQN and AttentionPPO are not
+in that matrix. SAC is not used.
+
+V2 files live under `data/routes_v2/`, `data/splits_v2/`, `results/v2/`,
+and `checkpoints_v2/`. Three benchmark roles stay separate:
+
+1. **Primary physics-rich domain:** `data/routes_v2/gold_official/`. Official
+   EVRPTW-GR customer skeletons with simulator-valid charging witnesses.
+   Used for final training and validation. The 47-route validation split is
+   not a fresh TEST.
+2. **Robustness / route-construction domain:** `data/routes_v2/certified_pyvrp/`.
+   Complete certified partitions are admitted. An unresolved source route is
+   quarantined whole. This corpus is not the headline TEST.
+3. **Fresh external confirmatory domain:** SynthCharge v1.0, pinned commit
+   `7934a73bbbe20b9be2a9b800127e5e8d4702d345`, under
+   `data/routes_v2/synthcharge_final/` after generation. Its structural
+   screen is not a charging certificate. It has linear energy and no
+   EVRPTW-GR gradient physics.
+
+The six consumed V1 TEST parents may be evaluated once, after checkpoint
+freeze, only as a **legacy same-domain challenge set**. That evaluation is
+not a fresh TEST.
 
 The six consumed V1 TEST parents stay quarantined from every V2 TRAIN and
 VAL artifact: `c101`, `c205`, `r110`, `r201`, `rc102`, `rc208`.
@@ -391,8 +410,18 @@ Ablation A2: **`arrival_to_max`** `[arrival, max_soc]` only.
 
 Map `u ∈ [0,1]` by `target_soc = soc_lower + u * (soc_upper - soc_lower)`.
 
-This continuation bound is **energy-only**. Time windows and charging duration
-are **not** included. It is **not** a globally exact certificate.
+**V1 shield.** The continuation bound used by the archived V1 experiment is
+**energy-only**. In that V1 shield, time windows and charging duration are
+not included. It is not a globally exact certificate.
+
+**V2 shield (frozen with B2).** The lower SOC bound remains the
+energy-continuation requirement. The upper SOC bound is the maximum charge
+compatible with an optimistic downstream time-window lower-bound schedule:
+extra charging delay is limited by that schedule, and the delay is converted
+to energy with the profile's inverse refueling rate `g` and battery capacity
+`Q`. This time-aware cap is a necessary-condition pruning mechanism. It does
+not guarantee that a SOC inside the interval completes the route, and it
+does not claim global future feasibility.
 
 Same-station ΔSOC below `ZERO_CHARGE_EPS` is masked as `ZERO_CHARGE_NOOP`.
 

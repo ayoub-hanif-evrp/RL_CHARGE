@@ -58,9 +58,12 @@ class EnergyModel:
     def __init__(self, network: DirectedArcNetwork, profile: PhysicsProfile):
         self.network = network
         self.profile = profile
-        self.empty_flat_physical_kwh_per_km = model2_empty_flat_baseline(
-            profile.curb_mass_kg, profile.energy
-        )
+        if profile.energy_law == "linear_distance":
+            self.empty_flat_physical_kwh_per_km = float(profile.file_consumption_rate_unused)
+        else:
+            self.empty_flat_physical_kwh_per_km = model2_empty_flat_baseline(
+                profile.curb_mass_kg, profile.energy
+            )
 
     def energy_for_arc(
         self, from_id: str, to_id: str, payload_mass: PayloadMass
@@ -79,6 +82,8 @@ class EnergyModel:
             return _zero_result(
                 arc, payload_mass, self.empty_flat_physical_kwh_per_km, self.profile.curb_mass_kg
             )
+        if self.profile.energy_law == "linear_distance":
+            return self._linear_distance(arc, payload_mass)
 
         gross = self.profile.curb_mass_kg + payload_mass.value
         p_tract, p_total, consump, hh = model2_normalized_rate(
@@ -101,6 +106,35 @@ class EnergyModel:
             physical_kwh_per_km=consump,
             empty_flat_physical_kwh_per_km=self.empty_flat_physical_kwh_per_km,
             normalized_rate=hh,
+            net_energy=net,
+            recovered_energy=recovered,
+            consumed_energy=consumed,
+        )
+
+    def _linear_distance(self, arc: DirectedArc, payload_mass: PayloadMass) -> EnergyResult:
+        """SynthCharge law: net energy is r times Euclidean distance.
+
+        Payload, altitude, and regenerative braking do not enter. The Demir
+        path above is not called.
+        """
+        rate = float(self.profile.file_consumption_rate_unused)
+        net = Energy(rate * float(arc.distance.value))
+        consumed = Energy(max(net.value, 0.0))
+        recovered = Energy(0.0)
+        return EnergyResult(
+            from_id=arc.from_id,
+            to_id=arc.to_id,
+            payload_mass=payload_mass,
+            gross_mass_kg=self.profile.curb_mass_kg + payload_mass.value,
+            distance=arc.distance,
+            angle_deg=0.0,
+            gradient=Gradient(0.0),
+            gradient_percent=0.0,
+            traction_power_kw=0.0,
+            battery_power_kw=0.0,
+            physical_kwh_per_km=rate,
+            empty_flat_physical_kwh_per_km=rate,
+            normalized_rate=rate,
             net_energy=net,
             recovered_energy=recovered,
             consumed_energy=consumed,
