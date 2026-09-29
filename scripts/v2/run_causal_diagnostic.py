@@ -30,6 +30,7 @@ VARIANTS = {
     "B0": {"corpus": "gold", "time_aware": False, "scale": False},
     "B1": {"corpus": "gold", "time_aware": True, "scale": False},
     "B2": {"corpus": "gold", "time_aware": True, "scale": True},
+    "B3": {"corpus": "gold", "time_aware": False, "scale": True},
     "B2_pyvrp": {"corpus": "pyvrp", "time_aware": True, "scale": True},
 }
 
@@ -172,6 +173,38 @@ def _mean(values) -> float | None:
     return sum(vals) / len(vals)
 
 
+def _charging_required(rows: list[dict]) -> dict:
+    subset = [row for row in rows if int(row.get("certificate_station_visits") or 0) >= 1]
+    by_parent: dict[str, list[dict]] = {}
+    for row in subset:
+        by_parent.setdefault(str(row["base_instance"]), []).append(row)
+    parent_rates = []
+    for group in by_parent.values():
+        parent_rates.append(sum(1 for row in group if row["feasible"]) / len(group))
+    return {
+        "n": len(subset),
+        "n_feasible": sum(1 for row in subset if row["feasible"]),
+        "route_weighted_feasibility": (
+            sum(1 for row in subset if row["feasible"]) / len(subset) if subset else None
+        ),
+        "parent_balanced_feasibility": (sum(parent_rates) / len(parent_rates)) if parent_rates else None,
+        "no_feasible_action": sum(1 for row in subset if row.get("reason") == "NO_FEASIBLE_ACTION"),
+        "mean_charging_time_feasible": _mean(row["charging_time"] for row in subset if row["feasible"]),
+        "mean_station_visits_feasible": _mean(row["station_visits"] for row in subset if row["feasible"]),
+    }
+
+
+def _curve_stats(curves_text: str, best_update) -> dict:
+    rows = [json.loads(line) for line in curves_text.splitlines() if line.strip()]
+    selected = next((row for row in rows if row.get("update") == best_update), None)
+    return {
+        "value_loss_mean": _mean(row.get("value_loss") for row in rows),
+        "grad_norm_preclip_mean": _mean(row.get("grad_norm_preclip") for row in rows),
+        "value_loss_at_best_update": None if selected is None else selected.get("value_loss"),
+        "grad_norm_preclip_at_best_update": None if selected is None else selected.get("grad_norm_preclip"),
+    }
+
+
 def run_variant(name: str, seed: int) -> None:
     spec = VARIANTS[name]
     train_routes = _load_split(spec["corpus"], "train")
@@ -204,6 +237,9 @@ def run_variant(name: str, seed: int) -> None:
         "seed": seed,
         "time_aware": spec["time_aware"],
         "return_scale": scale if scale is not None else 1.0,
+        "run_kind": manifest.get("run_kind"),
+        "git_sha": manifest.get("git_sha"),
+        "git_dirty": manifest.get("git_dirty"),
         "n_train": len(train_routes),
         "n_val": len(val_routes),
         "best_update": manifest.get("best_update"),
@@ -213,6 +249,9 @@ def run_variant(name: str, seed: int) -> None:
         "route_weighted_feasibility": val["feasibility"],
         "mean_feasible_routes": val["feasibility"] * val["n"],
         "mean_completion_all": val["mean_completion_all"],
+        "no_feasible_action": int(diag["reason_histogram"].get("NO_FEASIBLE_ACTION", 0)),
+        "charging_required_subset": _charging_required(diag["rows"]),
+        "optimization": _curve_stats(curves, manifest.get("best_update")),
         "diagnostic": {key: value for key, value in diag.items() if key != "rows"},
     }
     (dest / "validation.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")

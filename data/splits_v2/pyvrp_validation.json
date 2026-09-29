@@ -29,8 +29,7 @@
     "rc108C5_NL",
     "rc108C5_VG",
     "rc205C10_L",
-    "rc205C10_NL",
-    "rc205C10_VG"
+    "rc205C10_NL"
   ],
   "base_instances": [
     "c108",
@@ -40,7 +39,7 @@
     "rc108",
     "rc205"
   ],
-  "n_routes": 150,
+  "n_routes": 137,
   "consumed_test_parents_excluded": [
     "c101",
     "c205",

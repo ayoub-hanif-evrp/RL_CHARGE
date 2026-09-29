@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -22,7 +23,7 @@ from physics.parameters import PhysicsProfile
 from rl.ppo import HybridPPO, PPOConfig
 from routing.fixed_route import FrozenRoute
 from routing.official_replay import certified_charge_to_max_trace
-from routing.v2_corpus import global_return_scale, partition_customers
+from routing.v2_corpus import certify_complete_partition, global_return_scale, partition_customers
 from simulation.actions import ChargeAction
 from simulation.shield import evaluate_shield, soc_interval_for_station
 from simulation.simulator import FixedRouteSimulator
@@ -36,14 +37,42 @@ V1_SHA256 = {
     "data/splits/validation.json": "1379aef7e92c308f90ab78674dec9994db72078c96cb1020ecc49d33eef69af4",
     "data/splits/test.json": "9bf39fbf1f27aa57146879fb71922b0216f24f1eb37a4fd9a9a43b44b6c4b6d0",
     "data/splits/split_metadata.json": "4740ab71737bfd9c04d37f258e57bfa4854a526da7c03b218ffe877818128900",
-    "results/final/PROVENANCE.json": "d2b34b8835c052a4e9f1077ccf6fab0bbdb9b53fde0885601ab01aa01620c254",
 }
+
+# SHA-256 of the committed LF bytes at pre-V2 HEAD fe34811. A Windows checkout
+# with core.autocrlf rewrites this file to CRLF, which is a different digest
+# (d2b34b88...) and is not the repository artifact.
+PROVENANCE_RELATIVE = "results/final/PROVENANCE.json"
+PROVENANCE_COMMITTED_SHA256 = "df2c6328ae5b2e54d32931d3be9fa8bf07b376e1d8c8c9316526573d9c2629cc"
+PRE_V2_HEAD = "fe34811cf7f96b08e69d791600dea54e49998c36"
+
+
+def _committed_bytes(payload: bytes) -> bytes:
+    return payload.replace(b"\r\n", b"\n")
 
 
 def test_v1_artifacts_are_byte_identical():
     for relative, digest in V1_SHA256.items():
         payload = (REPO_ROOT / relative).read_bytes()
         assert hashlib.sha256(payload).hexdigest() == digest
+    provenance = _committed_bytes((REPO_ROOT / PROVENANCE_RELATIVE).read_bytes())
+    assert hashlib.sha256(provenance).hexdigest() == PROVENANCE_COMMITTED_SHA256
+    try:
+        pre = subprocess.check_output(
+            ["git", "rev-parse", f"{PRE_V2_HEAD}:{PROVENANCE_RELATIVE}"],
+            cwd=REPO_ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+        head = subprocess.check_output(
+            ["git", "rev-parse", f"HEAD:{PROVENANCE_RELATIVE}"],
+            cwd=REPO_ROOT,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except subprocess.CalledProcessError:
+        return
+    assert pre == head
 
 
 def test_consumed_test_parents_are_rejected():
@@ -96,13 +125,6 @@ def test_known_positive_search_replays(tmp_path):
 
 
 def test_partition_preserves_order_and_customers(monkeypatch):
-    class _Cert:
-        def __init__(self, customers):
-            self.status = STATUS_CERTIFIED
-            self.trace = [{"kind": "CONTINUE"}]
-            self.customer_ids = tuple(customers)
-            self.sha256 = "abc"
-
     monkeypatch.setattr(
         "routing.v2_corpus.customer_only_distance",
         lambda _instance, sequence: float(len(sequence)),
@@ -111,7 +133,7 @@ def test_partition_preserves_order_and_customers(monkeypatch):
 
     def search(sequence):
         if len(sequence) <= 2:
-            return _Cert(sequence)
+            return _Piece(sequence)
         return type("Miss", (), {"status": STATUS_EXHAUSTED, "trace": None})()
 
     plan = partition_customers(object(), customers, search)
@@ -121,6 +143,64 @@ def test_partition_preserves_order_and_customers(monkeypatch):
         flat.extend(cert.customer_ids)
     assert flat == customers
     assert flat.count("C1") == flat.count("C2") == flat.count("C3") == 1
+
+
+def test_incomplete_partition_drops_no_customers(monkeypatch):
+    monkeypatch.setattr(
+        "routing.v2_corpus.customer_only_distance",
+        lambda _instance, sequence: float(len(sequence)),
+    )
+
+    def search(sequence):
+        if sequence == ["C2"]:
+            return type("Miss", (), {"status": STATUS_TIMEOUT, "trace": None})()
+        if "C2" in sequence:
+            return type("Miss", (), {"status": STATUS_EXHAUSTED, "trace": None})()
+        return _Piece(sequence)
+
+    plan = partition_customers(object(), ["C1", "C2", "C3"], search)
+    assert plan["covered"] is False
+    assert plan["certificates"] == []
+
+
+def test_unresolved_singleton_is_retried_with_a_larger_budget(monkeypatch):
+    monkeypatch.setattr(
+        "routing.v2_corpus.customer_only_distance",
+        lambda _instance, sequence: float(len(sequence)),
+    )
+    calls = []
+
+    class _Miss:
+        status = STATUS_TIMEOUT
+        trace = None
+        runtime_s = 0.01
+        n_expansions = 1
+
+    def search(sequence, seconds, expansions):
+        calls.append((tuple(sequence), float(seconds), int(expansions)))
+        if tuple(sequence) == ("C1",) and float(seconds) >= 12.0:
+            return _Piece(["C1"])
+        if tuple(sequence) == ("C2",):
+            return _Piece(["C2"])
+        return _Miss()
+
+    plan = certify_complete_partition(object(), ["C1", "C2"], search)
+    singleton_budgets = {(seconds, expansions) for seq, seconds, expansions in calls if seq == ("C1",)}
+    assert (1.0, 4000) in singleton_budgets
+    assert any(seconds > 1.0 and expansions > 4000 for seconds, expansions in singleton_budgets)
+    assert plan["covered"] is True
+    assert [tuple(cert.customer_ids) for cert in plan["certificates"]] == [("C1",), ("C2",)]
+    assert "infeasible" not in "".join(row["status"] for row in plan["attempts"])
+
+
+class _Piece:
+    def __init__(self, customers):
+        self.status = STATUS_CERTIFIED
+        self.trace = [{"kind": "CONTINUE"}]
+        self.customer_ids = tuple(customers)
+        self.sha256 = "abc"
+        self.runtime_s = 0.01
+        self.n_expansions = 1
 
 
 def test_return_scale_is_one_global_train_constant():

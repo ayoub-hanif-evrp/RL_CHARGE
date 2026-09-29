@@ -21,11 +21,25 @@ WHEN + WHERE + HOW MUCH. DiscretePPO is a comparator (categorical charge
 amount), not a second proposed method. AttentionPPO is an optional
 architectural comparator. **Legacy DDQN is not part of the paper.**
 
-**Current stage (22 Sep 2026).** Final 5-seed training is **complete**.
-TEST evaluation is **complete**. TEST is **consumed** and must never be
-treated as fresh again. Final results are archived under `results/final/`.
-DDQN is excluded. Methodology is frozen. **No post-TEST tuning is allowed.**
-The next phase is the manuscript.
+**Two stages. Do not mix them.**
+
+**V1 is an archived, completed historical experiment.** Its five-seed
+training and TEST evaluation are finished. TEST is consumed. Final results
+live under `results/final/`. Do not regenerate `data/routes/` or
+`data/splits/`, do not retrain V1 checkpoints, and do not retune V1 from
+TEST. DDQN stays out of V1.
+
+**V2 is the active methodological development.** It keeps HybridPPO
+(WHEN + WHERE + HOW MUCH) and learns charging on frozen customer sequences
+that have a simulator-valid charging certificate. V2 files live under
+`data/routes_v2/`, `data/splits_v2/`, `results/v2/`, and `checkpoints_v2/`.
+Development runs are TRAIN/VAL only. Do not create a V2 final TEST set and
+do not run a five-seed final experiment until a clean frozen V2 SHA exists.
+Dirty development runs must be labeled `dirty_exploratory`. Final V2
+experiments must start from a clean frozen V2 SHA.
+
+The six consumed V1 TEST parents stay quarantined from every V2 TRAIN and
+VAL artifact: `c101`, `c205`, `r110`, `r201`, `rc102`, `rc208`.
 
 Paper training/evaluation code: `paper_code_sha =
 a175ee43548a5d2d5154a9ae0731a01f7642a7f6`.
@@ -33,36 +47,47 @@ Corrected final analysis pipeline: `final_analysis_code_sha =
 23d3d9c7de87a9486160c9937f8b385dd4833d57`.
 First archive of final raw results: `initial_results_archive_sha =
 7735be30a874517d26b977051159102a3c1190b9`.
-A later bookkeeping commit may exist; it is metadata/documentation only
-and is not a training SHA.
+Pre-V2 bookkeeping HEAD: `fe34811cf7f96b08e69d791600dea54e49998c36`.
+V2 development corpus commit: `4deb5b70690dbf208598f659e1836db558001639`.
+A later V2 cleanup commit may exist; it is not a final frozen training SHA
+until the tree is clean and that freeze is recorded.
 
-**Default stance.** Do **not** redesign the MDP, Hybrid PPO, shield, corpus,
-splits, physics, or reward. Do **not** regenerate frozen routes. Do **not**
-retrain or reselect checkpoints. Do **not** use TEST for any new decision.
-Do **not** train, evaluate, or tabulate DDQN. If something looks broken,
-**stop and report**.
+**Default stance for V1.** Do **not** redesign the archived MDP, Hybrid PPO,
+shield, corpus, splits, physics, or reward. Do **not** regenerate frozen V1
+routes. Do **not** retrain or reselect V1 checkpoints. Do **not** use the
+consumed TEST parents for any new decision. Do **not** train, evaluate, or
+tabulate DDQN. If a V1 artifact looks broken, **stop and report**.
+
+**Default stance for V2.** Do not change HybridPPO architecture, learning
+rate, entropy, clip, rollout length, or model size. Do not add SAC, DDQN,
+or another RL method. Do not treat search timeout or search exhaustion as
+infeasibility. Do not silently drop customers from a source route.
 
 **Repo.** https://github.com/ayoub-hanif-evrp/RL_CHARGE.git  
 **Package.** `rl-charge`, `src/` layout, Python **≥ 3.11**  
 **Branch.** `main`  
 **Methodology freeze SHA (historical).** `a40b5853f25308ac13af94f308fe8fcdfb258f21`  
 **Paper-code freeze (`paper_code_sha`).** `a175ee43548a5d2d5154a9ae0731a01f7642a7f6`  
-All final training and evaluation must start from this SHA.  
+All **V1** final training and evaluation must start from this SHA.  
 `results/summaries/experiment_freeze.json` records that `paper_code_sha`. A
 later bookkeeping commit of that JSON is `snapshot_commit_sha` and is **not**
-the training SHA.
+the training SHA. V2 final experiments, when they are eventually allowed,
+must start from their own clean frozen V2 SHA.
 
-**User constraints that survive across chats.** They are hard, not suggestions:
+**User constraints that survive across chats.** They are hard, not suggestions.
+Items 1–8 protect the archived V1 experiment. V2 may add `routes_v2`,
+`splits_v2`, and `results/v2`, but it may not edit V1 files to do so.
 
-1. Do not redesign MDP / Hybrid PPO / corpus / splits.
-2. Do not regenerate frozen routes.
-3. Do not use TEST for tuning, budget, or method decisions.
+1. Do not redesign the V1 MDP / Hybrid PPO / corpus / splits.
+2. Do not regenerate frozen V1 routes.
+3. Do not use the six consumed V1 TEST parents for tuning, budget, or method
+   decisions. They stay quarantined from V2 TRAIN and VAL.
 4. Do not write the manuscript until results exist.
-5. The final five-seed experiment is complete. Do not rerun, retrain,
-   or reselect final models.
-6. Keep pinned corpus and split hashes (section 3) unchanged.
+5. The V1 five-seed experiment is complete. Do not rerun, retrain,
+   or reselect V1 models. Do not start a V2 five-seed final experiment yet.
+6. Keep pinned V1 corpus and split hashes (section 3) unchanged.
 7. Do not include Legacy DDQN in paper training, TEST evaluation, tables,
-   or manuscript experiment plans.
+   or manuscript experiment plans. Do not add SAC or another RL method to V2.
 8. If a verified implementation bug appears: stop and report; do not
    silently retune lr / entropy / architecture / shield / reward.
 

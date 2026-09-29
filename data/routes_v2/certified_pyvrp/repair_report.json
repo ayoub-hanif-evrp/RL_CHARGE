@@ -1,155 +1,4887 @@
 {
   "original_pyvrp_routes": 209,
-  "final_certified_routes": 427,
+  "final_certified_routes": 423,
   "retained_unchanged": 58,
-  "split_routes": 151,
+  "split_routes": 142,
   "split_factor_counts": {
-    "1": 61,
-    "2": 96,
+    "1": 58,
+    "2": 84,
     "3": 39,
-    "4": 10,
-    "5": 1,
-    "6": 2
+    "4": 15,
+    "5": 4
   },
-  "n_customers_excluded": 22,
-  "excluded": [
-    {
-      "route_id": "r102_50_21_NL__v0",
-      "customer_id": "C44",
-      "index": 7,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r104C25_NL__v2",
-      "customer_id": "C48",
-      "index": 0,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r107C25_NL__v1",
-      "customer_id": "C75",
-      "index": 0,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc101C25_NL__v4",
-      "customer_id": "C18",
-      "index": 0,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc101C25_NL__v4",
-      "customer_id": "C49",
-      "index": 1,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc103C25_NL__v0",
-      "customer_id": "C2",
-      "index": 7,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc104C25_NL__v2",
-      "customer_id": "C6",
-      "index": 3,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc104C25_NL__v2",
-      "customer_id": "C2",
-      "index": 4,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r203C10_VG__v0",
-      "customer_id": "C78",
-      "index": 6,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r203C10_VG__v0",
-      "customer_id": "C71",
-      "index": 7,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc205C10_VG__v0",
-      "customer_id": "C58",
-      "index": 2,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc205C10_VG__v0",
-      "customer_id": "C15",
-      "index": 8,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r102C15_VG__v4",
-      "customer_id": "C1",
-      "index": 0,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r105C15_VG__v0",
-      "customer_id": "C17",
-      "index": 1,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r105C15_VG__v0",
-      "customer_id": "C85",
-      "index": 2,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc103C15_VG__v2",
-      "customer_id": "C84",
-      "index": 2,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc103C15_VG__v2",
-      "customer_id": "C33",
-      "index": 3,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc103C15_VG__v2",
-      "customer_id": "C34",
-      "index": 4,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc103C15_VG__v2",
-      "customer_id": "C62",
-      "index": 5,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc108C15_VG__v1",
-      "customer_id": "C45",
-      "index": 2,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r104C5_VG__v0",
-      "customer_id": "C71",
-      "index": 1,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc108C5_VG__v1",
-      "customer_id": "C34",
-      "index": 0,
-      "reason": "singleton_not_certified"
-    }
-  ],
-  "search_timeouts": 1844,
-  "search_exhausted": 407,
+  "search_timeouts": 373,
+  "search_exhausted": 432,
   "certificate_replay_failures": 0,
-  "n_train": 277,
-  "n_validation": 150,
-  "test_parents_touched": false
+  "customer_coverage": {
+    "total_source_customers": 1330,
+    "customers_in_admitted_partitions": 1273,
+    "quarantined_source_routes": 9,
+    "quarantined_customers": 57,
+    "coverage_fraction": 0.9571428571428572,
+    "silently_dropped_customers": 0
+  },
+  "n_train": 286,
+  "n_validation": 137,
+  "test_parents_touched": false,
+  "admission_rule": "complete_certified_partition_only",
+  "quarantine_file": "quarantine.jsonl",
+  "quarantined": [
+    {
+      "source_route_id": "r102_50_21_NL__v0",
+      "customer_ids": [
+        "C13",
+        "C96",
+        "C89",
+        "C98",
+        "C91",
+        "C15",
+        "C14",
+        "C44",
+        "C100"
+      ],
+      "search_statuses": [
+        "certified_feasible",
+        "unverified_timeout"
+      ],
+      "budgets_attempted": [
+        {
+          "start": 0,
+          "end": 9,
+          "customer_ids": [
+            "C13",
+            "C96",
+            "C89",
+            "C98",
+            "C91",
+            "C15",
+            "C14",
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 3.0,
+          "max_expansions": 8000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C13"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C96"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C89"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 3,
+          "end": 4,
+          "customer_ids": [
+            "C98"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "customer_ids": [
+            "C91"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 6,
+          "customer_ids": [
+            "C15"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "customer_ids": [
+            "C14"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 7,
+          "end": 8,
+          "customer_ids": [
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "customer_ids": [
+            "C100"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 7,
+          "end": 8,
+          "customer_ids": [
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 7,
+          "end": 8,
+          "customer_ids": [
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 7,
+          "end": 8,
+          "customer_ids": [
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 6,
+          "end": 8,
+          "customer_ids": [
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 7,
+          "end": 9,
+          "customer_ids": [
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 8,
+          "customer_ids": [
+            "C15",
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 6,
+          "end": 9,
+          "customer_ids": [
+            "C14",
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 8,
+          "customer_ids": [
+            "C91",
+            "C15",
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 9,
+          "customer_ids": [
+            "C15",
+            "C14",
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 3,
+          "end": 8,
+          "customer_ids": [
+            "C98",
+            "C91",
+            "C15",
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 9,
+          "customer_ids": [
+            "C91",
+            "C15",
+            "C14",
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 6,
+          "end": 8,
+          "customer_ids": [
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 7,
+          "end": 9,
+          "customer_ids": [
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 5,
+          "end": 8,
+          "customer_ids": [
+            "C15",
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 6,
+          "end": 9,
+          "customer_ids": [
+            "C14",
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 4,
+          "end": 8,
+          "customer_ids": [
+            "C91",
+            "C15",
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 5,
+          "end": 9,
+          "customer_ids": [
+            "C15",
+            "C14",
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 3,
+          "end": 8,
+          "customer_ids": [
+            "C98",
+            "C91",
+            "C15",
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 4,
+          "end": 9,
+          "customer_ids": [
+            "C91",
+            "C15",
+            "C14",
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 6,
+          "end": 8,
+          "customer_ids": [
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 7,
+          "end": 9,
+          "customer_ids": [
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 5,
+          "end": 8,
+          "customer_ids": [
+            "C15",
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 6,
+          "end": 9,
+          "customer_ids": [
+            "C14",
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 4,
+          "end": 8,
+          "customer_ids": [
+            "C91",
+            "C15",
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 5,
+          "end": 9,
+          "customer_ids": [
+            "C15",
+            "C14",
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 3,
+          "end": 8,
+          "customer_ids": [
+            "C98",
+            "C91",
+            "C15",
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 4,
+          "end": 9,
+          "customer_ids": [
+            "C91",
+            "C15",
+            "C14",
+            "C44",
+            "C100"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 6,
+          "end": 8,
+          "customer_ids": [
+            "C14",
+            "C44"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        }
+      ],
+      "reason": "unresolved_certificate_search"
+    },
+    {
+      "source_route_id": "r203C10_VG__v0",
+      "customer_ids": [
+        "C5",
+        "C84",
+        "C17",
+        "C61",
+        "C57",
+        "C75",
+        "C78",
+        "C71",
+        "C11",
+        "C69"
+      ],
+      "search_statuses": [
+        "certified_feasible",
+        "unverified_search_exhausted",
+        "unverified_timeout"
+      ],
+      "budgets_attempted": [
+        {
+          "start": 0,
+          "end": 10,
+          "customer_ids": [
+            "C5",
+            "C84",
+            "C17",
+            "C61",
+            "C57",
+            "C75",
+            "C78",
+            "C71",
+            "C11",
+            "C69"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 3.0,
+          "max_expansions": 8000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C5"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C84"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C17"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 3,
+          "end": 4,
+          "customer_ids": [
+            "C61"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "customer_ids": [
+            "C57"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 6,
+          "customer_ids": [
+            "C75"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "customer_ids": [
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 7,
+          "end": 8,
+          "customer_ids": [
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "customer_ids": [
+            "C11"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 9,
+          "end": 10,
+          "customer_ids": [
+            "C69"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "customer_ids": [
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "customer_ids": [
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "customer_ids": [
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 7,
+          "end": 8,
+          "customer_ids": [
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 7,
+          "end": 8,
+          "customer_ids": [
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 7,
+          "end": 8,
+          "customer_ids": [
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 5,
+          "end": 7,
+          "customer_ids": [
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 6,
+          "end": 8,
+          "customer_ids": [
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 8,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 6,
+          "end": 9,
+          "customer_ids": [
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 3,
+          "end": 7,
+          "customer_ids": [
+            "C61",
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 8,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 9,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 6,
+          "end": 10,
+          "customer_ids": [
+            "C78",
+            "C71",
+            "C11",
+            "C69"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 7,
+          "customer_ids": [
+            "C17",
+            "C61",
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 3,
+          "end": 8,
+          "customer_ids": [
+            "C61",
+            "C57",
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 9,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 10,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71",
+            "C11",
+            "C69"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 7,
+          "customer_ids": [
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 6,
+          "end": 8,
+          "customer_ids": [
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 5,
+          "end": 8,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 6,
+          "end": 9,
+          "customer_ids": [
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 3,
+          "end": 7,
+          "customer_ids": [
+            "C61",
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 4,
+          "end": 8,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 5,
+          "end": 9,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 6,
+          "end": 10,
+          "customer_ids": [
+            "C78",
+            "C71",
+            "C11",
+            "C69"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 7,
+          "customer_ids": [
+            "C17",
+            "C61",
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 3,
+          "end": 8,
+          "customer_ids": [
+            "C61",
+            "C57",
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 4,
+          "end": 9,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 5,
+          "end": 10,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71",
+            "C11",
+            "C69"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 5,
+          "end": 7,
+          "customer_ids": [
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 6,
+          "end": 8,
+          "customer_ids": [
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 5,
+          "end": 8,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 6,
+          "end": 9,
+          "customer_ids": [
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 3,
+          "end": 7,
+          "customer_ids": [
+            "C61",
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 4,
+          "end": 8,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 5,
+          "end": 9,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 6,
+          "end": 10,
+          "customer_ids": [
+            "C78",
+            "C71",
+            "C11",
+            "C69"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 7,
+          "customer_ids": [
+            "C17",
+            "C61",
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 3,
+          "end": 8,
+          "customer_ids": [
+            "C61",
+            "C57",
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 4,
+          "end": 9,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 5,
+          "end": 10,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71",
+            "C11",
+            "C69"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 5,
+          "end": 7,
+          "customer_ids": [
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 6,
+          "end": 8,
+          "customer_ids": [
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 4,
+          "end": 7,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 5,
+          "end": 8,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 6,
+          "end": 9,
+          "customer_ids": [
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 3,
+          "end": 7,
+          "customer_ids": [
+            "C61",
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 4,
+          "end": 8,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 5,
+          "end": 9,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 6,
+          "end": 10,
+          "customer_ids": [
+            "C78",
+            "C71",
+            "C11",
+            "C69"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 7,
+          "customer_ids": [
+            "C17",
+            "C61",
+            "C57",
+            "C75",
+            "C78"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 3,
+          "end": 8,
+          "customer_ids": [
+            "C61",
+            "C57",
+            "C75",
+            "C78",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 4,
+          "end": 9,
+          "customer_ids": [
+            "C57",
+            "C75",
+            "C78",
+            "C71",
+            "C11"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 5,
+          "end": 10,
+          "customer_ids": [
+            "C75",
+            "C78",
+            "C71",
+            "C11",
+            "C69"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 10,
+          "customer_ids": [
+            "C5",
+            "C84",
+            "C17",
+            "C61",
+            "C57",
+            "C75",
+            "C78",
+            "C71",
+            "C11",
+            "C69"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 15.0,
+          "max_expansions": 30000
+        }
+      ],
+      "reason": "unresolved_certificate_search"
+    },
+    {
+      "source_route_id": "rc205C10_VG__v0",
+      "customer_ids": [
+        "C43",
+        "C6",
+        "C58",
+        "C31",
+        "C96",
+        "C93",
+        "C87",
+        "C100",
+        "C15",
+        "C82"
+      ],
+      "search_statuses": [
+        "certified_feasible",
+        "unverified_search_exhausted"
+      ],
+      "budgets_attempted": [
+        {
+          "start": 0,
+          "end": 10,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58",
+            "C31",
+            "C96",
+            "C93",
+            "C87",
+            "C100",
+            "C15",
+            "C82"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 3.0,
+          "max_expansions": 8000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C43"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C6"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 3,
+          "end": 4,
+          "customer_ids": [
+            "C31"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "customer_ids": [
+            "C96"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 6,
+          "customer_ids": [
+            "C93"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 6,
+          "end": 7,
+          "customer_ids": [
+            "C87"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 7,
+          "end": 8,
+          "customer_ids": [
+            "C100"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "customer_ids": [
+            "C15"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 9,
+          "end": 10,
+          "customer_ids": [
+            "C82"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "customer_ids": [
+            "C15"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "customer_ids": [
+            "C15"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 8,
+          "end": 9,
+          "customer_ids": [
+            "C15"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C6",
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96",
+            "C93"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31",
+            "C96",
+            "C93"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 7,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96",
+            "C93",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C6",
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96",
+            "C93"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31",
+            "C96",
+            "C93"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 7,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96",
+            "C93",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C6",
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96",
+            "C93"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31",
+            "C96",
+            "C93"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 7,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96",
+            "C93",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C6",
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58",
+            "C31"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96",
+            "C93"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58",
+            "C31",
+            "C96"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C6",
+            "C58",
+            "C31",
+            "C96",
+            "C93"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 7,
+          "customer_ids": [
+            "C58",
+            "C31",
+            "C96",
+            "C93",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 10,
+          "customer_ids": [
+            "C43",
+            "C6",
+            "C58",
+            "C31",
+            "C96",
+            "C93",
+            "C87",
+            "C100",
+            "C15",
+            "C82"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 15.0,
+          "max_expansions": 30000
+        }
+      ],
+      "reason": "unresolved_certificate_search"
+    },
+    {
+      "source_route_id": "r102C15_VG__v4",
+      "customer_ids": [
+        "C1",
+        "C70",
+        "C80"
+      ],
+      "search_statuses": [
+        "certified_feasible",
+        "unverified_search_exhausted",
+        "unverified_timeout"
+      ],
+      "budgets_attempted": [
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C1",
+            "C70",
+            "C80"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 3.0,
+          "max_expansions": 8000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C1"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C70"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C80"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C1"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C1"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C1"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C1",
+            "C70"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C1",
+            "C70",
+            "C80"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C1",
+            "C70"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C1",
+            "C70",
+            "C80"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C1",
+            "C70"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C1",
+            "C70",
+            "C80"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C1",
+            "C70"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C1",
+            "C70",
+            "C80"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C1",
+            "C70",
+            "C80"
+          ],
+          "status": "unverified_timeout",
+          "max_seconds": 15.0,
+          "max_expansions": 30000
+        }
+      ],
+      "reason": "unresolved_certificate_search"
+    },
+    {
+      "source_route_id": "r105C15_VG__v0",
+      "customer_ids": [
+        "C8",
+        "C17",
+        "C85",
+        "C95",
+        "C5",
+        "C57"
+      ],
+      "search_statuses": [
+        "certified_feasible",
+        "unverified_search_exhausted"
+      ],
+      "budgets_attempted": [
+        {
+          "start": 0,
+          "end": 6,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85",
+            "C95",
+            "C5",
+            "C57"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 3.0,
+          "max_expansions": 8000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C8"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C17"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 3,
+          "end": 4,
+          "customer_ids": [
+            "C95"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "customer_ids": [
+            "C5"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 6,
+          "customer_ids": [
+            "C57"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C17"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C17"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C17"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C8",
+            "C17"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C17",
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85",
+            "C95"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85",
+            "C95",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95",
+            "C5",
+            "C57"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C8",
+            "C17"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C17",
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85",
+            "C95"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85",
+            "C95",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95",
+            "C5",
+            "C57"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C8",
+            "C17"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C17",
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85",
+            "C95"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85",
+            "C95",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95",
+            "C5",
+            "C57"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C8",
+            "C17"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C17",
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85",
+            "C95"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85",
+            "C95",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C17",
+            "C85",
+            "C95",
+            "C5",
+            "C57"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 6,
+          "customer_ids": [
+            "C8",
+            "C17",
+            "C85",
+            "C95",
+            "C5",
+            "C57"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 15.0,
+          "max_expansions": 30000
+        }
+      ],
+      "reason": "unresolved_certificate_search"
+    },
+    {
+      "source_route_id": "rc103C15_VG__v2",
+      "customer_ids": [
+        "C65",
+        "C83",
+        "C84",
+        "C33",
+        "C34",
+        "C62"
+      ],
+      "search_statuses": [
+        "certified_feasible",
+        "unverified_search_exhausted"
+      ],
+      "budgets_attempted": [
+        {
+          "start": 0,
+          "end": 6,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84",
+            "C33",
+            "C34",
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 3.0,
+          "max_expansions": 8000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C65"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C83"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 3,
+          "end": 4,
+          "customer_ids": [
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "customer_ids": [
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 6,
+          "customer_ids": [
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 3,
+          "end": 4,
+          "customer_ids": [
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 3,
+          "end": 4,
+          "customer_ids": [
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 3,
+          "end": 4,
+          "customer_ids": [
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "customer_ids": [
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "customer_ids": [
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "customer_ids": [
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 5,
+          "end": 6,
+          "customer_ids": [
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 5,
+          "end": 6,
+          "customer_ids": [
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 5,
+          "end": 6,
+          "customer_ids": [
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C83",
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C84",
+            "C33",
+            "C34",
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33",
+            "C34",
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C83",
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C84",
+            "C33",
+            "C34",
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33",
+            "C34",
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C83",
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C84",
+            "C33",
+            "C34",
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33",
+            "C34",
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C83",
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84",
+            "C33"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C84",
+            "C33",
+            "C34",
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84",
+            "C33",
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C83",
+            "C84",
+            "C33",
+            "C34",
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 6,
+          "customer_ids": [
+            "C65",
+            "C83",
+            "C84",
+            "C33",
+            "C34",
+            "C62"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 15.0,
+          "max_expansions": 30000
+        }
+      ],
+      "reason": "unresolved_certificate_search"
+    },
+    {
+      "source_route_id": "rc108C15_VG__v1",
+      "customer_ids": [
+        "C6",
+        "C46",
+        "C45",
+        "C40",
+        "C41",
+        "C54"
+      ],
+      "search_statuses": [
+        "certified_feasible",
+        "unverified_search_exhausted"
+      ],
+      "budgets_attempted": [
+        {
+          "start": 0,
+          "end": 6,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45",
+            "C40",
+            "C41",
+            "C54"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 3.0,
+          "max_expansions": 8000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C6"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C46"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 3,
+          "end": 4,
+          "customer_ids": [
+            "C40"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "customer_ids": [
+            "C41"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 5,
+          "end": 6,
+          "customer_ids": [
+            "C54"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C46",
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C45",
+            "C40",
+            "C41",
+            "C54"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40",
+            "C41",
+            "C54"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C46",
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C45",
+            "C40",
+            "C41",
+            "C54"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40",
+            "C41",
+            "C54"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C46",
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C45",
+            "C40",
+            "C41",
+            "C54"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40",
+            "C41",
+            "C54"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C46",
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 4,
+          "customer_ids": [
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 5,
+          "customer_ids": [
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45",
+            "C40"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 2,
+          "end": 6,
+          "customer_ids": [
+            "C45",
+            "C40",
+            "C41",
+            "C54"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45",
+            "C40",
+            "C41"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 6,
+          "customer_ids": [
+            "C46",
+            "C45",
+            "C40",
+            "C41",
+            "C54"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 6,
+          "customer_ids": [
+            "C6",
+            "C46",
+            "C45",
+            "C40",
+            "C41",
+            "C54"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 15.0,
+          "max_expansions": 30000
+        }
+      ],
+      "reason": "unresolved_certificate_search"
+    },
+    {
+      "source_route_id": "r104C5_VG__v0",
+      "customer_ids": [
+        "C1",
+        "C71",
+        "C5",
+        "C99",
+        "C87"
+      ],
+      "search_statuses": [
+        "certified_feasible",
+        "unverified_search_exhausted"
+      ],
+      "budgets_attempted": [
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5",
+            "C99",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 3.0,
+          "max_expansions": 8000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C1"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 2,
+          "end": 3,
+          "customer_ids": [
+            "C5"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 3,
+          "end": 4,
+          "customer_ids": [
+            "C99"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 4,
+          "end": 5,
+          "customer_ids": [
+            "C87"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C1",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C71",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C71",
+            "C5",
+            "C99"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5",
+            "C99"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C71",
+            "C5",
+            "C99",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5",
+            "C99",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C1",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C71",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C71",
+            "C5",
+            "C99"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5",
+            "C99"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C71",
+            "C5",
+            "C99",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5",
+            "C99",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C1",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C71",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C71",
+            "C5",
+            "C99"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5",
+            "C99"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C71",
+            "C5",
+            "C99",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5",
+            "C99",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C1",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 3,
+          "customer_ids": [
+            "C71",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 3,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 4,
+          "customer_ids": [
+            "C71",
+            "C5",
+            "C99"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 4,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5",
+            "C99"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 1,
+          "end": 5,
+          "customer_ids": [
+            "C71",
+            "C5",
+            "C99",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5",
+            "C99",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 5,
+          "customer_ids": [
+            "C1",
+            "C71",
+            "C5",
+            "C99",
+            "C87"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 15.0,
+          "max_expansions": 30000
+        }
+      ],
+      "reason": "unresolved_certificate_search"
+    },
+    {
+      "source_route_id": "rc108C5_VG__v1",
+      "customer_ids": [
+        "C34",
+        "C71"
+      ],
+      "search_statuses": [
+        "certified_feasible",
+        "unverified_search_exhausted"
+      ],
+      "budgets_attempted": [
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C34",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 3.0,
+          "max_expansions": 8000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 1,
+          "end": 2,
+          "customer_ids": [
+            "C71"
+          ],
+          "status": "certified_feasible",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 1,
+          "customer_ids": [
+            "C34"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C34",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 1.0,
+          "max_expansions": 4000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C34",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 4.0,
+          "max_expansions": 12000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C34",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 12.0,
+          "max_expansions": 40000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C34",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 30.0,
+          "max_expansions": 80000
+        },
+        {
+          "start": 0,
+          "end": 2,
+          "customer_ids": [
+            "C34",
+            "C71"
+          ],
+          "status": "unverified_search_exhausted",
+          "max_seconds": 15.0,
+          "max_expansions": 30000
+        }
+      ],
+      "reason": "unresolved_certificate_search"
+    }
+  ]
 }

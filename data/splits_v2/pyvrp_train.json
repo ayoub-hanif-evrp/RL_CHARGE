@@ -31,7 +31,6 @@
     "r104C25_NL",
     "r104C5_L",
     "r104C5_NL",
-    "r104C5_VG",
     "r105C15_L",
     "r105C15_NL",
     "r105C15_VG",
@@ -48,7 +47,6 @@
     "r202C5_VG",
     "r203C10_L",
     "r203C10_NL",
-    "r203C10_VG",
     "r203C5_L",
     "r203C5_NL",
     "r203C5_VG",
@@ -97,7 +95,7 @@
     "rc202",
     "rc204"
   ],
-  "n_routes": 277,
+  "n_routes": 286,
   "consumed_test_parents_excluded": [
     "c101",
     "c205",

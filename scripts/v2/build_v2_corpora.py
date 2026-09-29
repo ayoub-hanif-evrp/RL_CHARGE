@@ -16,6 +16,7 @@ if str(SRC) not in sys.path:
 
 from data.parser import parse_instance  # noqa: E402
 from data.paths import RAW_EVRPTW_GR_DIR, ROUTES_DIR  # noqa: E402
+from experiments.provenance import git_dirty, git_sha, v2_corpus_hashes, v2_split_hashes  # noqa: E402
 from experiments.v2_scope import CONSUMED_TEST_PARENT_SET, split_for_parent  # noqa: E402
 from rl.ablation import AblationConfig  # noqa: E402
 from rl.env import ShieldedRouteEnv  # noqa: E402
@@ -90,7 +91,7 @@ def _search_gold(rows) -> dict:
     }
 
 
-def _comparison(mapping, pyvrp_rows) -> None:
+def _comparison(mapping, pyvrp_rows, summary: dict) -> None:
     official = Counter()
     parents = {}
     for tour in mapping["tours"]:
@@ -137,6 +138,15 @@ def _comparison(mapping, pyvrp_rows) -> None:
         f"- official tours on development variants: {_sum('official_tours')}",
         f"- original PyVRP routes on development variants: {_sum('original_pyvrp_routes')}",
         f"- V2 certified routes on development variants: {_sum('v2_certified_routes')}",
+        "",
+        "Admitted benchmark routes are complete certified partitions only.",
+        "An unresolved source route is quarantined with all of its customers.",
+        "",
+        f"- original development routes: {summary.get('original_pyvrp_routes')}",
+        f"- admitted certified routes: {summary.get('final_certified_routes')}",
+        f"- search timeouts: {summary.get('search_timeouts')}",
+        f"- search exhaustions: {summary.get('search_exhausted')}",
+        f"- customer coverage: {json.dumps(summary.get('customer_coverage'), sort_keys=True)}",
         "",
     ]
     (out / "route_construction_summary.md").write_text("\n".join(lines), encoding="utf-8")
@@ -247,12 +257,40 @@ def main() -> None:
     dev_routes = load_v1_dev_routes()
     py_rows, py_summary = repair_pyvrp_routes(dev_routes)
     py_dir = ROOT / "data" / "routes_v2" / "certified_pyvrp"
-    write_route_bundle(py_dir, py_rows, py_summary)
-    (py_dir / "repair_report.json").write_text(json.dumps(py_summary, indent=2) + "\n", encoding="utf-8")
+    quarantined = py_summary.get("quarantined", [])
+    public = {key: value for key, value in py_summary.items() if key != "quarantined"}
+    public["quarantine_file"] = "quarantine.jsonl"
+    write_route_bundle(py_dir, py_rows, public)
+    (py_dir / "quarantine.jsonl").write_text(
+        "".join(json.dumps(row) + "\n" for row in quarantined),
+        encoding="utf-8",
+    )
+    (py_dir / "repair_report.json").write_text(
+        json.dumps({**public, "quarantined": quarantined}, indent=2) + "\n",
+        encoding="utf-8",
+    )
     _write_splits(ROOT / "data" / "splits_v2", py_rows, "pyvrp")
-    print("pyvrp", json.dumps({k: py_summary[k] for k in py_summary if k != "excluded"}), flush=True)
-    _comparison(mapping, py_rows)
+    printable = {key: value for key, value in public.items() if key != "quarantined"}
+    print("pyvrp", json.dumps(printable), flush=True)
+    _comparison(mapping, py_rows, public)
     _expert_traces(py_rows, ROOT / "results" / "v2" / "expert_traces" / "pyvrp_train.jsonl")
+    dirty = git_dirty()
+    provenance = {
+        "stage": "v2_development",
+        "git_sha": git_sha(),
+        "git_dirty": dirty,
+        "run_kind": "dirty_exploratory" if dirty else "clean_sha",
+        "final_v2_requires_clean_frozen_sha": True,
+        "v1_test_parents_quarantined": sorted(CONSUMED_TEST_PARENT_SET),
+        "v2_corpus_hashes": v2_corpus_hashes(),
+        "v2_split_hashes": v2_split_hashes(),
+        "customer_coverage": public.get("customer_coverage"),
+        "note": "Final V2 experiments must run from a clean frozen V2 SHA. This file records the development corpora.",
+    }
+    (ROOT / "results" / "v2" / "PROVENANCE.json").write_text(
+        json.dumps(provenance, indent=2) + "\n",
+        encoding="utf-8",
+    )
     print("v2 corpora written", flush=True)
 
 

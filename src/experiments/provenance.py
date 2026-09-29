@@ -71,11 +71,54 @@ def frozen_hashes() -> dict[str, str]:
     }
 
 
+V2_CORPUS_FILES = (
+    "data/routes_v2/gold_official/corpus.jsonl",
+    "data/routes_v2/gold_official/manifest.csv",
+    "data/routes_v2/gold_official/corpus_metadata.json",
+    "data/routes_v2/gold_official/certificates.jsonl",
+    "data/routes_v2/certified_pyvrp/corpus.jsonl",
+    "data/routes_v2/certified_pyvrp/manifest.csv",
+    "data/routes_v2/certified_pyvrp/corpus_metadata.json",
+    "data/routes_v2/certified_pyvrp/certificates.jsonl",
+    "data/routes_v2/certified_pyvrp/repair_report.json",
+    "data/routes_v2/certified_pyvrp/quarantine.jsonl",
+)
+
+V2_SPLIT_FILES = (
+    "data/splits_v2/gold_train.json",
+    "data/splits_v2/gold_validation.json",
+    "data/splits_v2/pyvrp_train.json",
+    "data/splits_v2/pyvrp_validation.json",
+)
+
+
+def hash_existing(relative_paths: tuple[str, ...]) -> dict[str, str]:
+    hashed = {}
+    for relative in relative_paths:
+        path = REPO_ROOT / relative
+        if path.is_file():
+            hashed[relative.replace("\\", "/")] = sha256_file(path)
+    return hashed
+
+
+def v2_corpus_hashes() -> dict[str, str]:
+    return hash_existing(V2_CORPUS_FILES)
+
+
+def v2_split_hashes() -> dict[str, str]:
+    return hash_existing(V2_SPLIT_FILES)
+
+
 def run_manifest(**extra: Any) -> dict[str, Any]:
+    dirty = git_dirty()
     payload = {
         "git_sha": git_sha(),
-        "git_dirty": git_dirty(),
+        "git_dirty": dirty,
+        "run_kind": "dirty_exploratory" if dirty else "clean_sha",
+        "final_v2_requires_clean_frozen_sha": True,
         "hashes": frozen_hashes(),
+        "v2_corpus_hashes": v2_corpus_hashes(),
+        "v2_split_hashes": v2_split_hashes(),
         **device_info(),
     }
     payload.update(extra)

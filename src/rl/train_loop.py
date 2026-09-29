@@ -25,6 +25,7 @@ from experiments.actors import HybridPolicyActor
 from experiments.dataset import parse_route_instance
 from experiments.evaluate import evaluate_policy
 from experiments.provenance import git_sha, run_manifest, sha256_file
+from experiments.stats import logical_checkpoint_path
 from simulation.shield import CONTINUATION_TO_MAX, action_from_discrete, evaluate_shield
 
 
@@ -322,7 +323,7 @@ def train_hybrid_ppo(
         best_val_route_weighted_completion_all=best_route_completion,
         best_update=best_update,
         checkpoint_selection="parent_balanced_lexicographic",
-        checkpoint=str(best_path if best_path.is_file() else last_path),
+        checkpoint=logical_checkpoint_path(str(best_path if best_path.is_file() else last_path)),
         sampling=HierarchicalSampler.name,
         n_train_routes=len(train_routes),
         n_val_routes=len(val_routes),

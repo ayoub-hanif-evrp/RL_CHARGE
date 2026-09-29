@@ -166,3 +166,5 @@ def test_logical_checkpoint_path_strips_windows_abs_path():
     assert logical_checkpoint_path(raw) == "checkpoints/HybridPPO/seed_42/best.pt"
     folder = r"C:\Users\AYOUB\RL_CHARGE_PAPER\checkpoints\HybridPPO\seed_42"
     assert logical_checkpoint_path(folder, "best.pt") == "checkpoints/HybridPPO/seed_42/best.pt"
+    v2 = r"C:\Users\AYOUB\OneDrive - EMSI\Bureau\RL code\checkpoints_v2\B2\seed_42\best.pt"
+    assert logical_checkpoint_path(v2) == "checkpoints_v2/B2/seed_42/best.pt"

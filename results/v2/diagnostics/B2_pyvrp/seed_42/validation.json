@@ -3,36 +3,53 @@
   "seed": 42,
   "time_aware": true,
   "return_scale": 3390.0,
-  "n_train": 277,
-  "n_val": 150,
-  "best_update": 370,
-  "status": "completed",
-  "parent_balanced_feasibility": 0.7763501891984864,
-  "parent_balanced_completion_all": 713.393107149986,
-  "route_weighted_feasibility": 0.8733333333333333,
-  "mean_feasible_routes": 131.0,
-  "mean_completion_all": 463.51359124679186,
+  "run_kind": "dirty_exploratory",
+  "git_sha": "4deb5b70690dbf208598f659e1836db558001639",
+  "git_dirty": true,
+  "n_train": 286,
+  "n_val": 137,
+  "best_update": 40,
+  "status": "early_stop",
+  "parent_balanced_feasibility": 0.8332893413775766,
+  "parent_balanced_completion_all": 736.237565860104,
+  "route_weighted_feasibility": 0.8978102189781022,
+  "mean_feasible_routes": 123.0,
+  "mean_completion_all": 467.65848915561395,
+  "no_feasible_action": 14,
+  "charging_required_subset": {
+    "n": 101,
+    "n_feasible": 87,
+    "route_weighted_feasibility": 0.8613861386138614,
+    "parent_balanced_feasibility": 0.8163614163614165,
+    "no_feasible_action": 14,
+    "mean_charging_time_feasible": 142.48438072278012,
+    "mean_station_visits_feasible": 2.0804597701149423
+  },
+  "optimization": {
+    "value_loss_mean": 0.0015268001857869221,
+    "grad_norm_preclip_mean": 0.5573046446086634,
+    "value_loss_at_best_update": 0.003528014069161145,
+    "grad_norm_preclip_at_best_update": 0.5320559679530561
+  },
   "diagnostic": {
-    "n": 150,
-    "n_feasible": 131,
-    "n_missed_known_feasible": 19,
+    "n": 137,
+    "n_feasible": 123,
+    "n_missed_known_feasible": 14,
     "reason_histogram": {
-      "NO_FEASIBLE_ACTION": 18,
-      "ZERO_CHARGE_NOOP": 1
+      "NO_FEASIBLE_ACTION": 14
     },
     "dead_end_reason_histogram": {
-      "INSUFFICIENT_ENERGY": 89,
-      "NO_TIME_CONTINUATION": 13,
-      "STATION_REVISIT": 1,
-      "NO_ENERGY_CONTINUATION": 2
+      "INSUFFICIENT_ENERGY": 90,
+      "NO_TIME_CONTINUATION": 6,
+      "STATION_REVISIT": 1
     },
-    "mean_terminal_soc_feasible": 0.312928777004282,
-    "mean_terminal_soc_failed": 0.4324441362177922,
-    "mean_charging_time_feasible": 61.183517335592725,
-    "mean_charging_time_failed": 123.99797323970851,
-    "mean_station_visits_feasible": 1.2366412213740459,
-    "mean_station_visits_failed": 1.6842105263157894,
-    "mean_u": 0.8092266967129192,
-    "mean_fraction_u_near_upper": 0.70679012345679
+    "mean_terminal_soc_feasible": 0.28293477104979753,
+    "mean_terminal_soc_failed": 0.1705697877658494,
+    "mean_charging_time_feasible": 103.36748154824416,
+    "mean_charging_time_failed": 18.130118465239736,
+    "mean_station_visits_feasible": 1.5365853658536586,
+    "mean_station_visits_failed": 1.0714285714285714,
+    "mean_u": 0.7130153224251564,
+    "mean_fraction_u_near_upper": 0.0
   }
 }

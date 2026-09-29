@@ -1,17 +1,17 @@
 {
+  "stage": "v2_development",
   "git_sha": "4deb5b70690dbf208598f659e1836db558001639",
   "git_dirty": true,
   "run_kind": "dirty_exploratory",
   "final_v2_requires_clean_frozen_sha": true,
-  "hashes": {
-    "corpus.jsonl": "1796d817ff058fe0559021ab79ca97087ef3646c57744c2c883ecc37e85451e0",
-    "manifest.csv": "41bb8be3245f8f3b0800db4ba74cb19a2003236b6fbd0dbc1237e7cdfaee104d",
-    "corpus_metadata.json": "1ca8725199842f0a8d4a4e6fac2a31931ea3c9aaca833c2d253c6147469d9a96",
-    "train.json": "3aecd73e9472b8572e899a7e2da3f1f874f0e5a13250f5cd6d76d812002913ce",
-    "validation.json": "1379aef7e92c308f90ab78674dec9994db72078c96cb1020ecc49d33eef69af4",
-    "test.json": "9bf39fbf1f27aa57146879fb71922b0216f24f1eb37a4fd9a9a43b44b6c4b6d0",
-    "split_metadata.json": "4740ab71737bfd9c04d37f258e57bfa4854a526da7c03b218ffe877818128900"
-  },
+  "v1_test_parents_quarantined": [
+    "c101",
+    "c205",
+    "r110",
+    "r201",
+    "rc102",
+    "rc208"
+  ],
   "v2_corpus_hashes": {
     "data/routes_v2/gold_official/corpus.jsonl": "559469b23ab217880dd8b9c92f841148286b1b09f274ee19eebd8a367cffc095",
     "data/routes_v2/gold_official/manifest.csv": "9c79d9c79dc33807c8ea38cc6a49aa3875a6853a895a143393130286c4c7b2bf",
@@ -30,36 +30,13 @@
     "data/splits_v2/pyvrp_train.json": "7deea1432964dc296e6b22536c39f7a46ef23c1cf0fe871efa365eddfe4f2f1a",
     "data/splits_v2/pyvrp_validation.json": "f3d8f89fd66ad42bf8ee1b8761d3e516e0ada9fcb4ad62c8f953745111f6ea40"
   },
-  "device": "cpu",
-  "cuda_name": null,
-  "method": "V2B2_pyvrp",
-  "seed": 43,
-  "ablation": "FULL",
-  "status": "early_stop",
-  "runtime_s": 3691.7177285000216,
-  "best_val_feasibility": 0.8448864588570472,
-  "best_val_completion_all": 772.3864495503825,
-  "best_val_route_weighted_feasibility": 0.8905109489051095,
-  "best_val_route_weighted_completion_all": 500.27783526955045,
-  "best_update": 120,
-  "checkpoint_selection": "parent_balanced_lexicographic",
-  "checkpoint": "checkpoints_v2/B2_pyvrp/seed_43/best.pt",
-  "sampling": "parent_then_route_then_terrain",
-  "n_train_routes": 286,
-  "n_val_routes": 137,
-  "val_max_routes": null,
-  "normalizer_provenance": {
-    "n_routes": 286,
-    "n_dynamic_states": 1021,
-    "seed": 0,
-    "max_dynamic_steps": 256,
-    "split": "train",
-    "policy": "GreedyMinimumSufficientCharge",
-    "soc_interval": "continuation_to_max",
-    "git_sha": "4deb5b70690dbf208598f659e1836db558001639"
+  "customer_coverage": {
+    "total_source_customers": 1330,
+    "customers_in_admitted_partitions": 1273,
+    "quarantined_source_routes": 9,
+    "quarantined_customers": 57,
+    "coverage_fraction": 0.9571428571428572,
+    "silently_dropped_customers": 0
   },
-  "max_env_transitions": 102400,
-  "split_used_for_learning": "train",
-  "split_used_for_selection": "validation",
-  "checkpoint_sha256": "72c3e143b1b7be59a540c16464f742c83dc9848d1000192da9727b4f790ad41f"
+  "note": "Final V2 experiments must run from a clean frozen V2 SHA. This file records the development corpora."
 }

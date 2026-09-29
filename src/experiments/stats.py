@@ -406,17 +406,22 @@ def seed_feasibility_summary(rows: Sequence[dict]) -> dict:
 def logical_checkpoint_path(path: str, filename: str | None = None) -> str:
     """Replace absolute worktree paths with repository-relative checkpoint ids."""
     text = str(path).replace("\\", "/")
-    marker = "checkpoints/"
-    idx = text.lower().rfind(marker)
+    lowered = text.lower()
+    # checkpoints_v2 must be matched before checkpoints, which is a prefix of it.
+    marker = "checkpoints_v2/" if "checkpoints_v2/" in lowered else "checkpoints/"
+    root = "checkpoints_v2" if marker == "checkpoints_v2/" else "checkpoints"
+    idx = lowered.rfind(marker)
     if idx < 0:
         return text
     tail = text[idx + len(marker) :]
     parts = [part for part in tail.split("/") if part]
     if len(parts) >= 2:
-        logical = f"checkpoints/{parts[0]}/{parts[1]}"
+        logical = f"{root}/{parts[0]}/{parts[1]}"
         if filename:
             return f"{logical}/{filename}"
         if len(parts) >= 3:
             return f"{logical}/{parts[2]}"
         return logical
-    return f"checkpoints/{tail}"
+    if filename and tail:
+        return f"{root}/{tail}/{filename}"
+    return f"{root}/{tail}" if tail else root

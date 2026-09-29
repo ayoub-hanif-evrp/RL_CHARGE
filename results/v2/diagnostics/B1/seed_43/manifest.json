@@ -23,7 +23,7 @@
   "best_val_route_weighted_completion_all": 576.1730081921819,
   "best_update": 340,
   "checkpoint_selection": "parent_balanced_lexicographic",
-  "checkpoint": "C:\\Users\\AYOUB\\OneDrive - EMSI\\Bureau\\PHD_WORK\\RL_charge\\Code_source_RL_GNN_paper\\RL code\\checkpoints_v2\\B1\\seed_43\\best.pt",
+  "checkpoint": "checkpoints_v2/B1/seed_43/best.pt",
   "sampling": "parent_then_route_then_terrain",
   "n_train_routes": 119,
   "n_val_routes": 47,
@@ -41,5 +41,7 @@
   "max_env_transitions": 102400,
   "split_used_for_learning": "train",
   "split_used_for_selection": "validation",
-  "checkpoint_sha256": "92e702bc133f6d8688253a4367ffc4f7092b084b2b54568580831be46caea522"
+  "checkpoint_sha256": "92e702bc133f6d8688253a4367ffc4f7092b084b2b54568580831be46caea522",
+  "run_kind": "dirty_exploratory",
+  "final_v2_requires_clean_frozen_sha": true
 }

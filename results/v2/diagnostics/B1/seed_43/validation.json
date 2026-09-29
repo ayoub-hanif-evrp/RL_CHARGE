@@ -33,5 +33,21 @@
     "mean_station_visits_failed": 1.3333333333333333,
     "mean_u": 0.5440888423768301,
     "mean_fraction_u_near_upper": 0.0
+  },
+  "no_feasible_action": 18,
+  "charging_required_subset": {
+    "n": 34,
+    "n_feasible": 17,
+    "route_weighted_feasibility": 0.5,
+    "parent_balanced_feasibility": 0.4666666666666666,
+    "no_feasible_action": 17,
+    "mean_charging_time_feasible": 125.98203712075153,
+    "mean_station_visits_feasible": 3.3529411764705883
+  },
+  "optimization": {
+    "value_loss_mean": 358793.5900531006,
+    "grad_norm_preclip_mean": 2141.508247084618,
+    "value_loss_at_best_update": 374583.6220703125,
+    "grad_norm_preclip_at_best_update": 2176.2011947631836
   }
 }

@@ -1,155 +1,29 @@
 {
   "original_pyvrp_routes": 209,
-  "final_certified_routes": 427,
+  "final_certified_routes": 423,
   "retained_unchanged": 58,
-  "split_routes": 151,
+  "split_routes": 142,
   "split_factor_counts": {
-    "1": 61,
-    "2": 96,
+    "1": 58,
+    "2": 84,
     "3": 39,
-    "4": 10,
-    "5": 1,
-    "6": 2
+    "4": 15,
+    "5": 4
   },
-  "n_customers_excluded": 22,
-  "excluded": [
-    {
-      "route_id": "r102_50_21_NL__v0",
-      "customer_id": "C44",
-      "index": 7,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r104C25_NL__v2",
-      "customer_id": "C48",
-      "index": 0,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r107C25_NL__v1",
-      "customer_id": "C75",
-      "index": 0,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc101C25_NL__v4",
-      "customer_id": "C18",
-      "index": 0,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc101C25_NL__v4",
-      "customer_id": "C49",
-      "index": 1,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc103C25_NL__v0",
-      "customer_id": "C2",
-      "index": 7,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc104C25_NL__v2",
-      "customer_id": "C6",
-      "index": 3,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc104C25_NL__v2",
-      "customer_id": "C2",
-      "index": 4,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r203C10_VG__v0",
-      "customer_id": "C78",
-      "index": 6,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r203C10_VG__v0",
-      "customer_id": "C71",
-      "index": 7,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc205C10_VG__v0",
-      "customer_id": "C58",
-      "index": 2,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc205C10_VG__v0",
-      "customer_id": "C15",
-      "index": 8,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r102C15_VG__v4",
-      "customer_id": "C1",
-      "index": 0,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r105C15_VG__v0",
-      "customer_id": "C17",
-      "index": 1,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r105C15_VG__v0",
-      "customer_id": "C85",
-      "index": 2,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc103C15_VG__v2",
-      "customer_id": "C84",
-      "index": 2,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc103C15_VG__v2",
-      "customer_id": "C33",
-      "index": 3,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc103C15_VG__v2",
-      "customer_id": "C34",
-      "index": 4,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc103C15_VG__v2",
-      "customer_id": "C62",
-      "index": 5,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc108C15_VG__v1",
-      "customer_id": "C45",
-      "index": 2,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "r104C5_VG__v0",
-      "customer_id": "C71",
-      "index": 1,
-      "reason": "singleton_not_certified"
-    },
-    {
-      "route_id": "rc108C5_VG__v1",
-      "customer_id": "C34",
-      "index": 0,
-      "reason": "singleton_not_certified"
-    }
-  ],
-  "search_timeouts": 1844,
-  "search_exhausted": 407,
+  "search_timeouts": 373,
+  "search_exhausted": 432,
   "certificate_replay_failures": 0,
-  "n_train": 277,
-  "n_validation": 150,
-  "test_parents_touched": false
+  "customer_coverage": {
+    "total_source_customers": 1330,
+    "customers_in_admitted_partitions": 1273,
+    "quarantined_source_routes": 9,
+    "quarantined_customers": 57,
+    "coverage_fraction": 0.9571428571428572,
+    "silently_dropped_customers": 0
+  },
+  "n_train": 286,
+  "n_validation": 137,
+  "test_parents_touched": false,
+  "admission_rule": "complete_certified_partition_only",
+  "quarantine_file": "quarantine.jsonl"
 }
