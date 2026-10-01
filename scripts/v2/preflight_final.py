@@ -90,7 +90,7 @@ def main() -> int:
         capture_output=True,
         text=True,
     )
-    gate("data_audit", audit.returncode == 0 and '"n_failures": 0' in audit.stdout.replace(" ", ""))
+    gate("data_audit", audit.returncode == 0 and '"n_failures":0' in audit.stdout.replace(" ", ""))
 
     gate("FINAL_PROTOCOL_exists", (FINAL / "FINAL_PROTOCOL.json").is_file())
     complete = 0
