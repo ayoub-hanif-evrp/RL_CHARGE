@@ -1,0 +1,34 @@
+[
+  {
+    "benchmark": "SynthCharge fresh TEST",
+    "ci95": [
+      -0.02666666666666666,
+      0.015611111111110309
+    ],
+    "ci_type": "paired parent/route percentile bootstrap of seed-averaged differences",
+    "comparison": "HybridPPO - DiscretePPO",
+    "effect": -0.004444444444444442,
+    "family": "feasibility",
+    "holm_family": "SynthCharge fresh TEST: HybridPPO vs DiscretePPO (feasibility, completion_all)",
+    "n_independent_units": 90,
+    "p_holm": 0.8504574771261437,
+    "p_raw": 0.8504574771261437,
+    "test": "paired sign-flip / permutation on seed-averaged parent/route differences"
+  },
+  {
+    "benchmark": "SynthCharge fresh TEST",
+    "ci95": [
+      -0.0034690606173124025,
+      0.24735439124560288
+    ],
+    "ci_type": "paired parent/route percentile bootstrap of seed-averaged differences",
+    "comparison": "HybridPPO - DiscretePPO",
+    "effect": 0.11583146637249642,
+    "family": "completion_all_routes",
+    "holm_family": "SynthCharge fresh TEST: HybridPPO vs DiscretePPO (feasibility, completion_all)",
+    "n_independent_units": 90,
+    "p_holm": 0.12709364531773412,
+    "p_raw": 0.06354682265886706,
+    "test": "paired sign-flip / permutation on seed-averaged parent/route differences"
+  }
+]

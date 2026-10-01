@@ -37,6 +37,17 @@ one global TRAIN-only return scale. Do not redesign it. DiscretePPO is the
 only learned comparator in the final matrix. DDQN and AttentionPPO are not
 in that matrix. SAC is not used.
 
+**V2 finalization status (complete).**
+
+- V1 archived.
+- V2 method frozen at `df35705c012b4ce88674a5b8906176c97838b06c`.
+- Final training complete: 20/20 clean_sha runs (gold+SynthCharge × HybridPPO+DiscretePPO × seeds 42–46) at training execution SHA `2f4825adc341b71cec43e208540ee383de29cfb4`.
+- Final checkpoints frozen in `results/v2/final/CHECKPOINT_FREEZE.json` (commit `8179c2dfa7c84ac9aebf61d12ba8e6913991551a`).
+- Fresh SynthCharge TEST consumed once (`results/v2/final/EVALUATION_CONSUMED.json`).
+- Legacy EVRPTW-GR same-domain challenge consumed once (gold-trained models only; not a fresh TEST).
+- No more algorithm tuning. Next phase = manuscript.
+- Final artifacts: `results/v2/final/FINAL_EXPERIMENT_REPORT.md`, `PAPER_FACTS.md`, `tables/`, `figures/`, `statistics/`, `raw/`.
+
 V2 files live under `data/routes_v2/`, `data/splits_v2/`, `results/v2/`,
 and `checkpoints_v2/`. Three benchmark roles stay separate:
 
@@ -70,6 +81,14 @@ Pre-V2 bookkeeping HEAD: `fe34811cf7f96b08e69d791600dea54e49998c36`.
 V2 development corpus commit: `4deb5b70690dbf208598f659e1836db558001639`.
 A later V2 cleanup commit may exist; it is not a final frozen training SHA
 until the tree is clean and that freeze is recorded.
+
+Pinned V2 finalization SHAs:
+
+- `v2_method_freeze_sha` = `df35705c012b4ce88674a5b8906176c97838b06c`
+- `v2_data_freeze_sha` = `1ed15b4601a3e000c11736c7ce83a8841cea504d`
+- `v2_training_execution_sha` = `2f4825adc341b71cec43e208540ee383de29cfb4`
+- checkpoint freeze metadata commit = `8179c2dfa7c84ac9aebf61d12ba8e6913991551a`
+- results archive SHA = the commit that adds final raw/analysis under `results/v2/final/`
 
 **Default stance for V1.** Do **not** redesign the archived MDP, Hybrid PPO,
 shield, corpus, splits, physics, or reward. Do **not** regenerate frozen V1

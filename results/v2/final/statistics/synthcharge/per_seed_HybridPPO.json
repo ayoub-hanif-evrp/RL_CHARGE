@@ -1,0 +1,25 @@
+{
+  "completion_all_ci95": [
+    4.173355576366883,
+    4.626204572880411
+  ],
+  "completion_all_mean": 4.395094201828298,
+  "completion_all_sd": 0.15852677084231728,
+  "feasibility_ci95": [
+    0.8666666666666667,
+    0.9355555555555556
+  ],
+  "feasibility_mean": 0.9022222222222223,
+  "feasibility_sd": 0.026527414191807392,
+  "mean_feasible_routes_per_seed": 81.2,
+  "method": "HybridPPO",
+  "n_routes": 90,
+  "n_seeds": 5,
+  "per_seed_feasibility": {
+    "42": 0.8888888888888888,
+    "43": 0.9222222222222223,
+    "44": 0.9,
+    "45": 0.9333333333333333,
+    "46": 0.8666666666666667
+  }
+}

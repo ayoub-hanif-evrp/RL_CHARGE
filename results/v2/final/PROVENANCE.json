@@ -1,0 +1,15 @@
+{
+  "absolute_windows_paths": false,
+  "checkpoint_freeze_sha256_lf": "07006cccb80c696aeec4aa1c4899724abc743c2075795ad0f2110964d8aac12a",
+  "legacy_raw_rows": 338,
+  "n_learned_checkpoints": 20,
+  "synthcharge_raw_rows": 1170,
+  "test_lock_sha256_lf": "6a37a654be34cb8cea82db9d80b6417f65692082ed8c6c7915a350dc01609c1f",
+  "v1_final_analysis_sha": "23d3d9c7de87a9486160c9937f8b385dd4833d57",
+  "v1_paper_code_sha": "a175ee43548a5d2d5154a9ae0731a01f7642a7f6",
+  "v2_data_freeze_sha": "1ed15b4601a3e000c11736c7ce83a8841cea504d",
+  "v2_development_sha": "aaa4a1a322086410ff359834861704dca19138ac",
+  "v2_method_freeze_sha": "df35705c012b4ce88674a5b8906176c97838b06c",
+  "v2_results_archive_sha": "commit that adds this file; not self-hashed",
+  "v2_training_execution_sha": "2f4825adc341b71cec43e208540ee383de29cfb4"
+}

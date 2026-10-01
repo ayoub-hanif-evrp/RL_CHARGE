@@ -1,0 +1,100 @@
+{
+  "DiscretePPO": {
+    "completion_all_ci95": [
+      4.088296910580149,
+      4.4728976097675295
+    ],
+    "completion_all_mean": 4.279262735455801,
+    "completion_all_sd": 0.08578306881386431,
+    "feasibility_ci95": [
+      0.8777777777777778,
+      0.9355555555555556
+    ],
+    "feasibility_mean": 0.9066666666666666,
+    "feasibility_sd": 0.014907119849998637,
+    "mean_feasible_routes_per_seed": 81.6,
+    "method": "DiscretePPO",
+    "n_routes": 90,
+    "n_seeds": 5,
+    "per_seed_feasibility": {
+      "42": 0.9,
+      "43": 0.9,
+      "44": 0.9222222222222223,
+      "45": 0.8888888888888888,
+      "46": 0.9222222222222223
+    }
+  },
+  "GreedyFullCharge": {
+    "charging_time": 0.2053179665717034,
+    "completion_all_ci95": null,
+    "completion_all_mean": 6.964810534160625,
+    "completion_all_sd": null,
+    "feasibility_ci95": null,
+    "feasibility_mean": 0.45555555555555555,
+    "feasibility_sd": null,
+    "feasible_only_completion": 3.337388977425761,
+    "mean_feasible_routes_per_seed": 41,
+    "method": "GreedyFullCharge",
+    "n_routes": 90,
+    "n_seeds": 1,
+    "per_seed_feasibility": null,
+    "station_visits": 0.5609756097560976
+  },
+  "GreedyMinimumSufficientCharge": {
+    "charging_time": 0.02119620946706971,
+    "completion_all_ci95": null,
+    "completion_all_mean": 7.508341978575817,
+    "completion_all_sd": null,
+    "feasibility_ci95": null,
+    "feasibility_mean": 0.35555555555555557,
+    "feasibility_sd": null,
+    "feasible_only_completion": 2.992211814744487,
+    "mean_feasible_routes_per_seed": 32,
+    "method": "GreedyMinimumSufficientCharge",
+    "n_routes": 90,
+    "n_seeds": 1,
+    "per_seed_feasibility": null,
+    "station_visits": 0.4375
+  },
+  "HybridPPO": {
+    "completion_all_ci95": [
+      4.173355576366883,
+      4.626204572880411
+    ],
+    "completion_all_mean": 4.395094201828298,
+    "completion_all_sd": 0.15852677084231728,
+    "feasibility_ci95": [
+      0.8666666666666667,
+      0.9355555555555556
+    ],
+    "feasibility_mean": 0.9022222222222223,
+    "feasibility_sd": 0.026527414191807392,
+    "mean_feasible_routes_per_seed": 81.2,
+    "method": "HybridPPO",
+    "n_routes": 90,
+    "n_seeds": 5,
+    "per_seed_feasibility": {
+      "42": 0.8888888888888888,
+      "43": 0.9222222222222223,
+      "44": 0.9,
+      "45": 0.9333333333333333,
+      "46": 0.8666666666666667
+    }
+  },
+  "OneStepLookahead": {
+    "charging_time": 0.23893124113524858,
+    "completion_all_ci95": null,
+    "completion_all_mean": 5.610332494123247,
+    "completion_all_sd": null,
+    "feasibility_ci95": null,
+    "feasibility_mean": 0.6666666666666666,
+    "feasibility_sd": null,
+    "feasible_only_completion": 3.4154987411848707,
+    "mean_feasible_routes_per_seed": 60,
+    "method": "OneStepLookahead",
+    "n_routes": 90,
+    "n_seeds": 1,
+    "per_seed_feasibility": null,
+    "station_visits": 2.816666666666667
+  }
+}

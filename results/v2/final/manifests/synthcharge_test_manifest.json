@@ -1,0 +1,12 @@
+{
+  "benchmark": "synthcharge_fresh_test",
+  "n_routes": 90,
+  "n_rows": 1170,
+  "output": {
+    "file": "results/v2/final/raw/synthcharge_test.jsonl",
+    "n_rows": 1170,
+    "sha256_lf": "04a4ed519c921f5d234b799f4c15ccb8c623210009e77320d30a431a2b6fc307"
+  },
+  "physics_profile": "synthcharge_linear",
+  "role": "fresh_external_confirmatory_TEST"
+}

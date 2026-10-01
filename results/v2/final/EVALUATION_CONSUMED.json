@@ -1,0 +1,20 @@
+{
+  "checkpoint_freeze_sha256_lf": "07006cccb80c696aeec4aa1c4899724abc743c2075795ad0f2110964d8aac12a",
+  "consumed": true,
+  "evaluation_git_sha": "8179c2dfa7c84ac9aebf61d12ba8e6913991551a",
+  "method_freeze_sha": "df35705c012b4ce88674a5b8906176c97838b06c",
+  "note": "SynthCharge TEST and the legacy challenge were opened once. No rerun for model selection.",
+  "outputs": {
+    "legacy_evrptwgr_challenge": {
+      "file": "results/v2/final/raw/legacy_evrptwgr_challenge.jsonl",
+      "n_rows": 338,
+      "sha256_lf": "389f7e032807f9290e97a6c5e1290efacb4898e2a643345c61321ec1198eccd0"
+    },
+    "synthcharge_fresh_test": {
+      "file": "results/v2/final/raw/synthcharge_test.jsonl",
+      "n_rows": 1170,
+      "sha256_lf": "04a4ed519c921f5d234b799f4c15ccb8c623210009e77320d30a431a2b6fc307"
+    }
+  },
+  "runtime_s": 173.20648837089539
+}

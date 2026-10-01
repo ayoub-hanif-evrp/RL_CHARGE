@@ -1,0 +1,5505 @@
+{
+  "DiscretePPO": {
+    "examples": [
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C47",
+          "next_due_date": 9.5,
+          "next_frozen_node": "C26",
+          "remaining_customers": 1,
+          "soc": 0.13750392740566764,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 5.147099521366696
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300015_00",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C31",
+          "next_due_date": 9.26,
+          "next_frozen_node": "C22",
+          "remaining_customers": 5,
+          "soc": 0.05393661085038984,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5714059899480484
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300015_00",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C7",
+          "next_due_date": 9.92,
+          "next_frozen_node": "C33",
+          "remaining_customers": 2,
+          "soc": 0.04003296408516186,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.92578847559336
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 13,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300024_01",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.09341905352054185,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.3674317082364276
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300032_01",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14551307506765512,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.3674317082364276
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300032_01",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C7",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.015827442384382176,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0781761147706406
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300036_00",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C30",
+          "remaining_customers": 4,
+          "soc": 0.04917473388522012,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.306755075251783
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300039_02",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C30",
+          "remaining_customers": 4,
+          "soc": 0.046258709587566754,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.306755075251783
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300039_02",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C16",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C40",
+          "remaining_customers": 3,
+          "soc": 0.07034491344931208,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.189101851666143
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300042_02",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C16",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C40",
+          "remaining_customers": 3,
+          "soc": 0.07128319359330874,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.3429343424303375
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300042_02",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C16",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C40",
+          "remaining_customers": 3,
+          "soc": 0.044481478498557915,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.189101851666143
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300042_02",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C11",
+          "remaining_customers": 2,
+          "soc": 0.24846085066786794,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5400819424770016
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300054_00",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C11",
+          "remaining_customers": 2,
+          "soc": 0.0816537689710441,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.4543108101799427
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300054_00",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C11",
+          "remaining_customers": 2,
+          "soc": 0.24846085066786794,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5231814284636114
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300054_00",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C14",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C13",
+          "remaining_customers": 1,
+          "soc": 0.020610339517251747,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 4.864708953015845
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.06397951910644568,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.06397951910644568,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.025500488135694784,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.025500488135694784,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C35",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C40",
+          "remaining_customers": 1,
+          "soc": 0.0501201786521462,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0439791900960325
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300080_01",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C27",
+          "next_due_date": 9.4,
+          "next_frozen_node": "C15",
+          "remaining_customers": 1,
+          "soc": 0.0812612062437495,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9465300010793105
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300093_00",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C27",
+          "next_due_date": 9.4,
+          "next_frozen_node": "C15",
+          "remaining_customers": 1,
+          "soc": 0.07158588579603936,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0394245528105883
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300093_00",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C3",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.27865423941185574,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.027234719328817
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300094_02",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.122633394628896,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 5.46372832046846
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.2631759664409404,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.942084476902188
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.12167579004859298,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0067071704504555
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.04883192499685933,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0067071704504555
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.2631759664409404,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.942084476902188
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": 46
+      }
+    ],
+    "failure_reasons": {
+      "NO_FEASIBLE_ACTION": 42
+    },
+    "n_failed_evaluations": 42
+  },
+  "GreedyFullCharge": {
+    "examples": [
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C3",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C14",
+          "remaining_customers": 4,
+          "soc": 0.2244242749952497,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 1.8393392667463186
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300009_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C31",
+          "next_due_date": 9.26,
+          "next_frozen_node": "C22",
+          "remaining_customers": 5,
+          "soc": 0.04013430636380006,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5714059899480484
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300015_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C6",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.12902605769447897,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0178380426348204
+        },
+        "layout": "C",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300019_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C15",
+          "remaining_customers": 1,
+          "soc": 0.050928481275381556,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.243407376498975
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300020_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C15",
+          "next_due_date": 8.4,
+          "next_frozen_node": "C5",
+          "remaining_customers": 3,
+          "soc": 0.030845217072021647,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.4313852814954795
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300021_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C27",
+          "next_due_date": 9.14,
+          "next_frozen_node": "C20",
+          "remaining_customers": 2,
+          "soc": 0.06154040815316787,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.139050718752536
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300025_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.15643696630891463,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.1962564002026728
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300029_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.049659741086471074,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.3674317082364276
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300032_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C33",
+          "next_due_date": 9.02,
+          "next_frozen_node": "C18",
+          "remaining_customers": 4,
+          "soc": 0.025613086038737253,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8637845074105406
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 14,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300034_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 9.2,
+          "next_frozen_node": "C7",
+          "remaining_customers": 1,
+          "soc": 0.13488783092102247,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.78541908977392
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300036_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 8.0,
+          "next_frozen_node": "C1",
+          "remaining_customers": 1,
+          "soc": 0.03921196381477102,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.158813383023424
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 6,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300038_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C30",
+          "remaining_customers": 4,
+          "soc": 0.04917473388522012,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.306755075251783
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300039_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C28",
+          "next_due_date": 8.9,
+          "next_frozen_node": "C16",
+          "remaining_customers": 4,
+          "soc": 0.018654906953548475,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0457836087663543
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300042_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C4",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.009996071451258583,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.2877123686600895
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 6,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300046_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C25",
+          "remaining_customers": 1,
+          "soc": 0.02060074756001883,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.02302253473107
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300048_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.16429042769893015,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.024045097699959
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300053_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C11",
+          "remaining_customers": 2,
+          "soc": 0.0816537689710441,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.4543108101799427
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300054_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 8.0,
+          "next_frozen_node": "C1",
+          "remaining_customers": 3,
+          "soc": 0.025473764030955054,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9925155625021107
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 6,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300056_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 8.7,
+          "next_frozen_node": "C8",
+          "remaining_customers": 2,
+          "soc": 0.07729914907788409,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.2940394553984937
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300057_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 8.7,
+          "next_frozen_node": "C8",
+          "remaining_customers": 1,
+          "soc": 0.014149680942953206,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 1.9520003392507606
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300058_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C21",
+          "next_due_date": 9.9,
+          "next_frozen_node": "C20",
+          "remaining_customers": 2,
+          "soc": 0.001254858593166229,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.2878135773227775
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300059_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C3",
+          "next_due_date": 8.24,
+          "next_frozen_node": "C5",
+          "remaining_customers": 5,
+          "soc": 0.018612498377166675,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.3515728133418587
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300060_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 9.9,
+          "next_frozen_node": "C20",
+          "remaining_customers": 2,
+          "soc": 0.04539088211976216,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5086786007667636
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300066_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.025500488135694784,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 9.1,
+          "next_frozen_node": "C12",
+          "remaining_customers": 2,
+          "soc": 0.044733901336476145,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.820325314593082
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300075_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C35",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C40",
+          "remaining_customers": 1,
+          "soc": 0.0501201786521462,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0439791900960325
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300080_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.045552577010392385,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0726289367245183
+        },
+        "layout": "C",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300082_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.7,
+          "next_frozen_node": "C18",
+          "remaining_customers": 5,
+          "soc": 0.0316635440352817,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.389004515688339
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300086_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C34",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C47",
+          "remaining_customers": 6,
+          "soc": 0.03419851818847427,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.1973579278404594
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300088_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C26",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C23",
+          "remaining_customers": 3,
+          "soc": 0.07140331348437266,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.541823587645127
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300093_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C3",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.27865423941185574,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.027234719328817
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300094_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.10981505848446757,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.2002033505763054
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300095_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C22",
+          "next_due_date": 9.44,
+          "next_frozen_node": "C25",
+          "remaining_customers": 6,
+          "soc": 0.001322689265731477,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.527896502207785
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 14,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300098_03",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.06156263844345101,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 1.7462576512430628
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300103_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C36",
+          "next_due_date": 9.86,
+          "next_frozen_node": "C32",
+          "remaining_customers": 5,
+          "soc": 0.0009667332484282563,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.60982919137756
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300115_03",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C7",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C24",
+          "remaining_customers": 3,
+          "soc": 0.13808860774320894,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 1.5287766676108656
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300130_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.05930733930707302,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.093382126004893
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300146_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C38",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.07035023500984475,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.5404218231015836
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300151_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C15",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.2911740697156411,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.334101364723367
+        },
+        "layout": "R",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300162_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C4",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.1316028908076255,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9682092663842616
+        },
+        "layout": "R",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300189_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C15",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.003810091047078256,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.6251717075202317
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300193_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C7",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.15931123644481604,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1419548857395085
+        },
+        "layout": "R",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300252_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.04883192499685933,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0067071704504555
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C4",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.23639844405338986,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9167313775836523
+        },
+        "layout": "C",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300334_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.1217026254182495,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.4205455684224506
+        },
+        "layout": "C",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300379_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C1",
+          "next_due_date": 8.8,
+          "next_frozen_node": "C5",
+          "remaining_customers": 1,
+          "soc": 0.06410200280084055,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.976220763974706
+        },
+        "layout": "C",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300532_01",
+        "seed": null
+      }
+    ],
+    "failure_reasons": {
+      "NO_FEASIBLE_ACTION": 49
+    },
+    "n_failed_evaluations": 49
+  },
+  "GreedyMinimumSufficientCharge": {
+    "examples": [
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C45",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C48",
+          "remaining_customers": 4,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.606347489955398
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 14,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300008_03",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C3",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C14",
+          "remaining_customers": 4,
+          "soc": 0.2244242749952497,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 1.8393392667463186
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300009_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C31",
+          "next_due_date": 9.26,
+          "next_frozen_node": "C22",
+          "remaining_customers": 5,
+          "soc": 0.04013430636380006,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5714059899480484
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300015_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C6",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.12902605769447897,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0178380426348204
+        },
+        "layout": "C",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300019_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C15",
+          "remaining_customers": 1,
+          "soc": 0.050928481275381556,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.243407376498975
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300020_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C15",
+          "next_due_date": 8.4,
+          "next_frozen_node": "C5",
+          "remaining_customers": 3,
+          "soc": 0.030845217072021647,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.4313852814954795
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300021_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C26",
+          "next_due_date": 8.36,
+          "next_frozen_node": "C7",
+          "remaining_customers": 3,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.6516499501931015
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 13,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300024_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C27",
+          "next_due_date": 9.14,
+          "next_frozen_node": "C20",
+          "remaining_customers": 2,
+          "soc": 0.06154040815316787,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.139050718752536
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300025_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.15643696630891463,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.1962564002026728
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300029_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.049659741086471074,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.3674317082364276
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300032_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C33",
+          "next_due_date": 9.02,
+          "next_frozen_node": "C18",
+          "remaining_customers": 4,
+          "soc": 0.025613086038737253,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8637845074105406
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 14,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300034_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 9.2,
+          "next_frozen_node": "C7",
+          "remaining_customers": 1,
+          "soc": 0.13488783092102247,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.78541908977392
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300036_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 8.0,
+          "next_frozen_node": "C1",
+          "remaining_customers": 1,
+          "soc": 0.03921196381477102,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.158813383023424
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 6,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300038_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C30",
+          "remaining_customers": 4,
+          "soc": 0.04917473388522012,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.306755075251783
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300039_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C28",
+          "next_due_date": 8.9,
+          "next_frozen_node": "C16",
+          "remaining_customers": 4,
+          "soc": 0.018654906953548475,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0457836087663543
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300042_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C4",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.009996071451258583,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.2877123686600895
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 6,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300046_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C25",
+          "remaining_customers": 1,
+          "soc": 0.02060074756001883,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.02302253473107
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300048_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.16429042769893015,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.024045097699959
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300053_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C11",
+          "remaining_customers": 2,
+          "soc": 0.0816537689710441,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.4543108101799427
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300054_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 8.0,
+          "next_frozen_node": "C1",
+          "remaining_customers": 3,
+          "soc": 0.025473764030955054,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9925155625021107
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 6,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300056_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 8.7,
+          "next_frozen_node": "C8",
+          "remaining_customers": 2,
+          "soc": 0.07729914907788409,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.2940394553984937
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300057_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 8.7,
+          "next_frozen_node": "C8",
+          "remaining_customers": 1,
+          "soc": 0.014149680942953206,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 1.9520003392507606
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300058_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C21",
+          "next_due_date": 9.9,
+          "next_frozen_node": "C20",
+          "remaining_customers": 2,
+          "soc": 0.001254858593166229,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.2878135773227775
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300059_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C3",
+          "next_due_date": 8.24,
+          "next_frozen_node": "C5",
+          "remaining_customers": 5,
+          "soc": 0.018612498377166675,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.3515728133418587
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300060_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C35",
+          "next_due_date": 9.98,
+          "next_frozen_node": "C34",
+          "remaining_customers": 1,
+          "soc": 1.734723475976807e-17,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8802228646388977
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 13,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300062_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 9.9,
+          "next_frozen_node": "C20",
+          "remaining_customers": 2,
+          "soc": 0.04539088211976216,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5086786007667636
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300066_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C16",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.8730901708529264
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300068_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.025500488135694784,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 9.1,
+          "next_frozen_node": "C12",
+          "remaining_customers": 2,
+          "soc": 0.044733901336476145,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.820325314593082
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300075_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C35",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C40",
+          "remaining_customers": 1,
+          "soc": 0.0501201786521462,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0439791900960325
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300080_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.045552577010392385,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0726289367245183
+        },
+        "layout": "C",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300082_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C14",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.758621077976527
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300083_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.7,
+          "next_frozen_node": "C18",
+          "remaining_customers": 5,
+          "soc": 0.0316635440352817,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.389004515688339
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300086_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C34",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C47",
+          "remaining_customers": 6,
+          "soc": 0.03419851818847427,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.1973579278404594
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300088_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C26",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C23",
+          "remaining_customers": 3,
+          "soc": 0.07140331348437266,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.541823587645127
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300093_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C3",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.27865423941185574,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.027234719328817
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300094_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.10981505848446757,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.2002033505763054
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300095_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C22",
+          "next_due_date": 9.44,
+          "next_frozen_node": "C25",
+          "remaining_customers": 6,
+          "soc": 0.001322689265731477,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.527896502207785
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 14,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300098_03",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.06156263844345101,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 1.7462576512430628
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300103_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C36",
+          "next_due_date": 9.86,
+          "next_frozen_node": "C32",
+          "remaining_customers": 5,
+          "soc": 0.0009667332484282563,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.60982919137756
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300115_03",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C7",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C24",
+          "remaining_customers": 3,
+          "soc": 0.13808860774320894,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 1.5287766676108656
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300130_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.05930733930707302,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.093382126004893
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300146_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C38",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.07035023500984475,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.5404218231015836
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300151_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C15",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.2911740697156411,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.334101364723367
+        },
+        "layout": "R",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300162_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C4",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.1316028908076255,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9682092663842616
+        },
+        "layout": "R",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300189_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C15",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.003810091047078256,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.6251717075202317
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300193_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C15",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5635021929882496
+        },
+        "layout": "R",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300243_01",
+        "seed": null
+      }
+    ],
+    "failure_reasons": {
+      "NO_FEASIBLE_ACTION": 58
+    },
+    "n_failed_evaluations": 58
+  },
+  "HybridPPO": {
+    "examples": [
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C47",
+          "next_due_date": 9.5,
+          "next_frozen_node": "C26",
+          "remaining_customers": 1,
+          "soc": 0.07230356616117015,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 5.116114622680443
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300015_00",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C26",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.041858282026038286,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 5.627126973555009
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300015_00",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C31",
+          "next_due_date": 9.26,
+          "next_frozen_node": "C22",
+          "remaining_customers": 5,
+          "soc": 0.04013430636380006,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5714059899480484
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300015_00",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 9.2,
+          "next_frozen_node": "C7",
+          "remaining_customers": 1,
+          "soc": 0.13488783092102247,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.78541908977392
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300036_00",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C30",
+          "remaining_customers": 4,
+          "soc": 0.04917473388522012,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.306755075251783
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300039_02",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C40",
+          "next_due_date": 8.48,
+          "next_frozen_node": "C9",
+          "remaining_customers": 2,
+          "soc": 0.028742113114432963,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.664964144207648
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300042_02",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C16",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C40",
+          "remaining_customers": 3,
+          "soc": 0.05951523794097422,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.189101851666143
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300042_02",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C16",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C40",
+          "remaining_customers": 3,
+          "soc": 0.05171601766972659,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.189101851666143
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300042_02",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.0855049822601419,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 4.13444142007854
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300042_02",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.1609128215887387,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.024045097699959
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300053_01",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.16429042769893015,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.024045097699959
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300053_01",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.16429042769893015,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.024045097699959
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300053_01",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C11",
+          "remaining_customers": 2,
+          "soc": 0.0816537689710441,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.4543108101799427
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300054_00",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.04100194909777064,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.039539136132969895,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.025500488135694784,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.025500488135694784,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.025500488135694784,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C35",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C40",
+          "remaining_customers": 1,
+          "soc": 0.0501201786521462,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0439791900960325
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300080_01",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C27",
+          "next_due_date": 9.4,
+          "next_frozen_node": "C15",
+          "remaining_customers": 1,
+          "soc": 0.07587216574144234,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.048825508134097
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300093_00",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C27",
+          "next_due_date": 9.4,
+          "next_frozen_node": "C15",
+          "remaining_customers": 1,
+          "soc": 0.05151663279037788,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9465300010793105
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300093_00",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C27",
+          "next_due_date": 9.4,
+          "next_frozen_node": "C15",
+          "remaining_customers": 1,
+          "soc": 0.03019792120278886,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9465300010793105
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300093_00",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C3",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.2301189998815542,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 5.583360186049543
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300094_02",
+        "seed": 42
+      },
+      {
+        "charge_class": "no_charge_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 9.32,
+          "next_frozen_node": "C23",
+          "remaining_customers": 1,
+          "soc": 0.09720993059839325,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 4.115725931556845
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300114_01",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": 46
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.09652418581594942,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0067071704504555
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": 42
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.09478160543996868,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0067071704504555
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": 43
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.2000260036893022,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.9459620378222264
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": 44
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.0874691370590637,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 5.478800163461221
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": 45
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.04883192499685933,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0067071704504555
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": 46
+      }
+    ],
+    "failure_reasons": {
+      "NO_FEASIBLE_ACTION": 44
+    },
+    "n_failed_evaluations": 44
+  },
+  "OneStepLookahead": {
+    "examples": [
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C45",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C48",
+          "remaining_customers": 4,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.7258783653908356
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 14,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n50_s300008_03",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C1",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.07606770514464752,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.4189997742324754
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300009_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C31",
+          "next_due_date": 9.26,
+          "next_frozen_node": "C22",
+          "remaining_customers": 5,
+          "soc": 0.05393661085038984,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5714059899480484
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300015_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C5",
+          "next_due_date": 8.6,
+          "next_frozen_node": "C7",
+          "remaining_customers": 2,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 4.195750657562288
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300021_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C26",
+          "next_due_date": 8.36,
+          "next_frozen_node": "C7",
+          "remaining_customers": 3,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.650617707038315
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 13,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300024_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C20",
+          "next_due_date": 9.26,
+          "next_frozen_node": "C22",
+          "remaining_customers": 1,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.87494601979894
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n50_s300025_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C7",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.015827442384382176,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0781761147706406
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300036_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C1",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.0800935816061796,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.277398262937849
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 6,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300038_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C12",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C30",
+          "remaining_customers": 4,
+          "soc": 0.06602213371992856,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.306755075251783
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300039_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C16",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C40",
+          "remaining_customers": 3,
+          "soc": 0.07034491344931208,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.189101851666143
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300042_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.22151694734956545,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.8234903212886677
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 8,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300047_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C11",
+          "remaining_customers": 2,
+          "soc": 0.24846085066786794,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5231814284636114
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 7,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300054_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C24",
+          "remaining_customers": 1,
+          "soc": 0.03029205942828312,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.619371860873371
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300057_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 8.9,
+          "next_frozen_node": "C10",
+          "remaining_customers": 4,
+          "soc": 1.734723475976807e-17,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.2017334576933703
+        },
+        "layout": "C",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300058_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C20",
+          "next_due_date": 10.0,
+          "next_frozen_node": "C25",
+          "remaining_customers": 1,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.801440007551518
+        },
+        "layout": "RC",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300059_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C5",
+          "next_due_date": 9.68,
+          "next_frozen_node": "C29",
+          "remaining_customers": 4,
+          "soc": 0.006806452826109287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY",
+            "S6": "INSUFFICIENT_ENERGY",
+            "S7": "INSUFFICIENT_ENERGY",
+            "S8": "INSUFFICIENT_ENERGY",
+            "S9": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.418174935170613
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 15,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n50_s300060_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C11",
+          "next_due_date": 9.9,
+          "next_frozen_node": "C20",
+          "remaining_customers": 2,
+          "soc": 0.12632517752599554,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5086786007667636
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300066_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C16",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 4.031946579792838
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 12,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300068_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.06397951910644568,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.1001230129919723
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300074_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C9",
+          "next_due_date": 9.1,
+          "next_frozen_node": "C12",
+          "remaining_customers": 2,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.995139226949262
+        },
+        "layout": "R",
+        "length_bin": "medium",
+        "n_customers": 10,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300075_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C2",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.045552577010392385,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0726289367245183
+        },
+        "layout": "C",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300082_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C8",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.0628410662928774,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 4.280810933633781
+        },
+        "layout": "RC",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n30_s300086_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C27",
+          "next_due_date": 9.4,
+          "next_frozen_node": "C15",
+          "remaining_customers": 1,
+          "soc": 0.0812612062437495,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9465300010793105
+        },
+        "layout": "R",
+        "length_bin": "long",
+        "n_customers": 11,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n30_s300093_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.06156263844345101,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY",
+            "S3": "INSUFFICIENT_ENERGY",
+            "S4": "INSUFFICIENT_ENERGY",
+            "S5": "INSUFFICIENT_ENERGY"
+          },
+          "time": 1.7462576512430628
+        },
+        "layout": "C",
+        "length_bin": "medium",
+        "n_customers": 9,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n30_s300103_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C15",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.2911740697156411,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.334101364723367
+        },
+        "layout": "R",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300162_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.02586237354634594,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9299835977238953
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300182_02",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C13",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.14663210972178287,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 2.9684461293741258
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300236_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C15",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.5635021929882496
+        },
+        "layout": "R",
+        "length_bin": "short",
+        "n_customers": 5,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_R_n15_s300243_01",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C10",
+          "next_due_date": 9.6,
+          "next_frozen_node": "C9",
+          "remaining_customers": 1,
+          "soc": 0.12167579004859298,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.0067071704504555
+        },
+        "layout": "RC",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_RC_n15_s300254_00",
+        "seed": null
+      },
+      {
+        "charge_class": "charging_required",
+        "dead_end": {
+          "continue_reason": "INSUFFICIENT_ENERGY",
+          "current_node": "C14",
+          "next_due_date": 10.0,
+          "next_frozen_node": "D0",
+          "remaining_customers": 0,
+          "soc": 0.0,
+          "station_reasons": {
+            "S0": "INSUFFICIENT_ENERGY",
+            "S1": "INSUFFICIENT_ENERGY",
+            "S2": "INSUFFICIENT_ENERGY"
+          },
+          "time": 3.143687855244164
+        },
+        "layout": "C",
+        "length_bin": "short",
+        "n_customers": 4,
+        "reason": "NO_FEASIBLE_ACTION",
+        "route_id": "v2sc_sc_C_n15_s300550_00",
+        "seed": null
+      }
+    ],
+    "failure_reasons": {
+      "NO_FEASIBLE_ACTION": 30
+    },
+    "n_failed_evaluations": 30
+  }
+}

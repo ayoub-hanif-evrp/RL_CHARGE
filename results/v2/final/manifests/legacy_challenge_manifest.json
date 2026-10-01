@@ -1,0 +1,12 @@
+{
+  "benchmark": "legacy_evrptwgr_challenge",
+  "n_routes": 26,
+  "n_rows": 338,
+  "output": {
+    "file": "results/v2/final/raw/legacy_evrptwgr_challenge.jsonl",
+    "n_rows": 338,
+    "sha256_lf": "389f7e032807f9290e97a6c5e1290efacb4898e2a643345c61321ec1198eccd0"
+  },
+  "physics_profile": "official_evrptwgr",
+  "role": "legacy_same_domain_challenge_NOT_fresh_TEST"
+}

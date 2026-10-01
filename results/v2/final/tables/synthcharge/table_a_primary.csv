@@ -1,0 +1,6 @@
+method,n_routes,n_seeds,mean_feasible_routes_per_seed,feasibility_mean,feasibility_sd,feasibility_ci95_lo,feasibility_ci95_hi,completion_all_mean,completion_all_sd,completion_all_ci95_lo,completion_all_ci95_hi
+HybridPPO,90,5,81.20,0.902,0.027,0.867,0.936,4.395,0.159,4.173,4.626
+DiscretePPO,90,5,81.60,0.907,0.015,0.878,0.936,4.279,0.086,4.088,4.473
+GreedyMinimumSufficientCharge,90,1,32.00,0.356,NA,NA,NA,7.508,NA,NA,NA
+GreedyFullCharge,90,1,41.00,0.456,NA,NA,NA,6.965,NA,NA,NA
+OneStepLookahead,90,1,60.00,0.667,NA,NA,NA,5.610,NA,NA,NA

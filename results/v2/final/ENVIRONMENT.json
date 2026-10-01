@@ -1,0 +1,15 @@
+{
+  "cuda": false,
+  "device": "cpu",
+  "frvcpy": "0.1.1",
+  "git_head": "8179c2dfa7c84ac9aebf61d12ba8e6913991551a",
+  "machine": "AMD64",
+  "matplotlib": "3.11.2",
+  "method_freeze_sha": "df35705c012b4ce88674a5b8906176c97838b06c",
+  "numpy": "2.5.3",
+  "os": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "pyvrp": "0.14.0",
+  "torch": "2.14.0+cpu",
+  "training_execution_sha": "2f4825adc341b71cec43e208540ee383de29cfb4"
+}
