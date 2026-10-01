@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -11,6 +13,10 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
+if str(ROOT / "scripts" / "v2") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts" / "v2"))
+
+from final_common import METHOD_FREEZE_SHA, git_porcelain, method_tree_diff  # noqa: E402
 
 from rl.ablation import AblationConfig  # noqa: E402
 from rl.ppo import PPOConfig, RL_CONFIG_DIR  # noqa: E402
@@ -47,14 +53,44 @@ def _routes(dataset: str, split: str):
     return routes
 
 
+def _refuse(message: str) -> None:
+    raise SystemExit(message)
+
+
+def _assert_frozen_start(dataset: str, method: str, seed: int) -> None:
+    if git_porcelain().strip():
+        _refuse("refusing to train: git working tree is dirty")
+    if method_tree_diff().strip():
+        _refuse("refusing to train: src/configs/tests/third_party differ from the method freeze")
+    freeze = json.loads((ROOT / "results" / "v2" / "final" / "METHOD_FREEZE.json").read_text(encoding="utf-8"))
+    expected = freeze["ppo_hyperparameters"]["config_sha256"]
+    for rel, digest in expected.items():
+        got = hashlib.sha256((ROOT / rel).read_bytes()).hexdigest()
+        if got != digest:
+            _refuse(f"refusing to train: config hash mismatch for {rel}")
+    if freeze["V2_METHOD_FREEZE_SHA"] != METHOD_FREEZE_SHA:
+        _refuse("refusing to train: METHOD_FREEZE.json SHA does not match the frozen commit")
+    if seed not in SEEDS:
+        _refuse("final training seeds are 42, 43, 44, 45, 46")
+    if dataset not in ("gold", "synthcharge") or method not in ("HybridPPO", "DiscretePPO"):
+        _refuse("dataset must be gold or synthcharge and method must be HybridPPO or DiscretePPO")
+    out = ROOT / "checkpoints_v2" / "final" / dataset / method / f"seed_{seed}"
+    if (out / "manifest.json").is_file() and (out / "best.pt").is_file():
+        manifest = json.loads((out / "manifest.json").read_text(encoding="utf-8"))
+        if manifest.get("best_update") is not None:
+            _refuse(f"refusing to overwrite completed final run {out.relative_to(ROOT).as_posix()}")
+    head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    if head != METHOD_FREEZE_SHA and method_tree_diff().strip():
+        _refuse("method tree is not identical to the freeze")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", required=True, choices=("gold", "synthcharge"))
     parser.add_argument("--method", required=True, choices=("HybridPPO", "DiscretePPO"))
     parser.add_argument("--seed", required=True, type=int)
     args = parser.parse_args()
-    if args.seed not in SEEDS:
-        raise SystemExit("final training seeds are 42, 43, 44, 45, 46")
+    _assert_frozen_start(args.dataset, args.method, args.seed)
     assert_learning_split("train")
     train_routes = _routes(args.dataset, "train")
     val_routes = _routes(args.dataset, "validation")

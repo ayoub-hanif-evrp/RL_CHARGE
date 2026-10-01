@@ -1,0 +1,86 @@
+{
+  "written_before_test_evaluation": true,
+  "test_cannot_trigger_retraining": true,
+  "method_freeze_sha": "df35705c012b4ce88674a5b8906176c97838b06c",
+  "training_execution_sha": "2f4825adc341b71cec43e208540ee383de29cfb4",
+  "proposed_method": "Hybrid-Action PPO (HybridPPO), development condition B2",
+  "method_definition": "HybridPPO + feasibility-aware energy-continuation SOC lower bound + optimistic time-feasibility SOC upper bound + one global TRAIN-only return scale",
+  "learned_comparator": "DiscretePPO",
+  "excluded_methods": ["SAC", "DDQN", "AttentionPPO"],
+  "seeds": [42, 43, 44, 45, 46],
+  "configs": ["configs/rl/hybrid_ppo.toml", "configs/rl/discrete_ppo.toml"],
+  "checkpoint_selection": {
+    "file": "best.pt",
+    "primary": "maximize parent-balanced validation feasibility",
+    "secondary": "minimize parent-balanced validation all-routes completion time",
+    "split": "validation",
+    "never": "last.pt or TEST"
+  },
+  "training_matrix": {
+    "datasets": ["gold", "synthcharge"],
+    "methods": ["HybridPPO", "DiscretePPO"],
+    "seeds": [42, 43, 44, 45, 46],
+    "n_runs": 20,
+    "note": "The 20 runs already completed at training_execution_sha before this protocol file. They are frozen, not rerun."
+  },
+  "evaluation_mapping": {
+    "synthcharge_fresh_test": {
+      "role": "fresh external confirmatory TEST",
+      "training_dataset": "synthcharge",
+      "physics_profile": "synthcharge_linear",
+      "energy_law": "linear_distance",
+      "n_routes": 90,
+      "n_charging_required": 72,
+      "n_no_charge_required": 18,
+      "learned_rows": 900,
+      "baseline_rows": 270,
+      "total_rows": 1170
+    },
+    "legacy_evrptwgr_challenge": {
+      "role": "legacy same-domain challenge, not a fresh TEST",
+      "training_dataset": "gold",
+      "physics_profile": "official_evrptwgr",
+      "energy_law": "demir_model2",
+      "n_routes": 26,
+      "learned_rows": 260,
+      "baseline_rows": 78,
+      "total_rows": 338
+    }
+  },
+  "primary_metrics": [
+    "feasibility over all benchmark routes",
+    "failure-retaining completion time (feasible: actual completion; infeasible: depot due date H)"
+  ],
+  "secondary_metrics": [
+    "feasible-only completion time",
+    "charging time",
+    "station visits",
+    "travel time",
+    "waiting time",
+    "terminal SOC",
+    "failure reason",
+    "inference runtime"
+  ],
+  "subgroups_descriptive_only": {
+    "layout": ["R", "C", "RC"],
+    "length_bin": ["short", "medium", "long"],
+    "charge_class": ["charging_required", "no_charge_required"]
+  },
+  "statistics": {
+    "learned_summary": "mean and SD across the five training seeds",
+    "uncertainty": "95 percent hierarchical bootstrap, resampling training seed then base_instance",
+    "primary_paired_family": ["HybridPPO vs DiscretePPO feasibility", "HybridPPO vs DiscretePPO failure-retaining completion"],
+    "multiple_testing": "Holm within that two-comparison primary family",
+    "baselines": "secondary reference family, not used for method selection",
+    "no_post_hoc_cell_tests": true
+  },
+  "failure_handling": {
+    "evaluation_completion_on_failure": "H = depot due date",
+    "training_failure_return": "G_failure = -(H - t0) - L_remaining, not simply -H. Successful training return is -T_completion. This protocol does not change the reward."
+  },
+  "reward_documentation": {
+    "G_success": "-T_completion",
+    "G_failure": "-(H - decision_time) - L_remaining",
+    "evaluation_infeasible_completion": "H"
+  }
+}
