@@ -1,0 +1,142 @@
+{
+  "name": "v3_hppo_paper_protocol",
+  "written_before_test_evaluation": true,
+  "test_cannot_trigger_retraining": true,
+  "paper_title_working": "Feasibility-Aware Hybrid PPO for Fixed-Route Electric Vehicle Charging",
+  "proposed_method": {
+    "name": "Feasibility-Aware Hybrid PPO",
+    "code_names": ["FA-HPPO", "HybridPPO", "B2"],
+    "definition": "Hybrid discrete-continuous PPO with energy-continuation SOC lower bound, optimistic time-feasibility SOC upper bound, and one global TRAIN-only return scale",
+    "soc_mapping": "SOC_target = SOC_lower + u * (SOC_upper - SOC_lower), u in [0,1]",
+    "does_not_claim": [
+      "generic Hybrid PPO novelty",
+      "joint customer routing",
+      "global optimality of certificates",
+      "frvcpy exactness for full EVRPTW-GR"
+    ]
+  },
+  "relationship_to_prior_stages": {
+    "v1": "archived early work under results/final/",
+    "v2": "historical frozen HybridPPO/DiscretePPO experiment under results/v2/final/; preserved intact; not the confirmatory experiment for this paper",
+    "v3_hppo": "paper-facing confirmatory protocol centered solely on FA-HPPO"
+  },
+  "method_freeze_sha": "df35705c012b4ce88674a5b8906176c97838b06c",
+  "v2_results_archive_sha": "557f1b38228d6d44fca34331805ecfde4f3d2fed",
+  "reused_checkpoints": {
+    "source": "checkpoints_v2/final/synthcharge/HybridPPO/seed_{42..46}/best.pt",
+    "training_dataset": "SynthCharge TRAIN (data/routes_v2/synthcharge_final/train)",
+    "selection": "parent-balanced VAL feasibility then completion on SynthCharge VAL",
+    "note": "Checkpoints were frozen before V2 TEST and are reused without reselection for V3. No DiscretePPO checkpoints enter V3 evaluation."
+  },
+  "hypotheses_predeclared": [
+    "H1: FA-HPPO achieves higher route feasibility than each of GreedyMinimumSufficientCharge, GreedyFullCharge, and OneStepLookahead on the fresh V3 SynthCharge TEST.",
+    "H2: FA-HPPO achieves lower failure-retaining completion time than each of those three baselines on the same TEST.",
+    "H3 (development): On gold TRAIN/VAL, B2 improves parent-balanced feasibility relative to B0/B1/B3 (descriptive five-seed ablation; not TEST).",
+    "H4 (development, amount): Forcing u=0 (Min) or u=1 (Max) at evaluation on frozen FA-HPPO checkpoints does not dominate free continuous amount choice on the V3 TEST primary metrics."
+  ],
+  "confirmatory_test": {
+    "benchmark": "SynthCharge v1.0 linear",
+    "physics_profile": "synthcharge_linear",
+    "energy_law": "linear_distance",
+    "not_evrptw_gr_gradient_physics": true,
+    "generator_seed_start": 400000,
+    "max_candidate_seeds": 10000,
+    "seed_range_audit": "existing SynthCharge seeds max at 300550; 400000+ unused",
+    "layouts": ["R", "C", "RC"],
+    "length_bins": {"short": [3, 5], "medium": [6, 10], "long": [11, 15]},
+    "routes_per_cell": 20,
+    "charging_required_per_cell": 16,
+    "no_charge_required_per_cell": 4,
+    "n_routes_target": 180,
+    "n_charging_required_target": 144,
+    "n_no_charge_required_target": 36,
+    "generator_arguments_identical_to_v2_spec": true,
+    "source_config": "configs/v2/synthcharge_final_benchmark.json",
+    "paper_test_config": "results/v3_hppo/configs/synthcharge_paper_test.json",
+    "admission_independent_of_policy": true
+  },
+  "methods_on_test": [
+    "HybridPPO",
+    "GreedyMinimumSufficientCharge",
+    "GreedyFullCharge",
+    "OneStepLookahead"
+  ],
+  "excluded_from_v3_test": ["DiscretePPO", "DDQN", "SAC", "AttentionPPO"],
+  "seeds": [42, 43, 44, 45, 46],
+  "primary_metrics": [
+    "feasibility over all TEST routes",
+    "failure-retaining completion (infeasible -> depot due date H)"
+  ],
+  "secondary_metrics": [
+    "charging-required feasibility",
+    "feasible-only completion",
+    "charging time",
+    "station visits",
+    "travel time",
+    "waiting time",
+    "terminal SOC",
+    "failure reason",
+    "runtime"
+  ],
+  "statistics": {
+    "learned_summary": "mean and SD across five training seeds",
+    "uncertainty": "95% hierarchical bootstrap resampling training seed then base_instance/route",
+    "primary_paired_family": [
+      "FA-HPPO vs GreedyMinimumSufficientCharge feasibility",
+      "FA-HPPO vs GreedyFullCharge feasibility",
+      "FA-HPPO vs OneStepLookahead feasibility",
+      "FA-HPPO vs GreedyMinimumSufficientCharge completion_all",
+      "FA-HPPO vs GreedyFullCharge completion_all",
+      "FA-HPPO vs OneStepLookahead completion_all"
+    ],
+    "multiple_testing": "Holm within the six-comparison primary family",
+    "amount_ablations_on_test": "descriptive secondary; Min/Max forced-u evaluations"
+  },
+  "development_ablation": {
+    "label": "development/validation ablation, not fresh TEST evidence",
+    "corpus": "gold_official TRAIN/VAL",
+    "variants": {
+      "B0": {"time_aware": false, "return_scale": false},
+      "B1": {"time_aware": true, "return_scale": false},
+      "B3": {"time_aware": false, "return_scale": true},
+      "B2": {"time_aware": true, "return_scale": true}
+    },
+    "seeds": [42, 43, 44, 45, 46],
+    "metrics": [
+      "parent_balanced_val_feasibility",
+      "route_weighted_feasibility",
+      "charging_required_feasibility",
+      "failure_retaining_completion",
+      "NO_FEASIBLE_ACTION",
+      "value_loss",
+      "grad_norm_preclip",
+      "best_update",
+      "status"
+    ],
+    "note": "Existing two-seed V2 diagnostics remain historical; five-seed runs supersede them for the paper ablation table when completed."
+  },
+  "amount_ablations": {
+    "FA-HPPO-Min": "same frozen HybridPPO discrete station policy; force u=0 (lower SOC bound) at evaluation",
+    "FA-HPPO-Max": "same frozen HybridPPO discrete station policy; force u=1 (upper SOC bound) at evaluation",
+    "implementation": "evaluation wrappers only; no retraining; no src changes",
+    "predeclared_before_test": true
+  },
+  "native_frvcp_reference": {
+    "solver": "frvcpy 0.1.1",
+    "role": "native FRVCP reference, not exact EVRPTW-GR oracle",
+    "separate_from_main_synthcharge_table": true
+  },
+  "expected_row_counts": {
+    "test_routes": 180,
+    "hybrid_rows": 900,
+    "baseline_rows": 540,
+    "amount_ablation_rows": 1800,
+    "total_if_amount_ablations_included": 3240
+  },
+  "stopping_rules": {
+    "no_post_test_retuning": true,
+    "no_checkpoint_reselection": true,
+    "technical_crash_only_same_seed_rerun": true,
+    "quota_shortfall": "STOP and report; do not relax parameters"
+  }
+}
