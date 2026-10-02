@@ -6,13 +6,7 @@
 
 ## 2. Ending HEAD
 
-See `git rev-parse HEAD` after the finalization commit that adds this file.
-Expected lineage:
-
-1. `c61979b` — Declare V3-HPPO paper protocol and tooling before opening TEST
-2. `3cc12bd` — Freeze V3 HybridPPO checkpoints and add paper artifact tooling
-3. `5c791f5` — Lock the fresh V3-HPPO SynthCharge TEST before policy evaluation
-4. *(this commit)* — Archive one-shot V3 TEST evaluation and paper artifacts
+`e527e06a3a874d7ecbafa848f8fda038714de185`
 
 ## 3. Tests run and status
 
