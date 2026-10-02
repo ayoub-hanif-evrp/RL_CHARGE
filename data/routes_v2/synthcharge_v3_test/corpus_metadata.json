@@ -1,0 +1,32 @@
+{
+  "benchmark": "synthcharge_v3_hppo_paper_test",
+  "split": "test",
+  "role": "fresh_external_confirmatory_TEST_for_FA_HPPO_paper",
+  "source_commit": "7934a73bbbe20b9be2a9b800127e5e8d4702d345",
+  "physics_profile": "synthcharge_linear",
+  "n_routes": 180,
+  "quota_summary": {
+    "C|long|charging_required": 16,
+    "C|long|no_charge_required": 4,
+    "C|medium|charging_required": 16,
+    "C|medium|no_charge_required": 4,
+    "C|short|charging_required": 16,
+    "C|short|no_charge_required": 4,
+    "R|long|charging_required": 16,
+    "R|long|no_charge_required": 4,
+    "R|medium|charging_required": 16,
+    "R|medium|no_charge_required": 4,
+    "R|short|charging_required": 16,
+    "R|short|no_charge_required": 4,
+    "RC|long|charging_required": 16,
+    "RC|long|no_charge_required": 4,
+    "RC|medium|charging_required": 16,
+    "RC|medium|no_charge_required": 4,
+    "RC|short|charging_required": 16,
+    "RC|short|no_charge_required": 4
+  },
+  "one_route_per_instance": true,
+  "generator_seed_start": 400000,
+  "policy_inspection_forbidden_during_generation": true,
+  "generation_git_head": "3cc12bd5aa70a2420cfc09fdef12100df80ea3b8"
+}
