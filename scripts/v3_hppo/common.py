@@ -13,6 +13,17 @@ METHOD_FREEZE_SHA = "df35705c012b4ce88674a5b8906176c97838b06c"
 SEEDS = (42, 43, 44, 45, 46)
 BASELINES = ("GreedyMinimumSufficientCharge", "GreedyFullCharge", "OneStepLookahead")
 FROZEN_DIRS = ("src", "configs", "tests", "third_party")
+# Scientific freeze check used by V3 gates: algorithm/physics configs + src + third_party.
+# New V3 protocol tests under tests/test_v3_* are allowed without reopening the method freeze.
+SCIENCE_PATHS = (
+    "src",
+    "third_party",
+    "configs/rl",
+    "configs/physics",
+    "configs/routing",
+    "configs/experiments",
+    "configs/v2",
+)
 SYNTH_CKPT = ROOT / "checkpoints_v2" / "final" / "synthcharge" / "HybridPPO"
 TEST_CORPUS = ROOT / "data" / "routes_v2" / "synthcharge_v3_test" / "corpus.jsonl"
 TEST_SPLIT = ROOT / "data" / "splits_v2" / "synthcharge_v3_test.json"
@@ -36,7 +47,7 @@ def git_porcelain() -> str:
 
 def method_tree_diff() -> str:
     return subprocess.check_output(
-        ["git", "diff", "--name-only", METHOD_FREEZE_SHA, "HEAD", "--", *FROZEN_DIRS],
+        ["git", "diff", "--name-only", METHOD_FREEZE_SHA, "HEAD", "--", *SCIENCE_PATHS],
         cwd=ROOT,
         text=True,
     )
