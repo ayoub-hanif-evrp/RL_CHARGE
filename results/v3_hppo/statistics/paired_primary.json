@@ -1,0 +1,74 @@
+[
+  {
+    "ci95": [
+      0.4766666666666666,
+      0.6177777777777778
+    ],
+    "comparison": "HybridPPO - GreedyMinimumSufficientCharge",
+    "effect": 0.5477777777777777,
+    "family": "feasibility",
+    "n_independent_units": 180,
+    "p_holm": 0.0002999850007499625,
+    "p_raw": 4.999750012499375e-05
+  },
+  {
+    "ci95": [
+      -3.493175778980748,
+      -2.632814891064561
+    ],
+    "comparison": "HybridPPO - GreedyMinimumSufficientCharge",
+    "effect": -3.070992263812688,
+    "family": "completion_all",
+    "n_independent_units": 180,
+    "p_holm": 0.0002999850007499625,
+    "p_raw": 4.999750012499375e-05
+  },
+  {
+    "ci95": [
+      0.40444444444444444,
+      0.5477777777777777
+    ],
+    "comparison": "HybridPPO - GreedyFullCharge",
+    "effect": 0.4755555555555555,
+    "family": "feasibility",
+    "n_independent_units": 180,
+    "p_holm": 0.0002999850007499625,
+    "p_raw": 4.999750012499375e-05
+  },
+  {
+    "ci95": [
+      -3.1288409653809195,
+      -2.2728068204889498
+    ],
+    "comparison": "HybridPPO - GreedyFullCharge",
+    "effect": -2.7039630445151612,
+    "family": "completion_all",
+    "n_independent_units": 180,
+    "p_holm": 0.0002999850007499625,
+    "p_raw": 4.999750012499375e-05
+  },
+  {
+    "ci95": [
+      0.1788888888888889,
+      0.3055555555555556
+    ],
+    "comparison": "HybridPPO - OneStepLookahead",
+    "effect": 0.24222222222222223,
+    "family": "feasibility",
+    "n_independent_units": 180,
+    "p_holm": 0.0002999850007499625,
+    "p_raw": 4.999750012499375e-05
+  },
+  {
+    "ci95": [
+      -1.5177946701274665,
+      -0.7842853246889088
+    ],
+    "comparison": "HybridPPO - OneStepLookahead",
+    "effect": -1.1493595337006073,
+    "family": "completion_all",
+    "n_independent_units": 180,
+    "p_holm": 0.0002999850007499625,
+    "p_raw": 4.999750012499375e-05
+  }
+]

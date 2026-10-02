@@ -1,0 +1,16 @@
+% Auto-generated; do not hand-edit numbers.
+\begin{table}[t]
+\centering
+\caption{Benchmark and split summary.}
+\label{tab:benchmark}
+\begin{tabular}{lccccccc}
+\toprule
+Corpus & Role & TRAIN & VAL & TEST & Charge-req TEST & Physics & Fresh TEST? \\
+\midrule
+SynthCharge V2 train/val & development & 180 & 90 & — & — & synthcharge_linear & no \\
+SynthCharge V3 paper TEST & confirmatory & — & — & 180 & 144 & synthcharge_linear & yes \\
+Gold official & ablation TRAIN/VAL & 119 & 47 & — & — & official_evrptwgr & no \\
+V2 historical (Hybrid+DPPO) & archived evidence & — & — & 90 & — & mixed & no (historical) \\
+\bottomrule
+\end{tabular}
+\end{table}

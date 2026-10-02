@@ -1,0 +1,5 @@
+Method,Feasibility,95% CI,Completion
+FA-HPPO,0.928,"[0.900, 0.951]",4.5
+GreedyMin,0.243,NA,8.3
+GreedyFull,0.333,NA,7.9
+Lookahead,0.625,NA,5.9

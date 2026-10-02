@@ -1,0 +1,85 @@
+{
+  "FA-HPPO": {
+    "charging_time": 0.30298808506481845,
+    "completion_all_ci95": [
+      4.081455610471291,
+      4.324824352652983
+    ],
+    "completion_all_mean": 4.19987011541742,
+    "completion_all_sd": 0.06896374130371546,
+    "feasibility_ci95": [
+      0.92,
+      0.96
+    ],
+    "feasibility_mean": 0.9422222222222223,
+    "feasibility_sd": 0.01782978503986802,
+    "label": "FA-HPPO",
+    "method": "HybridPPO",
+    "n_routes": 180,
+    "n_seeds": 5,
+    "per_seed_completion": {
+      "42": 4.217392957953814,
+      "43": 4.130503171065299,
+      "44": 4.200468425152062,
+      "45": 4.1461464806529875,
+      "46": 4.30483954226294
+    },
+    "per_seed_feasibility": {
+      "42": 0.95,
+      "43": 0.9444444444444444,
+      "44": 0.95,
+      "45": 0.9555555555555556,
+      "46": 0.9111111111111111
+    },
+    "runtime_s": 0.12950820066681545,
+    "station_visits": 2.009382820547192
+  },
+  "GreedyFull": {
+    "charging_time": 0.21186853546594892,
+    "completion_all_ci95": null,
+    "completion_all_mean": 6.9038331599325815,
+    "completion_all_sd": null,
+    "feasibility_ci95": null,
+    "feasibility_mean": 0.4666666666666667,
+    "feasibility_sd": null,
+    "label": "GreedyFull",
+    "method": "GreedyFullCharge",
+    "n_routes": 180,
+    "n_seeds": 1,
+    "per_seed_feasibility": null,
+    "runtime_s": 0.05487956721529675,
+    "station_visits": 0.5714285714285714
+  },
+  "GreedyMin": {
+    "charging_time": 0.02743693215189598,
+    "completion_all_ci95": null,
+    "completion_all_mean": 7.27086237923011,
+    "completion_all_sd": null,
+    "feasibility_ci95": null,
+    "feasibility_mean": 0.39444444444444443,
+    "feasibility_sd": null,
+    "label": "GreedyMin",
+    "method": "GreedyMinimumSufficientCharge",
+    "n_routes": 180,
+    "n_seeds": 1,
+    "per_seed_feasibility": null,
+    "runtime_s": 0.05257076499854318,
+    "station_visits": 0.49295774647887325
+  },
+  "Lookahead": {
+    "charging_time": 0.20413768163903823,
+    "completion_all_ci95": null,
+    "completion_all_mean": 5.349229649118028,
+    "completion_all_sd": null,
+    "feasibility_ci95": null,
+    "feasibility_mean": 0.7,
+    "feasibility_sd": null,
+    "label": "Lookahead",
+    "method": "OneStepLookahead",
+    "n_routes": 180,
+    "n_seeds": 1,
+    "per_seed_feasibility": null,
+    "runtime_s": 0.1511282977706287,
+    "station_visits": 2.4365079365079363
+  }
+}
