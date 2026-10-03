@@ -63,9 +63,14 @@ def test_wording_and_claims_discipline():
     assert "feasibility-aware" in claims.lower()
 
 
-def test_table4_split_exists_after_build_outputs():
-    # Split tables are produced by the artifact builder; stub always present once built.
-    stub = ROOT / "paper" / "tables" / "table04_ablation.md"
-    if stub.is_file():
-        text = stub.read_text(encoding="utf-8")
-        assert "table04a" in text and "table04b" in text
+def test_results_paper_png_only_if_present():
+    fig = ROOT / "results_paper" / "figures"
+    if not fig.is_dir():
+        return
+    pngs = list(fig.rglob("*.png"))
+    assert len(pngs) >= 7
+    for path in fig.rglob("*"):
+        if path.is_file():
+            assert path.suffix.lower() == ".png", path
+    assert (ROOT / "results_paper" / "MANIFEST.json").is_file()
+    assert (ROOT / "results_paper" / "tables" / "table02_main_results.md").is_file()

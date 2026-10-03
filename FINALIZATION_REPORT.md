@@ -123,21 +123,20 @@ Historical two-seed diagnostics remain in `results/v2/diagnostics/`.
 
 ## 16. Generated paper figures
 
-Under `paper/figures/`:
+Single source of truth: `results_paper/figures/` (**PNG only**).
 
-- fig01_method_overview (pdf/svg/png)
-- fig02_main_test
-- fig03_charging_required
-- fig04_seed_robustness
-- fig05_ablation
-- fig06_training_stability
-- fig07_difficulty_heatmap
-- fig08_failure_analysis
-- fig09_native_frvcp_reference
+- fig01_main_test.png
+- fig02_effect_sizes.png
+- fig03_ablation_and_training_stability.png
+- fig04_amount_sensitivity.png
+- fig05_difficulty_and_failures.png
+- appendix/figA01_seed_robustness.png
+- appendix/figA02_native_frvcp_reference.png
 
 ## 17. Generated paper tables
 
-Under `paper/tables/`: Markdown + CSV + LaTeX for Tables 1–5 and Appendix per-seed.
+Under `results_paper/tables/`: Tables 1–4 + A1–A2 (CSV/MD/TeX).
+See `docs/FINAL_CLEANUP_REPORT.md` for the cleanup that introduced `results_paper/`.
 
 ## 18. Known limitations
 

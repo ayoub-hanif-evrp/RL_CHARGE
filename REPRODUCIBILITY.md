@@ -35,14 +35,16 @@ python scripts/v3_hppo/run_ablation.py --variant B0 --seed 42
 python scripts/v3_hppo/freeze_checkpoints.py --verify
 ```
 
-## Paper artifacts from frozen raw rows (preferred)
+## Publication artifacts from frozen raw rows (preferred)
 
 ```bash
-python scripts/paper/build_paper_artifacts.py
-python scripts/paper/build_paper_artifacts.py --verify
+python scripts/paper/build_results_paper.py
+python scripts/paper/build_results_paper.py --verify
 ```
 
-This regenerates statistics (including joint seed×route sensitivity), tables 1–5 / 4A–4B, and figures 1–9. It does **not** train or evaluate TEST.
+Writes `results_paper/` (PNG-only figures + CSV/MD/TeX tables). Does **not** train or evaluate TEST.
+
+Legacy analysis helpers under `scripts/paper/build_paper_artifacts.py` remain for statistics refresh only; manuscript outputs use `build_results_paper.py`.
 
 ## Do not casually re-run
 

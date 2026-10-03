@@ -41,11 +41,14 @@ Pinned scientific freeze: method SHA `df35705c012b4ce88674a5b8906176c97838b06c`
 (environment recorded in `results/v2/final/METHOD_FREEZE.json` /
 `results/v3_hppo/ENVIRONMENT.json`).
 
-## Regenerate paper figures/tables (no TEST rerun)
+## Regenerate publication figures/tables (no TEST rerun)
 
 ```bash
-python scripts/paper/build_paper_artifacts.py --verify
+python scripts/paper/build_results_paper.py
+python scripts/paper/build_results_paper.py --verify
 ```
+
+Outputs: `results_paper/` (PNG figures + tables).
 
 ## Immutable rules
 

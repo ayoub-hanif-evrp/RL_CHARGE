@@ -10,7 +10,9 @@ Owner-only items are marked TODO where metadata is unavailable.
 - [x] `results/v3_hppo/CHECKPOINT_FREEZE.json` present with verified SHA256
 - [x] `results/v3_hppo/TEST_LOCK.json` verified
 - [x] `results/v3_hppo/EVALUATION_CONSUMED.json` present after one-shot TEST
-- [x] Paper artifacts regenerated: `python scripts/paper/build_paper_artifacts.py --verify`
+- [x] Paper artifacts regenerated: `python scripts/paper/build_results_paper.py --verify`
+- [x] Publication outputs live only in `results_paper/` (PNG figures)
+- [x] Rejected V3 candidate instances removed (180 locked members retained)
 - [x] `FINALIZATION_REPORT.md` complete
 - [x] V2 `results/v2/final/` untouched
 - [x] No DiscretePPO in V3 paper-facing TEST matrix
