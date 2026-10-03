@@ -6,7 +6,7 @@
 
 ## 2. Ending HEAD
 
-`e527e06a3a874d7ecbafa848f8fda038714de185`
+See latest `main` after the ablation-complete commit (starts from `e527e06` TEST archive).
 
 ## 3. Tests run and status
 
@@ -108,15 +108,17 @@ Min collapsing is reported honestly; Max ≈ free amount on this TEST.
 
 ### B0/B1/B2/B3 five-seed gold TRAIN/VAL
 
-**In progress** under `results/v3_hppo/ablation/` via
-`scripts/v3_hppo/run_ablation_queue.py` (~70 min/run × 20).
-Partial B0 seeds already show high value-loss / grad norms without scaling.
-Historical two-seed diagnostics remain in `results/v2/diagnostics/`.
-Rebuild paper Figs 5–6 / Table 4 after the queue completes:
+**Complete** (20/20): seeds 42–46 under `results/v3_hppo/ablation/`.
 
-```bash
-python scripts/paper/build_paper_artifacts.py
-```
+| Variant | Time cap | Return scale | Mean parent-bal. VAL feas | Mean value loss |
+|---------|----------|--------------|---------------------------|-----------------|
+| B0 | off | off | 0.467 | ~3.3e5 |
+| B1 | on | off | 0.554 | ~3.1e5 |
+| B3 | off | on | 0.801 | ~0.0019 |
+| B2 (full FA-HPPO) | on | on | **0.900** | ~0.0017 |
+
+Development/validation only — not fresh TEST evidence.
+Historical two-seed diagnostics remain in `results/v2/diagnostics/`.
 
 ## 16. Generated paper figures
 
@@ -126,8 +128,8 @@ Under `paper/figures/`:
 - fig02_main_test
 - fig03_charging_required
 - fig04_seed_robustness
-- fig05_ablation *(placeholder until ablation queue finishes)*
-- fig06_training_stability *(placeholder until queue finishes)*
+- fig05_ablation
+- fig06_training_stability
 - fig07_difficulty_heatmap
 - fig08_failure_analysis
 - fig09_native_frvcp_reference
@@ -142,7 +144,6 @@ Under `paper/tables/`: Markdown + CSV + LaTeX for Tables 1–5 and Appendix per-
 - FA-HPPO does not choose customer order.
 - Certificate timeout ≠ infeasibility proof.
 - frvcpy is a native FRVCP reference, not an EVRPTW-GR oracle.
-- Five-seed B0–B3 ablation not fully complete at first finalization write.
 - Fig 9 points at archived V1 FRVCP figure rather than a newly recomputed plot.
 
 ## 19. Owner TODOs
