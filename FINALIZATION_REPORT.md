@@ -6,7 +6,8 @@
 
 ## 2. Ending HEAD
 
-`cb34fb9a6c419dcdf7beb32c810f7ccadc7b034b`
+Tip of `main` after V3-HPPO finalization (verify with `git rev-parse HEAD`).
+Scientific milestone commits: `e527e06` (TEST archive), `eacdf3f` (ablations complete).
 
 ## 3. Tests run and status
 
