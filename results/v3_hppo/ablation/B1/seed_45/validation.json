@@ -1,0 +1,25 @@
+{
+  "best_update": 399,
+  "charging_required_feasibility": 0.6176470588235294,
+  "checkpoint": "checkpoints_v3/ablation/B1/seed_45/best.pt",
+  "label": "development/validation ablation, not fresh TEST evidence",
+  "mean_completion_all": 537.1374839864287,
+  "n_train": 119,
+  "n_val": 47,
+  "no_feasible_action": 13,
+  "optimization": {
+    "grad_norm_preclip_at_best_update": 1497.8336200714111,
+    "grad_norm_preclip_mean": 1966.4759071087838,
+    "value_loss_at_best_update": 147420.25415039062,
+    "value_loss_mean": 303353.03131034854
+  },
+  "parent_balanced_completion_all": 1018.7825705856147,
+  "parent_balanced_val_feasibility": 0.6342592592592592,
+  "return_scale": 1.0,
+  "return_scale_enabled": false,
+  "route_weighted_feasibility": 0.723404255319149,
+  "seed": 45,
+  "status": "completed",
+  "time_aware": true,
+  "variant": "B1"
+}
