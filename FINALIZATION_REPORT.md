@@ -6,7 +6,7 @@
 
 ## 2. Ending HEAD
 
-$head
+`d96bccf392558fc17577404292640f7f9de16ade`
 
 ## 3. Tests run and status
 
