@@ -6,7 +6,7 @@
 
 ## 2. Ending HEAD
 
-See latest `main` after the ablation-complete commit (starts from `e527e06` TEST archive).
+$head
 
 ## 3. Tests run and status
 
