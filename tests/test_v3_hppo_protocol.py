@@ -45,8 +45,27 @@ def test_consumed_guard_if_present():
     payload = json.loads(consumed.read_text(encoding="utf-8"))
     assert payload.get("consumed") is True
     assert "DiscretePPO" not in payload.get("methods", [])
+    assert payload.get("no_final_fahppo_checkpoint_retrain_retune_or_reselect_after_test") is True
     raw = ROOT / payload["raw_file"]
     assert raw.is_file()
     freeze = json.loads((V3 / "CHECKPOINT_FREEZE.json").read_text(encoding="utf-8"))
     assert freeze["n_checkpoints"] == 5
     assert all(item["method"] == "HybridPPO" for item in freeze["checkpoints"])
+
+
+def test_wording_and_claims_discipline():
+    wording = (V3 / "WORDING_CLARIFICATIONS.md").read_text(encoding="utf-8")
+    assert "independently generated" in wording
+    assert "external domain" in wording.lower() or "external generalization" in wording.lower()
+    claims = (ROOT / "paper" / "CLAIMS.md").read_text(encoding="utf-8")
+    assert "FA-HPPO-Max" in claims
+    assert "DiscretePPO" in claims
+    assert "feasibility-aware" in claims.lower()
+
+
+def test_table4_split_exists_after_build_outputs():
+    # Split tables are produced by the artifact builder; stub always present once built.
+    stub = ROOT / "paper" / "tables" / "table04_ablation.md"
+    if stub.is_file():
+        text = stub.read_text(encoding="utf-8")
+        assert "table04a" in text and "table04b" in text

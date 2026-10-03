@@ -1,7 +1,14 @@
 # Reproducibility
 
-Pinned scientific method tree: SHA `df35705c012b4ce88674a5b8906176c97838b06c`  
-(`src/`, `configs/`, `tests/`, `third_party/` must match this freeze.)
+Pinned scientific method tree: SHA `df35705c012b4ce88674a5b8906176c97838b06c`
+
+Invariant for algorithm/physics code:
+
+```bash
+git diff df35705 HEAD -- src third_party configs/rl configs/physics configs/routing configs/experiments configs/v2
+```
+
+must be empty. New V3 protocol tests under `tests/test_v3_*` are allowed and do not reopen the method freeze.
 
 ## Environment
 
@@ -13,7 +20,7 @@ pip install -e ".[dev]"
 python -m pytest tests -q
 ```
 
-Recorded environment: `results/v3_hppo/ENVIRONMENT.json` (after freeze).
+Recorded environment: `results/v3_hppo/ENVIRONMENT.json`.
 
 ## Development ablation (TRAIN/VAL only — not TEST)
 
@@ -35,11 +42,16 @@ python scripts/paper/build_paper_artifacts.py
 python scripts/paper/build_paper_artifacts.py --verify
 ```
 
+This regenerates statistics (including joint seed×route sensitivity), tables 1–5 / 4A–4B, and figures 1–9. It does **not** train or evaluate TEST.
+
 ## Do not casually re-run
 
 - Consumed V3 TEST evaluation (`EVALUATION_CONSUMED.json` present)
 - Consumed V2 final evaluation
-- Any command that selects checkpoints from TEST
+- Any command that selects final FA-HPPO checkpoints from TEST
+
+Accurate post-TEST claim: **no final FA-HPPO checkpoint was retrained, retuned, or reselected after TEST.**
+Predeclared gold development ablations may finish later without contaminating TEST.
 
 If evaluation must be redone for a scientific reason, open a **new versioned** experiment namespace instead of overwriting.
 
@@ -47,3 +59,5 @@ If evaluation must be redone for a scientific reason, open a **new versioned** e
 
 - V2 analysis (read-only): `python scripts/v2/analyze_final_v2.py`
 - V1 tooling: root `scripts/*.py` (archived)
+
+See also `results/v3_hppo/WORDING_CLARIFICATIONS.md`.

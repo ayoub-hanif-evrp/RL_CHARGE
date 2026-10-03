@@ -1,0 +1,22 @@
+{
+  "FA-HPPO-Max": {
+    "completion_all_mean": 4.178731230567575,
+    "feasibility_mean": 0.9433333333333334
+  },
+  "FA-HPPO-Min": {
+    "completion_all_mean": 9.440114525878878,
+    "feasibility_mean": 0.0788888888888889
+  },
+  "HybridPPO": {
+    "completion_all_mean": 4.19987011541742,
+    "feasibility_mean": 0.9422222222222223
+  },
+  "interpretation": "FA-HPPO-Max \u2248 free continuous amount; feasibility envelope / upper SOC bound explains most of the TEST performance. FA-HPPO-Min is a degenerate lower-bound stress test (often ZERO_CHARGE_NOOP), not evidence that fine amount learning is crucial.",
+  "role": "TEST amount-policy sensitivity; not a development ablation",
+  "route_averaged_feasibility_vs_max": {
+    "free_better": 3,
+    "max_better": 4,
+    "n_routes": 180,
+    "tied": 173
+  }
+}

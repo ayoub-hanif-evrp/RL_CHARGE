@@ -13,8 +13,12 @@
   "n_routes": 180,
   "n_rows": 3240,
   "no_checkpoint_reselection": true,
+  "no_final_fahppo_checkpoint_retrain_retune_or_reselect_after_test": true,
   "no_retrain_after_test": true,
+  "no_retrain_after_test_clarification": "Interpreted as: no final FA-HPPO checkpoint was retrained, retuned, or reselected after TEST. Predeclared gold TRAIN/VAL development ablations (B0/B1/B3/B2) may complete after the TEST timestamp; they do not use TEST routes and cannot alter consumed TEST rows.",
+  "benchmark_wording": "fresh independently generated SynthCharge confirmatory TEST (not external domain generalization)",
   "raw_file": "results/v3_hppo/raw/synthcharge_test.jsonl",
   "raw_sha256_lf": "c417f908dd09c08b5b273fef40d5b720a7e43aa4553fe49ff41cd36de00390bb",
-  "runtime_s": 350.6968340873718
+  "runtime_s": 350.6968340873718,
+  "see_also": "results/v3_hppo/WORDING_CLARIFICATIONS.md"
 }

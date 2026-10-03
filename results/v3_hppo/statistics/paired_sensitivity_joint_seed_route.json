@@ -1,0 +1,71 @@
+{
+  "comparisons": [
+    {
+      "ci95": [
+        0.4766388888888888,
+        0.62
+      ],
+      "comparison": "HybridPPO - GreedyMinimumSufficientCharge",
+      "effect_mean": 0.5473864444444444,
+      "family": "feasibility",
+      "n_boot": 5000,
+      "procedure": "joint_seed_then_route_bootstrap_of_mean_paired_effect"
+    },
+    {
+      "ci95": [
+        -3.515782463328945,
+        -2.651055648752364
+      ],
+      "comparison": "HybridPPO - GreedyMinimumSufficientCharge",
+      "effect_mean": -3.077274547003386,
+      "family": "completion_all",
+      "n_boot": 5000,
+      "procedure": "joint_seed_then_route_bootstrap_of_mean_paired_effect"
+    },
+    {
+      "ci95": [
+        0.4033333333333333,
+        0.5477777777777777
+      ],
+      "comparison": "HybridPPO - GreedyFullCharge",
+      "effect_mean": 0.4758006666666666,
+      "family": "feasibility",
+      "n_boot": 5000,
+      "procedure": "joint_seed_then_route_bootstrap_of_mean_paired_effect"
+    },
+    {
+      "ci95": [
+        -3.1292737443080054,
+        -2.2778606477844625
+      ],
+      "comparison": "HybridPPO - GreedyFullCharge",
+      "effect_mean": -2.707137122138615,
+      "family": "completion_all",
+      "n_boot": 5000,
+      "procedure": "joint_seed_then_route_bootstrap_of_mean_paired_effect"
+    },
+    {
+      "ci95": [
+        0.18,
+        0.3077777777777778
+      ],
+      "comparison": "HybridPPO - OneStepLookahead",
+      "effect_mean": 0.24235911111111114,
+      "family": "feasibility",
+      "n_boot": 5000,
+      "procedure": "joint_seed_then_route_bootstrap_of_mean_paired_effect"
+    },
+    {
+      "ci95": [
+        -1.5349199075078719,
+        -0.7864548940051476
+      ],
+      "comparison": "HybridPPO - OneStepLookahead",
+      "effect_mean": -1.1510219511934274,
+      "family": "completion_all",
+      "n_boot": 5000,
+      "procedure": "joint_seed_then_route_bootstrap_of_mean_paired_effect"
+    }
+  ],
+  "note": "sensitivity only; predeclared primary remains paired_primary.json"
+}

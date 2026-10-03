@@ -232,6 +232,7 @@ def summarize_baseline(rows, method):
 
 
 def paired_vs_baselines(rows):
+    """Predeclared primary: seed-average HybridPPO per route, then route-paired permutation."""
     hybrid = []
     for r in method_rows(rows, "HybridPPO"):
         copy = dict(r)
@@ -243,10 +244,8 @@ def paired_vs_baselines(rows):
         for r in method_rows(rows, baseline):
             copy = dict(r)
             copy["feasible_f"] = float(bool(r["feasible"]))
-            # Expand deterministic baseline to pair with each seed average via seed-averaged hybrid.
             base.append(copy)
         for family, key in (("feasibility", "feasible_f"), ("completion_all", "completion_time_all_routes")):
-            # Seed-average hybrid per route, then pair with baseline route values.
             by_route_h = defaultdict(list)
             for r in hybrid:
                 by_route_h[r["route_id"]].append(float(r[key]))
@@ -266,12 +265,101 @@ def paired_vs_baselines(rows):
                     "ci95": [lo, hi],
                     "p_raw": p,
                     "n_independent_units": len(diffs),
+                    "procedure": "predeclared_seed_averaged_route_permutation",
                 }
             )
     adjusted = holm([(t["comparison"] + "|" + t["family"], t["p_raw"]) for t in tests])
     for t, (_name, _p, adj) in zip(tests, adjusted):
         t["p_holm"] = adj
     return tests
+
+
+def sensitivity_joint_seed_route(rows, n_boot: int = N_BOOT) -> dict:
+    """Analysis-only robustness: jointly resample training seeds then routes.
+
+    Does not replace the predeclared paired primary test. Raw rows only.
+    """
+    route_ids = sorted({r["route_id"] for r in rows})
+    seeds = list(SEEDS)
+    rng = np.random.default_rng(RNG + 17)
+    out = {"note": "sensitivity only; predeclared primary remains paired_primary.json", "comparisons": []}
+    for baseline in BASELINES:
+        b_map = {
+            r["route_id"]: {
+                "feasible_f": float(bool(r["feasible"])),
+                "completion_all": float(r["completion_time_all_routes"]),
+            }
+            for r in method_rows(rows, baseline)
+        }
+        by_seed_route = {}
+        for r in method_rows(rows, "HybridPPO"):
+            by_seed_route[(int(r["seed"]), r["route_id"])] = {
+                "feasible_f": float(bool(r["feasible"])),
+                "completion_all": float(r["completion_time_all_routes"]),
+            }
+        for family, key in (("feasibility", "feasible_f"), ("completion_all", "completion_all")):
+            boots = []
+            for _ in range(n_boot):
+                seed_draw = rng.choice(seeds, size=len(seeds), replace=True)
+                route_draw = rng.choice(route_ids, size=len(route_ids), replace=True)
+                diffs = []
+                for rid in route_draw:
+                    h_vals = [by_seed_route[(int(s), rid)][key] for s in seed_draw]
+                    diffs.append(float(np.mean(h_vals)) - b_map[rid][key])
+                boots.append(float(np.mean(diffs)))
+            arr = np.asarray(boots, dtype=float)
+            out["comparisons"].append(
+                {
+                    "family": family,
+                    "comparison": f"HybridPPO - {baseline}",
+                    "effect_mean": float(arr.mean()),
+                    "ci95": [float(np.percentile(arr, 2.5)), float(np.percentile(arr, 97.5))],
+                    "procedure": "joint_seed_then_route_bootstrap_of_mean_paired_effect",
+                    "n_boot": n_boot,
+                }
+            )
+    dump_json(STATS / "paired_sensitivity_joint_seed_route.json", out)
+    return out
+
+
+def amount_sensitivity_summary(rows, summaries) -> dict:
+    """FA-HPPO vs forced-u Min/Max on the same frozen checkpoints (V3 TEST)."""
+    free = summaries["HybridPPO"]
+    amin = summaries["FA-HPPO-Min"]
+    amax = summaries["FA-HPPO-Max"]
+    by_route = defaultdict(lambda: {"HybridPPO": [], "FA-HPPO-Min": [], "FA-HPPO-Max": []})
+    for method in ("HybridPPO", "FA-HPPO-Min", "FA-HPPO-Max"):
+        for r in method_rows(rows, method):
+            by_route[r["route_id"]][method].append(float(bool(r["feasible"])))
+    tie = max_better = free_better = 0
+    for rid, vals in by_route.items():
+        f = float(np.mean(vals["HybridPPO"]))
+        m = float(np.mean(vals["FA-HPPO-Max"]))
+        if abs(f - m) < 1e-12:
+            tie += 1
+        elif m > f:
+            max_better += 1
+        else:
+            free_better += 1
+    payload = {
+        "role": "TEST amount-policy sensitivity; not a development ablation",
+        "interpretation": (
+            "FA-HPPO-Max ≈ free continuous amount; feasibility envelope / upper SOC bound "
+            "explains most of the TEST performance. FA-HPPO-Min is a degenerate lower-bound "
+            "stress test (often ZERO_CHARGE_NOOP), not evidence that fine amount learning is crucial."
+        ),
+        "HybridPPO": {"feasibility_mean": free["feasibility_mean"], "completion_all_mean": free["completion_all_mean"]},
+        "FA-HPPO-Max": {"feasibility_mean": amax["feasibility_mean"], "completion_all_mean": amax["completion_all_mean"]},
+        "FA-HPPO-Min": {"feasibility_mean": amin["feasibility_mean"], "completion_all_mean": amin["completion_all_mean"]},
+        "route_averaged_feasibility_vs_max": {
+            "n_routes": len(by_route),
+            "tied": tie,
+            "free_better": free_better,
+            "max_better": max_better,
+        },
+    }
+    dump_json(STATS / "amount_sensitivity.json", payload)
+    return payload
 
 
 def subset_charge(rows):
@@ -535,19 +623,55 @@ def figure_method_overview():
 
 
 def figure_frvcp_reference():
-    src = ROOT / "results" / "final" / "figures" / "frvcpy_native" / "frvcp_gap_hist.png"
-    fig, ax = plt.subplots(figsize=(7, 4))
-    ax.axis("off")
-    note = (
-        "Native FRVCP reference (separate from SynthCharge/EVRPTW-GR TEST).\n"
-        "frvcpy is exact for its FRVCP assumptions, not for full EVRPTW-GR.\n"
+    """Native FRVCP reference from archived V1 tracked statistics (not SynthCharge TEST)."""
+    summary_csv = ROOT / "results" / "final" / "statistics" / "frvcpy_native" / "method_summary.csv"
+    gap_md = ROOT / "results" / "final" / "tables" / "frvcpy_native" / "table_F_frvcpy.md"
+    if not summary_csv.is_file():
+        fig, ax = plt.subplots(figsize=(7, 3))
+        ax.axis("off")
+        ax.text(0.5, 0.5, "Native FRVCP summary missing from archive.", ha="center", va="center")
+        save_fig(fig, "fig09_native_frvcp_reference")
+        return
+    import csv as _csv
+
+    rows = list(_csv.DictReader(summary_csv.open(encoding="utf-8")))
+    order = ["frvcpy_Solver", "FRVCPGreedyMin", "FRVCPGreedyFull"]
+    labels = {"frvcpy_Solver": "frvcpy Solver", "FRVCPGreedyMin": "GreedyMin", "FRVCPGreedyFull": "GreedyFull"}
+    colors = {"frvcpy_Solver": "#0072B2", "FRVCPGreedyMin": "#E69F00", "FRVCPGreedyFull": "#009E73"}
+    methods = [m for m in order if any(r["method"] == m for r in rows)]
+    feas = {r["method"]: float(r["feasibility_mean"]) for r in rows}
+    gaps = {"FRVCPGreedyMin": 2.305, "FRVCPGreedyFull": 16.166}  # from table_F; solver gap undefined
+    if gap_md.is_file():
+        # Prefer parsing tracked CSV companion when present.
+        gap_csv = ROOT / "results" / "final" / "tables" / "frvcpy_native" / "table_F_frvcpy.csv"
+        if gap_csv.is_file():
+            for r in _csv.DictReader(gap_csv.open(encoding="utf-8")):
+                method = r.get("method")
+                raw = r.get("mean_gap_percent_vs_frvcpy_solver") or ""
+                if method in gaps and raw.strip():
+                    try:
+                        gaps[method] = float(raw)
+                    except ValueError:
+                        pass
+    fig, axes = plt.subplots(1, 2, figsize=(10.5, 4.0))
+    x = np.arange(len(methods))
+    axes[0].bar(x, [feas[m] for m in methods], color=[colors[m] for m in methods], width=0.7)
+    axes[0].set_xticks(x, [labels[m] for m in methods], rotation=15)
+    axes[0].set_ylim(0, 1.05)
+    axes[0].set_ylabel("Feasibility")
+    axes[0].set_title("A. Native FRVCP feasibility (n=133)")
+    gap_methods = [m for m in ("FRVCPGreedyMin", "FRVCPGreedyFull") if m in gaps]
+    axes[1].bar(
+        np.arange(len(gap_methods)),
+        [gaps[m] for m in gap_methods],
+        color=[colors[m] for m in gap_methods],
+        width=0.65,
     )
-    if src.is_file():
-        note += f"Historical figure retained at: {src.as_posix()}\nRegenerate from archived V1 tooling if needed."
-    else:
-        note += "Source figure not found in archive."
-    ax.text(0.5, 0.5, note, ha="center", va="center", fontsize=10)
-    ax.set_title("Figure 9 — Native FRVCP optimization reference")
+    axes[1].set_xticks(np.arange(len(gap_methods)), [labels[m] for m in gap_methods])
+    axes[1].set_ylabel("Mean optimality gap (%) vs frvcpy Solver")
+    axes[1].set_title("B. Gap on jointly feasible routes")
+    fig.suptitle("Native FRVCP reference — not an EVRPTW-GR / SynthCharge comparison")
+    fig.tight_layout()
     save_fig(fig, "fig09_native_frvcp_reference")
 
 
@@ -596,8 +720,8 @@ def build_tables(summaries, charge_summaries, failures, paired, ablation_rows):
     write_csv(TABLES / "table03_charging_required.csv", header, rows)
     write_tex(TABLES / "table03_charging_required.tex", "Charging-required subset.", "tab:charge", header, rows)
 
-    # Table 4 ablation
-    header = ["Variant", "Time cap", "Return scale", "Seeds done", "Mean parent-bal. feas", "Mean value loss"]
+    # Table 4A — development B0/B1/B3/B2 (gold VAL only)
+    header = ["Variant", "Time cap", "Return scale", "Seeds", "Mean parent-bal. VAL feas", "Mean value loss"]
     rows = []
     for variant, tw, sc in (("B0", "off", "off"), ("B1", "on", "off"), ("B3", "off", "on"), ("B2", "on", "on")):
         subset = [r for r in ablation_rows if r.get("variant") == variant]
@@ -611,19 +735,42 @@ def build_tables(summaries, charge_summaries, failures, paired, ablation_rows):
                 fmt(mean(r["optimization"]["value_loss_mean"] for r in subset), 4) if subset else "NA",
             ]
         )
-    for method in AMOUNT:
-        if method in summaries:
-            s = summaries[method]
-            rows.append([method, "on", "on (frozen)", "5 (eval)", fmt(s["feasibility_mean"]), "n/a (eval)"])
-    write_md(
-        TABLES / "table04_ablation.md",
-        "Table 4 — Ablation",
-        header,
-        rows,
-        "Development/validation ablation unless marked eval-on-TEST amount ablation.",
+    note_a = (
+        "Development/validation ablation on gold TRAIN/VAL only — not fresh TEST evidence. "
+        "B2 = full FA-HPPO (time-aware cap + TRAIN-only return scaling)."
     )
-    write_csv(TABLES / "table04_ablation.csv", header, rows)
-    write_tex(TABLES / "table04_ablation.tex", "FA-HPPO ablation (development).", "tab:ablation", header, rows)
+    write_md(TABLES / "table04a_development_ablation.md", "Table 4A — Development B0/B1/B3/B2", header, rows, note_a)
+    write_csv(TABLES / "table04a_development_ablation.csv", header, rows)
+    write_tex(TABLES / "table04a_development_ablation.tex", "Development FA-HPPO ablation (gold VAL).", "tab:ablation-dev", header, rows)
+
+    # Table 4B — TEST amount-policy sensitivity
+    header = ["Method", "u policy", "Feasibility", "95% CI", "Completion", "Role"]
+    rows = []
+    for method, upol, role in (
+        ("HybridPPO", "learned Beta", "primary FA-HPPO"),
+        ("FA-HPPO-Max", "forced u=1 (upper SOC)", "envelope upper-bound sensitivity"),
+        ("FA-HPPO-Min", "forced u=0 (lower SOC)", "degenerate lower-bound stress test"),
+    ):
+        s = summaries[method]
+        ci = "NA" if not s.get("feasibility_ci95") else f"[{fmt(s['feasibility_ci95'][0])}, {fmt(s['feasibility_ci95'][1])}]"
+        rows.append([LABEL[method], upol, fmt(s["feasibility_mean"]), ci, fmt(s["completion_all_mean"], 1), role])
+    note_b = (
+        "Same frozen SynthCharge FA-HPPO checkpoints on the V3 TEST. "
+        "Max ≈ free amount → continuous fine-tuning is not the main driver; "
+        "Min often collapses via ZERO_CHARGE_NOOP and must not be over-interpreted."
+    )
+    write_md(TABLES / "table04b_amount_sensitivity.md", "Table 4B — TEST amount-policy sensitivity", header, rows, note_b)
+    write_csv(TABLES / "table04b_amount_sensitivity.csv", header, rows)
+    write_tex(TABLES / "table04b_amount_sensitivity.tex", "TEST amount-policy sensitivity.", "tab:amount", header, rows)
+
+    # Compatibility stub pointing to the split tables
+    (TABLES / "table04_ablation.md").write_text(
+        "# Table 4 — split\n\n"
+        "Table 4 was split to avoid mixing datasets:\n\n"
+        "- [Table 4A — Development B0/B1/B3/B2](table04a_development_ablation.md) (gold VAL)\n"
+        "- [Table 4B — TEST amount-policy sensitivity](table04b_amount_sensitivity.md) (V3 TEST)\n",
+        encoding="utf-8",
+    )
 
     # Table 5
     header = ["Reason", "Count (HybridPPO route×seed)"]
@@ -655,14 +802,27 @@ def main() -> None:
         else:
             summaries[m] = summarize_baseline(rows, m)
     paired = paired_vs_baselines(rows)
+    sensitivity = sensitivity_joint_seed_route(rows)
+    amount = amount_sensitivity_summary(rows, summaries)
     dump_json(STATS / "main_summary.json", {LABEL[k]: summaries[k] for k in METHODS_MAIN})
+    dump_json(STATS / "paired_primary.json", paired)
     charge_summaries = {}
     sub = subset_charge(rows)
     for m in METHODS_MAIN:
         charge_summaries[m] = summarize_learned(sub, m) if m == "HybridPPO" else summarize_baseline(sub, m)
     failures = figure_failures(rows) if not verify_only else Counter()
     if verify_only:
-        print(json.dumps({"verify": "ok", "n_rows": len(rows)}, indent=2))
+        print(
+            json.dumps(
+                {
+                    "verify": "ok",
+                    "n_rows": len(rows),
+                    "sensitivity_comparisons": len(sensitivity["comparisons"]),
+                    "amount_tie_routes": amount["route_averaged_feasibility_vs_max"]["tied"],
+                },
+                indent=2,
+            )
+        )
         return
     figure_method_overview()
     figure_main(rows, summaries)
@@ -679,6 +839,8 @@ def main() -> None:
             "figures": sorted(p.name for p in FIGURES.glob("fig*")),
             "tables": sorted(p.name for p in TABLES.glob("table*")),
             "raw_sha256_lf": lf_sha256(RAW),
+            "sensitivity": "statistics/paired_sensitivity_joint_seed_route.json",
+            "amount_sensitivity": "statistics/amount_sensitivity.json",
         },
     )
     print("paper artifacts written")

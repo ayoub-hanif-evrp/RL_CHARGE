@@ -1,4 +1,5 @@
 {
+  "amount_sensitivity": "statistics/amount_sensitivity.json",
   "figures": [
     "fig01_method_overview.pdf",
     "fig01_method_overview.png",
@@ -29,6 +30,7 @@
     "fig09_native_frvcp_reference.svg"
   ],
   "raw_sha256_lf": "c417f908dd09c08b5b273fef40d5b720a7e43aa4553fe49ff41cd36de00390bb",
+  "sensitivity": "statistics/paired_sensitivity_joint_seed_route.json",
   "tables": [
     "table01_benchmark.csv",
     "table01_benchmark.md",
@@ -42,6 +44,12 @@
     "table04_ablation.csv",
     "table04_ablation.md",
     "table04_ablation.tex",
+    "table04a_development_ablation.csv",
+    "table04a_development_ablation.md",
+    "table04a_development_ablation.tex",
+    "table04b_amount_sensitivity.csv",
+    "table04b_amount_sensitivity.md",
+    "table04b_amount_sensitivity.tex",
     "table05_failures.csv",
     "table05_failures.md",
     "table05_failures.tex",

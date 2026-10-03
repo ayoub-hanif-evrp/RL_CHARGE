@@ -159,3 +159,7 @@ python scripts/paper/build_paper_artifacts.py --verify
 ```
 
 Do **not** re-run `evaluate_paper_test.py --execute-once` (consumed).
+
+## Paper-package polish (post-TEST analysis-only)
+
+Docs/claims wording, Table 4A/4B split, real Fig 9, joint seed	imes route sensitivity JSON, and EVALUATION_CONSUMED chronology clarification were applied without reopening TEST or retuning FA-HPPO.

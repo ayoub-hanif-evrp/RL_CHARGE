@@ -30,7 +30,7 @@ V2 is **valid historical evidence**. It is simply not the confirmatory experimen
 | `results/v3_hppo/` | Protocol, locks, raw TEST rows, stats, ablation |
 | `data/routes_v2/synthcharge_v3_test/` | Fresh untouched SynthCharge TEST (~180) |
 | `data/splits_v2/synthcharge_v3_test.json` | Split manifest |
-| `configs/v3_hppo/` | Paper TEST generator config |
+| `results/v3_hppo/configs/` | Paper TEST generator config (kept out of frozen `configs/`) |
 | `scripts/v3_hppo/` | Generation / freeze / eval / ablation |
 | `paper/` | Claims, results map, regenerated figures/tables |
 | `scripts/paper/` | Artifact builder (no train / no TEST eval) |

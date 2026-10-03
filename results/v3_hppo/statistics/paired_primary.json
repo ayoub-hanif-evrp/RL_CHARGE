@@ -9,7 +9,8 @@
     "family": "feasibility",
     "n_independent_units": 180,
     "p_holm": 0.0002999850007499625,
-    "p_raw": 4.999750012499375e-05
+    "p_raw": 4.999750012499375e-05,
+    "procedure": "predeclared_seed_averaged_route_permutation"
   },
   {
     "ci95": [
@@ -21,7 +22,8 @@
     "family": "completion_all",
     "n_independent_units": 180,
     "p_holm": 0.0002999850007499625,
-    "p_raw": 4.999750012499375e-05
+    "p_raw": 4.999750012499375e-05,
+    "procedure": "predeclared_seed_averaged_route_permutation"
   },
   {
     "ci95": [
@@ -33,7 +35,8 @@
     "family": "feasibility",
     "n_independent_units": 180,
     "p_holm": 0.0002999850007499625,
-    "p_raw": 4.999750012499375e-05
+    "p_raw": 4.999750012499375e-05,
+    "procedure": "predeclared_seed_averaged_route_permutation"
   },
   {
     "ci95": [
@@ -45,7 +48,8 @@
     "family": "completion_all",
     "n_independent_units": 180,
     "p_holm": 0.0002999850007499625,
-    "p_raw": 4.999750012499375e-05
+    "p_raw": 4.999750012499375e-05,
+    "procedure": "predeclared_seed_averaged_route_permutation"
   },
   {
     "ci95": [
@@ -57,7 +61,8 @@
     "family": "feasibility",
     "n_independent_units": 180,
     "p_holm": 0.0002999850007499625,
-    "p_raw": 4.999750012499375e-05
+    "p_raw": 4.999750012499375e-05,
+    "procedure": "predeclared_seed_averaged_route_permutation"
   },
   {
     "ci95": [
@@ -69,6 +74,7 @@
     "family": "completion_all",
     "n_independent_units": 180,
     "p_holm": 0.0002999850007499625,
-    "p_raw": 4.999750012499375e-05
+    "p_raw": 4.999750012499375e-05,
+    "procedure": "predeclared_seed_averaged_route_permutation"
   }
 ]

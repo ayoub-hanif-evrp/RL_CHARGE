@@ -14,9 +14,11 @@ The controller does **not** choose customer order.
 - \(\mathrm{SOC}_{upper}\): optimistic time-feasibility cap;
 - one global **TRAIN-only** return scale.
 
-Generic Hybrid PPO is not claimed as novel; the contribution is the
-fixed-route EV formulation, feasibility envelope, certified routes, and
-evaluation protocol.
+Generic Hybrid PPO is not claimed as novel. The contribution is
+**feasibility-aware charging control** (envelope + scaling + HybridPPO
+implementation), certified routes, and evaluation protocol. On the V3 TEST,
+forcing \(u=1\) (FA-HPPO-Max) matches free amount control closely — see
+`paper/CLAIMS.md`.
 
 ## Repository stages
 
@@ -24,9 +26,9 @@ evaluation protocol.
 |-------|----------|------|
 | V1 | `results/final/` | Archived early experiment |
 | V2 | `results/v2/final/` | Historical HybridPPO **and** DiscretePPO freeze (preserved) |
-| V3-HPPO | `results/v3_hppo/` | Paper confirmatory protocol: **FA-HPPO only** + heuristics |
+| V3-HPPO | `results/v3_hppo/` | Fresh independently generated SynthCharge confirmatory TEST: **FA-HPPO** + heuristics |
 
-See `docs/ARCHIVE_LAYOUT.md` and `RESULTS_INDEX.md`.
+See `docs/ARCHIVE_LAYOUT.md`, `RESULTS_INDEX.md`, and `results/v3_hppo/WORDING_CLARIFICATIONS.md`.
 
 ## Install / tests
 

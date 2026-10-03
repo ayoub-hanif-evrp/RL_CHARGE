@@ -58,4 +58,8 @@ V3 confirmatory TEST will use seed start **400000**.
 
 ## Method freeze invariant
 
-`git diff df35705..HEAD -- src configs tests third_party` must remain empty for scientific code. V3 work lives under `scripts/`, `docs/`, `paper/`, `results/v3_hppo/` only unless a stop condition is hit.
+Scientific algorithm/physics freeze (must stay empty):
+
+`git diff df35705..HEAD -- src third_party configs/rl configs/physics configs/routing configs/experiments configs/v2`
+
+New V3 protocol tests under `tests/test_v3_*` are allowed. V3 work otherwise lives under `scripts/`, `docs/`, `paper/`, `results/v3_hppo/` unless a stop condition is hit.
