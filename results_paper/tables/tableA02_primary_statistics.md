@@ -1,6 +1,6 @@
 # Table A2 — Primary paired statistics
 
-Predeclared seed-averaged route-paired analysis with Holm correction. Sensitivity: statistics/paired_sensitivity_joint_seed_route.json.
+Predeclared seed-averaged route-paired analysis with Holm correction.
 
 | Comparison | Metric | Effect | 95% CI | p_raw | p_Holm | Procedure | Units |
 |---|---|---|---|---|---|---|---|

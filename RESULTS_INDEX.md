@@ -32,7 +32,9 @@
 ## Regenerate paper displays only
 
 ```bash
+python scripts/paper/record_illustrative_val_episode.py   # VAL case study JSON (optional if present)
+python scripts/paper/build_results_paper.py
 python scripts/paper/build_results_paper.py --verify
 ```
 
-Do **not** re-open the consumed TEST.
+Do **not** re-open the consumed TEST. Fig. 1 is VAL methodology illustration only.

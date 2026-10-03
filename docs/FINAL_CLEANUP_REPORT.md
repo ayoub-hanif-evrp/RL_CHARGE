@@ -49,15 +49,19 @@ Repository object size reduction is dominated by the deleted candidate `.txt` in
 results_paper/
   README.md
   MANIFEST.json
+  case_study/
+    illustrative_val_episode.json
   figures/
-    fig01_main_test.png
-    fig02_effect_sizes.png
-    fig03_ablation_and_training_stability.png
-    fig04_amount_sensitivity.png
-    fig05_difficulty_and_failures.png
+    fig01_method_case_study.png
+    fig02_main_test.png
+    fig03_effect_sizes.png
+    fig04_ablation_and_training_stability.png
+    fig05_amount_sensitivity.png
     appendix/
-      figA01_seed_robustness.png
-      figA02_native_frvcp_reference.png
+      figA01_difficulty_heatmap.png
+      figA02_seed_robustness.png
+      figA03_native_frvcp_reference.png
+      figA04_learning_curves.png
   tables/
     table01_benchmark_protocol.{csv,md,tex}
     table02_main_results.{csv,md,tex}

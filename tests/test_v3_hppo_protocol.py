@@ -68,9 +68,11 @@ def test_results_paper_png_only_if_present():
     if not fig.is_dir():
         return
     pngs = list(fig.rglob("*.png"))
-    assert len(pngs) >= 7
+    assert len(pngs) >= 9
     for path in fig.rglob("*"):
         if path.is_file():
             assert path.suffix.lower() == ".png", path
+    assert (ROOT / "results_paper" / "figures" / "fig01_method_case_study.png").is_file()
+    assert (ROOT / "results_paper" / "case_study" / "illustrative_val_episode.json").is_file()
     assert (ROOT / "results_paper" / "MANIFEST.json").is_file()
     assert (ROOT / "results_paper" / "tables" / "table02_main_results.md").is_file()

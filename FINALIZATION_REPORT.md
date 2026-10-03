@@ -125,13 +125,17 @@ Historical two-seed diagnostics remain in `results/v2/diagnostics/`.
 
 Single source of truth: `results_paper/figures/` (**PNG only**).
 
-- fig01_main_test.png
-- fig02_effect_sizes.png
-- fig03_ablation_and_training_stability.png
-- fig04_amount_sensitivity.png
-- fig05_difficulty_and_failures.png
-- appendix/figA01_seed_robustness.png
-- appendix/figA02_native_frvcp_reference.png
+- fig01_method_case_study.png (VAL illustrative episode — not TEST)
+- fig02_main_test.png
+- fig03_effect_sizes.png
+- fig04_ablation_and_training_stability.png
+- fig05_amount_sensitivity.png
+- appendix/figA01_difficulty_heatmap.png
+- appendix/figA02_seed_robustness.png
+- appendix/figA03_native_frvcp_reference.png
+- appendix/figA04_learning_curves.png
+
+Case-study source: `results_paper/case_study/illustrative_val_episode.json`.
 
 ## 17. Generated paper tables
 
@@ -144,7 +148,8 @@ See `docs/FINAL_CLEANUP_REPORT.md` for the cleanup that introduced `results_pape
 - FA-HPPO does not choose customer order.
 - Certificate timeout ≠ infeasibility proof.
 - frvcpy is a native FRVCP reference, not an EVRPTW-GR oracle.
-- Fig 9 points at archived V1 FRVCP figure rather than a newly recomputed plot.
+- Fig A3 points at archived V1 FRVCP figure rather than a newly recomputed plot.
+- Fig 1 is a VAL methodology illustration, not confirmatory TEST evidence.
 
 ## 19. Owner TODOs
 
@@ -153,8 +158,9 @@ See `RELEASE_CHECKLIST.md`: license, CITATION.cff authors/ORCID, Zenodo DOI afte
 ## 20. Regenerate paper artifacts (no TEST rerun)
 
 ```bash
-python scripts/paper/build_paper_artifacts.py
-python scripts/paper/build_paper_artifacts.py --verify
+python scripts/paper/record_illustrative_val_episode.py
+python scripts/paper/build_results_paper.py
+python scripts/paper/build_results_paper.py --verify
 ```
 
 Do **not** re-run `evaluate_paper_test.py --execute-once` (consumed).

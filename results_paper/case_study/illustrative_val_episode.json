@@ -1,0 +1,421 @@
+{
+  "charge_class": "charging_required",
+  "checkpoint": "checkpoints_v2/final/synthcharge/HybridPPO/seed_42/best.pt",
+  "checkpoint_sha256": "143e16bb2a30dbd6df483d0d3088785ee1f679745ba2d48726227102d9ba1f20",
+  "completed": true,
+  "customer_ids": [
+    "C11",
+    "C3",
+    "C4",
+    "C7",
+    "C6",
+    "C5",
+    "C8"
+  ],
+  "decisions": [
+    {
+      "action": "CHARGE",
+      "continue_legal": true,
+      "discrete": 1,
+      "feasible": true,
+      "location_after": "S0",
+      "location_before": "D0",
+      "next_customer_index": 0,
+      "soc_after": 0.9971805336865502,
+      "soc_before": 1.0,
+      "soc_lower": 0.9642967052671162,
+      "soc_target": 0.9971805336865501,
+      "soc_upper": 1.0,
+      "station_id": "S0",
+      "step": 0,
+      "time_after": 0.07027880294038756,
+      "time_before": 0.0,
+      "u": 0.9210306406021118
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C11",
+      "location_before": "S0",
+      "next_customer_index": 0,
+      "soc_after": 0.6927748635789743,
+      "soc_before": 0.9971805336865502,
+      "step": 1,
+      "time_after": 2.02669461,
+      "time_before": 0.07027880294038756,
+      "u": 0.0
+    },
+    {
+      "action": "CHARGE",
+      "continue_legal": true,
+      "discrete": 2,
+      "feasible": true,
+      "location_after": "S1",
+      "location_before": "C11",
+      "next_customer_index": 1,
+      "soc_after": 0.9375936959833603,
+      "soc_before": 0.6927748635789743,
+      "soc_lower": 0.21167822873829567,
+      "soc_target": 0.9375936959833602,
+      "soc_upper": 1.0,
+      "station_id": "S1",
+      "step": 2,
+      "time_after": 3.0868154126431113,
+      "time_before": 2.02669461,
+      "u": 0.9208365082740784
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C3",
+      "location_before": "S1",
+      "next_customer_index": 1,
+      "soc_after": 0.9083269551176435,
+      "soc_before": 0.9375936959833603,
+      "step": 3,
+      "time_after": 3.155323298028258,
+      "time_before": 3.0868154126431113,
+      "u": 0.0
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C4",
+      "location_before": "C3",
+      "next_customer_index": 2,
+      "soc_after": 0.8714080467822961,
+      "soc_before": 0.9083269551176435,
+      "step": 4,
+      "time_after": 3.235267401364814,
+      "time_before": 3.155323298028258,
+      "u": 0.0
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C7",
+      "location_before": "C4",
+      "next_customer_index": 3,
+      "soc_after": 0.864037721174864,
+      "soc_before": 0.8714080467822961,
+      "step": 5,
+      "time_after": 3.2742217423367057,
+      "time_before": 3.235267401364814,
+      "u": 0.0
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C6",
+      "location_before": "C7",
+      "next_customer_index": 4,
+      "soc_after": 0.8356347651719381,
+      "soc_before": 0.864037721174864,
+      "step": 6,
+      "time_after": 3.338004091941387,
+      "time_before": 3.2742217423367057,
+      "u": 0.0
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C5",
+      "location_before": "C6",
+      "next_customer_index": 5,
+      "soc_after": 0.8049306227456035,
+      "soc_before": 0.8356347651719381,
+      "step": 7,
+      "time_after": 3.4096245698235226,
+      "time_before": 3.338004091941387,
+      "u": 0.0
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C8",
+      "location_before": "C5",
+      "next_customer_index": 6,
+      "soc_after": 0.7644404205979982,
+      "soc_before": 0.8049306227456035,
+      "step": 8,
+      "time_after": 3.502307163259691,
+      "time_before": 3.4096245698235226,
+      "u": 0.0
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "D0",
+      "location_before": "C8",
+      "next_customer_index": 7,
+      "soc_after": 0.44232746236055026,
+      "soc_before": 0.7644404205979982,
+      "step": 9,
+      "time_after": 4.017687896439607,
+      "time_before": 3.502307163259691,
+      "u": 0.0
+    }
+  ],
+  "depot_id": "D0",
+  "feasible": true,
+  "label": "Illustrative SynthCharge validation episode \u2014 not TEST evidence",
+  "layout": "RC",
+  "length_bin": "medium",
+  "n_charge_actions": 2,
+  "n_continue_actions": 8,
+  "n_customers": 7,
+  "nodes": {
+    "C1": {
+      "type": "CUSTOMER",
+      "x": 0.58579533,
+      "y": 0.57069744
+    },
+    "C10": {
+      "type": "CUSTOMER",
+      "x": 0.62469257,
+      "y": 0.41688106
+    },
+    "C11": {
+      "type": "CUSTOMER",
+      "x": 0.85809119,
+      "y": 0.89491351
+    },
+    "C12": {
+      "type": "CUSTOMER",
+      "x": 0.22284785,
+      "y": 0.78751696
+    },
+    "C13": {
+      "type": "CUSTOMER",
+      "x": 0.28233821,
+      "y": 0.68896229
+    },
+    "C14": {
+      "type": "CUSTOMER",
+      "x": 0.32301306,
+      "y": 0.55449115
+    },
+    "C15": {
+      "type": "CUSTOMER",
+      "x": 0.05265046,
+      "y": 0.65845062
+    },
+    "C2": {
+      "type": "CUSTOMER",
+      "x": 0.47699775,
+      "y": 0.55508599
+    },
+    "C3": {
+      "type": "CUSTOMER",
+      "x": 0.9399971,
+      "y": 0.14949428
+    },
+    "C4": {
+      "type": "CUSTOMER",
+      "x": 0.96241453,
+      "y": 0.09484308
+    },
+    "C5": {
+      "type": "CUSTOMER",
+      "x": 0.92684631,
+      "y": 0.11279761
+    },
+    "C6": {
+      "type": "CUSTOMER",
+      "x": 0.92722478,
+      "y": 0.06367244
+    },
+    "C7": {
+      "type": "CUSTOMER",
+      "x": 0.96771403,
+      "y": 0.08430843
+    },
+    "C8": {
+      "type": "CUSTOMER",
+      "x": 0.86741301,
+      "y": 0.13857922
+    },
+    "C9": {
+      "type": "CUSTOMER",
+      "x": 0.75461689,
+      "y": 0.07170964
+    },
+    "D0": {
+      "type": "DEPOT",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "S0": {
+      "type": "STATION",
+      "x": 0.55557857,
+      "y": 0.513203
+    },
+    "S1": {
+      "type": "STATION",
+      "x": 0.98472981,
+      "y": 0.13564753
+    },
+    "S2": {
+      "type": "STATION",
+      "x": 0.18390283,
+      "y": 0.92645981
+    }
+  },
+  "path_nodes": [
+    "D0",
+    "S0",
+    "C11",
+    "S1",
+    "C3",
+    "C4",
+    "C7",
+    "C6",
+    "C5",
+    "C8",
+    "D0"
+  ],
+  "physics_profile": "synthcharge_linear",
+  "raw_instance_id": "sc_RC_n15_s200002",
+  "relative_path": "data/routes_v2/synthcharge_final/instances/sc_RC_n15_s200002.txt",
+  "route_id": "v2sc_sc_RC_n15_s200002_00",
+  "selection": {
+    "charge_class": "charging_required",
+    "checkpoint_seed": 42,
+    "layout": "RC",
+    "length_bin": "medium",
+    "not_test_evidence": true,
+    "rule": "lexicographically first route_id among matching SynthCharge VAL rows",
+    "split": "validation"
+  },
+  "soc_samples": [
+    {
+      "kind": "start",
+      "node": "D0",
+      "soc": 1.0,
+      "t": 0.0
+    },
+    {
+      "kind": "CHARGE",
+      "node": "S0",
+      "soc": 0.9971805336865502,
+      "soc_lower": 0.9642967052671162,
+      "soc_target": 0.9971805336865501,
+      "soc_upper": 1.0,
+      "t": 0.07027880294038756,
+      "u": 0.9210306406021118
+    },
+    {
+      "kind": "CONTINUE",
+      "node": "C11",
+      "soc": 0.6927748635789743,
+      "soc_lower": null,
+      "soc_target": null,
+      "soc_upper": null,
+      "t": 2.02669461,
+      "u": null
+    },
+    {
+      "kind": "CHARGE",
+      "node": "S1",
+      "soc": 0.9375936959833603,
+      "soc_lower": 0.21167822873829567,
+      "soc_target": 0.9375936959833602,
+      "soc_upper": 1.0,
+      "t": 3.0868154126431113,
+      "u": 0.9208365082740784
+    },
+    {
+      "kind": "CONTINUE",
+      "node": "C3",
+      "soc": 0.9083269551176435,
+      "soc_lower": null,
+      "soc_target": null,
+      "soc_upper": null,
+      "t": 3.155323298028258,
+      "u": null
+    },
+    {
+      "kind": "CONTINUE",
+      "node": "C4",
+      "soc": 0.8714080467822961,
+      "soc_lower": null,
+      "soc_target": null,
+      "soc_upper": null,
+      "t": 3.235267401364814,
+      "u": null
+    },
+    {
+      "kind": "CONTINUE",
+      "node": "C7",
+      "soc": 0.864037721174864,
+      "soc_lower": null,
+      "soc_target": null,
+      "soc_upper": null,
+      "t": 3.2742217423367057,
+      "u": null
+    },
+    {
+      "kind": "CONTINUE",
+      "node": "C6",
+      "soc": 0.8356347651719381,
+      "soc_lower": null,
+      "soc_target": null,
+      "soc_upper": null,
+      "t": 3.338004091941387,
+      "u": null
+    },
+    {
+      "kind": "CONTINUE",
+      "node": "C5",
+      "soc": 0.8049306227456035,
+      "soc_lower": null,
+      "soc_target": null,
+      "soc_upper": null,
+      "t": 3.4096245698235226,
+      "u": null
+    },
+    {
+      "kind": "CONTINUE",
+      "node": "C8",
+      "soc": 0.7644404205979982,
+      "soc_lower": null,
+      "soc_target": null,
+      "soc_upper": null,
+      "t": 3.502307163259691,
+      "u": null
+    },
+    {
+      "kind": "CONTINUE",
+      "node": "D0",
+      "soc": 0.44232746236055026,
+      "soc_lower": null,
+      "soc_target": null,
+      "soc_upper": null,
+      "t": 4.017687896439607,
+      "u": null
+    }
+  ],
+  "station_ids": [
+    "S0",
+    "S1",
+    "S2"
+  ],
+  "terminal_soc": 0.44232746236055026,
+  "terminal_time": 4.017687896439607
+}

@@ -1,6 +1,6 @@
 # Table 1 — Benchmark / protocol
 
-V3 is a fresh independently generated SynthCharge TEST, not external-domain generalization. Stratified certificate-filtered stress benchmark.
+V3 is a fresh independently generated SynthCharge TEST, not external-domain generalization.
 
 | Corpus | Role | Physics | Routes | Charge-req | Seeds | Fresh confirmatory? | Ckpt selection? | Final claims? |
 |---|---|---|---|---|---|---|---|---|
