@@ -6,7 +6,7 @@
 
 ## Ending HEAD
 
-`9b55be404ea32925b2fa4ca9b5d96ead9f8c81c4`
+`1a2b606` (tip of `main`; publication milestone `9b55be4`)
 
 ## Files / folders deleted (summary)
 
