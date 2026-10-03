@@ -1,0 +1,256 @@
+{
+  "artifacts": [
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/README.md",
+      "role": "index",
+      "sha256": "ec435410221abe07e7c6a46be827ff729d221d2e32b6ac638182270865ec3e4a"
+    },
+    {
+      "dataset": "SynthCharge V3 TEST",
+      "metric": "feasibility/completion",
+      "n_routes": 180,
+      "n_seeds": 5,
+      "path": "results_paper/figures/fig01_main_test.png",
+      "role": "main",
+      "sha256": "7f41efd7a39a0b405d4a21992a9b4bd6a4e2c77f99fc88b1edd243e37ef3cced",
+      "source": [
+        "results/v3_hppo/raw/synthcharge_test.jsonl"
+      ]
+    },
+    {
+      "dataset": "SynthCharge V3 TEST",
+      "metric": "paired effects",
+      "n_routes": 180,
+      "n_seeds": 5,
+      "path": "results_paper/figures/fig02_effect_sizes.png",
+      "role": "main",
+      "sha256": "cb36dcc336a91c3fbeffa8f3da8227f1b000dc5f77f1d2c2a112858cdf08241e",
+      "source": [
+        "results/v3_hppo/statistics/paired_primary.json"
+      ]
+    },
+    {
+      "dataset": "gold VAL",
+      "metric": "VAL feas / value loss / grad",
+      "n_routes": 47,
+      "n_seeds": 5,
+      "path": "results_paper/figures/fig03_ablation_and_training_stability.png",
+      "role": "main-development",
+      "sha256": "365aa342826f204aeed2d161cb4ebe0a959252ff87316f5776a7c821e6215eec",
+      "source": [
+        "results/v3_hppo/ablation/"
+      ]
+    },
+    {
+      "dataset": "SynthCharge V3 TEST",
+      "metric": "amount sensitivity",
+      "n_routes": 180,
+      "n_seeds": 5,
+      "path": "results_paper/figures/fig04_amount_sensitivity.png",
+      "role": "main",
+      "sha256": "7f62e81ecdfb08a98bd2034924fea6f01d6175e92f6064a8a22416fdd40d5692",
+      "source": [
+        "results/v3_hppo/raw/synthcharge_test.jsonl"
+      ]
+    },
+    {
+      "dataset": "SynthCharge V3 TEST",
+      "metric": "cell feas / failure rate",
+      "n_routes": 144,
+      "n_seeds": 5,
+      "path": "results_paper/figures/fig05_difficulty_and_failures.png",
+      "role": "main",
+      "sha256": "159381d57bd09664aa526008bd9aa27802bab9438be9afe98a9a7d9b175cc068",
+      "source": [
+        "results/v3_hppo/raw/synthcharge_test.jsonl"
+      ]
+    },
+    {
+      "dataset": "SynthCharge V3 TEST",
+      "metric": "per-seed",
+      "n_routes": 180,
+      "n_seeds": 5,
+      "path": "results_paper/figures/appendix/figA01_seed_robustness.png",
+      "role": "appendix",
+      "sha256": "be73efee820599b7a1e97616169f9ecae74385b05b1daf2446a27cf2e1d15126",
+      "source": [
+        "results/v3_hppo/raw/synthcharge_test.jsonl"
+      ]
+    },
+    {
+      "dataset": "native FRVCP archive",
+      "metric": "FRVCP feas/gap",
+      "n_routes": 133,
+      "n_seeds": null,
+      "path": "results_paper/figures/appendix/figA02_native_frvcp_reference.png",
+      "role": "appendix",
+      "sha256": "722c549abf66cb1ad0d4a52a1586b3644e4401a235b5e5a12fdc9041edd5f553",
+      "source": [
+        "results/final/statistics/frvcpy_native/method_summary.csv"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table01_benchmark_protocol.csv",
+      "role": "main",
+      "sha256": "c598edf25615263efef1d86f5c792785d8fae0b98979a940913aaa9959d39a2f",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table01_benchmark_protocol.md",
+      "role": "main",
+      "sha256": "6028a8efe91a0d4186eae6cb6dec2c1b36067171c2f45434076a0dec6ca9a32b",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table01_benchmark_protocol.tex",
+      "role": "main",
+      "sha256": "e16e1ad374917ea318f0d4ac5c5578017d2f3141958dcf355f713964eaf1d1cd",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table02_main_results.csv",
+      "role": "main",
+      "sha256": "1a405d5dda7e509657e4ad7135ddcab9b19d7554df994f98a17ff01e3d248d8c",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table02_main_results.md",
+      "role": "main",
+      "sha256": "3c3ff48d5dcbaebf167e71928d07f8644b3cbadee2bffce136dfb638d26b2dcb",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table02_main_results.tex",
+      "role": "main",
+      "sha256": "cbfc083625eda2e7fc098b4f640aebb510cb145658cd86e69e43b8451eafb903",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table03_development_ablation.csv",
+      "role": "main",
+      "sha256": "f6cf8a2ac2b58894382aaa68183f724462f42d2527b473e4459466211ddb6068",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table03_development_ablation.md",
+      "role": "main",
+      "sha256": "b984e13ff52d205f601475874b3414a071044b5db3aa24305268a21404037a30",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table03_development_ablation.tex",
+      "role": "main",
+      "sha256": "cebf77672defaada189e6c7c1fabc5c08a528f98e9b496454cd2ff098fc91819",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table04_amount_sensitivity.csv",
+      "role": "main",
+      "sha256": "9f1ad4da30f78a2f76338605451640518ac1996808527a6cf7160781af887ea5",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table04_amount_sensitivity.md",
+      "role": "main",
+      "sha256": "807fbe3d14bbee1e6defdb682a92777e07a970d9ab38e37f368a3c4d5b6b5959",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/table04_amount_sensitivity.tex",
+      "role": "main",
+      "sha256": "674b7d8cf843bce2a738925144239c2d5bf76f43697bccac3903e8e5ab952a3b",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/tableA01_per_seed.csv",
+      "role": "appendix",
+      "sha256": "a11844c42825cf232064e115e028329dee50a05ba4593c1b0bbad28e4b07dfd4",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/tableA01_per_seed.md",
+      "role": "appendix",
+      "sha256": "9c0b114aca0c8e241d18c547b119aeb70f1b9b2318377fdd84ed1b5a8bafb302",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/tableA01_per_seed.tex",
+      "role": "appendix",
+      "sha256": "bccbe7ba30e63e765a594afce3505cdf9008fef08ff5b149a13eff1d093a6523",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/tableA02_primary_statistics.csv",
+      "role": "appendix",
+      "sha256": "f426a7d467020b3d8c1348f126cca2cdfd11b157c1e2f828e32cde805a31f9d3",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/tableA02_primary_statistics.md",
+      "role": "appendix",
+      "sha256": "91740711d4a795c6613d461df2b55a698c1800d178fdb5943b4d20413d849ddf",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/tableA02_primary_statistics.tex",
+      "role": "appendix",
+      "sha256": "cff1636ec1d2ca3b23e0287b22391708eefa0686d0f2aea4784c92ff418c8e34",
+      "source": [
+        "results/v3_hppo/"
+      ]
+    }
+  ]
+}
