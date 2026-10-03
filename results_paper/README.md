@@ -6,7 +6,7 @@ PNG figures only. Single source of truth for the manuscript.
 
 | Artifact | Role | Evidence |
 |----------|------|----------|
-| `figures/fig01_method_case_study.png` | Method illustration (route + SOC envelope + actions) | **VAL** case study JSON — not TEST |
+| `figures/fig01_method_case_study.png` | Method illustration (route + SOC-along-route + hybrid decision) | **VAL** case study JSON — not TEST |
 | `figures/fig02_main_test.png` | Confirmatory performance | V3 TEST |
 | `figures/fig03_effect_sizes.png` | Paired effect sizes | V3 TEST / `paired_primary.json` |
 | `figures/fig04_ablation_and_training_stability.png` | Methodology components | gold VAL ablation |

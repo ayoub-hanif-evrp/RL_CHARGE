@@ -144,17 +144,19 @@ def style():
 
 def plot_method_panel(ax, summaries, metric_mean, metric_ci, metric_per, ylabel, title, ylim=None):
     xs = np.arange(len(ORDER_BASE))
+    rng = np.random.default_rng(1)
     for i, m in enumerate(ORDER_BASE):
         s = summaries[m]
         color = COLOR[m]
         if s.get(metric_per):
             vals = [s[metric_per][seed] for seed in SEEDS]
-            ax.scatter(np.full(len(vals), i), vals, color=color, s=32, zorder=3, edgecolors="white", linewidths=0.4)
+            jitter = rng.uniform(-0.08, 0.08, size=len(vals))
+            ax.scatter(i + jitter, vals, color=color, s=32, zorder=3, edgecolors="white", linewidths=0.4)
             mu = s[metric_mean]
             ax.plot([i - 0.22, i + 0.22], [mu, mu], color="black", lw=2.0, zorder=4)
             if s.get(metric_ci):
                 lo, hi = s[metric_ci]
-                ax.errorbar(i, mu, yerr=[[mu - lo], [hi - mu]], fmt="none", ecolor="black", elinewidth=1.4, capsize=4, zorder=4)
+                ax.errorbar(i, mu, yerr=[[mu - lo], [hi - mu]], fmt="none", ecolor="black", elinewidth=1.6, capsize=4.5, zorder=4)
         else:
             ax.scatter([i], [s[metric_mean]], color=color, s=60, marker="D", zorder=3, edgecolors="black", linewidths=0.4)
     ax.set_xticks(xs, [LABEL[m] for m in ORDER_BASE], rotation=18, ha="right")
@@ -162,6 +164,14 @@ def plot_method_panel(ax, summaries, metric_mean, metric_ci, metric_per, ylabel,
     ax.set_title(title, loc="left")
     if ylim is not None:
         ax.set_ylim(*ylim)
+
+
+def _beta_pdf(u, alpha, beta):
+    from math import lgamma
+
+    u = np.clip(np.asarray(u, dtype=float), 1e-6, 1 - 1e-6)
+    log_b = lgamma(alpha) + lgamma(beta) - lgamma(alpha + beta)
+    return np.exp((alpha - 1) * np.log(u) + (beta - 1) * np.log(1 - u) - log_b)
 
 
 def fig01_case_study():
@@ -173,97 +183,237 @@ def fig01_case_study():
     depot = ep["depot_id"]
     stations = ep["station_ids"]
     path = ep["path_nodes"]
+    trace = ep.get("soc_trace") or []
     decisions = ep["decisions"]
+    visited_stations = [n for n in path if n in stations]
 
-    fig = plt.figure(figsize=(11.2, 3.6))
-    gs = fig.add_gridspec(1, 3, width_ratios=[1.15, 1.25, 0.95], wspace=0.32)
-    ax_map = fig.add_subplot(gs[0, 0])
-    ax_soc = fig.add_subplot(gs[0, 1])
-    ax_act = fig.add_subplot(gs[0, 2])
+    fig = plt.figure(figsize=(12.2, 4.15))
+    outer = fig.add_gridspec(1, 3, width_ratios=[1.12, 1.28, 1.05], wspace=0.30)
+    ax_map = fig.add_subplot(outer[0, 0])
+    ax_soc = fig.add_subplot(outer[0, 1])
+    right = outer[0, 2].subgridspec(2, 1, hspace=0.55, height_ratios=[1.0, 1.15])
+    ax_disc = fig.add_subplot(right[0, 0])
+    ax_beta = fig.add_subplot(right[1, 0])
 
-    # (a) route map
-    for sid in stations:
-        n = nodes[sid]
-        used = sid in path
-        ax_map.scatter(n["x"], n["y"], marker="^", s=70 if used else 40, color="#0072B2" if used else "#BBBBBB", zorder=3, alpha=1.0 if used else 0.45)
-        ax_map.text(n["x"], n["y"] + 0.025, sid, ha="center", va="bottom", fontsize=7, color="#0072B2" if used else "#888888")
-    # fixed customer sequence (dashed)
+    # --- (a) route map ---
     seq = [depot] + customers + [depot]
-    xs = [nodes[i]["x"] for i in seq]
-    ys = [nodes[i]["y"] for i in seq]
-    ax_map.plot(xs, ys, ls="--", color="#AAAAAA", lw=1.0, zorder=1, label="fixed customer order")
-    for i, cid in enumerate(customers, start=1):
-        n = nodes[cid]
-        ax_map.scatter(n["x"], n["y"], s=55, facecolors="white", edgecolors="#333333", linewidths=1.0, zorder=4)
-        ax_map.text(n["x"], n["y"], str(i), ha="center", va="center", fontsize=7, zorder=5)
-    nd = nodes[depot]
-    ax_map.scatter(nd["x"], nd["y"], marker="s", s=70, color="#000000", zorder=5)
-    ax_map.text(nd["x"], nd["y"] - 0.03, "Depot", ha="center", va="top", fontsize=7)
-    # executed path with charging detours
-    px = [nodes[i]["x"] for i in path]
-    py = [nodes[i]["y"] for i in path]
-    ax_map.plot(px, py, color="#D55E00", lw=1.8, zorder=2, label="executed path")
+    ax_map.plot(
+        [nodes[i]["x"] for i in seq],
+        [nodes[i]["y"] for i in seq],
+        ls="--",
+        color="#B0B0B0",
+        lw=1.1,
+        zorder=1,
+        label="Fixed customer order",
+    )
     for a, b in zip(path[:-1], path[1:]):
         ax_map.annotate(
             "",
             xy=(nodes[b]["x"], nodes[b]["y"]),
             xytext=(nodes[a]["x"], nodes[a]["y"]),
-            arrowprops=dict(arrowstyle="->", color="#D55E00", lw=1.2),
+            arrowprops=dict(arrowstyle="-|>", color="#D55E00", lw=1.35, mutation_scale=10),
             zorder=2,
         )
-    ax_map.set_aspect("equal", adjustable="datalim")
+    ax_map.plot(
+        [nodes[i]["x"] for i in path],
+        [nodes[i]["y"] for i in path],
+        color="#D55E00",
+        lw=1.5,
+        zorder=2,
+        label="FA-HPPO path (+ charges)",
+    )
+    for sid in stations:
+        n = nodes[sid]
+        used = sid in visited_stations
+        if used:
+            ax_map.scatter(n["x"], n["y"], marker="*", s=160, color="#0072B2", zorder=6, edgecolors="white", linewidths=0.4, label="Visited station" if sid == visited_stations[0] else None)
+            ax_map.text(n["x"], n["y"] + 0.028, sid, ha="center", va="bottom", fontsize=7, color="#0072B2", fontweight="bold")
+        else:
+            ax_map.scatter(n["x"], n["y"], marker="^", s=55, color="#C8C8C8", zorder=3, label="Unused station" if sid == stations[0] else None)
+            ax_map.text(n["x"], n["y"] + 0.022, sid, ha="center", va="bottom", fontsize=6, color="#9A9A9A")
+    for i, cid in enumerate(customers, start=1):
+        n = nodes[cid]
+        ax_map.scatter(n["x"], n["y"], s=62, facecolors="white", edgecolors="#222222", linewidths=1.05, zorder=5, label="Customer (order)" if i == 1 else None)
+        ax_map.text(n["x"], n["y"], str(i), ha="center", va="center", fontsize=7, zorder=6)
+    nd = nodes[depot]
+    ax_map.scatter(nd["x"], nd["y"], marker="s", s=78, color="#000000", zorder=7, label="Depot")
+    ax_map.text(nd["x"], nd["y"] - 0.035, "Depot", ha="center", va="top", fontsize=7)
+    # Zoom to visited path with padding; unused stations remain if nearby
+    vx = [nodes[i]["x"] for i in path]
+    vy = [nodes[i]["y"] for i in path]
+    pad_x = max(0.04, 0.08 * (max(vx) - min(vx) + 1e-9))
+    pad_y = max(0.04, 0.08 * (max(vy) - min(vy) + 1e-9))
+    ax_map.set_xlim(min(vx) - pad_x, max(vx) + pad_x)
+    ax_map.set_ylim(min(vy) - pad_y, max(vy) + pad_y)
+    ax_map.set_aspect("equal", adjustable="box")
     ax_map.set_xlabel("x (normalized)")
     ax_map.set_ylabel("y (normalized)")
-    ax_map.set_title("(a) Fixed-route map", loc="left")
-    ax_map.legend(loc="best", frameon=False, fontsize=6.5)
-    ax_map.text(0.02, 0.02, "Customer order fixed;\nFA-HPPO inserts charges", transform=ax_map.transAxes, fontsize=6.5, va="bottom")
+    ax_map.set_title("(a) Fixed route + charging detours", loc="left")
+    ax_map.text(0.02, 0.98, "Customer order fixed;\nFA-HPPO inserts charges", transform=ax_map.transAxes, fontsize=6.5, va="top")
+    handles, labels = ax_map.get_legend_handles_labels()
+    # de-duplicate labels
+    seen = set()
+    uniq = []
+    for h, lab in zip(handles, labels):
+        if lab not in seen:
+            uniq.append((h, lab))
+            seen.add(lab)
+    ax_map.legend([h for h, _ in uniq], [lab for _, lab in uniq], loc="upper left", bbox_to_anchor=(0.0, -0.18), frameon=False, fontsize=6.2, ncol=2)
 
-    # (b) SOC trajectory
-    ts, socs = [], []
-    for d in decisions:
-        ts.extend([d["time_before"], d["time_after"]])
-        socs.extend([d["soc_before"], d["soc_after"]])
-    ax_soc.plot(ts, [100 * s for s in socs], color="#0072B2", lw=1.8, zorder=3)
-    for d in decisions:
-        if d.get("action") == "CHARGE":
-            t = 0.5 * (d["time_before"] + d["time_after"])
-            lo, hi, tgt = d["soc_lower"], d["soc_upper"], d["soc_target"]
-            ax_soc.fill_between([d["time_before"], d["time_after"]], 100 * lo, 100 * hi, color="#56B4E9", alpha=0.35, zorder=1)
-            ax_soc.scatter([t], [100 * tgt], marker="*", s=70, color="#D55E00", zorder=4)
-            ax_soc.axvline(d["time_before"], color="#56B4E9", lw=0.8, alpha=0.7)
-    # mark customers on time axis roughly at CONTINUE arrivals
-    for d in decisions:
-        if d.get("action") == "CONTINUE" and str(d.get("location_after", "")).startswith("C"):
-            ax_soc.scatter([d["time_after"]], [100 * d["soc_after"]], s=18, color="#333333", zorder=4)
-    ax_soc.set_ylim(0, 105)
-    ax_soc.set_xlabel("Time")
-    ax_soc.set_ylabel("SOC (%)")
-    ax_soc.set_title("(b) SOC + feasibility envelope", loc="left")
-    ax_soc.text(0.98, 0.08, r"$SOC_{tgt}=SOC_{lo}+u(SOC_{hi}-SOC_{lo})$", transform=ax_soc.transAxes, ha="right", fontsize=6.5)
-
-    # (c) action strip
-    labels = []
-    colors = []
+    # --- (b) SOC along visit sequence ---
+    # Travel = sloping segments; charging = vertical jump at the station index.
+    points = [(0.0, 100.0 * float(trace[0]["soc"]) if trace else 100.0, "start", None)]
+    cursor = 0
     for d in decisions:
         if d.get("action") == "CONTINUE":
-            labels.append("CONT")
-            colors.append("#999999")
+            cursor += 1
+            soc_arr = 100 * float(d["soc_after"])
+            points.append((float(cursor), soc_arr, "arrive", d))
         elif d.get("action") == "CHARGE":
-            labels.append(f"CHG {d.get('station_id')}")
-            colors.append("#0072B2")
+            cursor += 1
+            soc_arr = 100 * float(d.get("soc_arrival", d["soc_before_decision"]))
+            points.append((float(cursor), soc_arr, "station_arrive", d))
+            soc_dep = 100 * float(d.get("soc_departure", d["soc_after"]))
+            points.append((float(cursor), soc_dep, "charge_depart", d))
+    for (x0, y0, _k0, _), (x1, y1, k1, _meta) in zip(points[:-1], points[1:]):
+        if k1 == "charge_depart":
+            ax_soc.plot([x0, x1], [y0, y1], color="#D55E00", lw=2.4, zorder=3)
         else:
-            labels.append(str(d.get("action")))
-            colors.append("#D55E00")
-    y = np.arange(len(labels))
-    ax_act.barh(y[::-1], np.ones(len(labels)), color=colors, height=0.72)
-    ax_act.set_yticks(y[::-1], labels, fontsize=7)
-    ax_act.set_xlim(0, 1)
-    ax_act.set_xticks([])
-    ax_act.set_xlabel("Decision sequence")
-    ax_act.set_title("(c) Hybrid actions", loc="left")
-    ax_act.text(0.02, -0.18, "CONTINUE / CHARGE station", transform=ax_act.transAxes, fontsize=6.5)
+            ax_soc.plot([x0, x1], [y0, y1], color="#0072B2", lw=1.8, zorder=3)
+    for x, y, kind, meta in points:
+        if kind == "station_arrive":
+            ax_soc.scatter([x], [y], s=30, color="#0072B2", zorder=5, edgecolors="white", linewidths=0.4)
+            if meta:
+                lo, hi = 100 * meta["soc_lower"], 100 * meta["soc_upper"]
+                ax_soc.fill_between([x - 0.18, x + 0.18], lo, hi, color="#56B4E9", alpha=0.35, zorder=1)
+                ax_soc.plot([x, x], [lo, hi], color="#56B4E9", lw=1.0, alpha=0.85, zorder=2)
+        elif kind == "charge_depart":
+            ax_soc.scatter([x], [y], marker="*", s=95, color="#D55E00", zorder=6)
+        elif kind == "arrive":
+            ax_soc.scatter([x], [y], s=18, color="#333333", zorder=4)
+    min_soc = 100 * float(ep.get("min_soc_fraction", 0.0))
+    ax_soc.axhline(min_soc, color="#888888", ls="--", lw=0.8)
+    cust_rank = {cid: str(i) for i, cid in enumerate(customers, start=1)}
+    xticklabels = []
+    for nid in path:
+        if nid == depot:
+            xticklabels.append("D")
+        elif nid in cust_rank:
+            xticklabels.append(cust_rank[nid])
+        else:
+            xticklabels.append(nid)
+    ax_soc.set_xticks(range(len(path)), xticklabels, fontsize=7)
+    ax_soc.set_ylim(-2, 108)
+    ax_soc.set_xlim(-0.3, len(path) - 0.7)
+    ax_soc.set_ylabel("SOC (%)")
+    ax_soc.set_xlabel("Visit order (customer # / station / depot)")
+    ax_soc.set_title("(b) SOC evolution along route", loc="left")
+    ax_soc.text(
+        0.98,
+        0.06,
+        r"$SOC_{tgt}=SOC_{lo}+u\,(SOC_{hi}-SOC_{lo})$",
+        transform=ax_soc.transAxes,
+        ha="right",
+        fontsize=6.5,
+    )
+    for x, y, kind, meta in points:
+        if kind == "charge_depart" and meta and meta.get("step") == ep.get("representative_charge_step"):
+            ax_soc.annotate(
+                f"target {y:.0f}%\n[lo,hi]=[{100*meta['soc_lower']:.0f},{100*meta['soc_upper']:.0f}]",
+                xy=(x, y),
+                xytext=(min(x + 0.7, len(path) - 1.2), min(102, y + 6)),
+                fontsize=6,
+                arrowprops=dict(arrowstyle="->", color="#555555", lw=0.7),
+            )
+            break
 
-    fig.suptitle("Illustrative SynthCharge VAL episode — not TEST evidence", fontsize=9, color="#8B0000", y=1.02)
+    # --- (c) representative hybrid decision ---
+    rep_step = ep.get("representative_charge_step")
+    rep = next((d for d in decisions if d.get("step") == rep_step and d.get("action") == "CHARGE"), None)
+    if rep is None:
+        rep = next((d for d in decisions if d.get("action") == "CHARGE"), None)
+    if rep is None:
+        ax_disc.text(0.5, 0.5, "no charge decision", ha="center")
+        ax_beta.axis("off")
+    else:
+        names = rep["policy"]["action_names"]
+        probs = np.asarray(rep["policy"]["probs"], dtype=float)
+        mask = np.asarray(rep["policy"]["mask"], dtype=bool)
+        xs = np.arange(len(names))
+        colors = []
+        for i, name in enumerate(names):
+            if not mask[i]:
+                colors.append("#DDDDDD")
+            elif name == rep.get("station_id") or (name.startswith("S") and name == rep.get("station_id")):
+                colors.append("#0072B2")
+            elif i == rep["discrete"]:
+                colors.append("#0072B2")
+            else:
+                colors.append("#9E9E9E")
+        ax_disc.bar(xs, np.where(mask, probs, 0.0), color=colors, width=0.72, edgecolor="#444444", linewidth=0.4)
+        for i, (_name, mflag) in enumerate(zip(names, mask)):
+            if not mflag:
+                ax_disc.bar(i, max(float(probs.max()) * 0.08, 0.04), color="none", edgecolor="#888888", hatch="////", width=0.72)
+                ax_disc.text(i, max(float(probs.max()) * 0.08, 0.04) + 0.02, "masked", ha="center", va="bottom", fontsize=5.5, color="#666666", rotation=90)
+        ax_disc.set_xticks(xs, names, fontsize=7)
+        ax_disc.set_ylim(0, 1.08)
+        ax_disc.set_ylabel("Probability")
+        ax_disc.set_title(f"(c) Hybrid decision @ {rep.get('station_id')}", loc="left", fontsize=9)
+        ax_disc.text(0.98, 0.92, "softmax(masked logits)", transform=ax_disc.transAxes, ha="right", fontsize=6, color="#555555")
+
+        alpha = float(rep["alpha"])
+        beta = float(rep["beta"])
+        u = float(rep["u"])
+        ugrid = np.linspace(0.001, 0.999, 300)
+        dens = _beta_pdf(ugrid, alpha, beta)
+        ax_beta.fill_between(ugrid, dens, color="#56B4E9", alpha=0.35)
+        ax_beta.plot(ugrid, dens, color="#0072B2", lw=1.5)
+        ax_beta.axvline(u, color="#D55E00", lw=1.6)
+        ax_beta.axvline(alpha / (alpha + beta), color="#333333", ls=":", lw=1.0)
+        ax_beta.set_xlabel(r"$u\in[0,1]$")
+        ax_beta.set_ylabel(r"Beta dens.")
+        lo, hi, tgt = rep["soc_lower"], rep["soc_upper"], rep["soc_target"]
+        ax_beta.set_title(
+            rf"Beta$(\alpha={alpha:.1f},\beta={beta:.1f})$  $u={u:.2f}$",
+            loc="left",
+            fontsize=8,
+        )
+        ax_beta.text(
+            0.02,
+            0.95,
+            rf"$SOC_{{lo}}={100*lo:.0f}\%\rightarrow SOC_{{tgt}}={100*tgt:.0f}\%\rightarrow SOC_{{hi}}={100*hi:.0f}\%$",
+            transform=ax_beta.transAxes,
+            va="top",
+            fontsize=6.3,
+        )
+        feats = rep.get("station_features", {}).get(rep.get("station_id"), {})
+        if feats:
+            ax_beta.text(
+                0.98,
+                0.55,
+                "\n".join(
+                    [
+                        f"dist→CS={feats.get('dist_to_station', float('nan')):.2f}",
+                        f"E→CS={feats.get('energy_to_station', float('nan')):.2f}",
+                        f"detour t={feats.get('detour_time', float('nan')):.2f}",
+                        f"slack={feats.get('slack_to_next_after_travel', float('nan')):.2f}",
+                    ]
+                ),
+                transform=ax_beta.transAxes,
+                ha="right",
+                va="top",
+                fontsize=5.8,
+                color="#333333",
+                bbox=dict(boxstyle="round,pad=0.2", facecolor="white", edgecolor="#CCCCCC", alpha=0.9),
+            )
+
+    fig.suptitle(
+        "Illustrative SynthCharge VAL episode — not TEST evidence\n"
+        f"{ep['route_id']}  (geometry-selected RC/medium; FA-HPPO seed 42)",
+        fontsize=9,
+        color="#8B0000",
+        y=1.05,
+    )
     save_png(fig, FIG / "fig01_method_case_study.png")
 
 
@@ -295,9 +445,9 @@ def fig03_effects():
         "HybridPPO - GreedyMinimumSufficientCharge": "vs Greedy Min",
     }
     fig, axes = plt.subplots(1, 2, figsize=(8.4, 3.3))
-    for ax, family, xlab, scale, direction in (
-        (axes[0], "feasibility", "Feasibility effect (percentage points)", 100.0, "right"),
-        (axes[1], "completion_all", "Completion effect", 1.0, "left"),
+    for ax, family, scale in (
+        (axes[0], "feasibility", 100.0),
+        (axes[1], "completion_all", 1.0),
     ):
         rows = [t for name in order for t in paired if t["comparison"] == name and t["family"] == family]
         ys = np.arange(len(rows))[::-1]
@@ -308,12 +458,9 @@ def fig03_effects():
             ax.plot(eff, y, "o", color="#0072B2", ms=6.5)
         ax.axvline(0, color="black", lw=0.8)
         ax.set_yticks(ys, [short[t["comparison"]] for t in rows])
-        ax.set_xlabel(xlab)
         ax.set_title("(a) Feasibility" if family == "feasibility" else "(b) Completion", loc="left")
-        if direction == "right":
-            ax.annotate("FA-HPPO better →", xy=(0.98, 0.02), xycoords="axes fraction", ha="right", fontsize=7)
-        else:
-            ax.annotate("← FA-HPPO better", xy=(0.02, 0.02), xycoords="axes fraction", ha="left", fontsize=7)
+    axes[0].set_xlabel("Feasibility effect (percentage points)\nFA-HPPO better →")
+    axes[1].set_xlabel("Completion effect\n← FA-HPPO better")
     fig.suptitle("Paired FA-HPPO − baseline effects (all Holm-adjusted p < 0.001)", fontsize=9.5)
     fig.tight_layout()
     save_png(fig, FIG / "fig03_effect_sizes.png")
@@ -663,7 +810,7 @@ PNG figures only. Single source of truth for the manuscript.
 
 | Artifact | Role | Evidence |
 |----------|------|----------|
-| `figures/fig01_method_case_study.png` | Method illustration (route + SOC envelope + actions) | **VAL** case study JSON — not TEST |
+| `figures/fig01_method_case_study.png` | Method illustration (route + SOC-along-route + hybrid decision) | **VAL** case study JSON — not TEST |
 | `figures/fig02_main_test.png` | Confirmatory performance | V3 TEST |
 | `figures/fig03_effect_sizes.png` | Paired effect sizes | V3 TEST / `paired_primary.json` |
 | `figures/fig04_ablation_and_training_stability.png` | Methodology components | gold VAL ablation |

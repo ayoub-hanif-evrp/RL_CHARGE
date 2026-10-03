@@ -4,7 +4,7 @@
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/README.md",
       "role": "index",
-      "sha256": "5ca12a10900a62fd5e44082a3a21993d4d3acb3f55a0236077815ee0c46005e0"
+      "sha256": "6bc68a1ce739caacd013c73717b55913fc67e5114cb693a91fd4ba9ab8f14e2c"
     },
     {
       "dataset": "SynthCharge VAL",
@@ -12,7 +12,7 @@
       "note": "not TEST",
       "path": "results_paper/case_study/illustrative_val_episode.json",
       "role": "methodology-illustration",
-      "sha256": "28c030b7c16e19c8d8f2fb0323c2488095f2cabe9a35630852a9dd26d6dabeb8"
+      "sha256": "e9e16a9fe01e74cb87f9619494d6f6a102931c950a538f018daa81e042206dce"
     },
     {
       "dataset": "SynthCharge VAL",
@@ -20,7 +20,7 @@
       "n_seeds": 1,
       "path": "results_paper/figures/fig01_method_case_study.png",
       "role": "main-methodology",
-      "sha256": "86c4792ab491d9f1e636a5bdef547e60e8ff58667b62e900c767c0b61d5fd14c"
+      "sha256": "12c349e95b429355bd5ee4c72f781ba3874e5423b8e31f1d7f21fab67a486761"
     },
     {
       "dataset": "SynthCharge V3 TEST",
@@ -29,7 +29,7 @@
       "n_seeds": 5,
       "path": "results_paper/figures/fig02_main_test.png",
       "role": "main",
-      "sha256": "072e553731cccf0990ad733a3c84c07ed12bd366b71f413c6ed88bd70a87f1ef"
+      "sha256": "4f9e88f673d7600aeb7f50b10931a91defd74a31b2b78ccea9f9b5989abc6cf2"
     },
     {
       "dataset": "SynthCharge V3 TEST",
@@ -38,7 +38,7 @@
       "n_seeds": 5,
       "path": "results_paper/figures/fig03_effect_sizes.png",
       "role": "main",
-      "sha256": "62aa54a400a7dbbf5bd7fc8522a03bf28b5db4cc19824f2c7106f4b11c519be6"
+      "sha256": "da1206d9d5bf5c3f70d2718616ce1086457a52c1c7151e1c9b42a2acf66039fe"
     },
     {
       "dataset": "gold VAL",

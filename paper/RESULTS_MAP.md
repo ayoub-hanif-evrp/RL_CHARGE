@@ -10,7 +10,7 @@ python scripts/paper/build_results_paper.py --verify
 
 | Paper item | Path | Source | Role |
 |------------|------|--------|------|
-| Fig 1 | `results_paper/figures/fig01_method_case_study.png` | `case_study/illustrative_val_episode.json` (VAL) | methodology illustration — **not TEST** |
+| Fig 1 | `results_paper/figures/fig01_method_case_study.png` | `case_study/illustrative_val_episode.json` (VAL; geometry-selected RC/medium) | methodology: route + SOC-along-route + hybrid decision — **not TEST** |
 | Fig 2 | `results_paper/figures/fig02_main_test.png` | V3 raw | confirmatory |
 | Fig 3 | `results_paper/figures/fig03_effect_sizes.png` | `paired_primary.json` | confirmatory |
 | Fig 4 | `results_paper/figures/fig04_ablation_and_training_stability.png` | ablation/ | development VAL |

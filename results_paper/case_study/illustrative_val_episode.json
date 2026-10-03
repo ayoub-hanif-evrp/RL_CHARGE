@@ -1,114 +1,116 @@
 {
+  "bbox_area_visited": 0.45883678360310637,
   "charge_class": "charging_required",
   "checkpoint": "checkpoints_v2/final/synthcharge/HybridPPO/seed_42/best.pt",
   "checkpoint_sha256": "143e16bb2a30dbd6df483d0d3088785ee1f679745ba2d48726227102d9ba1f20",
   "completed": true,
   "customer_ids": [
-    "C11",
-    "C3",
-    "C4",
     "C7",
     "C6",
-    "C5",
-    "C8"
+    "C12",
+    "C13",
+    "C9",
+    "C15",
+    "C10",
+    "C8",
+    "C11"
   ],
   "decisions": [
-    {
-      "action": "CHARGE",
-      "continue_legal": true,
-      "discrete": 1,
-      "feasible": true,
-      "location_after": "S0",
-      "location_before": "D0",
-      "next_customer_index": 0,
-      "soc_after": 0.9971805336865502,
-      "soc_before": 1.0,
-      "soc_lower": 0.9642967052671162,
-      "soc_target": 0.9971805336865501,
-      "soc_upper": 1.0,
-      "station_id": "S0",
-      "step": 0,
-      "time_after": 0.07027880294038756,
-      "time_before": 0.0,
-      "u": 0.9210306406021118
-    },
-    {
-      "action": "CONTINUE",
-      "continue_legal": true,
-      "discrete": 0,
-      "feasible": true,
-      "location_after": "C11",
-      "location_before": "S0",
-      "next_customer_index": 0,
-      "soc_after": 0.6927748635789743,
-      "soc_before": 0.9971805336865502,
-      "step": 1,
-      "time_after": 2.02669461,
-      "time_before": 0.07027880294038756,
-      "u": 0.0
-    },
-    {
-      "action": "CHARGE",
-      "continue_legal": true,
-      "discrete": 2,
-      "feasible": true,
-      "location_after": "S1",
-      "location_before": "C11",
-      "next_customer_index": 1,
-      "soc_after": 0.9375936959833603,
-      "soc_before": 0.6927748635789743,
-      "soc_lower": 0.21167822873829567,
-      "soc_target": 0.9375936959833602,
-      "soc_upper": 1.0,
-      "station_id": "S1",
-      "step": 2,
-      "time_after": 3.0868154126431113,
-      "time_before": 2.02669461,
-      "u": 0.9208365082740784
-    },
-    {
-      "action": "CONTINUE",
-      "continue_legal": true,
-      "discrete": 0,
-      "feasible": true,
-      "location_after": "C3",
-      "location_before": "S1",
-      "next_customer_index": 1,
-      "soc_after": 0.9083269551176435,
-      "soc_before": 0.9375936959833603,
-      "step": 3,
-      "time_after": 3.155323298028258,
-      "time_before": 3.0868154126431113,
-      "u": 0.0
-    },
-    {
-      "action": "CONTINUE",
-      "continue_legal": true,
-      "discrete": 0,
-      "feasible": true,
-      "location_after": "C4",
-      "location_before": "C3",
-      "next_customer_index": 2,
-      "soc_after": 0.8714080467822961,
-      "soc_before": 0.9083269551176435,
-      "step": 4,
-      "time_after": 3.235267401364814,
-      "time_before": 3.155323298028258,
-      "u": 0.0
-    },
     {
       "action": "CONTINUE",
       "continue_legal": true,
       "discrete": 0,
       "feasible": true,
       "location_after": "C7",
-      "location_before": "C4",
-      "next_customer_index": 3,
-      "soc_after": 0.864037721174864,
-      "soc_before": 0.8714080467822961,
-      "step": 5,
-      "time_after": 3.2742217423367057,
-      "time_before": 3.235267401364814,
+      "location_before": "D0",
+      "next_customer_index": 0,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": null,
+        "alpha_all": [
+          1.0015630722045898,
+          1.0014925003051758,
+          1.086455225944519
+        ],
+        "beta": null,
+        "beta_all": [
+          1.9840097427368164,
+          1.997942328453064,
+          3.798128366470337
+        ],
+        "logits": [
+          10.695367813110352,
+          -1.070587396621704,
+          -1.139657974243164,
+          6.520333766937256
+        ],
+        "mask": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "probs": [
+          0.9848435521125793,
+          7.646768608537968e-06,
+          7.136427484510932e-06,
+          0.015141642652451992
+        ]
+      },
+      "soc_after": 0.9549320489615983,
+      "soc_before_decision": 1.0,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": 1.218738317489624,
+          "detour_time": 0.2000349462032318,
+          "dist_station_to_next": -0.009340448305010796,
+          "dist_to_station": 0.0860324501991272,
+          "energy_station_to_next": -0.009340448305010796,
+          "energy_to_station": 0.0860324501991272,
+          "slack_to_next_after_travel": 1.7003370523452759,
+          "soc_lower": 1.218738317489624,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.009340448305010796,
+          "travel_time_to_station": 0.0860324501991272
+        },
+        "S1": {
+          "arrival_soc_proxy": 1.3437525033950806,
+          "detour_time": 0.1849173903465271,
+          "dist_station_to_next": 0.10830646753311157,
+          "dist_to_station": -0.06138911843299866,
+          "energy_station_to_next": 0.10830646753311157,
+          "energy_to_station": -0.06138911843299866,
+          "slack_to_next_after_travel": 1.7322620153427124,
+          "soc_lower": 1.3437525033950806,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.10830646753311157,
+          "travel_time_to_station": -0.06138911843299866
+        },
+        "S2": {
+          "arrival_soc_proxy": 2.237406015396118,
+          "detour_time": -0.8846120238304138,
+          "dist_station_to_next": -0.9864708781242371,
+          "dist_to_station": -1.1152201890945435,
+          "energy_station_to_next": -0.9864708781242371,
+          "energy_to_station": -1.1152201890945435,
+          "slack_to_next_after_travel": 1.9604747295379639,
+          "soc_lower": 2.237406015396118,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.9864708781242371,
+          "travel_time_to_station": -1.1152201890945435
+        }
+      },
+      "step": 0,
+      "time_after": 1.22182571,
+      "time_before": 0.0,
       "u": 0.0
     },
     {
@@ -118,12 +120,94 @@
       "feasible": true,
       "location_after": "C6",
       "location_before": "C7",
-      "next_customer_index": 4,
-      "soc_after": 0.8356347651719381,
-      "soc_before": 0.864037721174864,
-      "step": 6,
-      "time_after": 3.338004091941387,
-      "time_before": 3.2742217423367057,
+      "next_customer_index": 1,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": null,
+        "alpha_all": [
+          1.0005885362625122,
+          1.0005124807357788,
+          1.0037803649902344
+        ],
+        "beta": null,
+        "beta_all": [
+          2.395209312438965,
+          2.3693275451660156,
+          2.927415609359741
+        ],
+        "logits": [
+          13.00922966003418,
+          -1.3327500820159912,
+          -2.0676918029785156,
+          5.726300239562988
+        ],
+        "mask": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "probs": [
+          0.9993125200271606,
+          5.902806492485979e-07,
+          2.83059364392102e-07,
+          0.0006866971962153912
+        ]
+      },
+      "soc_after": 0.9127280219927086,
+      "soc_before_decision": 0.9549320489615983,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": 1.0440908670425415,
+          "detour_time": 0.217434823513031,
+          "dist_station_to_next": 0.08841188251972198,
+          "dist_to_station": 0.005380077287554741,
+          "energy_station_to_next": 0.08841188251972198,
+          "energy_to_station": 0.005380077287554741,
+          "slack_to_next_after_travel": 0.4940073788166046,
+          "soc_lower": 1.0440908670425415,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.08841188251972198,
+          "travel_time_to_station": 0.005380077287554741
+        },
+        "S1": {
+          "arrival_soc_proxy": 0.9447720050811768,
+          "detour_time": 0.32257765531539917,
+          "dist_station_to_next": 0.1824548840522766,
+          "dist_to_station": 0.12250078469514847,
+          "energy_station_to_next": 0.1824548840522766,
+          "energy_to_station": 0.12250078469514847,
+          "slack_to_next_after_travel": 0.46864426136016846,
+          "soc_lower": 0.9447720050811768,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.1824548840522766,
+          "travel_time_to_station": 0.12250078469514847
+        },
+        "S2": {
+          "arrival_soc_proxy": 1.8689957857131958,
+          "detour_time": -0.7684409618377686,
+          "dist_station_to_next": -0.9193764328956604,
+          "dist_to_station": -0.9673798084259033,
+          "energy_station_to_next": -0.9193764328956604,
+          "energy_to_station": -0.9673798084259033,
+          "slack_to_next_after_travel": 0.7046637535095215,
+          "soc_lower": 1.8689957857131958,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.9193764328956604,
+          "travel_time_to_station": -0.9673798084259033
+        }
+      },
+      "step": 1,
+      "time_after": 1.3047291831502237,
+      "time_before": 1.22182571,
       "u": 0.0
     },
     {
@@ -131,14 +215,694 @@
       "continue_legal": true,
       "discrete": 0,
       "feasible": true,
-      "location_after": "C5",
+      "location_after": "C12",
       "location_before": "C6",
+      "next_customer_index": 2,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": null,
+        "alpha_all": [
+          1.4293447732925415,
+          1.0711597204208374,
+          1.7505265474319458
+        ],
+        "beta": null,
+        "beta_all": [
+          1.373130202293396,
+          1.0751835107803345,
+          1.5414471626281738
+        ],
+        "logits": [
+          5.958139419555664,
+          0.5586780905723572,
+          -6.487534523010254,
+          1.301346778869629
+        ],
+        "mask": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "probs": [
+          0.9861739873886108,
+          0.004456534516066313,
+          3.8803063944214955e-06,
+          0.009365569800138474
+        ]
+      },
+      "soc_after": 0.7357173296179411,
+      "soc_before_decision": 0.9127280219927086,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": 0.7339707016944885,
+          "detour_time": -0.3586340546607971,
+          "dist_station_to_next": -0.3080359995365143,
+          "dist_to_station": 0.10269517451524734,
+          "energy_station_to_next": -0.3080359995365143,
+          "energy_to_station": 0.10269517451524734,
+          "slack_to_next_after_travel": 1.2622976303100586,
+          "soc_lower": 0.7339707016944885,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.3080359995365143,
+          "travel_time_to_station": 0.10269517451524734
+        },
+        "S1": {
+          "arrival_soc_proxy": 0.6545785069465637,
+          "detour_time": 0.48700591921806335,
+          "dist_station_to_next": 1.3004951477050781,
+          "dist_to_station": 0.19631755352020264,
+          "energy_station_to_next": 1.3004951477050781,
+          "energy_to_station": 0.19631755352020264,
+          "slack_to_next_after_travel": 1.2420231103897095,
+          "soc_lower": 0.6545785069465637,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 1.3004951477050781,
+          "travel_time_to_station": 0.19631755352020264
+        },
+        "S2": {
+          "arrival_soc_proxy": 1.5847573280334473,
+          "detour_time": -0.6045181751251221,
+          "dist_station_to_next": 0.20470008254051208,
+          "dist_to_station": -0.9005854725837708,
+          "energy_station_to_next": 0.20470008254051208,
+          "energy_to_station": -0.9005854725837708,
+          "slack_to_next_after_travel": 1.4795633554458618,
+          "soc_lower": 1.5847573280334473,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.20470008254051208,
+          "travel_time_to_station": -0.9005854725837708
+        }
+      },
+      "step": 2,
+      "time_after": 2.02827442,
+      "time_before": 1.3047291831502237,
+      "u": 0.0
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C13",
+      "location_before": "C12",
+      "next_customer_index": 3,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": null,
+        "alpha_all": [
+          1.0031635761260986,
+          1.0011379718780518,
+          1.0040628910064697
+        ],
+        "beta": null,
+        "beta_all": [
+          1.7425018548965454,
+          1.3959022760391235,
+          1.7678593397140503
+        ],
+        "logits": [
+          8.483872413635254,
+          -3.1953792572021484,
+          -9.126677513122559,
+          -2.0821478366851807
+        ],
+        "mask": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "probs": [
+          0.9999657869338989,
+          8.467409315926488e-06,
+          2.248125063886164e-08,
+          2.5776322218007408e-05
+        ]
+      },
+      "soc_after": 0.5564298565074863,
+      "soc_before_decision": 0.7357173296179411,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": 0.11407911032438278,
+          "detour_time": 0.004452359862625599,
+          "dist_station_to_next": 0.8339778780937195,
+          "dist_to_station": -0.29197946190834045,
+          "energy_station_to_next": 0.8339778780937195,
+          "energy_to_station": -0.29197946190834045,
+          "slack_to_next_after_travel": 0.7249958515167236,
+          "soc_lower": 0.11407911032438278,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.8339778780937195,
+          "travel_time_to_station": -0.29197946190834045
+        },
+        "S1": {
+          "arrival_soc_proxy": 0.3565807640552521,
+          "detour_time": 0.9692989587783813,
+          "dist_station_to_next": 1.168026328086853,
+          "dist_to_station": 1.309356927871704,
+          "energy_station_to_next": 1.168026328086853,
+          "energy_to_station": 1.309356927871704,
+          "slack_to_next_after_travel": 0.3782179057598114,
+          "soc_lower": 0.3565807640552521,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 1.168026328086853,
+          "travel_time_to_station": 1.309356927871704
+        },
+        "S2": {
+          "arrival_soc_proxy": -0.3187786340713501,
+          "detour_time": -0.046271923929452896,
+          "dist_station_to_next": 0.21911579370498657,
+          "dist_to_station": 0.2184632420539856,
+          "energy_station_to_next": 0.21911579370498657,
+          "energy_to_station": 0.2184632420539856,
+          "slack_to_next_after_travel": 0.6144567728042603,
+          "soc_lower": -0.3187786340713501,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.21911579370498657,
+          "travel_time_to_station": 0.2184632420539856
+        }
+      },
+      "step": 3,
+      "time_after": 2.333113806976727,
+      "time_before": 2.02827442,
+      "u": 0.0
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C9",
+      "location_before": "C13",
+      "next_customer_index": 4,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": null,
+        "alpha_all": [
+          1.0000617504119873,
+          1.0000810623168945,
+          1.000418782234192
+        ],
+        "beta": null,
+        "beta_all": [
+          2.3343234062194824,
+          2.3678793907165527,
+          2.6626603603363037
+        ],
+        "logits": [
+          12.24315071105957,
+          -9.402849197387695,
+          -7.8962812423706055,
+          -2.0815908908843994
+        ],
+        "mask": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "probs": [
+          0.9999994039535522,
+          3.9743069946140963e-10,
+          1.7928996065563751e-09,
+          6.00957321239548e-07
+        ]
+      },
+      "soc_after": 0.4373079313647695,
+      "soc_before_decision": 0.5564298565074863,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": 0.6308363676071167,
+          "detour_time": 1.0898351669311523,
+          "dist_station_to_next": 1.4928922653198242,
+          "dist_to_station": 0.8449264168739319,
+          "energy_station_to_next": 1.4928922653198242,
+          "energy_to_station": 0.8449264168739319,
+          "slack_to_next_after_travel": -0.12787729501724243,
+          "soc_lower": 0.6308363676071167,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 1.4928922653198242,
+          "travel_time_to_station": 0.8449264168739319
+        },
+        "S1": {
+          "arrival_soc_proxy": 0.13314493000507355,
+          "detour_time": 0.9629397988319397,
+          "dist_station_to_next": 0.9033582806587219,
+          "dist_to_station": 1.177480697631836,
+          "energy_station_to_next": 0.9033582806587219,
+          "energy_to_station": 1.177480697631836,
+          "slack_to_next_after_travel": -0.19989371299743652,
+          "soc_lower": 0.13314493000507355,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.9033582806587219,
+          "travel_time_to_station": 1.177480697631836
+        },
+        "S2": {
+          "arrival_soc_proxy": -0.5040326118469238,
+          "detour_time": 0.11675504595041275,
+          "dist_station_to_next": 0.1485978364944458,
+          "dist_to_station": 0.2328144758939743,
+          "energy_station_to_next": 0.1485978364944458,
+          "energy_to_station": 0.2328144758939743,
+          "slack_to_next_after_travel": 0.004678813740611076,
+          "soc_lower": -0.5040326118469238,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.1485978364944458,
+          "travel_time_to_station": 0.2328144758939743
+        }
+      },
+      "step": 4,
+      "time_after": 2.5463406572050737,
+      "time_before": 2.333113806976727,
+      "u": 0.0
+    },
+    {
+      "action": "CHARGE",
+      "alpha": 12.264013290405273,
+      "beta": 1.055464744567871,
+      "continue_legal": true,
+      "discrete": 3,
+      "feasible": true,
+      "location_after": "S2",
+      "location_before": "C9",
       "next_customer_index": 5,
-      "soc_after": 0.8049306227456035,
-      "soc_before": 0.8356347651719381,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": 12.264013290405273,
+        "alpha_all": [
+          9.67174243927002,
+          12.050633430480957,
+          12.264013290405273
+        ],
+        "beta": 1.055464744567871,
+        "beta_all": [
+          1.022655963897705,
+          1.047847867012024,
+          1.055464744567871
+        ],
+        "logits": [
+          -7.5554375648498535,
+          -1000000000.0,
+          -1000000000.0,
+          3.406174421310425
+        ],
+        "mask": [
+          true,
+          false,
+          false,
+          true
+        ],
+        "probs": [
+          1.7355012460029684e-05,
+          0.0,
+          0.0,
+          0.9999825954437256
+        ]
+      },
+      "soc_after": 0.9334431942475513,
+      "soc_arrival": 0.09101668007523878,
+      "soc_before_decision": 0.4373079313647695,
+      "soc_departure": 0.9334431942475513,
+      "soc_lower": 0.16008413437379687,
+      "soc_target": 0.9334431942475513,
+      "soc_upper": 1.0,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": -0.13227134943008423,
+          "detour_time": 0.6672090291976929,
+          "dist_station_to_next": 0.5889628529548645,
+          "dist_to_station": 1.5008935928344727,
+          "energy_station_to_next": 0.5889628529548645,
+          "energy_to_station": 1.5008935928344727,
+          "slack_to_next_after_travel": -0.10917091369628906,
+          "soc_lower": -0.13227134943008423,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.5889628529548645,
+          "travel_time_to_station": 1.5008935928344727
+        },
+        "S1": {
+          "arrival_soc_proxy": -0.6407762169837952,
+          "detour_time": 0.07522378116846085,
+          "dist_station_to_next": -0.013380044139921665,
+          "dist_to_station": 0.9139964580535889,
+          "energy_station_to_next": -0.013380044139921665,
+          "energy_to_station": 0.9139964580535889,
+          "slack_to_next_after_travel": 0.017924798652529716,
+          "soc_lower": -0.6407762169837952,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.013380044139921665,
+          "travel_time_to_station": 0.9139964580535889
+        },
+        "S2": {
+          "arrival_soc_proxy": -1.5082043409347534,
+          "detour_time": -0.8099954128265381,
+          "dist_station_to_next": -1.040880799293518,
+          "dist_to_station": 0.1626119464635849,
+          "energy_station_to_next": -1.040880799293518,
+          "energy_to_station": 0.1626119464635849,
+          "slack_to_next_after_travel": 0.18064112961292267,
+          "soc_lower": -1.5082043409347534,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -1.040880799293518,
+          "travel_time_to_station": 0.1626119464635849
+        }
+      },
+      "station_id": "S2",
+      "step": 5,
+      "time_after": 3.437377264937248,
+      "time_before": 2.5463406572050737,
+      "u": 0.9207577705383301
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C15",
+      "location_before": "S2",
+      "next_customer_index": 5,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": null,
+        "alpha_all": [
+          1.000213384628296,
+          1.0010137557983398,
+          1.141548991203308
+        ],
+        "beta": null,
+        "beta_all": [
+          2.2367045879364014,
+          2.583207130432129,
+          4.191677093505859
+        ],
+        "logits": [
+          12.016667366027832,
+          -5.98028039932251,
+          2.2000133991241455,
+          -1000000000.0
+        ],
+        "mask": [
+          true,
+          true,
+          true,
+          false
+        ],
+        "probs": [
+          0.9999455213546753,
+          1.5275695375294163e-08,
+          5.453277117339894e-05,
+          0.0
+        ]
+      },
+      "soc_after": 0.7733590598737544,
+      "soc_before_decision": 0.9334431942475513,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": 0.07704095542430878,
+          "detour_time": 0.5928170084953308,
+          "dist_station_to_next": 0.5889628529548645,
+          "dist_to_station": 1.0091075897216797,
+          "energy_station_to_next": 0.5889628529548645,
+          "energy_to_station": 1.0091075897216797,
+          "slack_to_next_after_travel": -0.7696059942245483,
+          "soc_lower": 0.07704095542430878,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.5889628529548645,
+          "travel_time_to_station": 1.0091075897216797
+        },
+        "S1": {
+          "arrival_soc_proxy": 1.7312312126159668,
+          "detour_time": -0.679582417011261,
+          "dist_station_to_next": -0.013380044139921665,
+          "dist_to_station": -0.9415779113769531,
+          "energy_station_to_next": -0.013380044139921665,
+          "energy_to_station": -0.9415779113769531,
+          "slack_to_next_after_travel": -0.34717464447021484,
+          "soc_lower": 1.7312312126159668,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.013380044139921665,
+          "travel_time_to_station": -0.9415779113769531
+        },
+        "S2": {
+          "arrival_soc_proxy": 2.662341356277466,
+          "detour_time": -1.7377338409423828,
+          "dist_station_to_next": -1.040880799293518,
+          "dist_to_station": -2.039579391479492,
+          "energy_station_to_next": -1.040880799293518,
+          "energy_to_station": -2.039579391479492,
+          "slack_to_next_after_travel": -0.1093965694308281,
+          "soc_lower": 2.662341356277466,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -1.040880799293518,
+          "travel_time_to_station": -2.039579391479492
+        }
+      },
+      "step": 6,
+      "time_after": 3.716839619935323,
+      "time_before": 3.437377264937248,
+      "u": 0.0
+    },
+    {
+      "action": "CHARGE",
+      "alpha": 12.278009414672852,
+      "beta": 1.0544618368148804,
+      "continue_legal": true,
+      "discrete": 2,
+      "feasible": true,
+      "location_after": "S1",
+      "location_before": "C15",
+      "next_customer_index": 6,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": 12.278009414672852,
+        "alpha_all": [
+          4.875798225402832,
+          12.278009414672852,
+          12.285972595214844
+        ],
+        "beta": 1.0544618368148804,
+        "beta_all": [
+          1.0120755434036255,
+          1.0544618368148804,
+          1.0523782968521118
+        ],
+        "logits": [
+          -8.126049041748047,
+          -11.691808700561523,
+          6.69834041595459,
+          5.716590404510498
+        ],
+        "mask": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "probs": [
+          2.652501791544637e-07,
+          7.500087662037913e-09,
+          0.7274551391601562,
+          0.27254462242126465
+        ]
+      },
+      "soc_after": 0.9566924300785151,
+      "soc_arrival": 0.45242466114163754,
+      "soc_before_decision": 0.7733590598737544,
+      "soc_departure": 0.9566924300785151,
+      "soc_lower": 0.45242466114163754,
+      "soc_target": 0.9566924300785151,
+      "soc_upper": 1.0,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": 1.3943893909454346,
+          "detour_time": 0.6847864985466003,
+          "dist_station_to_next": 2.3973491191864014,
+          "dist_to_station": 0.6010072827339172,
+          "energy_station_to_next": 2.3973491191864014,
+          "energy_to_station": 0.6010072827339172,
+          "slack_to_next_after_travel": -1.0939130783081055,
+          "soc_lower": 1.3943893909454346,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 2.3973491191864014,
+          "travel_time_to_station": 0.6010072827339172
+        },
+        "S1": {
+          "arrival_soc_proxy": 0.06832022964954376,
+          "detour_time": -1.5929762125015259,
+          "dist_station_to_next": -1.5862547159194946,
+          "dist_to_station": 0.001358549576252699,
+          "energy_station_to_next": -1.5862547159194946,
+          "energy_to_station": 0.001358549576252699,
+          "slack_to_next_after_travel": -0.9640558958053589,
+          "soc_lower": 0.06832022964954376,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -1.5862547159194946,
+          "travel_time_to_station": 0.001358549576252699
+        },
+        "S2": {
+          "arrival_soc_proxy": 0.9357483386993408,
+          "detour_time": -1.6386189460754395,
+          "dist_station_to_next": -0.6506490707397461,
+          "dist_to_station": -1.0215463638305664,
+          "energy_station_to_next": -0.6506490707397461,
+          "energy_to_station": -1.0215463638305664,
+          "slack_to_next_after_travel": -0.7425403594970703,
+          "soc_lower": 0.9357483386993408,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.6506490707397461,
+          "travel_time_to_station": -1.0215463638305664
+        }
+      },
+      "station_id": "S1",
       "step": 7,
-      "time_after": 3.4096245698235226,
-      "time_before": 3.338004091941387,
+      "time_after": 4.43204176548146,
+      "time_before": 3.716839619935323,
+      "u": 0.9209102988243103
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C10",
+      "location_before": "S1",
+      "next_customer_index": 6,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": null,
+        "alpha_all": [
+          1.0000813007354736,
+          1.1606850624084473,
+          1.0010727643966675
+        ],
+        "beta": null,
+        "beta_all": [
+          1.8626816272735596,
+          4.273058891296387,
+          2.7407121658325195
+        ],
+        "logits": [
+          12.792598724365234,
+          -16.72982406616211,
+          -1000000000.0,
+          4.539787769317627
+        ],
+        "mask": [
+          true,
+          true,
+          false,
+          true
+        ],
+        "probs": [
+          0.9997395873069763,
+          1.5082091120704327e-13,
+          0.0,
+          0.0002604572509881109
+        ]
+      },
+      "soc_after": 0.8819839335032444,
+      "soc_before_decision": 0.9566924300785151,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": 1.3943893909454346,
+          "detour_time": 2.266603708267212,
+          "dist_station_to_next": 2.3973491191864014,
+          "dist_to_station": 2.0207302570343018,
+          "energy_station_to_next": 2.3973491191864014,
+          "energy_to_station": 2.0207302570343018,
+          "slack_to_next_after_travel": -2.016951322555542,
+          "soc_lower": 1.3943893909454346,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 2.3973491191864014,
+          "travel_time_to_station": 2.0207302570343018
+        },
+        "S1": {
+          "arrival_soc_proxy": 2.7877190113067627,
+          "detour_time": -1.7377338409423828,
+          "dist_station_to_next": -1.5862547159194946,
+          "dist_to_station": -2.039579391479492,
+          "energy_station_to_next": -1.5862547159194946,
+          "energy_to_station": -2.039579391479492,
+          "slack_to_next_after_travel": -1.1376694440841675,
+          "soc_lower": 2.7877190113067627,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -1.5862547159194946,
+          "travel_time_to_station": -2.039579391479492
+        },
+        "S2": {
+          "arrival_soc_proxy": 1.8566089868545532,
+          "detour_time": -0.7252251505851746,
+          "dist_station_to_next": -0.6506490707397461,
+          "dist_to_station": -0.9415779113769531,
+          "energy_station_to_next": -0.6506490707397461,
+          "energy_to_station": -0.9415779113769531,
+          "slack_to_next_after_travel": -1.3754475116729736,
+          "soc_lower": 1.8566089868545532,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.6506490707397461,
+          "travel_time_to_station": -0.9415779113769531
+        }
+      },
+      "step": 8,
+      "time_after": 4.5679105100018935,
+      "time_before": 4.43204176548146,
       "u": 0.0
     },
     {
@@ -147,13 +911,192 @@
       "discrete": 0,
       "feasible": true,
       "location_after": "C8",
-      "location_before": "C5",
-      "next_customer_index": 6,
-      "soc_after": 0.7644404205979982,
-      "soc_before": 0.8049306227456035,
-      "step": 8,
-      "time_after": 3.502307163259691,
-      "time_before": 3.4096245698235226,
+      "location_before": "C10",
+      "next_customer_index": 7,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": null,
+        "alpha_all": [
+          1.000086784362793,
+          1.0283277034759521,
+          1.0104632377624512
+        ],
+        "beta": null,
+        "beta_all": [
+          1.953115701675415,
+          3.616075277328491,
+          3.2434256076812744
+        ],
+        "logits": [
+          12.096217155456543,
+          -11.554413795471191,
+          8.430953025817871,
+          7.410093784332275
+        ],
+        "mask": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "probs": [
+          0.9663518071174622,
+          5.1736462336471334e-11,
+          0.024736102670431137,
+          0.00891205295920372
+        ]
+      },
+      "soc_after": 0.6488651775481463,
+      "soc_before_decision": 0.8819839335032444,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": 0.23423007130622864,
+          "detour_time": 1.2713093757629395,
+          "dist_station_to_next": 1.0230973958969116,
+          "dist_to_station": 2.4013049602508545,
+          "energy_station_to_next": 1.0230973958969116,
+          "energy_to_station": 2.4013049602508545,
+          "slack_to_next_after_travel": -2.5606002807617188,
+          "soc_lower": 0.23423007130622864,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 1.0230973958969116,
+          "travel_time_to_station": 2.4013049602508545
+        },
+        "S1": {
+          "arrival_soc_proxy": 1.9819480180740356,
+          "detour_time": -1.7239612340927124,
+          "dist_station_to_next": -1.0238441228866577,
+          "dist_to_station": -1.5644809007644653,
+          "energy_station_to_next": -1.0238441228866577,
+          "energy_to_station": -1.5644809007644653,
+          "slack_to_next_after_travel": -1.701788067817688,
+          "soc_lower": 1.9819480180740356,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -1.0238441228866577,
+          "travel_time_to_station": -1.5644809007644653
+        },
+        "S2": {
+          "arrival_soc_proxy": 1.19209885597229,
+          "detour_time": -1.4566125869750977,
+          "dist_station_to_next": -1.4211819171905518,
+          "dist_to_station": -0.633060097694397,
+          "energy_station_to_next": -1.4211819171905518,
+          "energy_to_station": -0.633060097694397,
+          "slack_to_next_after_travel": -1.9034922122955322,
+          "soc_lower": 1.19209885597229,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -1.4211819171905518,
+          "travel_time_to_station": -0.633060097694397
+        }
+      },
+      "step": 9,
+      "time_after": 4.966951479530051,
+      "time_before": 4.5679105100018935,
+      "u": 0.0
+    },
+    {
+      "action": "CONTINUE",
+      "continue_legal": true,
+      "discrete": 0,
+      "feasible": true,
+      "location_after": "C11",
+      "location_before": "C8",
+      "next_customer_index": 8,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": null,
+        "alpha_all": [
+          1.0002036094665527,
+          1.0016100406646729,
+          1.0062274932861328
+        ],
+        "beta": null,
+        "beta_all": [
+          2.2640738487243652,
+          2.67427396774292,
+          3.086510419845581
+        ],
+        "logits": [
+          13.444930076599121,
+          -6.551238536834717,
+          3.1292502880096436,
+          5.854668617248535
+        ],
+        "mask": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "probs": [
+          0.999461829662323,
+          2.067953364104369e-09,
+          3.3092037483584136e-05,
+          0.0005050769541412592
+        ]
+      },
+      "soc_after": 0.5105055093222068,
+      "soc_before_decision": 0.6488651775481463,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": -0.06126472353935242,
+          "detour_time": 0.7155399918556213,
+          "dist_station_to_next": 0.6730728149414062,
+          "dist_to_station": 1.0332000255584717,
+          "energy_station_to_next": 0.6730728149414062,
+          "energy_to_station": 1.0332000255584717,
+          "slack_to_next_after_travel": -2.091360092163086,
+          "soc_lower": -0.06126472353935242,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.6730728149414062,
+          "travel_time_to_station": 1.0332000255584717
+        },
+        "S1": {
+          "arrival_soc_proxy": 0.24999919533729553,
+          "detour_time": -0.7588030695915222,
+          "dist_station_to_next": -0.24836277961730957,
+          "dist_to_station": -1.0045859813690186,
+          "energy_station_to_next": -0.24836277961730957,
+          "energy_to_station": -1.0045859813690186,
+          "slack_to_next_after_travel": -1.650066614151001,
+          "soc_lower": 0.24999919533729553,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.24836277961730957,
+          "travel_time_to_station": -1.0045859813690186
+        },
+        "S2": {
+          "arrival_soc_proxy": 0.5854362845420837,
+          "detour_time": -1.1425925493240356,
+          "dist_station_to_next": -0.6237298250198364,
+          "dist_to_station": -1.400146484375,
+          "energy_station_to_next": -0.6237298250198364,
+          "energy_to_station": -1.400146484375,
+          "slack_to_next_after_travel": -1.564405918121338,
+          "soc_lower": 0.5854362845420837,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.6237298250198364,
+          "travel_time_to_station": -1.400146484375
+        }
+      },
+      "step": 10,
+      "time_after": 5.209918378691554,
+      "time_before": 4.966951479530051,
       "u": 0.0
     },
     {
@@ -162,13 +1105,95 @@
       "discrete": 0,
       "feasible": true,
       "location_after": "D0",
-      "location_before": "C8",
-      "next_customer_index": 7,
-      "soc_after": 0.44232746236055026,
-      "soc_before": 0.7644404205979982,
-      "step": 9,
-      "time_after": 4.017687896439607,
-      "time_before": 3.502307163259691,
+      "location_before": "C11",
+      "next_customer_index": 9,
+      "policy": {
+        "action_names": [
+          "CONTINUE",
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "alpha": null,
+        "alpha_all": [
+          1.001083254814148,
+          1.0014312267303467,
+          1.0153886079788208
+        ],
+        "beta": null,
+        "beta_all": [
+          2.1718602180480957,
+          2.434950828552246,
+          3.316680431365967
+        ],
+        "logits": [
+          14.137077331542969,
+          -2.809757947921753,
+          0.40661054849624634,
+          5.915585517883301
+        ],
+        "mask": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "probs": [
+          0.9997301697731018,
+          4.364817129953735e-08,
+          1.0884708672165289e-06,
+          0.0002687412197701633
+        ]
+      },
+      "soc_after": 0.298163014214808,
+      "soc_before_decision": 0.5105055093222068,
+      "station_features": {
+        "S0": {
+          "arrival_soc_proxy": -0.5689723491668701,
+          "detour_time": 0.008252942003309727,
+          "dist_station_to_next": 0.07167428731918335,
+          "dist_to_station": 0.6847410202026367,
+          "energy_station_to_next": 0.07167428731918335,
+          "energy_to_station": 0.6847410202026367,
+          "slack_to_next_after_travel": -2.2250261306762695,
+          "soc_lower": -0.5689723491668701,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": 0.07167428731918335,
+          "travel_time_to_station": 0.6847410202026367
+        },
+        "S1": {
+          "arrival_soc_proxy": -0.6939865350723267,
+          "detour_time": -0.5229594111442566,
+          "dist_station_to_next": -0.07640963047742844,
+          "dist_to_station": -0.23257315158843994,
+          "energy_station_to_next": -0.07640963047742844,
+          "energy_to_station": -0.23257315158843994,
+          "slack_to_next_after_travel": -2.026376962661743,
+          "soc_lower": -0.6939865350723267,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -0.07640963047742844,
+          "travel_time_to_station": -0.23257315158843994
+        },
+        "S2": {
+          "arrival_soc_proxy": -0.8339235186576843,
+          "detour_time": -1.2351698875427246,
+          "dist_station_to_next": -1.1349754333496094,
+          "dist_to_station": -0.6062612533569336,
+          "energy_station_to_next": -1.1349754333496094,
+          "energy_to_station": -0.6062612533569336,
+          "slack_to_next_after_travel": -1.9454526901245117,
+          "soc_lower": -0.8339235186576843,
+          "soc_upper": 0.0,
+          "station_altitude": 0.0,
+          "travel_time_station_to_next": -1.1349754333496094,
+          "travel_time_to_station": -0.6062612533569336
+        }
+      },
+      "step": 11,
+      "time_after": 5.549666370863392,
+      "time_before": 5.209918378691554,
       "u": 0.0
     }
   ],
@@ -177,84 +1202,86 @@
   "label": "Illustrative SynthCharge validation episode \u2014 not TEST evidence",
   "layout": "RC",
   "length_bin": "medium",
+  "max_soc_fraction": 1.0,
+  "min_soc_fraction": 0.0,
   "n_charge_actions": 2,
-  "n_continue_actions": 8,
-  "n_customers": 7,
+  "n_continue_actions": 10,
+  "n_customers": 9,
   "nodes": {
     "C1": {
       "type": "CUSTOMER",
-      "x": 0.58579533,
-      "y": 0.57069744
+      "x": 0.61546179,
+      "y": 0.66907643
     },
     "C10": {
       "type": "CUSTOMER",
-      "x": 0.62469257,
-      "y": 0.41688106
+      "x": 0.15002093,
+      "y": 0.03088203
     },
     "C11": {
       "type": "CUSTOMER",
-      "x": 0.85809119,
-      "y": 0.89491351
+      "x": 0.17654177,
+      "y": 0.60393975
     },
     "C12": {
       "type": "CUSTOMER",
-      "x": 0.22284785,
-      "y": 0.78751696
+      "x": 0.88777213,
+      "y": 0.54963765
     },
     "C13": {
       "type": "CUSTOMER",
-      "x": 0.28233821,
-      "y": 0.68896229
+      "x": 0.94648963,
+      "y": 0.26885145
     },
     "C14": {
       "type": "CUSTOMER",
-      "x": 0.32301306,
-      "y": 0.55449115
+      "x": 0.59128558,
+      "y": 0.80254812
     },
     "C15": {
       "type": "CUSTOMER",
-      "x": 0.05265046,
-      "y": 0.65845062
+      "x": 0.63158857,
+      "y": 0.31675771
     },
     "C2": {
       "type": "CUSTOMER",
-      "x": 0.47699775,
-      "y": 0.55508599
+      "x": 0.66434609,
+      "y": 0.68367093
     },
     "C3": {
       "type": "CUSTOMER",
-      "x": 0.9399971,
-      "y": 0.14949428
+      "x": 0.72607939,
+      "y": 0.67476377
     },
     "C4": {
       "type": "CUSTOMER",
-      "x": 0.96241453,
-      "y": 0.09484308
+      "x": 0.71009036,
+      "y": 0.7044147
     },
     "C5": {
       "type": "CUSTOMER",
-      "x": 0.92684631,
-      "y": 0.11279761
+      "x": 0.65324465,
+      "y": 0.58356762
     },
     "C6": {
       "type": "CUSTOMER",
-      "x": 0.92722478,
-      "y": 0.06367244
+      "x": 0.62386247,
+      "y": 0.44685817
     },
     "C7": {
       "type": "CUSTOMER",
-      "x": 0.96771403,
-      "y": 0.08430843
+      "x": 0.57130345,
+      "y": 0.48925357
     },
     "C8": {
       "type": "CUSTOMER",
-      "x": 0.86741301,
-      "y": 0.13857922
+      "x": 0.24180461,
+      "y": 0.39240285
     },
     "C9": {
       "type": "CUSTOMER",
-      "x": 0.75461689,
-      "y": 0.07170964
+      "x": 0.88630173,
+      "y": 0.08800925
     },
     "D0": {
       "type": "DEPOT",
@@ -263,152 +1290,289 @@
     },
     "S0": {
       "type": "STATION",
-      "x": 0.55557857,
-      "y": 0.513203
+      "x": 0.75649659,
+      "y": 0.96927523
     },
     "S1": {
       "type": "STATION",
-      "x": 0.98472981,
-      "y": 0.13564753
+      "x": 0.14580801,
+      "y": 0.15034136
     },
     "S2": {
       "type": "STATION",
-      "x": 0.18390283,
-      "y": 0.92645981
+      "x": 0.37580396,
+      "y": 0.30337211
     }
   },
   "path_nodes": [
     "D0",
-    "S0",
-    "C11",
-    "S1",
-    "C3",
-    "C4",
     "C7",
     "C6",
-    "C5",
+    "C12",
+    "C13",
+    "C9",
+    "S2",
+    "C15",
+    "S1",
+    "C10",
     "C8",
+    "C11",
     "D0"
   ],
   "physics_profile": "synthcharge_linear",
-  "raw_instance_id": "sc_RC_n15_s200002",
-  "relative_path": "data/routes_v2/synthcharge_final/instances/sc_RC_n15_s200002.txt",
-  "route_id": "v2sc_sc_RC_n15_s200002_00",
+  "raw_instance_id": "sc_RC_n15_s200011",
+  "relative_path": "data/routes_v2/synthcharge_final/instances/sc_RC_n15_s200011.txt",
+  "representative_charge_step": 5,
+  "route_id": "v2sc_sc_RC_n15_s200011_00",
   "selection": {
     "charge_class": "charging_required",
     "checkpoint_seed": 42,
     "layout": "RC",
     "length_bin": "medium",
+    "min_charge_actions": 2,
+    "not_performance_cherry_pick": true,
     "not_test_evidence": true,
-    "rule": "lexicographically first route_id among matching SynthCharge VAL rows",
+    "rule": "Among RC/medium/charging-required SynthCharge VAL routes that complete under FA-HPPO seed 42 with \u22652 charging actions, select the route maximizing bounding-box area of visited path nodes (geometry-only).",
     "split": "validation"
   },
-  "soc_samples": [
+  "selection_diagnostics": {
+    "chosen_bbox_area": 0.45883678360310637,
+    "chosen_route_id": "v2sc_sc_RC_n15_s200011_00",
+    "n_candidates_rc_medium_charge_req": 8,
+    "n_eligible": 6,
+    "ranked": [
+      {
+        "bbox_area": 0.45883678360310637,
+        "completed": true,
+        "eligible": true,
+        "n_charge": 2,
+        "route_id": "v2sc_sc_RC_n15_s200011_00"
+      },
+      {
+        "bbox_area": 0.429559425,
+        "completed": true,
+        "eligible": true,
+        "n_charge": 3,
+        "route_id": "v2sc_sc_RC_n30_s200059_02"
+      },
+      {
+        "bbox_area": 0.4251205293475928,
+        "completed": true,
+        "eligible": true,
+        "n_charge": 9,
+        "route_id": "v2sc_sc_RC_n30_s200023_02"
+      },
+      {
+        "bbox_area": 0.4176835501612418,
+        "completed": true,
+        "eligible": true,
+        "n_charge": 3,
+        "route_id": "v2sc_sc_RC_n30_s200032_00"
+      },
+      {
+        "bbox_area": 0.40726410353766795,
+        "completed": true,
+        "eligible": false,
+        "n_charge": 1,
+        "route_id": "v2sc_sc_RC_n30_s200068_00"
+      },
+      {
+        "bbox_area": 0.4029273259252967,
+        "completed": true,
+        "eligible": true,
+        "n_charge": 2,
+        "route_id": "v2sc_sc_RC_n15_s200002_00"
+      },
+      {
+        "bbox_area": 0.3659791909483216,
+        "completed": true,
+        "eligible": true,
+        "n_charge": 2,
+        "route_id": "v2sc_sc_RC_n15_s200074_02"
+      },
+      {
+        "bbox_area": 0.3327155203274167,
+        "completed": true,
+        "eligible": false,
+        "n_charge": 1,
+        "route_id": "v2sc_sc_RC_n30_s200050_00"
+      }
+    ]
+  },
+  "soc_trace": [
     {
+      "index": 0,
       "kind": "start",
       "node": "D0",
+      "phase": "depart",
       "soc": 1.0,
-      "t": 0.0
+      "time": 0.0
     },
     {
-      "kind": "CHARGE",
-      "node": "S0",
-      "soc": 0.9971805336865502,
-      "soc_lower": 0.9642967052671162,
-      "soc_target": 0.9971805336865501,
-      "soc_upper": 1.0,
-      "t": 0.07027880294038756,
-      "u": 0.9210306406021118
-    },
-    {
-      "kind": "CONTINUE",
-      "node": "C11",
-      "soc": 0.6927748635789743,
-      "soc_lower": null,
-      "soc_target": null,
-      "soc_upper": null,
-      "t": 2.02669461,
-      "u": null
-    },
-    {
-      "kind": "CHARGE",
-      "node": "S1",
-      "soc": 0.9375936959833603,
-      "soc_lower": 0.21167822873829567,
-      "soc_target": 0.9375936959833602,
-      "soc_upper": 1.0,
-      "t": 3.0868154126431113,
-      "u": 0.9208365082740784
-    },
-    {
-      "kind": "CONTINUE",
-      "node": "C3",
-      "soc": 0.9083269551176435,
-      "soc_lower": null,
-      "soc_target": null,
-      "soc_upper": null,
-      "t": 3.155323298028258,
-      "u": null
-    },
-    {
-      "kind": "CONTINUE",
-      "node": "C4",
-      "soc": 0.8714080467822961,
-      "soc_lower": null,
-      "soc_target": null,
-      "soc_upper": null,
-      "t": 3.235267401364814,
-      "u": null
-    },
-    {
-      "kind": "CONTINUE",
+      "from_node": "D0",
+      "index": 1,
+      "kind": "customer_arrive",
       "node": "C7",
-      "soc": 0.864037721174864,
-      "soc_lower": null,
-      "soc_target": null,
-      "soc_upper": null,
-      "t": 3.2742217423367057,
-      "u": null
+      "phase": "arrive",
+      "soc": 0.9549320489615983,
+      "soc_arrive": 0.9549320489615983,
+      "soc_depart": 1.0,
+      "time": 1.22182571
     },
     {
-      "kind": "CONTINUE",
+      "from_node": "C7",
+      "index": 2,
+      "kind": "customer_arrive",
       "node": "C6",
-      "soc": 0.8356347651719381,
-      "soc_lower": null,
-      "soc_target": null,
-      "soc_upper": null,
-      "t": 3.338004091941387,
-      "u": null
+      "phase": "arrive",
+      "soc": 0.9127280219927086,
+      "soc_arrive": 0.9127280219927086,
+      "soc_depart": 0.9549320489615983,
+      "time": 1.3047291831502237
     },
     {
-      "kind": "CONTINUE",
-      "node": "C5",
-      "soc": 0.8049306227456035,
-      "soc_lower": null,
-      "soc_target": null,
-      "soc_upper": null,
-      "t": 3.4096245698235226,
-      "u": null
+      "from_node": "C6",
+      "index": 3,
+      "kind": "customer_arrive",
+      "node": "C12",
+      "phase": "arrive",
+      "soc": 0.7357173296179411,
+      "soc_arrive": 0.7357173296179411,
+      "soc_depart": 0.9127280219927086,
+      "time": 2.02827442
     },
     {
-      "kind": "CONTINUE",
+      "from_node": "C12",
+      "index": 4,
+      "kind": "customer_arrive",
+      "node": "C13",
+      "phase": "arrive",
+      "soc": 0.5564298565074863,
+      "soc_arrive": 0.5564298565074863,
+      "soc_depart": 0.7357173296179411,
+      "time": 2.333113806976727
+    },
+    {
+      "from_node": "C13",
+      "index": 5,
+      "kind": "customer_arrive",
+      "node": "C9",
+      "phase": "arrive",
+      "soc": 0.4373079313647695,
+      "soc_arrive": 0.4373079313647695,
+      "soc_depart": 0.5564298565074863,
+      "time": 2.5463406572050737
+    },
+    {
+      "from_node": "C9",
+      "index": 6,
+      "kind": "station_arrive",
+      "node": "S2",
+      "phase": "arrive",
+      "soc": 0.09101668007523878,
+      "soc_arrive": 0.09101668007523878,
+      "soc_depart_prev": 0.4373079313647695,
+      "station_id": "S2",
+      "time": 3.100406659268323
+    },
+    {
+      "alpha": 12.264013290405273,
+      "beta": 1.055464744567871,
+      "index": 7,
+      "kind": "charge_depart",
+      "node": "S2",
+      "phase": "depart_after_charge",
+      "soc": 0.9334431942475513,
+      "soc_arrive": 0.09101668007523878,
+      "soc_lower": 0.16008413437379687,
+      "soc_target": 0.9334431942475513,
+      "soc_upper": 1.0,
+      "station_id": "S2",
+      "time": 3.437377264937248,
+      "u": 0.9207577705383301
+    },
+    {
+      "from_node": "S2",
+      "index": 8,
+      "kind": "customer_arrive",
+      "node": "C15",
+      "phase": "arrive",
+      "soc": 0.7733590598737544,
+      "soc_arrive": 0.7733590598737544,
+      "soc_depart": 0.9334431942475513,
+      "time": 3.716839619935323
+    },
+    {
+      "from_node": "C15",
+      "index": 9,
+      "kind": "station_arrive",
+      "node": "S1",
+      "phase": "arrive",
+      "soc": 0.45242466114163754,
+      "soc_arrive": 0.45242466114163754,
+      "soc_depart_prev": 0.7733590598737544,
+      "station_id": "S1",
+      "time": 4.23033465790671
+    },
+    {
+      "alpha": 12.278009414672852,
+      "beta": 1.0544618368148804,
+      "index": 10,
+      "kind": "charge_depart",
+      "node": "S1",
+      "phase": "depart_after_charge",
+      "soc": 0.9566924300785151,
+      "soc_arrive": 0.45242466114163754,
+      "soc_lower": 0.45242466114163754,
+      "soc_target": 0.9566924300785151,
+      "soc_upper": 1.0,
+      "station_id": "S1",
+      "time": 4.43204176548146,
+      "u": 0.9209102988243103
+    },
+    {
+      "from_node": "S1",
+      "index": 11,
+      "kind": "customer_arrive",
+      "node": "C10",
+      "phase": "arrive",
+      "soc": 0.8819839335032444,
+      "soc_arrive": 0.8819839335032444,
+      "soc_depart": 0.9566924300785151,
+      "time": 4.5679105100018935
+    },
+    {
+      "from_node": "C10",
+      "index": 12,
+      "kind": "customer_arrive",
       "node": "C8",
-      "soc": 0.7644404205979982,
-      "soc_lower": null,
-      "soc_target": null,
-      "soc_upper": null,
-      "t": 3.502307163259691,
-      "u": null
+      "phase": "arrive",
+      "soc": 0.6488651775481463,
+      "soc_arrive": 0.6488651775481463,
+      "soc_depart": 0.8819839335032444,
+      "time": 4.966951479530051
     },
     {
-      "kind": "CONTINUE",
+      "from_node": "C8",
+      "index": 13,
+      "kind": "customer_arrive",
+      "node": "C11",
+      "phase": "arrive",
+      "soc": 0.5105055093222068,
+      "soc_arrive": 0.5105055093222068,
+      "soc_depart": 0.6488651775481463,
+      "time": 5.209918378691554
+    },
+    {
+      "from_node": "C11",
+      "index": 14,
+      "kind": "arrive",
       "node": "D0",
-      "soc": 0.44232746236055026,
-      "soc_lower": null,
-      "soc_target": null,
-      "soc_upper": null,
-      "t": 4.017687896439607,
-      "u": null
+      "phase": "arrive",
+      "soc": 0.298163014214808,
+      "soc_arrive": 0.298163014214808,
+      "soc_depart": 0.5105055093222068,
+      "time": 5.549666370863392
     }
   ],
   "station_ids": [
@@ -416,6 +1580,21 @@
     "S1",
     "S2"
   ],
-  "terminal_soc": 0.44232746236055026,
-  "terminal_time": 4.017687896439607
+  "terminal_soc": 0.298163014214808,
+  "terminal_time": 5.549666370863392,
+  "visit_order": [
+    "D0",
+    "C7",
+    "C6",
+    "C12",
+    "C13",
+    "C9",
+    "S2",
+    "C15",
+    "S1",
+    "C10",
+    "C8",
+    "C11",
+    "D0"
+  ]
 }
