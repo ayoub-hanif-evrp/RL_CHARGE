@@ -1,6 +1,6 @@
 # Table A2 — Primary paired statistics
 
-Predeclared seed-averaged route-paired analysis with Holm correction. Paper-facing p-values use <5e-5 at the n_perm=20000 Monte Carlo floor; raw JSON retains machine values.
+Positive feasibility and negative completion favor FA-HPPO. Holm-corrected permutation tests; MC floor <5e-5. Paired effects are table-only (not duplicated as a figure).
 
 | Comparison | Metric | Effect | 95% CI | p_raw | p_Holm | Procedure | Units |
 |---|---|---|---|---|---|---|---|

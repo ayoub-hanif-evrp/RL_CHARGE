@@ -63,23 +63,26 @@ def test_wording_and_claims_discipline():
     assert "feasibility-aware" in claims.lower()
 
 
-def test_results_paper_pdf_png_if_present():
+def test_results_paper_png_only_if_present():
     fig = ROOT / "results_paper" / "figures"
     if not fig.is_dir():
         return
-    pngs = list(fig.rglob("*.png"))
-    pdfs = list(fig.rglob("*.pdf"))
-    assert len(pngs) >= 15
-    assert len(pdfs) >= 15
-    for path in fig.rglob("*"):
-        if path.is_file():
-            assert path.suffix.lower() in {".png", ".pdf"}, path
-    assert (ROOT / "results_paper" / "figures" / "fig01_method_schematic.png").is_file()
-    assert (ROOT / "results_paper" / "figures" / "fig01_method_schematic.pdf").is_file()
-    assert (ROOT / "results_paper" / "figures" / "fig05_development_ablation.png").is_file()
-    assert (ROOT / "results_paper" / "figures" / "fig06_amount_sensitivity.png").is_file()
-    assert (ROOT / "results_paper" / "figures" / "appendix" / "figA06_failure_consistency.png").is_file()
-    assert (ROOT / "results_paper" / "figures" / "appendix" / "figA07_failure_heatmap.pdf").is_file()
+    pngs = list(fig.glob("*.png"))
+    assert len(pngs) == 20
+    assert not list(p for p in fig.rglob("*.png") if p.parent != fig)
+    for path in fig.glob("*.png"):
+        assert path.suffix.lower() == ".png", path
+    assert (fig / "fig01_usecase_route.png").is_file()
+    assert (fig / "fig02_method_schematic.png").is_file()
+    assert (fig / "fig05_main_feasibility.png").is_file()
+    assert (fig / "fig06_main_completion.png").is_file()
+    assert (fig / "fig13_ablation_bars.png").is_file()
+    assert (fig / "fig14_amount_policies.png").is_file()
+    assert (fig / "fig19_charge_decision.png").is_file()
+    assert (fig / "fig20_frvcp_reference.png").is_file()
+    # Dropped / forbidden leftovers
+    assert not (fig / "fig03_paired_effects.png").is_file()
+    assert not list(fig.rglob("figA*.png"))
     assert (ROOT / "results_paper" / "case_study" / "illustrative_val_episode.json").is_file()
     assert (ROOT / "results_paper" / "CAPTIONS.md").is_file()
     assert (ROOT / "results_paper" / "MANIFEST.json").is_file()

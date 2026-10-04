@@ -13,7 +13,7 @@ Owner-only items are marked TODO where metadata is unavailable.
 - [x] Paper artifacts regenerated: `python scripts/paper/build_results_paper.py --verify`
 - [x] Publication outputs live only in `results_paper/` (PNG figures)
 - [x] Rejected V3 candidate instances removed (180 locked members retained)
-- [x] `FINALIZATION_REPORT.md` complete
+- [x] Historical finalization notes archived under `docs/history/`
 - [x] V2 `results/v2/final/` untouched
 - [x] No DiscretePPO in V3 paper-facing TEST matrix
 - [x] Table 4 split into development vs TEST amount sensitivity
@@ -45,7 +45,7 @@ Do **not** invent license, author identity, ORCID, DOI, or venue.
 - [x] SynthCharge B0–B2 same-domain script prepared (not fully executed; ~15–22 CPU-h)
 - [x] Frozen-raw failure analysis (`results_paper/failure_analysis/`, tableA03, figA05)
 - [x] `LICENSE.TEMPLATE` + `CITATION.cff.template` (owner TODOs)
-- [x] `docs/SCIENTIFIC_FIXES_REPORT.md`
+- [x] `docs/SCIENTIFIC_FIXES_REPORT.md` / `docs/REPO_CLEANUP_REPORT.md`
 
 ## Forbidden before release
 

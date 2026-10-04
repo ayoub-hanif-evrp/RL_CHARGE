@@ -1,6 +1,6 @@
 # Table A3 — FA-HPPO failing routes (frozen V3 raw)
 
-From frozen raw rows only. Alias R01–R20 matches Fig. A6 order (by n_seeds_fail, then route_id). Pre-failure trajectories were not recorded and are unavailable without TEST replay (forbidden). Shared failures = n_seeds_fail=5.
+Per-route failure detail (table). Aggregate regime view in Fig. 17.
 
 | Alias | Route | Layout | Length | Charge class | n_seeds_fail | Fail seeds | OK seeds | Reason | Mean visits (fail) | Mean terminal SOC (fail) |
 |---|---|---|---|---|---|---|---|---|---|---|

@@ -4,10 +4,11 @@
 
 | Artifact | Path |
 |----------|------|
-| Figures (PDF + PNG) + tables | `results_paper/` |
+| Figures (PNG) + tables | `results_paper/` |
 | Captions | `results_paper/CAPTIONS.md` |
 | Manifest | `results_paper/MANIFEST.json` |
 | Builder | `scripts/paper/build_results_paper.py` |
+| Historical cleanup reports | `docs/history/` |
 
 ## Paper confirmatory (V3-HPPO)
 
@@ -38,4 +39,4 @@ python scripts/paper/build_results_paper.py
 python scripts/paper/build_results_paper.py --verify
 ```
 
-Do **not** re-open the consumed TEST. Fig. 1 is a conceptual method schematic; the VAL trajectory illustration is Fig. A1.
+Do **not** re-open the consumed TEST. Fig. 1 is a VAL use-case route map (not TEST).

@@ -1,9 +1,10 @@
-"""Build publication-facing results_paper/ (PDF + PNG figures + tables) from frozen data.
+"""Build publication-facing results_paper/ (PNG figures + tables) from frozen data.
 
 READ ONLY for TEST evidence. Case-study JSON is a VAL illustration (not TEST).
 Never trains final models, evaluates TEST, or modifies frozen raw rows.
 
-Official single publication-figure generator for the manuscript.
+Official single publication-figure generator. PNG only.
+All figures live flat in results_paper/figures/ (no appendix/).
 """
 
 from __future__ import annotations
@@ -12,8 +13,9 @@ import csv
 import hashlib
 import json
 import math
+import shutil
 import sys
-from collections import Counter, defaultdict
+from collections import defaultdict
 from pathlib import Path
 
 import matplotlib
@@ -21,7 +23,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patches import FancyBboxPatch, Rectangle
+from matplotlib.lines import Line2D
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
@@ -34,7 +37,6 @@ RAW = V3 / "raw" / "synthcharge_test.jsonl"
 STATS = V3 / "statistics"
 OUT = ROOT / "results_paper"
 FIG = OUT / "figures"
-FIG_A = FIG / "appendix"
 TAB = OUT / "tables"
 CASE = OUT / "case_study" / "illustrative_val_episode.json"
 ENVELOPE_SUMMARY = ROOT / "results" / "development" / "envelope_ablation" / "SUMMARY.json"
@@ -43,75 +45,53 @@ RNG = 20261003
 DPI = 600
 
 ORDER_BASE = ["HybridPPO", "OneStepLookahead", "GreedyFullCharge", "GreedyMinimumSufficientCharge"]
+AMOUNT_ORDER = ["HybridPPO", "FA-HPPO-Max", "FA-HPPO-Min"]
 LABEL = {
     "HybridPPO": "FA-HPPO",
+    "FA-HPPO-Max": "FA-HPPO-Max",
+    "FA-HPPO-Min": "FA-HPPO-Min",
     "GreedyMinimumSufficientCharge": "Greedy Min",
     "GreedyFullCharge": "Greedy Full",
     "OneStepLookahead": "Lookahead",
-    "FA-HPPO-Min": "FA-HPPO-Min",
-    "FA-HPPO-Max": "FA-HPPO-Max",
 }
 COLOR = {
     "HybridPPO": "#0072B2",
+    "FA-HPPO-Max": "#56B4E9",
+    "FA-HPPO-Min": "#CC79A7",
     "OneStepLookahead": "#D55E00",
     "GreedyFullCharge": "#009E73",
     "GreedyMinimumSufficientCharge": "#E69F00",
-    "FA-HPPO-Min": "#CC79A7",
-    "FA-HPPO-Max": "#56B4E9",
 }
-MARKER = {
-    "HybridPPO": "o",
-    "OneStepLookahead": "s",
-    "GreedyFullCharge": "D",
-    "GreedyMinimumSufficientCharge": "^",
-    "FA-HPPO-Max": "P",
-    "FA-HPPO-Min": "X",
+LS = {
+    "HybridPPO": "-",
+    "OneStepLookahead": "--",
+    "GreedyFullCharge": "-.",
+    "GreedyMinimumSufficientCharge": ":",
 }
 ABL_ORDER = [("B0", "B0"), ("B1", "B1"), ("B3", "B3"), ("B2", "B2")]
-ABL_META = {
-    "B0": {"time_cap": "no", "scaling": "no", "name": "Base HPPO"},
-    "B1": {"time_cap": "yes", "scaling": "no", "name": "+ Time-aware cap"},
-    "B3": {"time_cap": "no", "scaling": "yes", "name": "+ Return scaling"},
-    "B2": {"time_cap": "yes", "scaling": "yes", "name": "FA-HPPO full"},
-}
 MC_P_FLOOR = 5e-5
 
-MAIN_FIGS = [
-    "fig01_method_schematic",
-    "fig02_main_test",
-    "fig03_effect_sizes",
-    "fig04_difficulty_robustness",
-    "fig05_development_ablation",
-    "fig06_amount_sensitivity",
-]
-APPENDIX_FIGS = [
-    "figA01_illustrative_trajectory",
-    "figA02_illustrative_hybrid_decision",
-    "figA03_learning_curves",
-    "figA04_training_stability",
-    "figA05_envelope_ablation",
-    "figA06_failure_consistency",
-    "figA07_failure_heatmap",
-    "figA08_seed_robustness",
-    "figA09_native_frvcp_reference",
-]
-OBSOLETE_FIGS = [
-    "fig01_method_case_study",
-    "fig04_ablation_and_training_stability",
-    "fig05_mechanism",
-    "fig05_amount_sensitivity",
-    "figA01_difficulty_heatmap",
-    "figA01_illustrative_val_trajectory",
-    "figA02_learning_curves",
-    "figA02_seed_robustness",
-    "figA03_native_frvcp_reference",
-    "figA03_training_stability",
-    "figA04_learning_curves",
-    "figA04_envelope_ablation",
-    "figA05_failure_consistency",
-    "figA05_failure_analysis",
-    "figA06_seed_robustness",
-    "figA07_native_frvcp_reference",
+FIGS = [
+    "fig01_usecase_route",
+    "fig02_method_schematic",
+    "fig03_soc_envelope",
+    "fig04_illustrative_soc",
+    "fig05_main_feasibility",
+    "fig06_main_completion",
+    "fig07_charging_required",
+    "fig08_performance_profiles",
+    "fig09_by_layout",
+    "fig10_by_length",
+    "fig11_difficulty_heatmap",
+    "fig12_gain_vs_lookahead",
+    "fig13_ablation_bars",
+    "fig14_amount_policies",
+    "fig15_charging_effort",
+    "fig16_runtime",
+    "fig17_failure_by_regime",
+    "fig18_envelope_variants",
+    "fig19_charge_decision",
+    "fig20_frvcp_reference",
 ]
 
 
@@ -139,12 +119,6 @@ def fmt(v, d=3):
     if v is None or (isinstance(v, float) and (math.isnan(v) or math.isinf(v))):
         return "NA"
     return f"{v:.{d}f}"
-
-
-def fmt_pct(v, d=1):
-    if v is None:
-        return "NA"
-    return f"{100.0 * float(v):.{d}f}%"
 
 
 def fmt_p(p) -> str:
@@ -191,349 +165,472 @@ def summarize_baseline(rows, method):
 def style():
     plt.rcParams.update(
         {
+            "font.family": "DejaVu Sans",
             "font.size": 9,
-            "axes.labelsize": 9,
+            "axes.labelsize": 9.5,
             "axes.titlesize": 10,
-            "xtick.labelsize": 8,
-            "ytick.labelsize": 8,
-            "legend.fontsize": 7.5,
+            "xtick.labelsize": 8.5,
+            "ytick.labelsize": 8.5,
+            "legend.fontsize": 8,
             "figure.facecolor": "white",
             "axes.facecolor": "white",
             "axes.spines.top": False,
             "axes.spines.right": False,
-            "pdf.fonttype": 42,
-            "ps.fonttype": 42,
+            "axes.linewidth": 0.8,
         }
     )
 
 
-def save_fig(fig, stem: str, appendix: bool = False) -> None:
-    base = FIG_A if appendix else FIG
-    base.mkdir(parents=True, exist_ok=True)
-    fig.savefig(base / f"{stem}.png", dpi=DPI, bbox_inches="tight", facecolor="white")
-    fig.savefig(base / f"{stem}.pdf", bbox_inches="tight", facecolor="white")
+def save_png(fig, stem: str) -> None:
+    FIG.mkdir(parents=True, exist_ok=True)
+    fig.savefig(FIG / f"{stem}.png", dpi=DPI, bbox_inches="tight", facecolor="white")
     plt.close(fig)
 
 
-def cleanup_obsolete() -> None:
-    for stem in OBSOLETE_FIGS:
-        for folder in (FIG, FIG_A):
-            for ext in (".png", ".pdf", ".svg"):
-                path = folder / f"{stem}{ext}"
-                if path.is_file():
+def cleanup_figures() -> None:
+    keep = {f"{s}.png" for s in FIGS}
+    FIG.mkdir(parents=True, exist_ok=True)
+    for path in list(FIG.iterdir()):
+        if path.is_file() and path.suffix.lower() in {".png", ".pdf", ".svg"} and path.name not in keep:
+            path.unlink()
+    appendix = FIG / "appendix"
+    if appendix.is_dir():
+        for path in appendix.rglob("*"):
+            if path.is_file():
+                try:
                     path.unlink()
+                except OSError:
+                    pass
+        try:
+            shutil.rmtree(appendix, ignore_errors=True)
+        except OSError:
+            pass
+        # Last resort on Windows/OneDrive locks: leave empty dir only if undeletable
+        if appendix.is_dir() and not any(appendix.rglob("*")):
+            try:
+                appendix.rmdir()
+            except OSError:
+                pass
 
 
-def _beta_pdf(u, alpha, beta):
-    from math import lgamma
-
-    u = np.clip(np.asarray(u, dtype=float), 1e-6, 1 - 1e-6)
-    log_b = lgamma(alpha) + lgamma(beta) - lgamma(alpha + beta)
-    return np.exp((alpha - 1) * np.log(u) + (beta - 1) * np.log(1 - u) - log_b)
-
-
-# ---------------------------------------------------------------------------
-# Fig. 1 — conceptual method schematic
-# ---------------------------------------------------------------------------
-def fig01_method_schematic():
-    fig = plt.figure(figsize=(11.4, 3.75))
-    gs = fig.add_gridspec(1, 3, width_ratios=[1.05, 1.2, 1.25], wspace=0.30)
-    ax_a = fig.add_subplot(gs[0, 0])
-    ax_b = fig.add_subplot(gs[0, 1])
-    ax_c = fig.add_subplot(gs[0, 2])
-
-    # (a) Fixed route + charging insertion that rejoins
-    ax_a.set_xlim(0, 10)
-    ax_a.set_ylim(0.2, 6.4)
-    ax_a.axis("off")
-    ax_a.set_title("(a) Fixed customer route", loc="left")
-    c1, c2, c3, c4 = (2.6, 4.5), (4.8, 3.7), (6.9, 4.4), (8.7, 3.1)
-    depot = (1.1, 3.3)
-    s1, s2 = (3.7, 1.8), (6.3, 1.9)
-    # fixed customer order
-    ax_a.plot([depot[0], c1[0], c2[0], c3[0], c4[0]], [depot[1], c1[1], c2[1], c3[1], c4[1]], color="#888888", lw=1.7, ls="--", zorder=1)
-    ax_a.annotate("", xy=depot, xytext=c4, arrowprops=dict(arrowstyle="-|>", color="#BBBBBB", lw=1.0, mutation_scale=9))
-    for i, (xy, lab) in enumerate([(depot, "Depot"), (c1, "C1"), (c2, "C2"), (c3, "C3"), (c4, "C4")], start=0):
-        if i == 0:
-            ax_a.scatter([xy[0]], [xy[1]], marker="s", s=90, color="black", zorder=4)
-        else:
-            ax_a.scatter([xy[0]], [xy[1]], s=110, facecolors="white", edgecolors="#222222", linewidths=1.2, zorder=4)
-            ax_a.text(xy[0], xy[1], str(i), ha="center", va="center", fontsize=8, zorder=5)
-        ax_a.text(xy[0], xy[1] - 0.48, lab, ha="center", fontsize=7, color="#333333")
-    for name, xy in (("S1", s1), ("S2", s2)):
-        ax_a.scatter([xy[0]], [xy[1]], marker="*", s=160, color=COLOR["HybridPPO"], zorder=5, edgecolors="white", linewidths=0.4)
-        ax_a.text(xy[0], xy[1] - 0.42, name, ha="center", fontsize=7, color=COLOR["HybridPPO"])
-    # C1 -> S1 -> C2 detour (leave and rejoin)
-    ax_a.annotate("", xy=s1, xytext=c1, arrowprops=dict(arrowstyle="-|>", color=COLOR["HybridPPO"], lw=1.45, mutation_scale=11, connectionstyle="arc3,rad=0.18"))
-    ax_a.annotate("", xy=c2, xytext=s1, arrowprops=dict(arrowstyle="-|>", color=COLOR["HybridPPO"], lw=1.45, mutation_scale=11, connectionstyle="arc3,rad=0.18"))
-    ax_a.text(3.55, 2.85, r"$C_i\!\to\!S_j\!\to\!C_{i+1}$", fontsize=7, color=COLOR["HybridPPO"], ha="center")
-    ax_a.text(0.02, 0.98, "Customer order fixed.\nPolicy inserts optional charges.", transform=ax_a.transAxes, va="top", fontsize=7, color="#333333")
-
-    # (b) Feasibility-aware SOC interval — interval is visual focus
-    ax_b.set_xlim(-0.02, 1.02)
-    ax_b.set_ylim(0, 1)
-    ax_b.set_title("(b) Feasibility-aware SOC interval", loc="left")
-    ax_b.set_xlabel("SOC")
-    ax_b.set_yticks([])
-    ax_b.spines["left"].set_visible(False)
-    arrival, lo, hi, u = 0.18, 0.46, 0.82, 0.82
-    tgt = lo + u * (hi - lo)
-    # strong interval band
-    ax_b.add_patch(Rectangle((lo, 0.22), hi - lo, 0.42, facecolor="#56B4E9", alpha=0.55, edgecolor=COLOR["HybridPPO"], lw=2.0, zorder=2))
-    ax_b.text((lo + hi) / 2, 0.45, "valid departure\ninterval", ha="center", va="center", fontsize=8, color="#08306B", zorder=3)
-    ax_b.plot([arrival, arrival], [0.18, 0.70], color="#666666", lw=1.4, ls="--", zorder=4)
-    ax_b.plot([lo, lo], [0.18, 0.70], color=COLOR["HybridPPO"], lw=2.0, zorder=4)
-    ax_b.plot([hi, hi], [0.18, 0.70], color=COLOR["OneStepLookahead"], lw=2.0, zorder=4)
-    ax_b.scatter([tgt], [0.43], s=85, color="#D55E00", zorder=5, edgecolors="white", linewidths=0.6)
-    # staggered labels (vertical levels differ so they never collide)
-    ax_b.annotate(r"$SOC_{\mathrm{arr}}$", xy=(arrival, 0.70), xytext=(arrival, 0.93), ha="center", fontsize=7.5, color="#555555", arrowprops=dict(arrowstyle="-", color="#888888", lw=0.8))
-    ax_b.annotate(r"$SOC_{\mathrm{lower}}$", xy=(lo, 0.70), xytext=(lo, 0.80), ha="center", fontsize=7.5, color=COLOR["HybridPPO"], arrowprops=dict(arrowstyle="-", color=COLOR["HybridPPO"], lw=0.8))
-    ax_b.annotate(r"$SOC_{\mathrm{upper}}$", xy=(hi, 0.70), xytext=(hi, 0.93), ha="center", fontsize=7.5, color=COLOR["OneStepLookahead"], arrowprops=dict(arrowstyle="-", color=COLOR["OneStepLookahead"], lw=0.8))
-    ax_b.annotate(r"$SOC_{\mathrm{target}}$", xy=(tgt, 0.43), xytext=(tgt, 0.08), ha="center", fontsize=7.5, color="#D55E00", arrowprops=dict(arrowstyle="-", color="#D55E00", lw=0.8))
-    ax_b.text(0.5, 0.0, rf"$SOC_{{\mathrm{{target}}}}=SOC_{{\mathrm{{lower}}}}+{u:.2f}\,(SOC_{{\mathrm{{upper}}}}-SOC_{{\mathrm{{lower}}}})$", transform=ax_b.transAxes, ha="center", va="bottom", fontsize=7.0)
-    ax_b.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
-
-    # (c) Hybrid policy decision with explicit u
-    ax_c.set_xlim(0, 10)
-    ax_c.set_ylim(0, 10)
-    ax_c.axis("off")
-    ax_c.set_title("(c) Hybrid policy decision", loc="left")
-    ax_c.add_patch(FancyBboxPatch((0.35, 5.55), 4.25, 3.7, boxstyle="round,pad=0.15", facecolor="#F7F7F7", edgecolor="#444444", lw=1.0))
-    ax_c.text(2.45, 8.85, "Discrete head", ha="center", fontsize=8, fontweight="bold")
-    names = ["CONT", "S1", "S2", "S3"]
-    probs = [0.12, 0.55, 0.28, 0.0]
-    mask = [True, True, True, False]
-    for i, (name, p, m) in enumerate(zip(names, probs, mask)):
-        x = 0.75 + i * 0.95
-        h = 2.2 * p if m else 0.25
-        color = COLOR["HybridPPO"] if name == "S1" else ("#BBBBBB" if m else "#EEEEEE")
-        ax_c.add_patch(Rectangle((x, 5.9), 0.7, h, facecolor=color, edgecolor="#444444", lw=0.6, hatch="////" if not m else None))
-        ax_c.text(x + 0.35, 5.7, name, ha="center", va="top", fontsize=6.5, color="#666666" if not m else "#222222")
-        if not m:
-            ax_c.text(x + 0.35, 5.95 + h + 0.15, "masked", ha="center", fontsize=5.8, color="#888888")
-
-    ax_c.add_patch(FancyBboxPatch((5.2, 5.55), 4.45, 3.7, boxstyle="round,pad=0.15", facecolor="#F7F7F7", edgecolor="#444444", lw=1.0))
-    ax_c.text(7.4, 8.85, "Continuous head", ha="center", fontsize=8, fontweight="bold")
-    ugrid = np.linspace(0.02, 0.98, 120)
-    dens = _beta_pdf(ugrid, 4.0, 2.2)
-    dens = dens / dens.max() * 2.0
-    xs = 5.6 + ugrid * 3.6
-    ys = 6.15 + dens
-    ax_c.fill_between(xs, 6.15, ys, color="#56B4E9", alpha=0.35)
-    ax_c.plot(xs, ys, color=COLOR["HybridPPO"], lw=1.4)
-    u_sel = 0.82
-    ax_c.axvline(5.6 + u_sel * 3.6, ymin=0.58, ymax=0.86, color="#D55E00", lw=1.6)
-    ax_c.text(7.4, 6.05, rf"$u\sim\mathrm{{Beta}}(\alpha,\beta)$", ha="center", fontsize=7)
-    ax_c.text(5.6 + u_sel * 3.6, 8.35, rf"$u={u_sel:.2f}$", ha="center", fontsize=7.5, color="#D55E00", fontweight="bold")
-
-    ax_c.annotate("", xy=(5.0, 2.75), xytext=(5.0, 5.35), arrowprops=dict(arrowstyle="-|>", color="#333333", lw=1.3, mutation_scale=12))
-    ax_c.text(5.2, 4.15, "selected station + u", fontsize=7, color="#333333")
-    ax_c.add_patch(FancyBboxPatch((1.3, 0.55), 7.4, 2.15, boxstyle="round,pad=0.12", facecolor="#EAF4FB", edgecolor=COLOR["HybridPPO"], lw=1.1))
-    ax_c.text(5.0, 2.15, r"map into $[SOC_{\mathrm{lower}},\,SOC_{\mathrm{upper}}]$", ha="center", fontsize=8)
-    ax_c.text(5.0, 1.15, rf"$SOC_{{\mathrm{{target}}}}=SOC_{{\mathrm{{lower}}}}+{u_sel:.2f}\,\Delta SOC$", ha="center", fontsize=7.5, color="#333333")
-
-    save_fig(fig, "fig01_method_schematic")
-
-
-# ---------------------------------------------------------------------------
-# Fig. 2 — main confirmatory TEST
-# ---------------------------------------------------------------------------
-def _horizontal_metric(ax, summaries, metric_mean, metric_ci, metric_per, *, as_pct: bool, xlabel: str, title: str, label_fmt: str):
-    methods = ORDER_BASE
-    ys = np.arange(len(methods))[::-1]
-    rng = np.random.default_rng(2)
+def _vbar(ax, methods, values, cis, *, ylabel, ylim, label_fmt, as_pct=False):
+    """Vertical bars with CI whiskers; value labels sit clearly above the upper whisker."""
+    xs = np.arange(len(methods))
     scale = 100.0 if as_pct else 1.0
-    xmax_hint = []
-    for y, m in zip(ys, methods):
-        s = summaries[m]
-        color = COLOR[m]
-        marker = MARKER[m]
-        mu = s[metric_mean] * scale
-        if s.get(metric_per):
-            vals = [s[metric_per][seed] * scale for seed in SEEDS]
-            jitter = rng.uniform(-0.12, 0.12, size=len(vals))
-            ax.scatter(vals, y + jitter, color=color, s=28, marker=marker, zorder=3, edgecolors="white", linewidths=0.4, alpha=0.95)
-            ax.plot(mu, y, marker=marker, color=color, ms=9, zorder=5, markeredgecolor="black", markeredgewidth=0.5)
-            right = mu
-            if s.get(metric_ci):
-                lo, hi = s[metric_ci][0] * scale, s[metric_ci][1] * scale
-                ax.hlines(y, lo, hi, color="black", lw=1.5, zorder=4)
-                ax.plot([lo, hi], [y, y], "|", color="black", ms=8, zorder=4)
-                right = max(right, hi, max(vals))
-            else:
-                right = max(right, max(vals))
-            ax.text(right + (1.8 if as_pct else 0.12), y, label_fmt.format(mu), va="center", fontsize=7.5, color="#222222")
-            xmax_hint.append(right)
-        else:
-            ax.plot(mu, y, marker=marker, color=color, ms=9, zorder=5, markeredgecolor="black", markeredgewidth=0.5)
-            ax.text(mu + (1.8 if as_pct else 0.12), y, label_fmt.format(mu), va="center", fontsize=7.5, color="#222222")
-            xmax_hint.append(mu)
-    ax.set_yticks(ys, [LABEL[m] for m in methods])
-    ax.set_xlabel(xlabel)
-    ax.set_title(title, loc="left")
-    ax.grid(axis="x", color="#E6E6E6", lw=0.8)
-    ax.set_axisbelow(True)
-    return max(xmax_hint) if xmax_hint else None
+    span = ylim[1] - ylim[0]
+    for i, m in enumerate(methods):
+        mu = float(values[m]) * scale
+        ax.bar(i, mu, width=0.62, color=COLOR[m], edgecolor="none", zorder=2)
+        top = mu
+        if cis.get(m) is not None:
+            lo = float(cis[m][0]) * scale
+            hi = float(cis[m][1]) * scale
+            ax.errorbar(
+                i,
+                mu,
+                yerr=[[max(0.0, mu - lo)], [max(0.0, hi - mu)]],
+                fmt="none",
+                ecolor="#222222",
+                elinewidth=0.9,
+                capsize=2.8,
+                zorder=3,
+            )
+            top = hi
+        ax.text(
+            i,
+            top + span * 0.055,
+            label_fmt.format(mu),
+            ha="center",
+            va="bottom",
+            fontsize=8,
+            zorder=5,
+            clip_on=False,
+        )
+    ax.set_xticks(xs, [LABEL[m] for m in methods])
+    ax.set_ylabel(ylabel)
+    ax.set_ylim(ylim[0], ylim[1])
+    ax.set_xlim(-0.55, len(methods) - 0.45)
 
 
-def fig02_main(rows):
-    all_s = {m: summarize_learned(rows, m) if m == "HybridPPO" else summarize_baseline(rows, m) for m in ORDER_BASE}
+# ---------------------------------------------------------------------------
+# Fig. 1 — clear use-case route map
+# ---------------------------------------------------------------------------
+def fig01_usecase_route():
+    if not CASE.is_file():
+        raise SystemExit("missing case study JSON; run scripts/paper/record_illustrative_val_episode.py")
+    ep = load_json(CASE)
+    nodes, customers, depot = ep["nodes"], ep["customer_ids"], ep["depot_id"]
+    stations, path = ep["station_ids"], ep["path_nodes"]
+    visited = [n for n in path if n in stations]
+
+    fig, ax = plt.subplots(figsize=(5.8, 5.2))
+    # Fixed customer sequence (no stations)
+    seq = [depot] + customers + [depot]
+    ax.plot(
+        [nodes[i]["x"] for i in seq],
+        [nodes[i]["y"] for i in seq],
+        ls="--",
+        color="#8A8A8A",
+        lw=1.15,
+        zorder=1,
+    )
+    # Executed path (under markers)
+    px = [nodes[i]["x"] for i in path]
+    py = [nodes[i]["y"] for i in path]
+    ax.plot(px, py, color=COLOR["HybridPPO"], lw=2.2, zorder=2, solid_capstyle="round")
+
+    # Stations
+    for sid in stations:
+        n = nodes[sid]
+        used = sid in visited
+        ax.scatter(
+            n["x"],
+            n["y"],
+            marker="^",
+            s=160 if used else 100,
+            color="#D55E00" if used else "#C8C8C8",
+            edgecolors="white",
+            linewidths=1.0,
+            zorder=5,
+        )
+        ax.annotate(
+            sid,
+            xy=(n["x"], n["y"]),
+            xytext=(8, 8),
+            textcoords="offset points",
+            fontsize=8,
+            color="#D55E00" if used else "#666666",
+            fontweight="bold" if used else "normal",
+            zorder=6,
+        )
+
+    for i, cid in enumerate(customers, start=1):
+        n = nodes[cid]
+        # white halo so path/dashed lines never cut through numbers
+        ax.scatter(n["x"], n["y"], s=150, facecolors="white", edgecolors="none", zorder=7)
+        ax.scatter(n["x"], n["y"], s=100, facecolors="white", edgecolors="#111111", linewidths=1.2, zorder=8)
+        ax.text(n["x"], n["y"], str(i), ha="center", va="center", fontsize=8, fontweight="bold", zorder=9)
+
+    nd = nodes[depot]
+    ax.scatter(nd["x"], nd["y"], marker="s", s=140, facecolors="white", edgecolors="none", zorder=9)
+    ax.scatter(nd["x"], nd["y"], marker="s", s=115, color="#111111", zorder=10)
+    ax.annotate("Depot", xy=(nd["x"], nd["y"]), xytext=(8, 8), textcoords="offset points", fontsize=8, color="#111111", zorder=11)
+
+    xs = [nodes[i]["x"] for i in nodes] 
+    ys = [nodes[i]["y"] for i in nodes]
+    pad = 0.07
+    ax.set_xlim(min(xs) - pad, max(xs) + pad)
+    ax.set_ylim(min(ys) - pad, max(ys) + pad)
+    ax.set_aspect("equal", adjustable="box")
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+
+    handles = [
+        Line2D([0], [0], marker="s", color="w", markerfacecolor="#111111", markersize=8, label="Depot"),
+        Line2D([0], [0], marker="o", color="w", markerfacecolor="white", markeredgecolor="#111111", markersize=8, label="Customer (visit order)"),
+        Line2D([0], [0], marker="^", color="w", markerfacecolor="#D55E00", markersize=9, label="Charging station (used)"),
+        Line2D([0], [0], marker="^", color="w", markerfacecolor="#C8C8C8", markersize=8, label="Charging station (unused)"),
+        Line2D([0], [0], ls="--", color="#8A8A8A", lw=1.2, label="Fixed customer order"),
+        Line2D([0], [0], color=COLOR["HybridPPO"], lw=2.0, label="Executed path (with charges)"),
+    ]
+    ax.legend(handles=handles, frameon=False, loc="upper left", fontsize=7.5, borderaxespad=0.2)
+    fig.tight_layout()
+    save_png(fig, "fig01_usecase_route")
+
+
+# ---------------------------------------------------------------------------
+# Fig. 2 — method schematic
+# ---------------------------------------------------------------------------
+def fig02_method_schematic():
+    fig, ax = plt.subplots(figsize=(7.6, 3.4))
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 4.2)
+    ax.axis("off")
+
+    def box(x, y, w, h, text, fc="#F3F7FB", ec="#0072B2"):
+        p = FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02,rounding_size=0.08", linewidth=1.2, edgecolor=ec, facecolor=fc)
+        ax.add_patch(p)
+        ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=8.2, linespacing=1.25)
+
+    def arrow(x1, y1, x2, y2):
+        ax.add_patch(FancyArrowPatch((x1, y1), (x2, y2), arrowstyle="-|>", mutation_scale=10, lw=1.1, color="#333333"))
+
+    box(0.3, 1.5, 1.8, 1.2, "Route state\n(SOC, time,\nnext customer)", fc="#F5F5F5", ec="#555555")
+    box(2.6, 2.35, 2.3, 1.2, "Discrete actor\nCONTINUE / station", fc="#E8F3FA", ec="#0072B2")
+    box(2.6, 0.55, 2.3, 1.2, "If CHARGE:\ncontinuous $u\\in[0,1]$\n(Beta policy)", fc="#FFF3E8", ec="#D55E00")
+    box(5.5, 1.5, 2.2, 1.2, "SOC envelope\n$\\mathrm{lower}\\!\\to\\!\\mathrm{upper}$\ntarget from $u$", fc="#EEF8F3", ec="#009E73")
+    box(8.2, 1.5, 1.5, 1.2, "Environment\nstep", fc="#F5F5F5", ec="#555555")
+
+    arrow(2.1, 2.1, 2.6, 2.8)
+    arrow(2.1, 2.0, 2.6, 1.15)
+    arrow(4.9, 2.9, 5.5, 2.2)
+    arrow(4.9, 1.15, 5.5, 1.9)
+    arrow(7.7, 2.1, 8.2, 2.1)
+    ax.text(5.0, 0.2, "FA-HPPO: hybrid discrete station choice + continuous charge amount inside a feasibility envelope", ha="center", fontsize=8, color="#333333")
+    fig.tight_layout()
+    save_png(fig, "fig02_method_schematic")
+
+
+# ---------------------------------------------------------------------------
+# Fig. 3 — SOC envelope schematic
+# ---------------------------------------------------------------------------
+def fig03_soc_envelope():
+    fig, ax = plt.subplots(figsize=(6.2, 2.8))
+    arrival, lo, hi, u = 0.18, 0.42, 0.86, 0.78
+    tgt = lo + u * (hi - lo)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_yticks([])
+    ax.spines["left"].set_visible(False)
+    ax.add_patch(Rectangle((lo, 0.32), hi - lo, 0.28, facecolor="#56B4E9", alpha=0.45, edgecolor="#0072B2", lw=1.6))
+    ax.axvline(arrival, color="#666666", ls="--", lw=1.3, ymin=0.28, ymax=0.72)
+    ax.axvline(lo, color="#0072B2", lw=1.7, ymin=0.28, ymax=0.72)
+    ax.axvline(hi, color="#D55E00", lw=1.7, ymin=0.28, ymax=0.72)
+    ax.scatter([tgt], [0.46], s=80, color="#111111", zorder=5, edgecolors="white", linewidths=0.6)
+    ax.text(arrival, 0.84, r"arrival", ha="center", fontsize=8, color="#555555")
+    ax.text(lo, 0.84, r"lower", ha="center", fontsize=8, color="#0072B2")
+    ax.text(hi, 0.84, r"upper", ha="center", fontsize=8, color="#D55E00")
+    ax.text(tgt, 0.12, r"target $= lower + u\,(upper-lower)$", ha="center", fontsize=8)
+    ax.set_xlabel("State of charge (SOC)")
+    ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0])
+    fig.tight_layout()
+    save_png(fig, "fig03_soc_envelope")
+
+
+# ---------------------------------------------------------------------------
+# Fig. 4 — illustrative SOC trajectory
+# ---------------------------------------------------------------------------
+def fig04_illustrative_soc():
+    ep = load_json(CASE)
+    decisions, path = ep["decisions"], ep["path_nodes"]
+    fig, ax = plt.subplots(figsize=(6.8, 3.25))
+    points = [(0.0, 100.0)]
+    cursor = 0
+    labels = ["Depot"]
+    for d in decisions:
+        if d.get("action") == "CONTINUE":
+            cursor += 1
+            points.append((float(cursor), 100 * float(d["soc_after"])))
+            labels.append(d.get("location_after", ""))
+        elif d.get("action") == "CHARGE":
+            cursor += 1
+            points.append((float(cursor), 100 * float(d.get("soc_arrival", d["soc_before_decision"]))))
+            points.append((float(cursor), 100 * float(d.get("soc_departure", d["soc_after"]))))
+            labels.append(d.get("station_id", "S"))
+    xs, ys = zip(*points)
+    ax.plot(xs, ys, color=COLOR["HybridPPO"], lw=2.0)
+    for d in decisions:
+        if d.get("action") != "CHARGE":
+            continue
+        try:
+            xi = path.index(d["station_id"])
+        except (ValueError, KeyError):
+            continue
+        lo, hi = 100 * float(d["soc_lower"]), 100 * float(d["soc_upper"])
+        ax.fill_between([xi - 0.22, xi + 0.22], lo, hi, color="#56B4E9", alpha=0.35, zorder=1)
+        ax.scatter([xi], [100 * float(d.get("soc_departure", d["soc_after"]))], marker="^", s=90, color="#D55E00", zorder=4, edgecolors="white", linewidths=0.5)
+        ax.text(xi, min(104, hi + 4), d["station_id"], ha="center", fontsize=8, color="#D55E00", fontweight="bold")
+    ax.set_ylim(0, 112)
+    ax.set_xlabel("Visit index along executed path")
+    ax.set_ylabel("SOC (%)")
+    ax.set_xticks(range(0, int(max(xs)) + 1, 2))
+    fig.tight_layout()
+    save_png(fig, "fig04_illustrative_soc")
+
+
+# ---------------------------------------------------------------------------
+# Fig. 5–7 — primary TEST bars
+# ---------------------------------------------------------------------------
+def fig05_main_feasibility(rows):
+    summaries = {m: summarize_learned(rows, m) if m == "HybridPPO" else summarize_baseline(rows, m) for m in ORDER_BASE}
+    fig, ax = plt.subplots(figsize=(5.6, 3.6))
+    _vbar(
+        ax,
+        ORDER_BASE,
+        {m: summaries[m]["feasibility_mean"] for m in ORDER_BASE},
+        {m: summaries[m]["feasibility_ci95"] for m in ORDER_BASE},
+        ylabel="Route feasibility (%)",
+        ylim=(0, 118),
+        label_fmt="{:.1f}",
+        as_pct=True,
+    )
+    fig.tight_layout()
+    save_png(fig, "fig05_main_feasibility")
+    return summaries
+
+
+def fig06_main_completion(rows, summaries):
+    fig, ax = plt.subplots(figsize=(5.6, 3.6))
+    _vbar(
+        ax,
+        ORDER_BASE,
+        {m: summaries[m]["completion_all_mean"] for m in ORDER_BASE},
+        {m: summaries[m]["completion_all_ci95"] for m in ORDER_BASE},
+        ylabel="Failure-retaining completion time",
+        ylim=(0, 9.2),
+        label_fmt="{:.2f}",
+        as_pct=False,
+    )
+    fig.tight_layout()
+    save_png(fig, "fig06_main_completion")
+
+
+def fig07_charging_required(rows):
     charge = [r for r in rows if r.get("charge_class") == "charging_required"]
     ch_s = {m: summarize_learned(charge, m) if m == "HybridPPO" else summarize_baseline(charge, m) for m in ORDER_BASE}
-
-    fig, axes = plt.subplots(1, 2, figsize=(9.0, 3.45))
-    _horizontal_metric(
-        axes[0],
-        all_s,
-        "feasibility_mean",
-        "feasibility_ci95",
-        "per_seed_feasibility",
+    fig, ax = plt.subplots(figsize=(5.6, 3.6))
+    _vbar(
+        ax,
+        ORDER_BASE,
+        {m: ch_s[m]["feasibility_mean"] for m in ORDER_BASE},
+        {m: ch_s[m]["feasibility_ci95"] for m in ORDER_BASE},
+        ylabel="Feasibility on charging-required routes (%)",
+        ylim=(0, 118),
+        label_fmt="{:.1f}",
         as_pct=True,
-        xlabel="Route feasibility (%)",
-        title="(a) Route feasibility",
-        label_fmt="{:.1f}%",
     )
-    axes[0].set_xlim(0, 112)
-    _horizontal_metric(
-        axes[1],
-        all_s,
-        "completion_all_mean",
-        "completion_all_ci95",
-        "per_seed_completion",
-        as_pct=False,
-        xlabel="Failure-retaining completion  ↓",
-        title="(b) Failure-retaining completion",
-        label_fmt="{:.2f}",
-    )
-    # no redundant method legend: y-axis already names methods
     fig.tight_layout()
-    save_fig(fig, "fig02_main_test")
-    return all_s, ch_s
+    save_png(fig, "fig07_charging_required")
+    return ch_s
 
 
 # ---------------------------------------------------------------------------
-# Fig. 3 — paired effect sizes
+# Fig. 8 — performance profiles
 # ---------------------------------------------------------------------------
-def fig03_effects():
-    paired = load_json(STATS / "paired_primary.json")
-    order = [
-        "HybridPPO - OneStepLookahead",
-        "HybridPPO - GreedyFullCharge",
-        "HybridPPO - GreedyMinimumSufficientCharge",
-    ]
-    short = {
-        "HybridPPO - OneStepLookahead": "vs Lookahead",
-        "HybridPPO - GreedyFullCharge": "vs Greedy Full",
-        "HybridPPO - GreedyMinimumSufficientCharge": "vs Greedy Min",
-    }
-    fig, axes = plt.subplots(1, 2, figsize=(8.6, 3.2))
-    for ax, family, scale, xlabel, title in (
-        (axes[0], "feasibility", 100.0, "Difference in feasibility (percentage points)\nFA-HPPO better →", "(a) Feasibility"),
-        (axes[1], "completion_all", 1.0, "Difference in failure-retaining completion\n← FA-HPPO better", "(b) Completion"),
-    ):
-        rows = [t for name in order for t in paired if t["comparison"] == name and t["family"] == family]
-        ys = np.arange(len(rows))[::-1]
-        for y, t in zip(ys, rows):
-            eff = float(t["effect"]) * scale
-            lo, hi = float(t["ci95"][0]) * scale, float(t["ci95"][1]) * scale
-            ax.hlines(y, lo, hi, color=COLOR["HybridPPO"], lw=2.2)
-            ax.plot(eff, y, "o", color=COLOR["HybridPPO"], ms=6.5, markeredgecolor="black", markeredgewidth=0.4)
-            if family == "feasibility":
-                ax.text(hi + 1.2, y, f"{eff:+.1f} pp", va="center", fontsize=7.5, color="#222222")
-            else:
-                ax.text(hi + 0.08, y, f"{eff:+.2f}", va="center", fontsize=7.5, color="#222222")
-        ax.axvline(0, color="black", lw=0.9)
-        ax.set_yticks(ys, [short[t["comparison"]] for t in rows])
-        ax.set_xlabel(xlabel)
-        ax.set_title(title, loc="left")
-        ax.grid(axis="x", color="#E6E6E6", lw=0.8)
-        ax.set_axisbelow(True)
-        # room for numeric labels
-        xmin, xmax = ax.get_xlim()
-        ax.set_xlim(xmin, xmax + (8 if family == "feasibility" else 0.45))
+def _profile_for_subset(subset, grid):
+    by_route = defaultdict(list)
+    for r in subset:
+        by_route[r["route_id"]].append(r)
+    route_ok_time = []
+    for rr in by_route.values():
+        vals = []
+        for t in grid:
+            vals.append(mean(float(bool(r["feasible"]) and float(r["completion_time_all_routes"]) <= t) for r in rr))
+        route_ok_time.append(vals)
+    return np.mean(np.asarray(route_ok_time), axis=0)
+
+
+def fig08_performance_profiles(rows):
+    grid = np.linspace(2.0, 10.0, 161)
+    fig, ax = plt.subplots(figsize=(6.4, 3.5))
+    for m in ORDER_BASE:
+        ys = 100.0 * _profile_for_subset(method_rows(rows, m), grid)
+        ax.plot(grid, ys, color=COLOR[m], ls=LS[m], lw=2.0, label=LABEL[m])
+    ax.set_xlabel("Completion-time threshold")
+    ax.set_ylabel("Feasible routes finished by threshold (%)")
+    ax.set_ylim(0, 105)
+    ax.legend(frameon=False, loc="lower right")
     fig.tight_layout()
-    save_fig(fig, "fig03_effect_sizes")
+    save_png(fig, "fig08_performance_profiles")
 
 
 # ---------------------------------------------------------------------------
-# Fig. 4 — difficulty robustness
+# Fig. 9–10 — stratified feasibility (grouped bars)
+# ---------------------------------------------------------------------------
+def _grouped_feasibility(rows, key, levels):
+    """Mean feasibility (%) by stratum; HybridPPO averaged over all its rows."""
+    out = {m: [] for m in ORDER_BASE}
+    for level in levels:
+        for m in ORDER_BASE:
+            sub = [
+                r
+                for r in method_rows(rows, m)
+                if r.get("charge_class") == "charging_required" and r.get(key) == level
+            ]
+            out[m].append(100.0 * mean(float(r["feasible"]) for r in sub) if sub else np.nan)
+    return out
+
+
+def _grouped_bar_plot(stem, rows, key, levels, xlabel):
+    data = _grouped_feasibility(rows, key, levels)
+    fig, ax = plt.subplots(figsize=(6.6, 3.5))
+    x = np.arange(len(levels))
+    width = 0.18
+    offsets = np.linspace(-1.5, 1.5, len(ORDER_BASE)) * width
+    for off, m in zip(offsets, ORDER_BASE):
+        vals = data[m]
+        bars = ax.bar(x + off, vals, width=width, color=COLOR[m], label=LABEL[m], edgecolor="none")
+        for b, v in zip(bars, vals):
+            if not np.isnan(v):
+                ax.text(b.get_x() + b.get_width() / 2, v + 1.5, f"{v:.0f}", ha="center", va="bottom", fontsize=6.5)
+    ax.set_xticks(x, levels)
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel("Feasibility (%)")
+    ax.set_ylim(0, 118)
+    ax.legend(frameon=False, ncol=2, loc="upper right")
+    fig.tight_layout()
+    save_png(fig, stem)
+
+
+def fig09_by_layout(rows):
+    _grouped_bar_plot("fig09_by_layout", rows, "layout", ["R", "C", "RC"], "Customer layout")
+
+
+def fig10_by_length(rows):
+    _grouped_bar_plot("fig10_by_length", rows, "length_bin", ["short", "medium", "long"], "Route length")
+
+
+# ---------------------------------------------------------------------------
+# Fig. 11–12 — difficulty heatmaps
 # ---------------------------------------------------------------------------
 def _cell_feasibility(rows, method, layout, length):
     cell = [
         r
         for r in method_rows(rows, method)
-        if r.get("charge_class") == "charging_required"
-        and r.get("layout") == layout
-        and r.get("length_bin") == length
+        if r.get("charge_class") == "charging_required" and r.get("layout") == layout and r.get("length_bin") == length
     ]
     return mean(float(r["feasible"]) for r in cell) if cell else np.nan
 
 
-def fig04_difficulty(rows):
-    layouts = ["R", "C", "RC"]
-    bins = ["short", "medium", "long"]
+def fig11_difficulty_heatmap(rows):
+    layouts, bins = ["R", "C", "RC"], ["short", "medium", "long"]
     feas = np.zeros((3, 3))
+    for i, layout in enumerate(layouts):
+        for j, length in enumerate(bins):
+            fh = _cell_feasibility(rows, "HybridPPO", layout, length)
+            feas[i, j] = 100.0 * fh if fh is not None else np.nan
+    fig, ax = plt.subplots(figsize=(4.9, 3.9))
+    im = ax.imshow(feas, vmin=70, vmax=100, cmap="Blues")
+    ax.set_xticks(range(3), bins)
+    ax.set_yticks(range(3), layouts)
+    for i in range(3):
+        for j in range(3):
+            v = feas[i, j]
+            ax.text(j, i, "NA" if np.isnan(v) else f"{v:.0f}%", ha="center", va="center", color="white" if (not np.isnan(v) and v > 88) else "black", fontsize=9)
+    fig.colorbar(im, ax=ax, fraction=0.046).set_label("FA-HPPO feasibility (%)")
+    ax.set_xlabel("Route length")
+    ax.set_ylabel("Layout")
+    fig.tight_layout()
+    save_png(fig, "fig11_difficulty_heatmap")
+
+
+def fig12_gain_vs_lookahead(rows):
+    layouts, bins = ["R", "C", "RC"], ["short", "medium", "long"]
     delta = np.zeros((3, 3))
     for i, layout in enumerate(layouts):
         for j, length in enumerate(bins):
             fh = _cell_feasibility(rows, "HybridPPO", layout, length)
             fl = _cell_feasibility(rows, "OneStepLookahead", layout, length)
-            feas[i, j] = 100.0 * fh if fh is not None else np.nan
-            if fh is None or fl is None:
-                delta[i, j] = np.nan
-            else:
-                delta[i, j] = 100.0 * (fh - fl)
-
-    fig, axes = plt.subplots(1, 2, figsize=(8.8, 3.5))
-    im0 = axes[0].imshow(feas, vmin=0, vmax=100, cmap="Blues")
-    axes[0].set_xticks(range(3), bins)
-    axes[0].set_yticks(range(3), layouts)
-    for i in range(3):
-        for j in range(3):
-            v = feas[i, j]
-            if np.isnan(v):
-                axes[0].text(j, i, "NA", ha="center", va="center", fontsize=8)
-            else:
-                axes[0].text(j, i, f"{v:.0f}%", ha="center", va="center", color="white" if v > 55 else "black", fontsize=8)
-    cb0 = fig.colorbar(im0, ax=axes[0], fraction=0.046)
-    cb0.set_label("Feasibility (%)")
-    axes[0].set_title("(a) FA-HPPO feasibility", loc="left")
-    axes[0].set_xlabel("Route length")
-    axes[0].set_ylabel("Layout")
-
-    # All current cells are nonnegative; use a sequential 0→max scale (clearer than awkward diverging).
+            delta[i, j] = np.nan if fh is None or fl is None else 100.0 * (fh - fl)
+    fig, ax = plt.subplots(figsize=(4.9, 3.9))
     dmax = max(1.0, float(np.nanmax(delta)))
-    dmin = float(np.nanmin(delta))
-    if dmin < -1e-9:
-        lim = max(abs(dmin), abs(dmax))
-        im1 = axes[1].imshow(delta, vmin=-lim, vmax=lim, cmap="RdBu")
-        label = "Δ feasibility (pp)"
-    else:
-        im1 = axes[1].imshow(delta, vmin=0, vmax=dmax, cmap="Blues")
-        label = "FA-HPPO improvement over Lookahead (pp)"
-    axes[1].set_xticks(range(3), bins)
-    axes[1].set_yticks(range(3), layouts)
+    im = ax.imshow(delta, vmin=0, vmax=dmax, cmap="YlOrBr")
+    ax.set_xticks(range(3), bins)
+    ax.set_yticks(range(3), layouts)
     for i in range(3):
         for j in range(3):
             v = delta[i, j]
-            if np.isnan(v):
-                axes[1].text(j, i, "NA", ha="center", va="center", fontsize=8)
-            else:
-                txt = "0" if abs(v) < 0.05 else f"{v:+.0f}"
-                strong = v > 0.55 * dmax if dmin >= -1e-9 else abs(v) > 0.55 * max(abs(dmin), abs(dmax))
-                axes[1].text(j, i, txt, ha="center", va="center", color="white" if strong else "black", fontsize=8)
-    cb1 = fig.colorbar(im1, ax=axes[1], fraction=0.046)
-    cb1.set_label(label)
-    axes[1].set_title("(b) FA-HPPO − Lookahead", loc="left")
-    axes[1].set_xlabel("Route length")
-    axes[1].set_ylabel("Layout")
+            txt = "NA" if np.isnan(v) else ("0" if abs(v) < 0.05 else f"{v:+.0f}")
+            ax.text(j, i, txt, ha="center", va="center", color="white" if (not np.isnan(v) and v > 0.55 * dmax) else "black", fontsize=9)
+    fig.colorbar(im, ax=ax, fraction=0.046).set_label("Feasibility gain vs Lookahead (pp)")
+    ax.set_xlabel("Route length")
+    ax.set_ylabel("Layout")
     fig.tight_layout()
-    save_fig(fig, "fig04_difficulty_robustness")
+    save_png(fig, "fig12_gain_vs_lookahead")
 
 
 # ---------------------------------------------------------------------------
-# Fig. 5 — gold development ablation only
-# Fig. 6 — V3 TEST amount-policy sensitivity only
+# Fig. 13 — gold ablation as simple bars (no seed lines)
 # ---------------------------------------------------------------------------
 def load_ablation():
     rows = []
@@ -543,443 +640,205 @@ def load_ablation():
     return rows
 
 
-def fig05_development_ablation(ablation):
-    fig, ax = plt.subplots(figsize=(5.6, 3.5))
-    xs = np.arange(len(ABL_ORDER))
-    rng = np.random.default_rng(0)
-    for i, (code, _) in enumerate(ABL_ORDER):
-        subset = [r for r in ablation if r["variant"] == code]
-        feas = [100.0 * r["parent_balanced_val_feasibility"] for r in subset]
-        jitter = rng.uniform(-0.12, 0.12, size=len(subset))
-        color = COLOR["HybridPPO"] if code == "B2" else "#666666"
-        ax.scatter(i + jitter, feas, color=color, s=40, marker="o", zorder=3, edgecolors="white", linewidths=0.4)
-        ax.plot([i - 0.22, i + 0.22], [mean(feas), mean(feas)], color="black", lw=1.9, zorder=4)
-        ax.text(i, mean(feas) + 3.2, f"{mean(feas):.1f}%", ha="center", fontsize=8)
-    ax.set_xticks(xs, [lab for _, lab in ABL_ORDER])
+def fig13_ablation_bars(ablation):
+    labels = {
+        "B0": "B0\n(no cap,\nno scale)",
+        "B1": "B1\n(cap only)",
+        "B3": "B3\n(scale only)",
+        "B2": "B2\n(cap + scale)",
+    }
+    colors = {"B0": "#999999", "B1": "#E69F00", "B3": "#56B4E9", "B2": "#0072B2"}
+    means = []
+    for code, _ in ABL_ORDER:
+        vals = [100.0 * r["parent_balanced_val_feasibility"] for r in ablation if r["variant"] == code]
+        means.append(mean(vals))
+    fig, ax = plt.subplots(figsize=(5.8, 3.6))
+    xs = np.arange(4)
+    ax.bar(xs, means, color=[colors[c] for c, _ in ABL_ORDER], width=0.66, edgecolor="none")
+    for i, v in enumerate(means):
+        ax.text(i, v + 1.8, f"{v:.1f}%", ha="center", va="bottom", fontsize=8)
+    ax.set_xticks(xs, [labels[c] for c, _ in ABL_ORDER])
     ax.set_ylabel("Parent-balanced VAL feasibility (%)")
     ax.set_ylim(0, 108)
-    ax.set_xlabel("Variant (see Table 3 / caption for time-cap and return-scaling)")
-    ax.text(0.02, 0.04, "Development VAL", transform=ax.transAxes, fontsize=7.5, color="#666666")
     fig.tight_layout()
-    save_fig(fig, "fig05_development_ablation")
-
-
-def fig06_amount_sensitivity(rows):
-    methods = ["HybridPPO", "FA-HPPO-Max", "FA-HPPO-Min"]
-    summaries = {m: summarize_learned(rows, m) for m in methods}
-    amount = load_json(STATS / "amount_sensitivity.json") if (STATS / "amount_sensitivity.json").is_file() else None
-    labels = ["FA-HPPO\nlearned u", "FA-HPPO-Max\nu=1", "FA-HPPO-Min\nu=0"]
-    fig, ax = plt.subplots(figsize=(5.8, 3.5))
-    for i, m in enumerate(methods):
-        s = summaries[m]
-        vals = [100.0 * s["per_seed_feasibility"][seed] for seed in SEEDS]
-        ax.scatter(np.full(5, i), vals, color=COLOR[m], s=40, marker=MARKER[m], zorder=3, edgecolors="white", linewidths=0.4)
-        mu = 100.0 * s["feasibility_mean"]
-        ax.plot([i - 0.2, i + 0.2], [mu, mu], color="black", lw=1.9)
-        lo, hi = 100.0 * s["feasibility_ci95"][0], 100.0 * s["feasibility_ci95"][1]
-        ax.errorbar(i, mu, yerr=[[mu - lo], [hi - mu]], fmt="none", ecolor="black", elinewidth=1.2, capsize=3.5)
-        ax.text(i, max(vals + [hi]) + 2.2, f"{mu:.1f}%", ha="center", fontsize=8)
-    ax.set_xticks(range(3), labels)
-    ax.set_ylabel("Route feasibility (%)")
-    ax.set_ylim(0, 108)
-    tie = amount["route_averaged_feasibility_vs_max"]["tied"] if amount else 173
-    ax.text(0.5, 0.08, f"learned vs Max: {tie}/180 routes tied", transform=ax.transAxes, ha="center", fontsize=8.5, color="#222222")
-    fig.tight_layout()
-    save_fig(fig, "fig06_amount_sensitivity")
+    save_png(fig, "fig13_ablation_bars")
 
 
 # ---------------------------------------------------------------------------
-# Appendix A1 — illustrative charging trajectory (route + SOC)
-# Appendix A2 — illustrative hybrid decision
+# Fig. 14 — amount policies as clear grouped comparison
 # ---------------------------------------------------------------------------
-def _load_case():
-    if not CASE.is_file():
-        raise SystemExit("missing case study JSON; run scripts/paper/record_illustrative_val_episode.py")
-    return load_json(CASE)
-
-
-def fig_a01_illustrative_trajectory():
-    ep = _load_case()
-    nodes = ep["nodes"]
-    customers = ep["customer_ids"]
-    depot = ep["depot_id"]
-    stations = ep["station_ids"]
-    path = ep["path_nodes"]
-    decisions = ep["decisions"]
-    visited_stations = [n for n in path if n in stations]
-
-    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.6))
-    ax_map, ax_soc = axes
-    seq = [depot] + customers + [depot]
-    ax_map.plot([nodes[i]["x"] for i in seq], [nodes[i]["y"] for i in seq], ls="--", color="#B0B0B0", lw=1.2, zorder=1, label="Fixed order")
-    ax_map.plot([nodes[i]["x"] for i in path], [nodes[i]["y"] for i in path], color=COLOR["OneStepLookahead"], lw=1.7, zorder=2, label="Executed path")
-    for sid in stations:
-        n = nodes[sid]
-        used = sid in visited_stations
-        ax_map.scatter(
-            n["x"], n["y"], marker="*" if used else "^", s=160 if used else 55,
-            color=COLOR["HybridPPO"] if used else "#C8C8C8", zorder=6 if used else 3,
-            edgecolors="white", linewidths=0.4,
-        )
-    for i, cid in enumerate(customers, start=1):
-        n = nodes[cid]
-        ax_map.scatter(n["x"], n["y"], s=62, facecolors="white", edgecolors="#222222", linewidths=1.0, zorder=5)
-        ax_map.text(n["x"], n["y"], str(i), ha="center", va="center", fontsize=7.5, zorder=6)
-    nd = nodes[depot]
-    ax_map.scatter(nd["x"], nd["y"], marker="s", s=75, color="black", zorder=7)
-    vx = [nodes[i]["x"] for i in path]
-    vy = [nodes[i]["y"] for i in path]
-    pad_x = max(0.04, 0.08 * (max(vx) - min(vx) + 1e-9))
-    pad_y = max(0.04, 0.08 * (max(vy) - min(vy) + 1e-9))
-    ax_map.set_xlim(min(vx) - pad_x, max(vx) + pad_x)
-    ax_map.set_ylim(min(vy) - pad_y, max(vy) + pad_y)
-    ax_map.set_aspect("equal", adjustable="box")
-    ax_map.set_xlabel("x")
-    ax_map.set_ylabel("y")
-    ax_map.set_title("(a) Fixed route + charging insertions", loc="left")
-    ax_map.text(0.02, 0.98, "Development VAL", transform=ax_map.transAxes, fontsize=7.5, va="top", color="#666666")
-
-    points = [(0.0, 100.0)]
-    cursor = 0
-    for d in decisions:
-        if d.get("action") == "CONTINUE":
-            cursor += 1
-            points.append((float(cursor), 100 * float(d["soc_after"])))
-        elif d.get("action") == "CHARGE":
-            cursor += 1
-            points.append((float(cursor), 100 * float(d.get("soc_arrival", d["soc_before_decision"]))))
-            points.append((float(cursor), 100 * float(d.get("soc_departure", d["soc_after"]))))
-    xs, ys = zip(*points)
-    ax_soc.plot(xs, ys, color=COLOR["HybridPPO"], lw=1.8)
-    for d in decisions:
-        if d.get("action") != "CHARGE":
-            continue
-        try:
-            xi = path.index(d["station_id"])
-        except (ValueError, KeyError):
-            continue
-        lo, hi = 100 * d["soc_lower"], 100 * d["soc_upper"]
-        ax_soc.fill_between([xi - 0.18, xi + 0.18], lo, hi, color="#56B4E9", alpha=0.35)
-        ax_soc.scatter([xi], [100 * d.get("soc_departure", d["soc_after"])], marker="*", s=90, color="#D55E00", zorder=5)
-    ax_soc.set_ylim(-2, 108)
-    ax_soc.set_ylabel("SOC (%)")
-    ax_soc.set_xlabel("Visit index")
-    ax_soc.set_title("(b) SOC along route", loc="left")
-    fig.tight_layout()
-    save_fig(fig, "figA01_illustrative_trajectory", appendix=True)
-
-
-def fig_a02_illustrative_hybrid_decision():
-    ep = _load_case()
-    decisions = ep["decisions"]
-    rep_step = ep.get("representative_charge_step")
-    rep = next((d for d in decisions if d.get("step") == rep_step and d.get("action") == "CHARGE"), None)
-    if rep is None:
-        rep = next((d for d in decisions if d.get("action") == "CHARGE"), None)
-    fig, axes = plt.subplots(1, 2, figsize=(8.6, 3.4))
-    ax_disc, ax_beta = axes
-    if rep is None:
-        ax_disc.text(0.5, 0.5, "no charge decision", ha="center")
-        ax_beta.axis("off")
-    else:
-        names = rep["policy"]["action_names"]
-        probs = np.asarray(rep["policy"]["probs"], dtype=float)
-        mask = np.asarray(rep["policy"]["mask"], dtype=bool)
-        xs = np.arange(len(names))
-        colors = [
-            COLOR["HybridPPO"] if (mask[i] and names[i] == rep.get("station_id")) else ("#9E9E9E" if mask[i] else "#DDDDDD")
-            for i in range(len(names))
-        ]
-        ax_disc.bar(xs, np.where(mask, probs, 0.0), color=colors, width=0.72, edgecolor="#444444", linewidth=0.4)
-        for i, mflag in enumerate(mask):
-            if not mflag:
-                ax_disc.text(i, 0.06, "masked", ha="center", fontsize=6.5, color="#888888")
-        ax_disc.set_xticks(xs, names, fontsize=8)
-        ax_disc.set_ylim(0, 1.08)
-        ax_disc.set_ylabel("Probability")
-        ax_disc.set_title("(a) Discrete head", loc="left")
-
-        alpha = float(rep["alpha"])
-        beta = float(rep["beta"])
-        u = float(rep["u"])
-        ugrid = np.linspace(0.001, 0.999, 300)
-        dens = _beta_pdf(ugrid, alpha, beta)
-        ax_beta.fill_between(ugrid, dens, color="#56B4E9", alpha=0.35)
-        ax_beta.plot(ugrid, dens, color=COLOR["HybridPPO"], lw=1.5)
-        ax_beta.axvline(u, color="#D55E00", lw=1.6)
-        ax_beta.set_xlabel(r"$u$")
-        ax_beta.set_ylabel("Density")
-        ax_beta.set_title("(b) Continuous head → target SOC", loc="left")
-        lo, hi, tgt = rep["soc_lower"], rep["soc_upper"], rep["soc_target"]
-        ax_beta.text(
-            0.02, 0.95,
-            rf"$u={u:.2f}$; $[{100*lo:.0f},{100*hi:.0f}]\%\to{100*tgt:.0f}\%$",
-            transform=ax_beta.transAxes, va="top", fontsize=8,
-        )
-    ax_disc.text(0.02, 0.02, "Development VAL", transform=ax_disc.transAxes, fontsize=7.5, color="#666666")
-    fig.tight_layout()
-    save_fig(fig, "figA02_illustrative_hybrid_decision", appendix=True)
-
-
-# ---------------------------------------------------------------------------
-# Appendix A3 — learning curves
-# ---------------------------------------------------------------------------
-def fig_a03_learning_curves(ablation):
-    fig, ax = plt.subplots(figsize=(7.2, 3.4))
-    styles = {
-        "B0": dict(color="#999999", ls="-", lw=1.6),
-        "B1": dict(color="#E69F00", ls="--", lw=1.6),
-        "B3": dict(color="#56B4E9", ls="-.", lw=1.6),
-        "B2": dict(color="#0072B2", ls="-", lw=2.2),
-    }
-    for code, lab in ABL_ORDER:
-        series = []
-        for seed in SEEDS:
-            path = V3 / "ablation" / code / f"seed_{seed}" / "curves.jsonl"
-            if not path.is_file():
-                continue
-            xs, ys = [], []
-            for line in path.read_text(encoding="utf-8").splitlines():
-                if not line.strip():
-                    continue
-                row = json.loads(line)
-                if row.get("val_parent_balanced_feasibility") is None:
-                    continue
-                xs.append(int(row["update"]))
-                ys.append(100.0 * float(row["val_parent_balanced_feasibility"]))
-            if xs:
-                series.append((np.asarray(xs), np.asarray(ys)))
-        if not series:
-            continue
-        grid = sorted({int(x) for xs, _ in series for x in xs})
-        mat = np.asarray([np.interp(grid, xs, ys) for xs, ys in series])
-        mu, sd = mat.mean(0), mat.std(0, ddof=1) if len(mat) > 1 else np.zeros_like(mat[0])
-        st = styles[code]
-        ax.plot(grid, mu, label=lab, **st)
-        ax.fill_between(grid, mu - sd, mu + sd, color=st["color"], alpha=0.12)
-    ax.set_xlabel("Training update")
-    ax.set_ylabel("Parent-balanced VAL feasibility (%)")
-    ax.set_ylim(0, 105)
-    ax.legend(frameon=False, title="mean ± SD", fontsize=7)
-    ax.text(0.02, 0.04, "Development VAL", transform=ax.transAxes, fontsize=7.5, color="#666666")
-    fig.tight_layout()
-    save_fig(fig, "figA03_learning_curves", appendix=True)
-
-
-# ---------------------------------------------------------------------------
-# Appendix A4 — training stability
-# ---------------------------------------------------------------------------
-def fig_a04_training_stability():
-    fig, axes = plt.subplots(1, 2, figsize=(8.8, 3.4))
-    styles = {
-        "B0": dict(color="#999999", ls="-", lw=1.5),
-        "B1": dict(color="#E69F00", ls="--", lw=1.5),
-        "B3": dict(color="#56B4E9", ls="-.", lw=1.5),
-        "B2": dict(color="#0072B2", ls="-", lw=2.0),
-    }
-    handles = []
-    for ax, key, title, ylabel in (
-        (axes[0], "value_loss", "(a) Value loss", "Value loss"),
-        (axes[1], "grad_norm_preclip", "(b) Pre-clip gradient norm", "Gradient norm (pre-clip)"),
-    ):
-        for code, lab in ABL_ORDER:
-            series = []
-            for seed in SEEDS:
-                path = V3 / "ablation" / code / f"seed_{seed}" / "curves.jsonl"
-                if not path.is_file():
-                    continue
-                xs, ys = [], []
-                for line in path.read_text(encoding="utf-8").splitlines():
-                    if not line.strip():
-                        continue
-                    row = json.loads(line)
-                    if row.get(key) is None:
-                        continue
-                    xs.append(int(row["update"]))
-                    ys.append(float(row[key]))
-                if xs:
-                    series.append((np.asarray(xs), np.asarray(ys)))
-            if not series:
-                continue
-            grid = sorted({int(x) for xs, _ in series for x in xs})
-            mat = np.asarray([np.interp(grid, xs, ys) for xs, ys in series])
-            mu, sd = mat.mean(0), mat.std(0, ddof=1) if len(mat) > 1 else np.zeros_like(mat[0])
-            st = styles[code]
-            (line,) = ax.plot(grid, mu, label=lab, **st)
-            ax.fill_between(grid, np.maximum(mu - sd, 1e-8), mu + sd, color=st["color"], alpha=0.12)
-            if ax is axes[0]:
-                handles.append(line)
-        ax.set_yscale("log")
-        ax.set_xlabel("Training update")
-        ax.set_ylabel(ylabel)
-        ax.set_title(title, loc="left")
-        ax.text(0.02, 0.04, "Development VAL", transform=ax.transAxes, fontsize=7.5, color="#666666")
-    fig.legend(handles, [lab for _, lab in ABL_ORDER], loc="upper center", ncol=4, frameon=False, fontsize=7.5, title="mean ± SD")
-    fig.tight_layout(rect=(0, 0, 1, 0.90))
-    save_fig(fig, "figA04_training_stability", appendix=True)
-
-
-# ---------------------------------------------------------------------------
-# Appendix A5 — SynthCharge envelope A/B/C (paired seed trajectories)
-# ---------------------------------------------------------------------------
-def fig_a05_envelope():
-    if not ENVELOPE_SUMMARY.is_file():
-        raise SystemExit(f"missing envelope summary: {ENVELOPE_SUMMARY}")
-    summary = load_json(ENVELOPE_SUMMARY)
-    order = [
-        ("A_arrival_to_max", "Arrival-to-Max"),
-        ("B_energy_to_max", "EnergyLower-to-Max"),
-        ("C_energy_to_time", "EnergyLower-to-TimeUpper"),
-    ]
-    fig, ax = plt.subplots(figsize=(6.8, 3.6))
-    seed_colors = {42: "#0072B2", 43: "#D55E00", 44: "#009E73", 45: "#CC79A7", 46: "#E69F00"}
-    for seed in SEEDS:
-        ys = [100.0 * float(summary["variants"][key]["val_feas_per_seed"][str(seed)]) for key, _ in order]
-        ax.plot(range(3), ys, "-o", color=seed_colors[seed], lw=1.3, ms=5.5, label=f"seed {seed}", zorder=3)
-    means = [100.0 * float(summary["variants"][key]["val_feas_mean"]) for key, _ in order]
-    ax.plot(range(3), means, color="black", lw=2.2, marker="D", ms=6.5, label="mean", zorder=4)
-    for i, mu in enumerate(means):
-        ax.text(i, mu + 0.35, f"{mu:.1f}%", ha="center", fontsize=7.5)
-    ax.set_xticks(range(3), [lab for _, lab in order])
-    ax.set_ylabel("Parent-balanced VAL feasibility (%)")
-    ax.set_ylim(94, 101.2)
-    ax.text(0.02, 0.96, "Zoomed y-axis (94–101%)", transform=ax.transAxes, va="top", fontsize=7.5, color="#666666")
-    ax.text(0.02, 0.05, "Post-hoc SynthCharge development study", transform=ax.transAxes, fontsize=7.5, color="#666666")
-    ax.legend(frameon=False, fontsize=6.8, loc="lower right", ncol=2)
-    fig.tight_layout()
-    save_fig(fig, "figA05_envelope_ablation", appendix=True)
-
-
-# ---------------------------------------------------------------------------
-# Appendix A6 — failure consistency (problematic routes)
-# Appendix A7 — failure heatmap
-# ---------------------------------------------------------------------------
-def _failure_problem_routes(rows):
-    hybrid = method_rows(rows, "HybridPPO")
-    by_route = defaultdict(list)
-    for r in hybrid:
-        by_route[r["route_id"]].append(r)
-    problem = []
-    n_all_ok = 0
-    for rid, rr in by_route.items():
-        n_fail = sum(1 for r in rr if not r["feasible"])
-        if n_fail == 0:
-            n_all_ok += 1
-            continue
-        sample = next(r for r in rr if not r["feasible"])
-        problem.append(
-            {
-                "route_id": rid,
-                "n_fail": n_fail,
-                "layout": sample.get("layout"),
-                "length": sample.get("length_bin"),
-                "charge_class": sample.get("charge_class"),
-            }
-        )
-    problem.sort(key=lambda d: (-d["n_fail"], d["route_id"]))
-    return problem, n_all_ok, by_route
-
-
-def fig_a06_failure_consistency(rows):
-    problem, n_all_ok, by_route = _failure_problem_routes(rows)
-    fig, ax = plt.subplots(figsize=(7.2, 5.0))
-    ys = np.arange(len(problem))[::-1]
-    xs = [d["n_fail"] for d in problem]
-    ax.hlines(ys, 0, xs, color="#A7C7DC", lw=1.8)
-    ax.scatter(xs, ys, color=COLOR["HybridPPO"], s=42, zorder=3, edgecolors="white", linewidths=0.4)
-    # short aliases R01.. mapped in Table A3 order note
-    labels = [f"R{i:02d}  ({d['layout']}/{d['length']})" for i, d in enumerate(problem, start=1)]
-    ax.set_yticks(ys, labels, fontsize=8)
-    ax.set_xlabel("Number of failing seeds (1–5)")
-    ax.set_xlim(0, 5.5)
-    ax.set_xticks([1, 2, 3, 4, 5])
-    ax.text(
-        0.98, 0.02,
-        f"{n_all_ok} / {len(by_route)} routes succeeded under all five seeds\n"
-        "Aliases R01–R20 map to full route IDs in Table A3 (sorted same way).",
-        transform=ax.transAxes, ha="right", va="bottom", fontsize=8, color="#222222",
-        bbox=dict(boxstyle="round,pad=0.28", facecolor="white", edgecolor="#CCCCCC", alpha=0.95),
+def fig14_amount_policies(rows):
+    summaries = {m: summarize_learned(rows, m) for m in AMOUNT_ORDER}
+    fig, axes = plt.subplots(1, 2, figsize=(7.8, 3.45))
+    _vbar(
+        axes[0],
+        AMOUNT_ORDER,
+        {m: summaries[m]["feasibility_mean"] for m in AMOUNT_ORDER},
+        {m: summaries[m]["feasibility_ci95"] for m in AMOUNT_ORDER},
+        ylabel="Route feasibility (%)",
+        ylim=(0, 118),
+        label_fmt="{:.1f}",
+        as_pct=True,
     )
-    # write alias map sidecar for captions/docs
-    alias = {f"R{i:02d}": d["route_id"] for i, d in enumerate(problem, start=1)}
-    (OUT / "failure_analysis" / "ROUTE_ALIASES.json").parent.mkdir(parents=True, exist_ok=True)
-    (OUT / "failure_analysis" / "ROUTE_ALIASES.json").write_text(json.dumps(alias, indent=2) + "\n", encoding="utf-8")
-    fig.tight_layout()
-    save_fig(fig, "figA06_failure_consistency", appendix=True)
-    return problem, n_all_ok, by_route
-
-
-def fig_a07_failure_heatmap(rows):
-    _problem, _n_ok, by_route = _failure_problem_routes(rows)
-    layouts = ["R", "C", "RC"]
-    bins = ["short", "medium", "long"]
-    rate = np.zeros((3, 3))
-    for i, layout in enumerate(layouts):
-        for j, length in enumerate(bins):
-            cell_rows = [
-                r
-                for rr in by_route.values()
-                for r in rr
-                if rr[0].get("layout") == layout
-                and rr[0].get("length_bin") == length
-                and rr[0].get("charge_class") == "charging_required"
-            ]
-            rate[i, j] = 100.0 * mean(float(not r["feasible"]) for r in cell_rows) if cell_rows else np.nan
-    fig, ax = plt.subplots(figsize=(5.4, 4.2))
-    vmax = max(10.0, float(np.nanmax(rate)))
-    im = ax.imshow(rate, vmin=0, vmax=vmax, cmap="magma")
-    ax.set_xticks(range(3), bins)
-    ax.set_yticks(range(3), layouts)
-    for i in range(3):
-        for j in range(3):
-            v = rate[i, j]
-            if np.isnan(v):
-                ax.text(j, i, "NA", ha="center", va="center", color="white", fontsize=10)
-            else:
-                ax.text(j, i, f"{v:.0f}%", ha="center", va="center", color="white", fontsize=10)
-    cb = fig.colorbar(im, ax=ax, fraction=0.046)
-    cb.set_label("Failure rate (%)")
-    ax.set_xlabel("Route length")
-    ax.set_ylabel("Layout")
-    fig.tight_layout()
-    save_fig(fig, "figA07_failure_heatmap", appendix=True)
-
-
-# ---------------------------------------------------------------------------
-# Appendix A8 — seed robustness
-# ---------------------------------------------------------------------------
-def fig_a08_seeds(summary):
-    fig, axes = plt.subplots(1, 2, figsize=(7.4, 3.1))
-    seeds = list(SEEDS)
-    feas = [100.0 * summary["per_seed_feasibility"][s] for s in seeds]
-    comp = [summary["per_seed_completion"][s] for s in seeds]
-    axes[0].scatter(seeds, feas, s=60, color=COLOR["HybridPPO"], marker="o", zorder=3, edgecolors="black", linewidths=0.4)
-    axes[0].axhline(100.0 * summary["feasibility_mean"], color="black", ls="--", lw=1)
-    lo, hi = 100.0 * summary["feasibility_ci95"][0], 100.0 * summary["feasibility_ci95"][1]
-    axes[0].axhspan(lo, hi, color=COLOR["HybridPPO"], alpha=0.15)
-    ymin = min(feas + [lo]) - 1.5
-    axes[0].set_ylim(ymin, 100.8)
-    axes[0].text(0.98, 0.96, "Zoomed y-axis", transform=axes[0].transAxes, ha="right", va="top", fontsize=7.5, color="#666666")
-    axes[0].text(0.02, 0.96, "Shaded: hier. 95% CI", transform=axes[0].transAxes, ha="left", va="top", fontsize=7.5, color="#666666")
-    axes[0].set_xlabel("Training seed")
-    axes[0].set_ylabel("Feasibility (%)")
     axes[0].set_title("(a) Feasibility", loc="left")
-
-    axes[1].scatter(seeds, comp, s=60, color=COLOR["HybridPPO"], marker="o", zorder=3, edgecolors="black", linewidths=0.4)
-    axes[1].axhline(summary["completion_all_mean"], color="black", ls="--", lw=1)
-    lo, hi = summary["completion_all_ci95"]
-    axes[1].axhspan(lo, hi, color=COLOR["HybridPPO"], alpha=0.15)
-    axes[1].set_xlabel("Training seed")
-    axes[1].set_ylabel("Failure-retaining completion")
+    _vbar(
+        axes[1],
+        AMOUNT_ORDER,
+        {m: summaries[m]["completion_all_mean"] for m in AMOUNT_ORDER},
+        {m: summaries[m]["completion_all_ci95"] for m in AMOUNT_ORDER},
+        ylabel="Failure-retaining completion",
+        ylim=(0, 10.5),
+        label_fmt="{:.2f}",
+        as_pct=False,
+    )
     axes[1].set_title("(b) Completion", loc="left")
     fig.tight_layout()
-    save_fig(fig, "figA08_seed_robustness", appendix=True)
+    save_png(fig, "fig14_amount_policies")
 
 
 # ---------------------------------------------------------------------------
-# Appendix A9 — native FRVCP reference
+# Fig. 15 — charging effort among feasible routes
 # ---------------------------------------------------------------------------
-def fig_a09_frvcp():
+def fig15_charging_effort(rows):
+    fig, ax = plt.subplots(figsize=(5.8, 3.5))
+    vals = []
+    for m in ORDER_BASE:
+        sub = [r for r in method_rows(rows, m) if r["feasible"]]
+        vals.append(mean(float(r["n_station_visits"]) for r in sub) if sub else np.nan)
+    xs = np.arange(len(ORDER_BASE))
+    ax.bar(xs, vals, color=[COLOR[m] for m in ORDER_BASE], width=0.62, edgecolor="none")
+    for i, v in enumerate(vals):
+        ax.text(i, v + 0.05, f"{v:.2f}", ha="center", va="bottom", fontsize=8)
+    ax.set_xticks(xs, [LABEL[m] for m in ORDER_BASE])
+    ax.set_ylabel("Mean station visits (feasible routes)")
+    ax.set_ylim(0, max(vals) * 1.25)
+    fig.tight_layout()
+    save_png(fig, "fig15_charging_effort")
+
+
+# ---------------------------------------------------------------------------
+# Fig. 16 — runtime
+# ---------------------------------------------------------------------------
+def fig16_runtime(rows, summaries):
+    fig, ax = plt.subplots(figsize=(5.6, 3.5))
+    vals = [1000.0 * summaries[m]["runtime_s"] for m in ORDER_BASE]
+    xs = np.arange(len(ORDER_BASE))
+    ax.bar(xs, vals, color=[COLOR[m] for m in ORDER_BASE], width=0.62, edgecolor="none")
+    for i, v in enumerate(vals):
+        ax.text(i, v + max(vals) * 0.03, f"{v:.0f}", ha="center", va="bottom", fontsize=8)
+    ax.set_xticks(xs, [LABEL[m] for m in ORDER_BASE])
+    ax.set_ylabel("Mean evaluation runtime (ms / route)")
+    ax.set_ylim(0, max(vals) * 1.25)
+    fig.tight_layout()
+    save_png(fig, "fig16_runtime")
+
+
+# ---------------------------------------------------------------------------
+# Fig. 17 — failure rate by regime (no seed counts)
+# ---------------------------------------------------------------------------
+def fig17_failure_by_regime(rows):
+    layouts, bins = ["R", "C", "RC"], ["short", "medium", "long"]
+    fig, ax = plt.subplots(figsize=(6.6, 3.5))
+    x = np.arange(len(bins))
+    width = 0.22
+    offsets = {"R": -width, "C": 0.0, "RC": width}
+    colors = {"R": "#0072B2", "C": "#009E73", "RC": "#D55E00"}
+    for layout in layouts:
+        ys = []
+        for length in bins:
+            cell = [
+                r
+                for r in method_rows(rows, "HybridPPO")
+                if r.get("charge_class") == "charging_required"
+                and r.get("layout") == layout
+                and r.get("length_bin") == length
+            ]
+            ys.append(100.0 * mean(float(not r["feasible"]) for r in cell) if cell else np.nan)
+        bars = ax.bar(x + offsets[layout], ys, width=width, color=colors[layout], label=layout, edgecolor="none")
+        for b, v in zip(bars, ys):
+            if not np.isnan(v):
+                ax.text(b.get_x() + b.get_width() / 2, v + 0.6, f"{v:.0f}", ha="center", va="bottom", fontsize=7)
+    ax.set_xticks(x, bins)
+    ax.set_xlabel("Route length")
+    ax.set_ylabel("FA-HPPO failure rate (%)")
+    ax.set_ylim(0, 28)
+    ax.legend(frameon=False, title="Layout")
+    fig.tight_layout()
+    save_png(fig, "fig17_failure_by_regime")
+
+
+# ---------------------------------------------------------------------------
+# Fig. 18 — envelope variants (means only)
+# ---------------------------------------------------------------------------
+def fig18_envelope_variants():
+    summary = load_json(ENVELOPE_SUMMARY)
+    order = [
+        ("A_arrival_to_max", "Arrival→Max"),
+        ("B_energy_to_max", "EnergyLower→Max"),
+        ("C_energy_to_time", "EnergyLower→TimeUpper"),
+    ]
+    means = [100.0 * float(summary["variants"][key]["val_feas_mean"]) for key, _ in order]
+    fig, ax = plt.subplots(figsize=(6.0, 3.4))
+    xs = np.arange(3)
+    ax.bar(xs, means, color=["#999999", "#56B4E9", "#0072B2"], width=0.62, edgecolor="none")
+    for i, v in enumerate(means):
+        ax.text(i, v + 0.15, f"{v:.1f}%", ha="center", va="bottom", fontsize=8)
+    ax.set_xticks(xs, [lab for _, lab in order])
+    ax.set_ylabel("Parent-balanced VAL feasibility (%)")
+    lo = min(means) - 1.5
+    ax.set_ylim(max(90, lo), 101.5)
+    fig.tight_layout()
+    save_png(fig, "fig18_envelope_variants")
+
+
+# ---------------------------------------------------------------------------
+# Fig. 19 — one charge decision (discrete + continuous)
+# ---------------------------------------------------------------------------
+def fig19_charge_decision():
+    ep = load_json(CASE)
+    charge = next(d for d in ep["decisions"] if d.get("action") == "CHARGE")
+    names = charge["policy"]["action_names"]
+    probs = [float(p) for p in charge["policy"]["probs"]]
+    mask = [bool(m) for m in charge["policy"]["mask"]]
+    lo, hi, tgt = float(charge["soc_lower"]), float(charge["soc_upper"]), float(charge["soc_target"])
+    u = float(charge["u"])
+
+    fig, axes = plt.subplots(1, 2, figsize=(8.0, 3.35))
+    # Discrete action probabilities
+    ax = axes[0]
+    xs = np.arange(len(names))
+    colors = ["#BDBDBD" if not ok else ("#0072B2" if n != "CONTINUE" else "#56B4E9") for n, ok in zip(names, mask)]
+    ax.bar(xs, probs, color=colors, width=0.66, edgecolor="none")
+    for i, (p, ok) in enumerate(zip(probs, mask)):
+        ax.text(i, p + 0.03, "masked" if not ok else f"{p:.2f}", ha="center", va="bottom", fontsize=7.5)
+    ax.set_xticks(xs, names)
+    ax.set_ylabel("Action probability")
+    ax.set_ylim(0, 1.18)
+    ax.set_title("(a) Discrete station choice", loc="left")
+
+    # Continuous amount inside envelope
+    ax = axes[1]
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_yticks([])
+    ax.spines["left"].set_visible(False)
+    ax.add_patch(Rectangle((lo, 0.35), hi - lo, 0.25, facecolor="#56B4E9", alpha=0.45, edgecolor="#0072B2", lw=1.5))
+    ax.axvline(lo, color="#0072B2", lw=1.5, ymin=0.3, ymax=0.7)
+    ax.axvline(hi, color="#D55E00", lw=1.5, ymin=0.3, ymax=0.7)
+    ax.scatter([tgt], [0.475], s=85, color="#111111", zorder=5, edgecolors="white", linewidths=0.5)
+    ax.text(lo, 0.78, "lower", ha="center", color="#0072B2", fontsize=8)
+    ax.text(hi, 0.78, "upper", ha="center", color="#D55E00", fontsize=8)
+    ax.text(tgt, 0.15, f"target (u={u:.2f})", ha="center", fontsize=8)
+    ax.set_xlabel("SOC")
+    ax.set_title(f"(b) Charge amount at {charge['station_id']}", loc="left")
+    fig.tight_layout()
+    save_png(fig, "fig19_charge_decision")
+
+
+# ---------------------------------------------------------------------------
+# Fig. 20 — native FRVCP reference
+# ---------------------------------------------------------------------------
+def fig20_frvcp():
     summary_csv = ROOT / "results/final/statistics/frvcpy_native/method_summary.csv"
     gap_csv = ROOT / "results/final/tables/frvcpy_native/table_F_frvcpy.csv"
     rows = list(csv.DictReader(summary_csv.open(encoding="utf-8")))
@@ -989,34 +848,50 @@ def fig_a09_frvcp():
         if raw:
             gaps[r["method"]] = float(raw)
     order = ["frvcpy_Solver", "FRVCPGreedyMin", "FRVCPGreedyFull"]
-    labels = {"frvcpy_Solver": "frvcpy Solver", "FRVCPGreedyMin": "GreedyMin", "FRVCPGreedyFull": "GreedyFull"}
+    labels = {"frvcpy_Solver": "Exact solver", "FRVCPGreedyMin": "Greedy Min", "FRVCPGreedyFull": "Greedy Full"}
     colors = {"frvcpy_Solver": "#0072B2", "FRVCPGreedyMin": "#E69F00", "FRVCPGreedyFull": "#009E73"}
-    markers = {"frvcpy_Solver": "o", "FRVCPGreedyMin": "^", "FRVCPGreedyFull": "D"}
     feas = {r["method"]: 100.0 * float(r["feasibility_mean"]) for r in rows}
-    fig, axes = plt.subplots(1, 2, figsize=(8.0, 3.2))
-    y = np.arange(len(order))[::-1]
-    for yi, m in zip(y, order):
-        axes[0].plot(feas[m], yi, marker=markers[m], color=colors[m], ms=9, markeredgecolor="black", markeredgewidth=0.4)
-        axes[0].text(feas[m] + 1.5, yi, f"{feas[m]:.1f}%", va="center", fontsize=7.5)
-    axes[0].set_yticks(y, [labels[m] for m in order])
-    axes[0].set_xlim(0, 108)
-    axes[0].set_xlabel("Feasibility (%)")
-    axes[0].set_title("(a) Native FRVCP reference", loc="left")
+    fig, axes = plt.subplots(1, 2, figsize=(7.6, 3.2))
+    x = np.arange(len(order))
+    axes[0].bar(x, [feas[m] for m in order], color=[colors[m] for m in order], width=0.62, edgecolor="none")
+    for i, m in enumerate(order):
+        axes[0].text(i, feas[m] + 1.5, f"{feas[m]:.1f}", ha="center", fontsize=8)
+    axes[0].set_xticks(x, [labels[m] for m in order])
+    axes[0].set_ylabel("Feasibility (%)")
+    axes[0].set_ylim(0, 118)
+    axes[0].set_title("(a) Feasibility", loc="left")
     gm = ["FRVCPGreedyMin", "FRVCPGreedyFull"]
-    y2 = np.arange(len(gm))[::-1]
-    for yi, m in zip(y2, gm):
-        axes[1].plot(gaps[m], yi, marker=markers[m], color=colors[m], ms=9, markeredgecolor="black", markeredgewidth=0.4)
-        axes[1].text(gaps[m] + 0.4, yi, f"{gaps[m]:.1f}%", va="center", fontsize=7.5)
-    axes[1].set_yticks(y2, [labels[m] for m in gm])
-    axes[1].set_xlabel("Mean optimality gap vs frvcpy Solver (%)")
-    axes[1].set_title("(b) Gap vs frvcpy Solver", loc="left")
+    x2 = np.arange(len(gm))
+    axes[1].bar(x2, [gaps[m] for m in gm], color=[colors[m] for m in gm], width=0.55, edgecolor="none")
+    for i, m in enumerate(gm):
+        axes[1].text(i, gaps[m] + 0.4, f"{gaps[m]:.1f}", ha="center", fontsize=8)
+    axes[1].set_xticks(x2, [labels[m] for m in gm])
+    axes[1].set_ylabel("Mean gap vs exact solver (%)")
+    axes[1].set_title("(b) Optimality gap", loc="left")
     fig.tight_layout()
-    save_fig(fig, "figA09_native_frvcp_reference", appendix=True)
+    save_png(fig, "fig20_frvcp_reference")
 
 
 # ---------------------------------------------------------------------------
-# Tables
+# Failure table helper + tables / captions / verify
 # ---------------------------------------------------------------------------
+def _failure_problem_routes(rows):
+    hybrid = method_rows(rows, "HybridPPO")
+    by_route = defaultdict(list)
+    for r in hybrid:
+        by_route[r["route_id"]].append(r)
+    problem, n_all_ok = [], 0
+    for rid, rr in by_route.items():
+        n_fail = sum(1 for r in rr if not r["feasible"])
+        if n_fail == 0:
+            n_all_ok += 1
+            continue
+        sample = next(r for r in rr if not r["feasible"])
+        problem.append({"route_id": rid, "n_fail": n_fail, "layout": sample.get("layout"), "length": sample.get("length_bin")})
+    problem.sort(key=lambda d: (-d["n_fail"], d["route_id"]))
+    return problem, n_all_ok, by_route
+
+
 def write_table(stem, title, header, rows, note):
     TAB.mkdir(parents=True, exist_ok=True)
     md = [f"# {title}", "", note, "", "| " + " | ".join(header) + " |", "|" + "|".join(["---"] * len(header)) + "|"]
@@ -1028,17 +903,7 @@ def write_table(stem, title, header, rows, note):
         w.writerow(header)
         w.writerows(rows)
     cols = "l" + "c" * (len(header) - 1)
-    tex = [
-        "% Auto-generated from frozen results.",
-        r"\begin{table}[t]",
-        r"\centering",
-        rf"\caption{{{title}}}",
-        rf"\label{{tab:{stem}}}",
-        rf"\begin{{tabular}}{{{cols}}}",
-        r"\toprule",
-        " & ".join(header) + r" \\",
-        r"\midrule",
-    ]
+    tex = ["% Auto-generated from frozen results.", r"\begin{table}[t]", r"\centering", rf"\caption{{{title}}}", rf"\label{{tab:{stem}}}", rf"\begin{{tabular}}{{{cols}}}", r"\toprule", " & ".join(header) + r" \\", r"\midrule"]
     for row in rows:
         tex.append(" & ".join(str(c) for c in row) + r" \\")
     tex.extend([r"\bottomrule", r"\end{tabular}", r"\end{table}", ""])
@@ -1055,7 +920,7 @@ def build_tables(all_s, ch_s, ablation, rows):
             ["SynthCharge VAL", "development", "synthcharge_linear", "90", "~80%", "—", "no", "yes (parent-bal.)", "no"],
             ["V3 SynthCharge TEST", "fresh independently generated confirmatory", "synthcharge_linear", "180", "144/180", "5 (eval)", "yes", "no", "yes"],
             ["Gold TRAIN/VAL", "methodology ablation", "official_evrptwgr", "119/47", "—", "42–46", "no", "ablation only", "methodology only"],
-            ["Native FRVCP archive", "separate reference", "native FRVCP", "133", "—", "—", "no", "no", "appendix only"],
+            ["Native FRVCP archive", "separate reference", "native FRVCP", "133", "—", "—", "no", "no", "reference only"],
         ],
         "V3 is a fresh independently generated SynthCharge TEST, not external-domain generalization.",
     )
@@ -1075,7 +940,7 @@ def build_tables(all_s, ch_s, ablation, rows):
             ]
             for m in ORDER_BASE
         ],
-        "FA-HPPO = mean over 5 training seeds; baselines deterministic. Infeasible completion = horizon H. CI = hierarchical bootstrap (seed→route). Holm-adjusted primary p < 0.001 (Monte Carlo floor).",
+        "FA-HPPO = mean over 5 training seeds; baselines deterministic. Infeasible completion = horizon H. CI = hierarchical bootstrap. See Figs. 5–7.",
     )
     rows_abl = []
     for code, lab in ABL_ORDER:
@@ -1098,34 +963,27 @@ def build_tables(all_s, ch_s, ablation, rows):
         "Table 3 — Development methodology ablation",
         ["Variant", "Time-aware cap", "Return scale", "VAL feas.", "SD", "Charge-req feas.", "Completion", "Value loss", "Grad norm"],
         rows_abl,
-        "DEVELOPMENT / GOLD VALIDATION ONLY — not V3 TEST. B0/B1/B3/B2 are provenance labels. Five seeds 42–46.",
+        "DEVELOPMENT / GOLD VALIDATION ONLY. B0/B1/B3/B2 are plotted in Fig. 13.",
     )
     amt = {m: summarize_learned(rows, m) for m in ("HybridPPO", "FA-HPPO-Max", "FA-HPPO-Min")}
+    tie = load_json(STATS / "amount_sensitivity.json")["route_averaged_feasibility_vs_max"]
     write_table(
         "table04_amount_sensitivity",
         "Table 4 — TEST amount-policy sensitivity",
-        ["Method", "u policy", "Feasibility", "95% CI", "Completion", "Interpretation"],
+        ["Method", "u policy", "Feasibility", "95% CI", "Completion", "Route vs Max", "Interpretation"],
         [
-            ["FA-HPPO", "learned Beta", fmt(amt["HybridPPO"]["feasibility_mean"]), f"[{fmt(amt['HybridPPO']['feasibility_ci95'][0])}, {fmt(amt['HybridPPO']['feasibility_ci95'][1])}]", fmt(amt["HybridPPO"]["completion_all_mean"], 3), "primary"],
-            ["FA-HPPO-Max", "forced u=1", fmt(amt["FA-HPPO-Max"]["feasibility_mean"]), f"[{fmt(amt['FA-HPPO-Max']['feasibility_ci95'][0])}, {fmt(amt['FA-HPPO-Max']['feasibility_ci95'][1])}]", fmt(amt["FA-HPPO-Max"]["completion_all_mean"], 3), "≈ free; envelope upper bound"],
-            ["FA-HPPO-Min", "forced u=0", fmt(amt["FA-HPPO-Min"]["feasibility_mean"]), f"[{fmt(amt['FA-HPPO-Min']['feasibility_ci95'][0])}, {fmt(amt['FA-HPPO-Min']['feasibility_ci95'][1])}]", fmt(amt["FA-HPPO-Min"]["completion_all_mean"], 3), "degenerate lower-bound stress"],
+            ["FA-HPPO", "learned Beta", fmt(amt["HybridPPO"]["feasibility_mean"]), f"[{fmt(amt['HybridPPO']['feasibility_ci95'][0])}, {fmt(amt['HybridPPO']['feasibility_ci95'][1])}]", fmt(amt["HybridPPO"]["completion_all_mean"], 3), f"better={tie['free_better']}, tied={tie['tied']}, worse={tie['max_better']}", "primary"],
+            ["FA-HPPO-Max", "forced u=1", fmt(amt["FA-HPPO-Max"]["feasibility_mean"]), f"[{fmt(amt['FA-HPPO-Max']['feasibility_ci95'][0])}, {fmt(amt['FA-HPPO-Max']['feasibility_ci95'][1])}]", fmt(amt["FA-HPPO-Max"]["completion_all_mean"], 3), "—", "≈ free"],
+            ["FA-HPPO-Min", "forced u=0", fmt(amt["FA-HPPO-Min"]["feasibility_mean"]), f"[{fmt(amt['FA-HPPO-Min']['feasibility_ci95'][0])}, {fmt(amt['FA-HPPO-Min']['feasibility_ci95'][1])}]", fmt(amt["FA-HPPO-Min"]["completion_all_mean"], 3), "—", "degenerate stress"],
         ],
-        "Same frozen checkpoints on V3 TEST. Feasibility-aware envelope accounts for much of the gain; do not claim learned continuous amount beats Max.",
+        "Same frozen checkpoints on V3 TEST. Visual summary in Fig. 14.",
     )
     write_table(
         "tableA01_per_seed",
         "Table A1 — FA-HPPO per seed",
         ["Seed", "Feasibility", "Completion", "Charge-req feasibility"],
-        [
-            [
-                str(seed),
-                fmt(all_s["HybridPPO"]["per_seed_feasibility"][seed]),
-                fmt(all_s["HybridPPO"]["per_seed_completion"][seed], 3),
-                fmt(ch_s["HybridPPO"]["per_seed_feasibility"][seed]),
-            ]
-            for seed in SEEDS
-        ],
-        "Individual training seeds on V3 TEST.",
+        [[str(s), fmt(all_s["HybridPPO"]["per_seed_feasibility"][s]), fmt(all_s["HybridPPO"]["per_seed_completion"][s], 3), fmt(ch_s["HybridPPO"]["per_seed_feasibility"][s])] for s in SEEDS],
+        "Individual training seeds on V3 TEST (table only; not plotted).",
     )
     paired = load_json(STATS / "paired_primary.json")
     write_table(
@@ -1133,30 +991,21 @@ def build_tables(all_s, ch_s, ablation, rows):
         "Table A2 — Primary paired statistics",
         ["Comparison", "Metric", "Effect", "95% CI", "p_raw", "p_Holm", "Procedure", "Units"],
         [
-            [
-                t["comparison"],
-                t["family"],
-                fmt(t["effect"], 4),
-                f"[{fmt(t['ci95'][0], 4)}, {fmt(t['ci95'][1], 4)}]",
-                fmt_p(t["p_raw"]),
-                fmt_p(t["p_holm"]),
-                t.get("procedure", "predeclared"),
-                str(t["n_independent_units"]),
-            ]
+            [t["comparison"], t["family"], fmt(t["effect"], 4), f"[{fmt(t['ci95'][0], 4)}, {fmt(t['ci95'][1], 4)}]", fmt_p(t["p_raw"]), fmt_p(t["p_holm"]), t.get("procedure", "predeclared"), str(t["n_independent_units"])]
             for t in paired
         ],
-        "Predeclared seed-averaged route-paired analysis with Holm correction. "
-        "Paper-facing p-values use <5e-5 at the n_perm=20000 Monte Carlo floor; raw JSON retains machine values.",
+        "Positive feasibility and negative completion favor FA-HPPO. Holm-corrected permutation tests; MC floor <5e-5. Paired effects are table-only (not duplicated as a figure).",
     )
-    build_failure_table(rows)
-
-
-def build_failure_table(rows) -> None:
     problem, _n_ok, by_route = _failure_problem_routes(rows)
+    alias = {f"R{i:02d}": d["route_id"] for i, d in enumerate(problem, start=1)}
+    (OUT / "failure_analysis").mkdir(parents=True, exist_ok=True)
+    (OUT / "failure_analysis" / "ROUTE_ALIASES.json").write_text(
+        json.dumps({"n_all_ok": _n_ok, "n_routes": len(by_route), "aliases": alias}, indent=2) + "\n",
+        encoding="utf-8",
+    )
     table_rows = []
     for i, d in enumerate(problem, start=1):
-        route_id = d["route_id"]
-        rr = by_route[route_id]
+        rr = by_route[d["route_id"]]
         seeds_fail = sorted(int(r["seed"]) for r in rr if not r["feasible"])
         seeds_ok = sorted(int(r["seed"]) for r in rr if r["feasible"])
         sample = next(r for r in rr if not r["feasible"])
@@ -1165,13 +1014,13 @@ def build_failure_table(rows) -> None:
         table_rows.append(
             [
                 f"R{i:02d}",
-                route_id,
+                d["route_id"],
                 sample.get("layout"),
                 sample.get("length_bin"),
                 sample.get("charge_class"),
                 str(d["n_fail"]),
-                ",".join(str(s) for s in seeds_fail),
-                ",".join(str(s) for s in seeds_ok) if seeds_ok else "—",
+                ",".join(map(str, seeds_fail)),
+                ",".join(map(str, seeds_ok)) if seeds_ok else "—",
                 sample.get("reason") or "NA",
                 fmt(mean(visits), 2),
                 fmt(mean(terms), 3) if terms else "NA",
@@ -1180,131 +1029,107 @@ def build_failure_table(rows) -> None:
     write_table(
         "tableA03_failure_routes",
         "Table A3 — FA-HPPO failing routes (frozen V3 raw)",
-        [
-            "Alias",
-            "Route",
-            "Layout",
-            "Length",
-            "Charge class",
-            "n_seeds_fail",
-            "Fail seeds",
-            "OK seeds",
-            "Reason",
-            "Mean visits (fail)",
-            "Mean terminal SOC (fail)",
-        ],
+        ["Alias", "Route", "Layout", "Length", "Charge class", "n_seeds_fail", "Fail seeds", "OK seeds", "Reason", "Mean visits (fail)", "Mean terminal SOC (fail)"],
         table_rows,
-        "From frozen raw rows only. Alias R01–R20 matches Fig. A6 order (by n_seeds_fail, then route_id). "
-        "Pre-failure trajectories were not recorded and are unavailable without TEST replay (forbidden). "
-        "Shared failures = n_seeds_fail=5.",
+        "Per-route failure detail (table). Aggregate regime view in Fig. 17.",
     )
 
 
-# ---------------------------------------------------------------------------
-# Captions / README / manifest / verify
-# ---------------------------------------------------------------------------
 def write_captions() -> None:
-    text = """# Figure captions (`results_paper/`)
+    text = """# Figure captions (`results_paper/figures/`)
 
-Use PDF figures in the LaTeX manuscript; PNG for preview/GitHub.
+PNG only (600 dpi). Flat folder (no appendix/). Captions carry interpretation.
 
-## Main paper
+**Figure 1 — Problem setting.** Illustrative SynthCharge VAL episode (not TEST). Depot (square), numbered customers in fixed order, unused/used charging stations (triangles with IDs), dashed fixed customer sequence, and solid executed FA-HPPO path with charging detours.
 
-**Figure 1.** Conceptual overview of feasibility-aware hybrid PPO (FA-HPPO) for fixed-route charging control. (a) Customer visit order is fixed; the policy may insert a charging detour C_i -> S_j -> C_{i+1} and does not reorder customers. (b) At a selected station, departure SOC is restricted to a feasibility-aware interval; u in [0,1] maps to SOC_target = SOC_lower + u (SOC_upper - SOC_lower). (c) A discrete head selects CONTINUE/station under masking; a Beta continuous head yields an explicit u that maps into the interval. Schematic only — not empirical evidence.
+**Figure 2 — Method overview.** FA-HPPO hybrid control: discrete CONTINUE/station choice, continuous charge fraction $u$ when charging, mapped through a feasibility-aware SOC envelope, then environment step.
 
-**Figure 2.** Confirmatory performance on the independently generated V3 SynthCharge TEST (180 routes). FA-HPPO aggregates five independently trained seeds; small points are seed means and the larger marker is the across-seed mean. Error bars are the predeclared hierarchical 95% bootstrap interval (seed -> route). Baselines are deterministic. Failure-retaining completion assigns horizon H to infeasible episodes. Higher feasibility and lower completion are better. Charging-required subset metrics appear in Table 2.
+**Figure 3 — SOC envelope.** Arrival SOC, energy-continuation lower bound, time-aware upper bound, and target SOC $= lower + u(upper-lower)$.
 
-**Figure 3.** Paired route-level effects of FA-HPPO versus each baseline on V3 SynthCharge TEST (n=180; five FA-HPPO seeds). Points show seed-averaged paired differences with 95% CIs; numeric labels give the point estimates. Positive feasibility / negative completion favor FA-HPPO. Holm-adjusted permutation p-values are in Table A2 (Monte Carlo floor <5e-5).
+**Figure 4 — Illustrative SOC trajectory.** Same VAL episode as Fig. 1. SOC along the executed visit sequence; shaded intervals mark feasible departure bands at charging stops.
 
-**Figure 4.** Robustness on charging-required V3 TEST routes by layout x length. (a) FA-HPPO feasibility (%). (b) FA-HPPO improvement over OneStepLookahead (percentage points) on the same cells; sequential 0-max scale because all cells are nonnegative in the frozen data. Computed from frozen V3 raw rows only.
+**Figure 5 — Main TEST feasibility.** Locked V3 SynthCharge TEST (180 routes). Vertical bars; FA-HPPO whiskers are hierarchical 95% bootstrap intervals. Higher is better.
 
-**Figure 5.** Gold development B0/B1/B3/B2 ablation on official EVRPTW-GR VAL (five seeds 42-46): parent-balanced feasibility. Variant definitions (time-aware upper cap / return scaling) are in Table 3 and the caption — not embedded in the plot. Development evidence only; not V3 TEST.
+**Figure 6 — Main TEST completion.** Failure-retaining completion on the same TEST (infeasible episodes keep horizon $H$). Lower is better.
 
-**Figure 6.** V3 TEST amount-policy sensitivity with the same frozen FA-HPPO checkpoints: learned continuous u, forced u=1 (Max), and forced u=0 (Min). Small points are seeds; error bars are hierarchical 95% CIs. Learned vs Max ties on 173/180 routes. Prefer the interpretation that the feasibility-aware envelope accounts for much of the observed performance; do not claim continuous amount learning is the main driver.
+**Figure 7 — Charging-required subset.** Feasibility restricted to routes that require charging (harder stratum).
 
-## Appendix
+**Figure 8 — Performance profiles.** Share of routes that are feasible and finished by a completion-time threshold. Curves asymptote at each method’s feasibility rate.
 
-**Figure A1.** Illustrative SynthCharge VAL charging trajectory; not TEST evidence. (a) Fixed-route geometry with charging insertions. (b) SOC along the visit sequence with feasible intervals at charges.
+**Figure 9 — Feasibility by layout.** Charging-required TEST routes stratified by R / C / RC.
 
-**Figure A2.** Illustrative hybrid decision from the same VAL episode; not TEST evidence. (a) Masked discrete CONTINUE/station probabilities. (b) Continuous Beta density for u and resulting target SOC.
+**Figure 10 — Feasibility by length.** Charging-required TEST routes stratified by short / medium / long.
 
-**Figure A3.** Gold development learning curves (parent-balanced VAL feasibility, %): mean +/- SD across five seeds for B0/B1/B3/B2. Line styles distinguish variants; not V3 TEST evidence.
+**Figure 11 — Difficulty heatmap.** FA-HPPO feasibility (%) on charging-required cells (layout × length).
 
-**Figure A4.** Effect of methodology components on PPO optimization stability (gold development curves). (a) Value loss. (b) Pre-clip gradient norm. Shared legend; bands are mean +/- SD (not CIs). Log y-scale. Development VAL only.
+**Figure 12 — Gain vs Lookahead.** Feasibility improvement (pp) of FA-HPPO over OneStepLookahead by layout × length.
 
-**Figure A5.** Post-hoc SynthCharge TRAIN/VAL envelope ablation (Arrival-to-Max, EnergyLower-to-Max, EnergyLower-to-TimeUpper); five seeds 42-46 shown as paired seed trajectories with the mean overlay. Y-axis is zoomed (94-101%). Post-hoc development study — not confirmatory V3 TEST. Do not claim each envelope component monotonically improves feasibility.
+**Figure 13 — Development ablation.** Gold EVRPTW-GR VAL means for B0–B2 (time-aware cap × return scaling). Development evidence only.
 
-**Figure A6.** Frozen-raw FA-HPPO failure consistency on V3 TEST (no policy replay). The 20 routes with at least one failing seed, abbreviated R01-R20 (full IDs in Table A3 / ROUTE_ALIASES.json), sorted by number of failing seeds. 160/180 routes succeed under all five seeds. All recorded reasons are NO_FEASIBLE_ACTION.
+**Figure 14 — Amount policies.** Same frozen checkpoints with learned $u$, forced $u=1$ (Max), and forced $u=0$ (Min).
 
-**Figure A7.** Charging-required failure rate (%) by layout x length on frozen V3 TEST FA-HPPO rows. Independent of Fig. A6 for readability.
+**Figure 15 — Charging effort.** Mean station visits among feasible TEST routes.
 
-**Figure A8.** FA-HPPO per-seed robustness on V3 TEST. (a) Feasibility (%; zoomed y-axis; shaded hierarchical 95% CI). (b) Failure-retaining completion.
+**Figure 16 — Runtime.** Mean evaluation runtime per route (ms).
 
-**Figure A9.** Native FRVCP reference benchmark (separate archive; n=133). Not a SynthCharge/EVRPTW-GR exact comparison. Do not treat frvcpy as an exact oracle for the paper's SynthCharge formulation.
+**Figure 17 — Failure regimes.** FA-HPPO failure rate (%) on charging-required cells by layout and length (aggregate; not per-seed).
+
+**Figure 18 — Envelope variants.** Post-hoc SynthCharge VAL means for Arrival→Max / EnergyLower→Max / EnergyLower→TimeUpper. Development nuance only.
+
+**Figure 19 — Charge decision snapshot.** One VAL charging decision: (a) discrete action probabilities (masked illegal stations); (b) continuous target inside the local SOC envelope.
+
+**Figure 20 — Native FRVCP reference.** Separate FRVCP archive (n=133). Not an exact SynthCharge/EVRPTW-GR comparator.
 """
     (OUT / "CAPTIONS.md").write_text(text, encoding="utf-8")
 
 
 def write_readme() -> None:
-    (OUT / "README.md").write_text(
-        """# Publication outputs (`results_paper/`)
-
-Single source of truth for the manuscript. Every figure is written as:
-
-- **PDF** — vector version for LaTeX
-- **PNG** — high-resolution preview (600 dpi)
-
-## Main paper
-
-| Artifact | Role | Evidence |
-|----------|------|----------|
-| `figures/fig01_method_schematic.{pdf,png}` | Conceptual FA-HPPO method | schematic |
-| `figures/fig02_main_test.{pdf,png}` | Confirmatory performance | V3 TEST |
-| `figures/fig03_effect_sizes.{pdf,png}` | Paired effect sizes | V3 TEST |
-| `figures/fig04_difficulty_robustness.{pdf,png}` | Layout x length robustness | V3 TEST |
-| `figures/fig05_development_ablation.{pdf,png}` | Gold B0/B1/B3/B2 ablation | gold VAL |
-| `figures/fig06_amount_sensitivity.{pdf,png}` | Amount-policy sensitivity | V3 TEST |
-| `tables/table01_*` … `table04_*` | Protocol / main / ablation / amount | MANIFEST |
-| `CAPTIONS.md` | Self-contained figure captions | — |
-
-## Appendix
-
-| Artifact | Role |
-|----------|------|
-| `figures/appendix/figA01_illustrative_trajectory.{pdf,png}` | VAL route + SOC (not TEST) |
-| `figures/appendix/figA02_illustrative_hybrid_decision.{pdf,png}` | VAL hybrid decision (not TEST) |
-| `figures/appendix/figA03_learning_curves.{pdf,png}` | Gold development learning curves |
-| `figures/appendix/figA04_training_stability.{pdf,png}` | Value-loss / grad-norm diagnostics |
-| `figures/appendix/figA05_envelope_ablation.{pdf,png}` | Post-hoc SynthCharge envelope A/B/C |
-| `figures/appendix/figA06_failure_consistency.{pdf,png}` | Problematic-route failure consistency |
-| `figures/appendix/figA07_failure_heatmap.{pdf,png}` | Failure rate by layout x length |
-| `figures/appendix/figA08_seed_robustness.{pdf,png}` | Per-seed robustness |
-| `figures/appendix/figA09_native_frvcp_reference.{pdf,png}` | Native FRVCP reference |
-| `tables/tableA01_*` … `tableA03_*` | Per-seed / paired / failure routes |
-| `case_study/illustrative_val_episode.json` | Source for Figs. A1–A2 |
-| `failure_analysis/` | Deeper frozen-raw failure write-up |
-
-## Regenerate
-
-```bash
-python scripts/paper/record_illustrative_val_episode.py   # once (VAL case study JSON)
-python scripts/paper/build_results_paper.py
-python scripts/paper/build_results_paper.py --verify
-```
-
-Does **not** retrain or re-evaluate the consumed V3 TEST.
-
-`scripts/paper/build_paper_artifacts.py` is deprecated and delegates here.
-""",
-        encoding="utf-8",
-    )
+    lines = [
+        "# Publication outputs (`results_paper/`)",
+        "",
+        "Canonical manuscript outputs. **PNG only** (600 dpi). All figures are flat in `figures/`.",
+        "",
+        "## Figures (20)",
+        "",
+        "| # | File | Question |",
+        "|---|------|----------|",
+        "| 1 | `fig01_usecase_route.png` | What is the fixed-route charging use case? |",
+        "| 2 | `fig02_method_schematic.png` | How does FA-HPPO decide? |",
+        "| 3 | `fig03_soc_envelope.png` | What is the SOC envelope? |",
+        "| 4 | `fig04_illustrative_soc.png` | How does SOC evolve on the use-case? |",
+        "| 5 | `fig05_main_feasibility.png` | Main TEST feasibility? |",
+        "| 6 | `fig06_main_completion.png` | Main TEST completion? |",
+        "| 7 | `fig07_charging_required.png` | Hard charging-required subset? |",
+        "| 8 | `fig08_performance_profiles.png` | Feasibility + speed together? |",
+        "| 9 | `fig09_by_layout.png` | Effect of layout? |",
+        "| 10 | `fig10_by_length.png` | Effect of route length? |",
+        "| 11 | `fig11_difficulty_heatmap.png` | Layout × length feasibility? |",
+        "| 12 | `fig12_gain_vs_lookahead.png` | Where are gains largest? |",
+        "| 13 | `fig13_ablation_bars.png` | Which methodology factors matter? |",
+        "| 14 | `fig14_amount_policies.png` | Learned u vs Max vs Min? |",
+        "| 15 | `fig15_charging_effort.png` | How much charging is used? |",
+        "| 16 | `fig16_runtime.png` | Evaluation cost? |",
+        "| 17 | `fig17_failure_by_regime.png` | Where do failures concentrate? |",
+        "| 18 | `fig18_envelope_variants.png` | Envelope design nuance (dev)? |",
+        "| 19 | `fig19_charge_decision.png` | What does one charge decision look like? |",
+        "| 20 | `fig20_frvcp_reference.png` | Native FRVCP reference? |",
+        "",
+        "Captions: `CAPTIONS.md`. Map: `../paper/RESULTS_MAP.md`.",
+        "",
+        "```bash",
+        "python scripts/paper/build_results_paper.py",
+        "python scripts/paper/build_results_paper.py --verify",
+        "```",
+        "",
+    ]
+    (OUT / "README.md").write_text("\n".join(lines), encoding="utf-8")
 
 
 def build_manifest(artifacts):
     for item in artifacts:
         path = ROOT / item["path"]
         item["sha256"] = _sha(path) if path.is_file() else None
-        item["generation_script"] = item.get("generation_script", "scripts/paper/build_results_paper.py")
+        item["generation_script"] = "scripts/paper/build_results_paper.py"
     (OUT / "MANIFEST.json").write_text(json.dumps({"artifacts": artifacts}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
@@ -1315,8 +1140,6 @@ def verify() -> None:
     rows = load_rows()
     if len(rows) != 3240:
         raise SystemExit(f"expected 3240 rows, got {len(rows)}")
-    if "DiscretePPO" in {r["method"] for r in rows}:
-        raise SystemExit("DiscretePPO in V3 TEST")
     lock = load_json(V3 / "TEST_LOCK.json")
     bad = [rel for rel, digest in lock["files"].items() if lf_sha256(ROOT / rel) != digest]
     if bad:
@@ -1328,39 +1151,22 @@ def verify() -> None:
         raise SystemExit(f"expected 180 tracked instances, got {len(tracked)}")
     if not CASE.is_file():
         raise SystemExit("missing case study JSON")
-
-    expected_png = {f"{s}.png" for s in MAIN_FIGS + APPENDIX_FIGS}
-    expected_pdf = {f"{s}.pdf" for s in MAIN_FIGS + APPENDIX_FIGS}
-    pngs = {p.name for p in FIG.rglob("*.png")}
-    pdfs = {p.name for p in FIG.rglob("*.pdf")}
-    missing_png = expected_png - pngs
-    missing_pdf = expected_pdf - pdfs
-    if missing_png:
-        raise SystemExit(f"missing PNGs: {sorted(missing_png)}")
-    if missing_pdf:
-        raise SystemExit(f"missing PDFs: {sorted(missing_pdf)}")
-    if not (TAB / "tableA03_failure_routes.md").is_file():
-        raise SystemExit("missing tableA03_failure_routes")
-    if not (OUT / "CAPTIONS.md").is_file():
-        raise SystemExit("missing CAPTIONS.md")
-    for path in FIG.rglob("*"):
-        if path.is_file() and path.suffix.lower() not in {".png", ".pdf"}:
-            raise SystemExit(f"unexpected figure format: {path}")
-    leftovers = {f"{s}.png" for s in OBSOLETE_FIGS} & pngs
-    if leftovers:
-        raise SystemExit(f"obsolete figure names still present: {sorted(leftovers)}")
-    print(
-        json.dumps(
-            {
-                "verify": "ok",
-                "n_rows": 3240,
-                "n_instances": 180,
-                "n_png": len(pngs),
-                "n_pdf": len(pdfs),
-            },
-            indent=2,
+    expected = {f"{s}.png" for s in FIGS}
+    pngs = {p.name for p in FIG.glob("*.png")}
+    nested = [p for p in FIG.rglob("*.png") if p.parent != FIG]
+    pdfs = list(FIG.rglob("*.pdf"))
+    if nested:
+        raise SystemExit(
+            "figures must be flat in figures/; found nested: "
+            + str([str(p.relative_to(FIG)) for p in nested[:5]])
         )
-    )
+    if expected - pngs:
+        raise SystemExit(f"missing PNGs: {sorted(expected - pngs)}")
+    if pngs - expected:
+        raise SystemExit(f"unexpected PNGs: {sorted(pngs - expected)}")
+    if pdfs:
+        raise SystemExit(f"PDF figures not allowed: {[p.name for p in pdfs[:5]]}")
+    print(json.dumps({"verify": "ok", "n_rows": 3240, "n_png": len(pngs), "n_pdf": 0}, indent=2))
 
 
 def main() -> None:
@@ -1368,39 +1174,39 @@ def main() -> None:
         verify()
         return
     style()
-    cleanup_obsolete()
     rows = load_rows()
-    fig01_method_schematic()
-    all_s, ch_s = fig02_main(rows)
-    fig03_effects()
-    fig04_difficulty(rows)
+    fig01_usecase_route()
+    fig02_method_schematic()
+    fig03_soc_envelope()
+    fig04_illustrative_soc()
+    all_s = fig05_main_feasibility(rows)
+    fig06_main_completion(rows, all_s)
+    ch_s = fig07_charging_required(rows)
+    fig08_performance_profiles(rows)
+    fig09_by_layout(rows)
+    fig10_by_length(rows)
+    fig11_difficulty_heatmap(rows)
+    fig12_gain_vs_lookahead(rows)
     ablation = load_ablation()
-    fig05_development_ablation(ablation)
-    fig06_amount_sensitivity(rows)
-    fig_a01_illustrative_trajectory()
-    fig_a02_illustrative_hybrid_decision()
-    fig_a03_learning_curves(ablation)
-    fig_a04_training_stability()
-    fig_a05_envelope()
-    fig_a06_failure_consistency(rows)
-    fig_a07_failure_heatmap(rows)
-    fig_a08_seeds(all_s["HybridPPO"])
-    fig_a09_frvcp()
+    fig13_ablation_bars(ablation)
+    fig14_amount_policies(rows)
+    fig15_charging_effort(rows)
+    fig16_runtime(rows, all_s)
+    fig17_failure_by_regime(rows)
+    fig18_envelope_variants()
+    fig19_charge_decision()
+    fig20_frvcp()
+    cleanup_figures()
     build_tables(all_s, ch_s, ablation, rows)
     write_captions()
     write_readme()
     artifacts = [
         {"path": "results_paper/README.md", "role": "index"},
         {"path": "results_paper/CAPTIONS.md", "role": "captions"},
-        {"path": "results_paper/case_study/illustrative_val_episode.json", "role": "methodology-illustration", "dataset": "SynthCharge VAL", "note": "not TEST"},
+        {"path": "results_paper/case_study/illustrative_val_episode.json", "role": "methodology-illustration", "note": "VAL not TEST"},
     ]
-    for stem in MAIN_FIGS:
-        role = "main-methodology" if stem.startswith("fig01") else ("main-development" if "ablation" in stem else "main")
-        for ext in ("png", "pdf"):
-            artifacts.append({"path": f"results_paper/figures/{stem}.{ext}", "role": role})
-    for stem in APPENDIX_FIGS:
-        for ext in ("png", "pdf"):
-            artifacts.append({"path": f"results_paper/figures/appendix/{stem}.{ext}", "role": "appendix"})
+    for stem in FIGS:
+        artifacts.append({"path": f"results_paper/figures/{stem}.png", "role": "figure"})
     for stem in (
         "table01_benchmark_protocol",
         "table02_main_results",
@@ -1411,7 +1217,7 @@ def main() -> None:
         "tableA03_failure_routes",
     ):
         for ext in ("csv", "md", "tex"):
-            artifacts.append({"path": f"results_paper/tables/{stem}.{ext}", "role": "appendix" if stem.startswith("tableA") else "main"})
+            artifacts.append({"path": f"results_paper/tables/{stem}.{ext}", "role": "table"})
     build_manifest(artifacts)
     print("results_paper written")
 

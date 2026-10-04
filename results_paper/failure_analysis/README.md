@@ -25,6 +25,6 @@
 - causal action sequences immediately before NO_FEASIBLE_ACTION without TEST replay
 
 Publication table: `results_paper/tables/tableA03_failure_routes.*`
-Figure (official builder): `results_paper/figures/appendix/figA05_failure_analysis.{pdf,png}`
+Figure (official builder): `results_paper/figures/appendix/figA07_failure_consistency.png , figA08_failure_heatmap.png`
 
 Regenerate publication figures with `python scripts/paper/build_results_paper.py`.

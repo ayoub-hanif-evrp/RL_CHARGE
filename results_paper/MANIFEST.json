@@ -4,326 +4,265 @@
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/README.md",
       "role": "index",
-      "sha256": "7f9bc6d1f08c85fbe3e300332486583b13ad3cff87c71bc8707e1c91bd697772"
+      "sha256": "542bdce42283d8b9d12c0df59262f0557d170bba75e58f2d3ff5611c98fbe3e3"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/CAPTIONS.md",
       "role": "captions",
-      "sha256": "4d30d4fd88d260c76fbc7708138e4d671bfc2dc4ec2980f9fdae5d5a8aafb898"
+      "sha256": "cacd27d7dde218a35d116363f6aee1da54012a8dbb98cc9d5cbeec4eb397794c"
     },
     {
-      "dataset": "SynthCharge VAL",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "note": "not TEST",
+      "note": "VAL not TEST",
       "path": "results_paper/case_study/illustrative_val_episode.json",
       "role": "methodology-illustration",
       "sha256": "e9e16a9fe01e74cb87f9619494d6f6a102931c950a538f018daa81e042206dce"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig01_method_schematic.png",
-      "role": "main-methodology",
-      "sha256": "3c60f6fd1359aef4e55320774dea8dcb2234ae3d833bf9fc4855876f1007fc6e"
+      "path": "results_paper/figures/fig01_usecase_route.png",
+      "role": "figure",
+      "sha256": "35b6b73039b1a8e6a44dc48a4549248b9d5431ea0ebbdfa1b20351782e36fdd1"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig01_method_schematic.pdf",
-      "role": "main-methodology",
-      "sha256": "0b226142863677aa0166523586d559a4af0e0ac1edb39e0a9c8ec2aec118ce6d"
+      "path": "results_paper/figures/fig02_method_schematic.png",
+      "role": "figure",
+      "sha256": "419e47d51526f0e272f4fc96eea6dfefd0488be9b1d87df7db11d808025785c4"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig02_main_test.png",
-      "role": "main",
-      "sha256": "5ed968ebc30c7ac527a0bcc39273557b0c6559f5bb488fe1956c523560187998"
+      "path": "results_paper/figures/fig03_soc_envelope.png",
+      "role": "figure",
+      "sha256": "1293e72e4c658666ee42a3e216690af187533e16228d668ae406fdd8d50bcfc6"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig02_main_test.pdf",
-      "role": "main",
-      "sha256": "41f0d6e433300c8338f9b0e2dd0fd22bf356cb6de34475bf56f943e63925474e"
+      "path": "results_paper/figures/fig04_illustrative_soc.png",
+      "role": "figure",
+      "sha256": "ddb8192f71f91b3c6f41fcc8f83bf7ec110325923b31a8df291d44e05259d6ad"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig03_effect_sizes.png",
-      "role": "main",
-      "sha256": "0f5f8f88f70f5ba82649eca3d0bee23eed969d1f91164db36f0d0f78e7b516b6"
+      "path": "results_paper/figures/fig05_main_feasibility.png",
+      "role": "figure",
+      "sha256": "496c1c9b3fc1f020152f9e8f93d8d530158c9d71748110ccd476b7ab8bb6ee7d"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig03_effect_sizes.pdf",
-      "role": "main",
-      "sha256": "35c9e8ef78edb62e27242d2677f41c221a80886427867953c7ff703eed63c885"
+      "path": "results_paper/figures/fig06_main_completion.png",
+      "role": "figure",
+      "sha256": "c4a6bb038af283ee51666ab61555234a0687e08dfde04d9d78ccb1e9f1ca351b"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig04_difficulty_robustness.png",
-      "role": "main",
-      "sha256": "2d6097b2da87b4a019a49224c172d751ecdfa59d84e220f764aedebf7fb1a43e"
+      "path": "results_paper/figures/fig07_charging_required.png",
+      "role": "figure",
+      "sha256": "b3a4fe1fb4008e385a681197e7ae4c35cb5889f52ffc6a6272e68d02d9421dca"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig04_difficulty_robustness.pdf",
-      "role": "main",
-      "sha256": "8a7106e15c29b4d9c290a7c893a71d38b17ae51923966f68023cf7b39c51cb56"
+      "path": "results_paper/figures/fig08_performance_profiles.png",
+      "role": "figure",
+      "sha256": "fecc3d4fc88b218f958a1b620c03498014ad047ae27e5becc7a1485e33d55a8e"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig05_development_ablation.png",
-      "role": "main-development",
-      "sha256": "944fdf202ef1965e98140fbdb0cbc8a9825534e3c4dd8033b92a12923630f60a"
+      "path": "results_paper/figures/fig09_by_layout.png",
+      "role": "figure",
+      "sha256": "b3e4312c658e7b5923d06aa64bf21d2c0faca5b2af6d47158b0fe0fbe96d8112"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig05_development_ablation.pdf",
-      "role": "main-development",
-      "sha256": "c2e1c773957f9ca176eeb2951df630cdb9ffaa12f5ff315f3375d30bf3c4c7d7"
+      "path": "results_paper/figures/fig10_by_length.png",
+      "role": "figure",
+      "sha256": "355e96af7f200ace7068d9ede1f5f672e6f5dec35069445647c0d8877dce3ce1"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig06_amount_sensitivity.png",
-      "role": "main",
-      "sha256": "d94e3b7fd94424c91be0800a8763847199672dce023c82c94413a1f16ddf4fbb"
+      "path": "results_paper/figures/fig11_difficulty_heatmap.png",
+      "role": "figure",
+      "sha256": "dfbc6588d22d001b440442a9bad3116cbacd356e08575a848b0db035b401350b"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig06_amount_sensitivity.pdf",
-      "role": "main",
-      "sha256": "281572d9467190de218ee0baec32048dfe2489ff129ce39f59da299e38675910"
+      "path": "results_paper/figures/fig12_gain_vs_lookahead.png",
+      "role": "figure",
+      "sha256": "960b7f70f77c06cc56a30fac290db43489ba30bd90d720a136476cb9e9f4e0ed"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA01_illustrative_trajectory.png",
-      "role": "appendix",
-      "sha256": "793dfd692dbb5cd040bb4593c3d6d8154afa558c54201b09b114f3b11c4df638"
+      "path": "results_paper/figures/fig13_ablation_bars.png",
+      "role": "figure",
+      "sha256": "ac0cac317a6f6c6667310217507222501755632b49099d756f516e223c43a2fc"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA01_illustrative_trajectory.pdf",
-      "role": "appendix",
-      "sha256": "528dc2f96b63a9e6d71011266fcc2e5aef7de9c02cc2f0b94ba1a3e806e2ac16"
+      "path": "results_paper/figures/fig14_amount_policies.png",
+      "role": "figure",
+      "sha256": "75b10b6ae3cd2d390b695247c4c20a7583165288430e528fa3d1b50730d0bacb"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA02_illustrative_hybrid_decision.png",
-      "role": "appendix",
-      "sha256": "0b98063c2eaba0aac0218ff63e478ded008ffbdf9e67429bf3e0c9635755aee8"
+      "path": "results_paper/figures/fig15_charging_effort.png",
+      "role": "figure",
+      "sha256": "5cad67d07c96bffc98216a07b3273f32ca5a786ef24457c2e205094b5d0bcf56"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA02_illustrative_hybrid_decision.pdf",
-      "role": "appendix",
-      "sha256": "ccc1ebcb6508e3405fa8ea972f200ee74a8470377340b143967c45bcd557e788"
+      "path": "results_paper/figures/fig16_runtime.png",
+      "role": "figure",
+      "sha256": "7cc60ee13db1fe942b02af7d7c0b7830292df0084e4d300041cecd6e568a7695"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA03_learning_curves.png",
-      "role": "appendix",
-      "sha256": "c787454e33422d869042b5d9d280d57d5330996f64f6856e1c2fb2ad5fe30ae9"
+      "path": "results_paper/figures/fig17_failure_by_regime.png",
+      "role": "figure",
+      "sha256": "9ac4cec6b43d452045551b044bf6636086cbf60952c1fbda36225dff861792bc"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA03_learning_curves.pdf",
-      "role": "appendix",
-      "sha256": "968adde2ae9a287bd95d43f2e69a836b9942a183c1bd52c2f9b901057d36f51e"
+      "path": "results_paper/figures/fig18_envelope_variants.png",
+      "role": "figure",
+      "sha256": "8162ddc12d2e6aa5c9155683285412c3ff6b5e197151bafd2694e165dc9e8d89"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA04_training_stability.png",
-      "role": "appendix",
-      "sha256": "6dbb8fe6d666013570abda4c774690c0dbd639a74c89d865c14029b9ed8a01e3"
+      "path": "results_paper/figures/fig19_charge_decision.png",
+      "role": "figure",
+      "sha256": "a449225ed86519c38f2942622c3c23caf7c2eb329085b6ed71bb0c749845830e"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA04_training_stability.pdf",
-      "role": "appendix",
-      "sha256": "7cbd36c08b685a16990d7591ddca9028a745b9ad09c9214beef457aed535a73a"
-    },
-    {
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA05_envelope_ablation.png",
-      "role": "appendix",
-      "sha256": "f7b78430739b13c52369e6922fe411fff6ba44291cb15b1f1828679799bc06b3"
-    },
-    {
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA05_envelope_ablation.pdf",
-      "role": "appendix",
-      "sha256": "2f9991658fa14b548f6a57aaf7161a08d75738524465a3f9b064f084617aa298"
-    },
-    {
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA06_failure_consistency.png",
-      "role": "appendix",
-      "sha256": "050de184e636b3e16b4c4de396dc66bcef9027a8aa5f82db20df2419157804bb"
-    },
-    {
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA06_failure_consistency.pdf",
-      "role": "appendix",
-      "sha256": "f5670fb800d02192f30dfb17122752eceab3278346d2609fe0bf9ffbd434c100"
-    },
-    {
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA07_failure_heatmap.png",
-      "role": "appendix",
-      "sha256": "fba93e69964053b99f57e754b446c3d8752274ae09a98d53609a9677a3c5cf74"
-    },
-    {
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA07_failure_heatmap.pdf",
-      "role": "appendix",
-      "sha256": "a3f26877741af1ad55d71e0d62ceddee2e655616269bfe433e3116d40641ec20"
-    },
-    {
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA08_seed_robustness.png",
-      "role": "appendix",
-      "sha256": "2cf807561ca85764fddcc2a8a731a15478d6f7015b54c15f28661cb9e5b65644"
-    },
-    {
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA08_seed_robustness.pdf",
-      "role": "appendix",
-      "sha256": "4445f7cb90722d41b489aa1f01b21877b931c976b7f9665655be843cb635b3cd"
-    },
-    {
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA09_native_frvcp_reference.png",
-      "role": "appendix",
-      "sha256": "364b3b0bc380e5b30fca83cc9f7ea13b974c3b5c78d4659e45da1f0c1d8f932d"
-    },
-    {
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA09_native_frvcp_reference.pdf",
-      "role": "appendix",
-      "sha256": "86430ace99095dee1957411154f3f3a40106405e627daa4ff5e439ffa02f08eb"
+      "path": "results_paper/figures/fig20_frvcp_reference.png",
+      "role": "figure",
+      "sha256": "9e9c5d3a8768ea0cedc5569bab7c4621ed72fc597baf0ad90726de82007d8cba"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table01_benchmark_protocol.csv",
-      "role": "main",
-      "sha256": "c598edf25615263efef1d86f5c792785d8fae0b98979a940913aaa9959d39a2f"
+      "role": "table",
+      "sha256": "9b675b12a2a2689b95acc5899d073c949dd00c9b4b5097785648abf3f70d961f"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table01_benchmark_protocol.md",
-      "role": "main",
-      "sha256": "2bdc210d3c472f9b235be1869d4c0f6ac13d486a905adcd71900f4d0c812410d"
+      "role": "table",
+      "sha256": "975e2ebb75342ba70b13a566a5b38eea00a185f728e10c4053e2dcf375c9b008"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table01_benchmark_protocol.tex",
-      "role": "main",
-      "sha256": "e16e1ad374917ea318f0d4ac5c5578017d2f3141958dcf355f713964eaf1d1cd"
+      "role": "table",
+      "sha256": "fc1da9f6c07c8adc48af8fbdb58a697d1a7e2851f62a22cef3f46e03b05b0c06"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table02_main_results.csv",
-      "role": "main",
+      "role": "table",
       "sha256": "1a405d5dda7e509657e4ad7135ddcab9b19d7554df994f98a17ff01e3d248d8c"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table02_main_results.md",
-      "role": "main",
-      "sha256": "2bc850d71bcd45cdc32e3baffee966d4d7ea2d6fe0a3d9a40e3d9108cf896319"
+      "role": "table",
+      "sha256": "25148eb4004f077ebcf350110c6a81adb100bc176fbcdd44558c9285c920f158"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table02_main_results.tex",
-      "role": "main",
+      "role": "table",
       "sha256": "cbfc083625eda2e7fc098b4f640aebb510cb145658cd86e69e43b8451eafb903"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table03_development_ablation.csv",
-      "role": "main",
+      "role": "table",
       "sha256": "0971b22bea329500e2941bd5cda36114b55a9c3c37b4a707956a3ff33b56e2f2"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table03_development_ablation.md",
-      "role": "main",
-      "sha256": "60f4478396decaf2c32b6d1809829ee0969353e98856403488588cb0b52b9a86"
+      "role": "table",
+      "sha256": "fd9df5bf22e903a5f719907db9aeb73df660ed5fd54cca5bc39d111652322a5c"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table03_development_ablation.tex",
-      "role": "main",
+      "role": "table",
       "sha256": "e7d8f9d6c26b4c081e042b0786391917c5eefb358b78f2b4a4490952481cc7f8"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table04_amount_sensitivity.csv",
-      "role": "main",
-      "sha256": "9f1ad4da30f78a2f76338605451640518ac1996808527a6cf7160781af887ea5"
+      "role": "table",
+      "sha256": "a7c33fe30fde6a5b74ea901f2c4f3ebbf3f96931dfb09251341dd2414c4dd326"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table04_amount_sensitivity.md",
-      "role": "main",
-      "sha256": "e69e558ec81bd8da9983fc8f7c711cd9f07d8ced2e754747a02e43ab8056c60d"
+      "role": "table",
+      "sha256": "a279c155eeb66bebca09d2c1e2949cb8a92aff6f790f7b9ccd9d570d79c3dded"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table04_amount_sensitivity.tex",
-      "role": "main",
-      "sha256": "674b7d8cf843bce2a738925144239c2d5bf76f43697bccac3903e8e5ab952a3b"
+      "role": "table",
+      "sha256": "8899e4d913bc1d56d144e2eb14eaccf4840f0d207d196e7390e6f4493ae560a8"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA01_per_seed.csv",
-      "role": "appendix",
+      "role": "table",
       "sha256": "a11844c42825cf232064e115e028329dee50a05ba4593c1b0bbad28e4b07dfd4"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA01_per_seed.md",
-      "role": "appendix",
-      "sha256": "9c0b114aca0c8e241d18c547b119aeb70f1b9b2318377fdd84ed1b5a8bafb302"
+      "role": "table",
+      "sha256": "3aec6e70238d7fe3024ec712c953c8fa16860f6f20aaa8a1e0b712731c5c9787"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA01_per_seed.tex",
-      "role": "appendix",
+      "role": "table",
       "sha256": "bccbe7ba30e63e765a594afce3505cdf9008fef08ff5b149a13eff1d093a6523"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA02_primary_statistics.csv",
-      "role": "appendix",
+      "role": "table",
       "sha256": "6d3feb91cc7f55f101b09b9d1c31bc37d08ed495e68cc747bce5495c7e5dedc5"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA02_primary_statistics.md",
-      "role": "appendix",
-      "sha256": "1bd42c6529c560d92841104c0bd7900910557e0305c0e3e687478ffefb655d0b"
+      "role": "table",
+      "sha256": "b63abaa0f613ced8c19c2297fc02fb0aaaaae77a1f80abc34de8f0a94ae6414b"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA02_primary_statistics.tex",
-      "role": "appendix",
+      "role": "table",
       "sha256": "0edeff009e41b665183920dc49c6bc1cff386972f3b8235fe985f35a7da6846e"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA03_failure_routes.csv",
-      "role": "appendix",
+      "role": "table",
       "sha256": "ecb275da16daf2b6ea425ce05be7df4e6eee6301850991e759a662daf9f4ebdc"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA03_failure_routes.md",
-      "role": "appendix",
-      "sha256": "93b1791b56399bcf90030ec16e4b1431a2d60c77f21c5f3e257e88d504c3aa59"
+      "role": "table",
+      "sha256": "ffb34f3d615a5b58815f342f59669362ebad55c9d47860c2c108d5b30749dd5c"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA03_failure_routes.tex",
-      "role": "appendix",
+      "role": "table",
       "sha256": "3af36457564815bcbce4caac05194751246c4a13e6736a40f745dba411543cf8"
     }
   ]

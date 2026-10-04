@@ -1,6 +1,6 @@
 # Table 3 — Development methodology ablation
 
-DEVELOPMENT / GOLD VALIDATION ONLY — not V3 TEST. B0/B1/B3/B2 are provenance labels. Five seeds 42–46.
+DEVELOPMENT / GOLD VALIDATION ONLY. B0/B1/B3/B2 are plotted in Fig. 13.
 
 | Variant | Time-aware cap | Return scale | VAL feas. | SD | Charge-req feas. | Completion | Value loss | Grad norm |
 |---|---|---|---|---|---|---|---|---|

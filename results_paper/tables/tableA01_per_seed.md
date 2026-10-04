@@ -1,6 +1,6 @@
 # Table A1 — FA-HPPO per seed
 
-Individual training seeds on V3 TEST.
+Individual training seeds on V3 TEST (table only; not plotted).
 
 | Seed | Feasibility | Completion | Charge-req feasibility |
 |---|---|---|---|
