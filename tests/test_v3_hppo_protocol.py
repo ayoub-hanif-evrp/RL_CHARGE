@@ -63,18 +63,24 @@ def test_wording_and_claims_discipline():
     assert "feasibility-aware" in claims.lower()
 
 
-def test_results_paper_png_only_if_present():
+def test_results_paper_pdf_png_if_present():
     fig = ROOT / "results_paper" / "figures"
     if not fig.is_dir():
         return
     pngs = list(fig.rglob("*.png"))
-    assert len(pngs) >= 10
+    pdfs = list(fig.rglob("*.pdf"))
+    assert len(pngs) >= 12
+    assert len(pdfs) >= 12
     for path in fig.rglob("*"):
         if path.is_file():
-            assert path.suffix.lower() == ".png", path
-    assert (ROOT / "results_paper" / "figures" / "fig01_method_case_study.png").is_file()
-    assert (ROOT / "results_paper" / "figures" / "appendix" / "figA05_failure_consistency.png").is_file()
+            assert path.suffix.lower() in {".png", ".pdf"}, path
+    assert (ROOT / "results_paper" / "figures" / "fig01_method_schematic.png").is_file()
+    assert (ROOT / "results_paper" / "figures" / "fig01_method_schematic.pdf").is_file()
+    assert (ROOT / "results_paper" / "figures" / "fig05_mechanism.png").is_file()
+    assert (ROOT / "results_paper" / "figures" / "appendix" / "figA05_failure_analysis.png").is_file()
+    assert (ROOT / "results_paper" / "figures" / "appendix" / "figA05_failure_analysis.pdf").is_file()
     assert (ROOT / "results_paper" / "case_study" / "illustrative_val_episode.json").is_file()
+    assert (ROOT / "results_paper" / "CAPTIONS.md").is_file()
     assert (ROOT / "results_paper" / "MANIFEST.json").is_file()
     assert (ROOT / "results_paper" / "tables" / "table02_main_results.md").is_file()
     assert (ROOT / "results_paper" / "tables" / "tableA03_failure_routes.md").is_file()

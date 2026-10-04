@@ -4,7 +4,8 @@
 
 | Artifact | Path |
 |----------|------|
-| Figures (PNG) + tables | `results_paper/` |
+| Figures (PDF + PNG) + tables | `results_paper/` |
+| Captions | `results_paper/CAPTIONS.md` |
 | Manifest | `results_paper/MANIFEST.json` |
 | Builder | `scripts/paper/build_results_paper.py` |
 
@@ -37,4 +38,4 @@ python scripts/paper/build_results_paper.py
 python scripts/paper/build_results_paper.py --verify
 ```
 
-Do **not** re-open the consumed TEST. Fig. 1 is VAL methodology illustration only.
+Do **not** re-open the consumed TEST. Fig. 1 is a conceptual method schematic; the VAL trajectory illustration is Fig. A1.

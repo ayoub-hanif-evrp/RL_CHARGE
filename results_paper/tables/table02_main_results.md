@@ -1,6 +1,6 @@
 # Table 2 — Main V3 TEST results
 
-FA-HPPO = mean over 5 training seeds; baselines deterministic. Infeasible completion = horizon H. CI = hierarchical bootstrap (seed→route). All Holm-adjusted primary p < 0.001 (Monte Carlo floor).
+FA-HPPO = mean over 5 training seeds; baselines deterministic. Infeasible completion = horizon H. CI = hierarchical bootstrap (seed→route). Holm-adjusted primary p < 0.001 (Monte Carlo floor).
 
 | Method | All feas. | 95% CI | All completion | Charge-req feas. | Charge-req completion | Runtime (s) |
 |---|---|---|---|---|---|---|

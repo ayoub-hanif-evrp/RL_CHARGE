@@ -123,25 +123,18 @@ Historical two-seed diagnostics remain in `results/v2/diagnostics/`.
 
 ## 16. Generated paper figures
 
-Single source of truth: `results_paper/figures/` (**PNG only**).
+Single source of truth: `results_paper/figures/` (**PDF + PNG**). See `docs/FIGURE_REDESIGN_REPORT.md` and `results_paper/CAPTIONS.md`.
 
-- fig01_method_case_study.png (VAL illustrative episode — not TEST)
-- fig02_main_test.png
-- fig03_effect_sizes.png
-- fig04_ablation_and_training_stability.png
-- fig05_amount_sensitivity.png
-- appendix/figA01_difficulty_heatmap.png
-- appendix/figA02_seed_robustness.png
-- appendix/figA03_native_frvcp_reference.png
-- appendix/figA04_learning_curves.png
-- appendix/figA05_failure_consistency.png
+Main: `fig01_method_schematic`, `fig02_main_test`, `fig03_effect_sizes`, `fig04_difficulty_robustness`, `fig05_mechanism`.
 
-Case-study source: `results_paper/case_study/illustrative_val_episode.json`.
+Appendix: `figA01_illustrative_val_trajectory` (VAL; not TEST), `figA02_learning_curves`, `figA03_training_stability`, `figA04_envelope_ablation` (post-hoc), `figA05_failure_analysis`, `figA06_seed_robustness`, `figA07_native_frvcp_reference`.
+
+Case-study source: `results_paper/case_study/illustrative_val_episode.json` (Fig. A1).
 Scientific repair notes: `docs/SCIENTIFIC_REPAIR_REPORT.md` (no V3 method/TEST changes).
 
 ## 17. Generated paper tables
 
-Under `results_paper/tables/`: Tables 1–4 + A1–A2 (CSV/MD/TeX).
+Under `results_paper/tables/`: Tables 1–4 + A1–A3 (CSV/MD/TeX).
 See `docs/FINAL_CLEANUP_REPORT.md` for the cleanup that introduced `results_paper/`.
 
 ## 18. Known limitations
@@ -150,8 +143,8 @@ See `docs/FINAL_CLEANUP_REPORT.md` for the cleanup that introduced `results_pape
 - FA-HPPO does not choose customer order.
 - Certificate timeout ≠ infeasibility proof.
 - frvcpy is a native FRVCP reference, not an EVRPTW-GR oracle.
-- Fig A3 points at archived V1 FRVCP figure rather than a newly recomputed plot.
-- Fig 1 is a VAL methodology illustration, not confirmatory TEST evidence.
+- Fig A7 is a separate native FRVCP reference, not a SynthCharge exact oracle.
+- Fig 1 is a conceptual schematic; Fig A1 is a VAL methodology illustration, not confirmatory TEST evidence.
 
 ## 19. Owner TODOs
 

@@ -42,9 +42,9 @@ python scripts/paper/build_results_paper.py
 python scripts/paper/build_results_paper.py --verify
 ```
 
-Writes `results_paper/` (PNG-only figures + CSV/MD/TeX tables). Does **not** train or evaluate TEST.
+Writes `results_paper/` (PDF + PNG figures + CSV/MD/TeX tables). Does **not** train or evaluate TEST.
 
-Legacy analysis helpers under `scripts/paper/build_paper_artifacts.py` remain for statistics refresh only; manuscript outputs use `build_results_paper.py`.
+`scripts/paper/build_paper_artifacts.py` is deprecated and delegates to `build_results_paper.py`.
 
 ## Do not casually re-run
 
