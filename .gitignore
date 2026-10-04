@@ -36,6 +36,7 @@ desktop.ini
 checkpoints/
 checkpoints_v2/
 checkpoints_v3/
+checkpoints_development/
 results/raw/
 results/runs/
 results/smoke/raw/

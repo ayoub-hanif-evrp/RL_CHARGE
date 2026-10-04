@@ -1,0 +1,58 @@
+{
+  "label": "POST-HOC DEVELOPMENT / TRAIN-VAL ONLY \u2014 NOT V3 CONFIRMATORY TEST EVIDENCE",
+  "dataset": "synthcharge_final",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "variants": {
+    "A_arrival_to_max": {
+      "display_name": "Arrival-to-Max",
+      "n": 5,
+      "val_feas_mean": 0.9933333333333334,
+      "val_feas_sd": 0.006085806194501824,
+      "val_feas_per_seed": {
+        "42": 1.0,
+        "43": 0.9888888888888889,
+        "44": 0.9888888888888889,
+        "45": 0.9888888888888889,
+        "46": 1.0
+      },
+      "completion_mean": 3.8815769671241807,
+      "completion_sd": 0.10680345516990623
+    },
+    "B_energy_to_max": {
+      "display_name": "EnergyLower-to-Max",
+      "n": 5,
+      "val_feas_mean": 0.9888888888888889,
+      "val_feas_sd": 0.01360827634879543,
+      "val_feas_per_seed": {
+        "42": 1.0,
+        "43": 0.9666666666666667,
+        "44": 0.9888888888888889,
+        "45": 1.0,
+        "46": 0.9888888888888889
+      },
+      "completion_mean": 3.882717364500175,
+      "completion_sd": 0.10785979245694853
+    },
+    "C_energy_to_time": {
+      "display_name": "EnergyLower-to-TimeUpper",
+      "n": 5,
+      "val_feas_mean": 0.9822222222222222,
+      "val_feas_sd": 0.016850834320114548,
+      "val_feas_per_seed": {
+        "42": 0.9888888888888889,
+        "43": 0.9777777777777777,
+        "44": 0.9555555555555556,
+        "45": 0.9888888888888889,
+        "46": 1.0
+      },
+      "completion_mean": 3.9146620303655646,
+      "completion_sd": 0.12328720387307898
+    }
+  }
+}

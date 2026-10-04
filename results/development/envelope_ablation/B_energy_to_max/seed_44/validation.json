@@ -1,0 +1,19 @@
+{
+  "label": "POST-HOC DEVELOPMENT / TRAIN-VAL ONLY \u2014 NOT V3 CONFIRMATORY TEST EVIDENCE",
+  "variant": "B_energy_to_max",
+  "display_name": "EnergyLower-to-Max",
+  "seed": 44,
+  "soc_interval": "continuation_to_max",
+  "time_aware": false,
+  "return_scale": 10.0,
+  "dataset": "synthcharge_final",
+  "n_train": 180,
+  "n_val": 90,
+  "best_update": 290,
+  "status": "completed",
+  "parent_balanced_val_feasibility": 0.9888888888888889,
+  "parent_balanced_completion_all": 3.9341712958153328,
+  "route_weighted_feasibility": 0.9888888888888889,
+  "not_v3_test": true,
+  "post_hoc_development": true
+}

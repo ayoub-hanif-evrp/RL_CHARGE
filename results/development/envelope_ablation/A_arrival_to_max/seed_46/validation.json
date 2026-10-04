@@ -1,0 +1,19 @@
+{
+  "label": "POST-HOC DEVELOPMENT / TRAIN-VAL ONLY \u2014 NOT V3 CONFIRMATORY TEST EVIDENCE",
+  "variant": "A_arrival_to_max",
+  "display_name": "Arrival-to-Max",
+  "seed": 46,
+  "soc_interval": "arrival_to_max",
+  "time_aware": false,
+  "return_scale": 10.0,
+  "dataset": "synthcharge_final",
+  "n_train": 180,
+  "n_val": 90,
+  "best_update": 290,
+  "status": "completed",
+  "parent_balanced_val_feasibility": 1.0,
+  "parent_balanced_completion_all": 3.8364431104872243,
+  "route_weighted_feasibility": 1.0,
+  "not_v3_test": true,
+  "post_hoc_development": true
+}
