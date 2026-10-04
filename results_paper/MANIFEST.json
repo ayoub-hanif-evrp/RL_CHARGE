@@ -4,13 +4,13 @@
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/README.md",
       "role": "index",
-      "sha256": "f8b3e39855aa30a917a414c8ea2ed768c286d391c0798dadb882b4956986e350"
+      "sha256": "7f9bc6d1f08c85fbe3e300332486583b13ad3cff87c71bc8707e1c91bd697772"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/CAPTIONS.md",
       "role": "captions",
-      "sha256": "141a8807e5601c7d198b8fe9a1f89f89bc69124c790680ffacec07dfdca5f779"
+      "sha256": "4d30d4fd88d260c76fbc7708138e4d671bfc2dc4ec2980f9fdae5d5a8aafb898"
     },
     {
       "dataset": "SynthCharge VAL",
@@ -21,188 +21,184 @@
       "sha256": "e9e16a9fe01e74cb87f9619494d6f6a102931c950a538f018daa81e042206dce"
     },
     {
-      "dataset": "schematic",
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/figures/fig01_method_schematic.png",
       "role": "main-methodology",
-      "sha256": "8947ab6480655f71b1275905de63c2e62a8aff12dc04d50eaacb94834703e62e"
+      "sha256": "3c60f6fd1359aef4e55320774dea8dcb2234ae3d833bf9fc4855876f1007fc6e"
     },
     {
-      "dataset": "schematic",
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/figures/fig01_method_schematic.pdf",
       "role": "main-methodology",
-      "sha256": "844b9bd3c1a80b2d93513ef59f37476b5e2c6395bc5f66c9f41200c7375008be"
+      "sha256": "0b226142863677aa0166523586d559a4af0e0ac1edb39e0a9c8ec2aec118ce6d"
     },
     {
-      "dataset": "SynthCharge V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "n_routes": 180,
-      "n_seeds": 5,
       "path": "results_paper/figures/fig02_main_test.png",
       "role": "main",
-      "sha256": "7470b25495db1ba16a4785be3f2cc57ccccfca95da48cecfcbaa6c8e4a58fca1"
+      "sha256": "5ed968ebc30c7ac527a0bcc39273557b0c6559f5bb488fe1956c523560187998"
     },
     {
-      "dataset": "SynthCharge V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "n_routes": 180,
-      "n_seeds": 5,
       "path": "results_paper/figures/fig02_main_test.pdf",
       "role": "main",
-      "sha256": "5ae948c47f52a79ce4c3a2ac90fa81ff12c6c389882102ff14b30465b9ff7f3e"
+      "sha256": "41f0d6e433300c8338f9b0e2dd0fd22bf356cb6de34475bf56f943e63925474e"
     },
     {
-      "dataset": "SynthCharge V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "n_routes": 180,
-      "n_seeds": 5,
       "path": "results_paper/figures/fig03_effect_sizes.png",
       "role": "main",
-      "sha256": "a9e5cbfb8142fd0a1ab81640b158ff98261015c4b7f13521eaeb88e225c280ca"
+      "sha256": "0f5f8f88f70f5ba82649eca3d0bee23eed969d1f91164db36f0d0f78e7b516b6"
     },
     {
-      "dataset": "SynthCharge V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "n_routes": 180,
-      "n_seeds": 5,
       "path": "results_paper/figures/fig03_effect_sizes.pdf",
       "role": "main",
-      "sha256": "cba12efa671faea60fc33fb09b9468833e454a73b68cc02a49958dba6cdcb30c"
+      "sha256": "35c9e8ef78edb62e27242d2677f41c221a80886427867953c7ff703eed63c885"
     },
     {
-      "dataset": "SynthCharge V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/figures/fig04_difficulty_robustness.png",
       "role": "main",
-      "sha256": "6838bffe63d705e693e56d4ee3ba774d2c78bcdd5ee0ca8da04fa2b7f4159d3b",
-      "subset": "charging_required"
+      "sha256": "2d6097b2da87b4a019a49224c172d751ecdfa59d84e220f764aedebf7fb1a43e"
     },
     {
-      "dataset": "SynthCharge V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/figures/fig04_difficulty_robustness.pdf",
       "role": "main",
-      "sha256": "8c075138dd7ce0051e0ac979b7ac419eba587b5ac063d7c44cd1a3cec2452c1c",
-      "subset": "charging_required"
+      "sha256": "8a7106e15c29b4d9c290a7c893a71d38b17ae51923966f68023cf7b39c51cb56"
     },
     {
-      "dataset": "gold VAL + V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig05_mechanism.png",
-      "role": "main-development+test",
-      "sha256": "b3259f764d2dcc08f01da95859bc126ffa1e964732fad6e7cc9a999975ea59d0"
+      "path": "results_paper/figures/fig05_development_ablation.png",
+      "role": "main-development",
+      "sha256": "944fdf202ef1965e98140fbdb0cbc8a9825534e3c4dd8033b92a12923630f60a"
     },
     {
-      "dataset": "gold VAL + V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/fig05_mechanism.pdf",
-      "role": "main-development+test",
-      "sha256": "dcc859b70253d827a1b4e88f9713849843ec56d98cb52ad5ecaf2a5b7493d69b"
+      "path": "results_paper/figures/fig05_development_ablation.pdf",
+      "role": "main-development",
+      "sha256": "c2e1c773957f9ca176eeb2951df630cdb9ffaa12f5ff315f3375d30bf3c4c7d7"
     },
     {
-      "dataset": "SynthCharge VAL",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "note": "not TEST",
-      "path": "results_paper/figures/appendix/figA01_illustrative_val_trajectory.png",
+      "path": "results_paper/figures/fig06_amount_sensitivity.png",
+      "role": "main",
+      "sha256": "d94e3b7fd94424c91be0800a8763847199672dce023c82c94413a1f16ddf4fbb"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/fig06_amount_sensitivity.pdf",
+      "role": "main",
+      "sha256": "281572d9467190de218ee0baec32048dfe2489ff129ce39f59da299e38675910"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA01_illustrative_trajectory.png",
       "role": "appendix",
-      "sha256": "94e3ebc50348fe6507ed40c24b167f9f0de34bc950272d3e847fa8e94690a651"
+      "sha256": "793dfd692dbb5cd040bb4593c3d6d8154afa558c54201b09b114f3b11c4df638"
     },
     {
-      "dataset": "SynthCharge VAL",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "note": "not TEST",
-      "path": "results_paper/figures/appendix/figA01_illustrative_val_trajectory.pdf",
+      "path": "results_paper/figures/appendix/figA01_illustrative_trajectory.pdf",
       "role": "appendix",
-      "sha256": "145d5dca2544207a9c499e909ffa2d828cbaba583499705d7eaaef4508815bc0"
+      "sha256": "528dc2f96b63a9e6d71011266fcc2e5aef7de9c02cc2f0b94ba1a3e806e2ac16"
     },
     {
-      "dataset": "gold VAL",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA02_learning_curves.png",
-      "role": "appendix-development",
-      "sha256": "dbd555b78d9e6884da51b4c2073d50526993220eed2684e2f656839a43c737d4"
-    },
-    {
-      "dataset": "gold VAL",
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA02_learning_curves.pdf",
-      "role": "appendix-development",
-      "sha256": "3ced33ae796f14b8d7476fd0ffe964564573e2fdd52ed7013e2a7818b141a6c0"
-    },
-    {
-      "dataset": "gold VAL",
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA03_training_stability.png",
-      "role": "appendix-development",
-      "sha256": "8775576a9a03cbaa793b830dfc59ccdb7d8329c1100073ba78645e614511d4a7"
-    },
-    {
-      "dataset": "gold VAL",
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA03_training_stability.pdf",
-      "role": "appendix-development",
-      "sha256": "c691f6856e8b57794ab658a0dcd0dcedbbb7b9c4d3374c45649523627b4abcfc"
-    },
-    {
-      "dataset": "SynthCharge VAL",
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "note": "post-hoc",
-      "path": "results_paper/figures/appendix/figA04_envelope_ablation.png",
-      "role": "appendix-development",
-      "sha256": "779b2adeefbbe2a58720ac57d4c9cea07090cc30188fe7be0317e375c8ee61d7"
-    },
-    {
-      "dataset": "SynthCharge VAL",
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "note": "post-hoc",
-      "path": "results_paper/figures/appendix/figA04_envelope_ablation.pdf",
-      "role": "appendix-development",
-      "sha256": "ef23f43d17f174c08416c759dd02824c3f2c34cded552a65ca06e0dd888a0321"
-    },
-    {
-      "dataset": "SynthCharge V3 TEST",
-      "generation_script": "scripts/paper/build_results_paper.py",
-      "note": "frozen raw only",
-      "path": "results_paper/figures/appendix/figA05_failure_analysis.png",
+      "path": "results_paper/figures/appendix/figA02_illustrative_hybrid_decision.png",
       "role": "appendix",
-      "sha256": "840d90f9d5ddcb84eeb1f3060b24d301ed52b5f21c4095b0472d2327f9f99984"
+      "sha256": "0b98063c2eaba0aac0218ff63e478ded008ffbdf9e67429bf3e0c9635755aee8"
     },
     {
-      "dataset": "SynthCharge V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "note": "frozen raw only",
-      "path": "results_paper/figures/appendix/figA05_failure_analysis.pdf",
+      "path": "results_paper/figures/appendix/figA02_illustrative_hybrid_decision.pdf",
       "role": "appendix",
-      "sha256": "9152b656b0df4e4a0ba2ea66720d0684cc4c59178af9882f39415684433ff255"
+      "sha256": "ccc1ebcb6508e3405fa8ea972f200ee74a8470377340b143967c45bcd557e788"
     },
     {
-      "dataset": "SynthCharge V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA06_seed_robustness.png",
+      "path": "results_paper/figures/appendix/figA03_learning_curves.png",
       "role": "appendix",
-      "sha256": "a4e2265fef82ee58c424df4cb10c871ca4a8c624173f2f02d210722bef3ed803"
+      "sha256": "c787454e33422d869042b5d9d280d57d5330996f64f6856e1c2fb2ad5fe30ae9"
     },
     {
-      "dataset": "SynthCharge V3 TEST",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA06_seed_robustness.pdf",
+      "path": "results_paper/figures/appendix/figA03_learning_curves.pdf",
       "role": "appendix",
-      "sha256": "4eba3500cede4e80d7e5743746102f5d6fd277fe1c711bea478b1e44911fc33a"
+      "sha256": "968adde2ae9a287bd95d43f2e69a836b9942a183c1bd52c2f9b901057d36f51e"
     },
     {
-      "dataset": "native FRVCP",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA07_native_frvcp_reference.png",
+      "path": "results_paper/figures/appendix/figA04_training_stability.png",
+      "role": "appendix",
+      "sha256": "6dbb8fe6d666013570abda4c774690c0dbd639a74c89d865c14029b9ed8a01e3"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA04_training_stability.pdf",
+      "role": "appendix",
+      "sha256": "7cbd36c08b685a16990d7591ddca9028a745b9ad09c9214beef457aed535a73a"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA05_envelope_ablation.png",
+      "role": "appendix",
+      "sha256": "f7b78430739b13c52369e6922fe411fff6ba44291cb15b1f1828679799bc06b3"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA05_envelope_ablation.pdf",
+      "role": "appendix",
+      "sha256": "2f9991658fa14b548f6a57aaf7161a08d75738524465a3f9b064f084617aa298"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA06_failure_consistency.png",
+      "role": "appendix",
+      "sha256": "050de184e636b3e16b4c4de396dc66bcef9027a8aa5f82db20df2419157804bb"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA06_failure_consistency.pdf",
+      "role": "appendix",
+      "sha256": "f5670fb800d02192f30dfb17122752eceab3278346d2609fe0bf9ffbd434c100"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA07_failure_heatmap.png",
+      "role": "appendix",
+      "sha256": "fba93e69964053b99f57e754b446c3d8752274ae09a98d53609a9677a3c5cf74"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA07_failure_heatmap.pdf",
+      "role": "appendix",
+      "sha256": "a3f26877741af1ad55d71e0d62ceddee2e655616269bfe433e3116d40641ec20"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA08_seed_robustness.png",
+      "role": "appendix",
+      "sha256": "2cf807561ca85764fddcc2a8a731a15478d6f7015b54c15f28661cb9e5b65644"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA08_seed_robustness.pdf",
+      "role": "appendix",
+      "sha256": "4445f7cb90722d41b489aa1f01b21877b931c976b7f9665655be843cb635b3cd"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/figures/appendix/figA09_native_frvcp_reference.png",
       "role": "appendix",
       "sha256": "364b3b0bc380e5b30fca83cc9f7ea13b974c3b5c78d4659e45da1f0c1d8f932d"
     },
     {
-      "dataset": "native FRVCP",
       "generation_script": "scripts/paper/build_results_paper.py",
-      "path": "results_paper/figures/appendix/figA07_native_frvcp_reference.pdf",
+      "path": "results_paper/figures/appendix/figA09_native_frvcp_reference.pdf",
       "role": "appendix",
-      "sha256": "d3ccd780df121ef4f0e71cefd695f4334849892995df61f1a0f08afc0aac3092"
+      "sha256": "86430ace99095dee1957411154f3f3a40106405e627daa4ff5e439ffa02f08eb"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
@@ -316,19 +312,19 @@
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA03_failure_routes.csv",
       "role": "appendix",
-      "sha256": "573b9dc8b77b4562165907226594666912c73713d8d63b8cb49bc99927bfb7fa"
+      "sha256": "ecb275da16daf2b6ea425ce05be7df4e6eee6301850991e759a662daf9f4ebdc"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA03_failure_routes.md",
       "role": "appendix",
-      "sha256": "0a3204939f406efb7f9d7e7fcecd2d726469d584b529e4b6a4a42fde9371ccdd"
+      "sha256": "93b1791b56399bcf90030ec16e4b1431a2d60c77f21c5f3e257e88d504c3aa59"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA03_failure_routes.tex",
       "role": "appendix",
-      "sha256": "53ed8d672d0aaf53300e5beb92f1808f75b1faf02e1cbfeda018641fb14d32a9"
+      "sha256": "3af36457564815bcbce4caac05194751246c4a13e6736a40f745dba411543cf8"
     }
   ]
 }

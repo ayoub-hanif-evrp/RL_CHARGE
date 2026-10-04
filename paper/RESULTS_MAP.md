@@ -12,20 +12,25 @@ python scripts/paper/build_results_paper.py --verify
 
 | Paper item | Path | Source | Role |
 |------------|------|--------|------|
-| Fig 1 | `results_paper/figures/fig01_method_schematic.{pdf,png}` | conceptual schematic | method overview |
-| Fig 2 | `results_paper/figures/fig02_main_test.{pdf,png}` | V3 raw | confirmatory |
-| Fig 3 | `results_paper/figures/fig03_effect_sizes.{pdf,png}` | `paired_primary.json` | confirmatory |
-| Fig 4 | `results_paper/figures/fig04_difficulty_robustness.{pdf,png}` | V3 raw (charging-required) | confirmatory robustness |
-| Fig 5 | `results_paper/figures/fig05_mechanism.{pdf,png}` | gold ablation + V3 amount sensitivity | mechanism |
-| Fig A1 | `results_paper/figures/appendix/figA01_illustrative_val_trajectory.{pdf,png}` | VAL case-study JSON | appendix illustration — **not TEST** |
-| Fig A2 | `results_paper/figures/appendix/figA02_learning_curves.{pdf,png}` | gold ablation curves | appendix development |
-| Fig A3 | `results_paper/figures/appendix/figA03_training_stability.{pdf,png}` | gold ablation curves | appendix diagnostics |
-| Fig A4 | `results_paper/figures/appendix/figA04_envelope_ablation.{pdf,png}` | SynthCharge envelope SUMMARY | post-hoc development |
-| Fig A5 | `results_paper/figures/appendix/figA05_failure_analysis.{pdf,png}` | V3 frozen raw | appendix (no TEST replay) |
-| Fig A6 | `results_paper/figures/appendix/figA06_seed_robustness.{pdf,png}` | V3 raw | appendix |
-| Fig A7 | `results_paper/figures/appendix/figA07_native_frvcp_reference.{pdf,png}` | `results/final/.../frvcpy_native` | appendix reference |
+| Fig 1 | `fig01_method_schematic.{pdf,png}` | conceptual schematic | method overview |
+| Fig 2 | `fig02_main_test.{pdf,png}` | V3 raw | confirmatory |
+| Fig 3 | `fig03_effect_sizes.{pdf,png}` | `paired_primary.json` | confirmatory |
+| Fig 4 | `fig04_difficulty_robustness.{pdf,png}` | V3 raw (charging-required) | confirmatory robustness |
+| Fig 5 | `fig05_development_ablation.{pdf,png}` | gold ablation | development only |
+| Fig 6 | `fig06_amount_sensitivity.{pdf,png}` | V3 amount sensitivity | confirmatory secondary |
+| Fig A1 | `appendix/figA01_illustrative_trajectory.{pdf,png}` | VAL case-study JSON | appendix — **not TEST** |
+| Fig A2 | `appendix/figA02_illustrative_hybrid_decision.{pdf,png}` | VAL case-study JSON | appendix — **not TEST** |
+| Fig A3 | `appendix/figA03_learning_curves.{pdf,png}` | gold ablation curves | appendix development |
+| Fig A4 | `appendix/figA04_training_stability.{pdf,png}` | gold ablation curves | appendix diagnostics |
+| Fig A5 | `appendix/figA05_envelope_ablation.{pdf,png}` | SynthCharge envelope SUMMARY | post-hoc development |
+| Fig A6 | `appendix/figA06_failure_consistency.{pdf,png}` | V3 frozen raw | appendix (no TEST replay) |
+| Fig A7 | `appendix/figA07_failure_heatmap.{pdf,png}` | V3 frozen raw | appendix |
+| Fig A8 | `appendix/figA08_seed_robustness.{pdf,png}` | V3 raw | appendix |
+| Fig A9 | `appendix/figA09_native_frvcp_reference.{pdf,png}` | native FRVCP archive | appendix reference |
 | Captions | `results_paper/CAPTIONS.md` | — | manuscript captions |
 | Tables 1–4, A1–A3 | `results_paper/tables/` | frozen stats/raw | see README |
+
+Paths above are under `results_paper/figures/` unless noted.
 
 Deeper frozen-raw failure write-up: `results_paper/failure_analysis/`.
 

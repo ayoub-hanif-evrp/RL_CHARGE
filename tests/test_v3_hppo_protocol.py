@@ -69,16 +69,17 @@ def test_results_paper_pdf_png_if_present():
         return
     pngs = list(fig.rglob("*.png"))
     pdfs = list(fig.rglob("*.pdf"))
-    assert len(pngs) >= 12
-    assert len(pdfs) >= 12
+    assert len(pngs) >= 15
+    assert len(pdfs) >= 15
     for path in fig.rglob("*"):
         if path.is_file():
             assert path.suffix.lower() in {".png", ".pdf"}, path
     assert (ROOT / "results_paper" / "figures" / "fig01_method_schematic.png").is_file()
     assert (ROOT / "results_paper" / "figures" / "fig01_method_schematic.pdf").is_file()
-    assert (ROOT / "results_paper" / "figures" / "fig05_mechanism.png").is_file()
-    assert (ROOT / "results_paper" / "figures" / "appendix" / "figA05_failure_analysis.png").is_file()
-    assert (ROOT / "results_paper" / "figures" / "appendix" / "figA05_failure_analysis.pdf").is_file()
+    assert (ROOT / "results_paper" / "figures" / "fig05_development_ablation.png").is_file()
+    assert (ROOT / "results_paper" / "figures" / "fig06_amount_sensitivity.png").is_file()
+    assert (ROOT / "results_paper" / "figures" / "appendix" / "figA06_failure_consistency.png").is_file()
+    assert (ROOT / "results_paper" / "figures" / "appendix" / "figA07_failure_heatmap.pdf").is_file()
     assert (ROOT / "results_paper" / "case_study" / "illustrative_val_episode.json").is_file()
     assert (ROOT / "results_paper" / "CAPTIONS.md").is_file()
     assert (ROOT / "results_paper" / "MANIFEST.json").is_file()

@@ -18,7 +18,7 @@ from common import SEEDS, V3  # noqa: E402
 
 RAW = V3 / "raw" / "synthcharge_test.jsonl"
 OUT = ROOT / "results_paper" / "failure_analysis"
-FIG_NOTE = "results_paper/figures/appendix/figA05_failure_analysis.{pdf,png}"
+FIG_NOTE = "results_paper/figures/appendix/figA06_failure_consistency.{pdf,png} and figA07_failure_heatmap.{pdf,png}"
 
 
 def main() -> None:
