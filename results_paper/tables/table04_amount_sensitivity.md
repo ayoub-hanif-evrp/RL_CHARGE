@@ -1,6 +1,6 @@
 # Table 4 — TEST amount-policy sensitivity
 
-Same frozen checkpoints on V3 TEST. Do not claim free continuous u beats Max.
+Same frozen checkpoints on V3 TEST. Feasibility-aware envelope accounts for much of the gain; do not claim learned continuous amount beats Max.
 
 | Method | u policy | Feasibility | 95% CI | Completion | Interpretation |
 |---|---|---|---|---|---|

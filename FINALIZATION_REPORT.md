@@ -134,8 +134,10 @@ Single source of truth: `results_paper/figures/` (**PNG only**).
 - appendix/figA02_seed_robustness.png
 - appendix/figA03_native_frvcp_reference.png
 - appendix/figA04_learning_curves.png
+- appendix/figA05_failure_consistency.png
 
 Case-study source: `results_paper/case_study/illustrative_val_episode.json`.
+Scientific repair notes: `docs/SCIENTIFIC_REPAIR_REPORT.md` (no V3 method/TEST changes).
 
 ## 17. Generated paper tables
 

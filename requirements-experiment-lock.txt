@@ -1,0 +1,11 @@
+# Verified package versions recovered from archived experiment manifests.
+# Sources: results/v2/final/ENVIRONMENT.json, results/v3_hppo/ENVIRONMENT.json,
+#          pyproject.toml (pyvrp pin).
+# This is NOT a complete pip freeze. Unknown transitive pins are omitted
+# rather than fabricated. See docs/ENVIRONMENT_REPRODUCIBILITY.md.
+
+numpy==2.5.3
+torch==2.14.0
+pyvrp==0.14.0
+matplotlib==3.11.2
+frvcpy==0.1.1

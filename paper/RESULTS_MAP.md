@@ -19,6 +19,7 @@ python scripts/paper/build_results_paper.py --verify
 | Fig A2 | `results_paper/figures/appendix/figA02_seed_robustness.png` | V3 raw | appendix |
 | Fig A3 | `results_paper/figures/appendix/figA03_native_frvcp_reference.png` | `results/final/.../frvcpy_native` | appendix |
 | Fig A4 | `results_paper/figures/appendix/figA04_learning_curves.png` | ablation curves | appendix development |
-| Tables 1–4, A1–A2 | `results_paper/tables/` | frozen stats/raw | see README |
+| Fig A5 | `results_paper/figures/appendix/figA05_failure_consistency.png` | V3 frozen raw | appendix (no TEST replay) |
+| Tables 1–4, A1–A3 | `results_paper/tables/` | frozen stats/raw | see README |
 
 See `results_paper/README.md` and `results_paper/MANIFEST.json`.

@@ -34,7 +34,19 @@ Therefore the paper **must not** claim that learning the continuous charge quant
 
 Preferred framing:
 
-> The feasibility-aware interval does much of the work. Once the upper SOC bound is time-constrained, charging toward that upper bound can perform nearly as well as learned continuous amount control on this benchmark.
+> The feasibility-aware SOC envelope accounts for much of the observed
+> performance. Once a time-aware upper SOC bound is imposed, targeting the upper
+> bound performs nearly identically to learned continuous amount control on this
+> benchmark.
+
+Preferred central contribution statement:
+
+> We introduce a feasibility-aware action formulation for fixed-route EV
+> charging that combines an energy-continuation lower SOC bound, an optimistic
+> time-feasibility upper SOC bound, and PPO-based station/continue control.
+
+Then report honestly that the learned continuous amount head does not
+significantly improve over forcing the time-aware upper bound on this benchmark.
 
 **FA-HPPO-Min** (\(u=0\)) collapses (~7.9%), largely via `ZERO_CHARGE_NOOP`. Keep it (predeclared) in secondary/appendix tables; do **not** use it to argue that “learning how much is crucial.”
 

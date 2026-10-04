@@ -4,7 +4,7 @@
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/README.md",
       "role": "index",
-      "sha256": "6bc68a1ce739caacd013c73717b55913fc67e5114cb693a91fd4ba9ab8f14e2c"
+      "sha256": "9712a622530cba1cd7f899c219a6847e778324583d56912343be4dcd3916e898"
     },
     {
       "dataset": "SynthCharge VAL",
@@ -46,7 +46,7 @@
       "n_seeds": 5,
       "path": "results_paper/figures/fig04_ablation_and_training_stability.png",
       "role": "main-development",
-      "sha256": "2b8d1a190b5a5ca0d8427d6c583c7a3faf3ed31f4d88964bbfcc4921214b8c3a"
+      "sha256": "b84b77dc6274cbe759b6277794710e89a1bbd7629202f2f573919cb9dca7fe93"
     },
     {
       "dataset": "SynthCharge V3 TEST",
@@ -83,7 +83,15 @@
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/figures/appendix/figA04_learning_curves.png",
       "role": "appendix-development",
-      "sha256": "b97ebcdf45f98acf7ddc5e1e19bbee2e391347d917df9b48d50da677e84c1624"
+      "sha256": "a447f7dfd0a8adabeb5c505abd6396e4e0f0b0479e03e70a099a252b62db5af5"
+    },
+    {
+      "dataset": "SynthCharge V3 TEST",
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "note": "frozen raw only",
+      "path": "results_paper/figures/appendix/figA05_failure_consistency.png",
+      "role": "appendix",
+      "sha256": "ff915dfc3e5eed657208905797800dde665ef1744aa5d1b2bb29bd5cdbb3c4a5"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
@@ -113,7 +121,7 @@
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table02_main_results.md",
       "role": "main",
-      "sha256": "5a9ae9cc146f692a1ee36188c1dcd802d4a1f9cfe1b086a5d8468988fb38cf5f"
+      "sha256": "01e2365bc085453bb0af87e0970d2f0b9d0069adc9861ba8fb33c4bfe05c0636"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
@@ -125,19 +133,19 @@
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table03_development_ablation.csv",
       "role": "main",
-      "sha256": "972d6769e2b71d29fa3fa4228b2d34ccacf0826d68c88b075bf2ab7f14917b00"
+      "sha256": "a432f4caa945d9d8e891d1588e026522dfa3e25bcbf614df39273c65c9f52627"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table03_development_ablation.md",
       "role": "main",
-      "sha256": "a5a8b3ea085069877bc504b622c92a7406497e6d9217d3617a18758f98c3b14f"
+      "sha256": "9dc8ce262078562d75b93055bd6d2fd33f629ba87eca5f7db0b44243f3e992a5"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table03_development_ablation.tex",
       "role": "main",
-      "sha256": "a82b6f7b07d4b76965e858a81d8d6e77884d5ae7b24fc3bb455fa8b2291422b0"
+      "sha256": "66298a6c72fc2dcbb462b8cc67a16dd4e720568b81985d91434a65e0330000f9"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
@@ -149,7 +157,7 @@
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/table04_amount_sensitivity.md",
       "role": "main",
-      "sha256": "807fbe3d14bbee1e6defdb682a92777e07a970d9ab38e37f368a3c4d5b6b5959"
+      "sha256": "e69e558ec81bd8da9983fc8f7c711cd9f07d8ced2e754747a02e43ab8056c60d"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
@@ -179,19 +187,37 @@
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA02_primary_statistics.csv",
       "role": "appendix",
-      "sha256": "f426a7d467020b3d8c1348f126cca2cdfd11b157c1e2f828e32cde805a31f9d3"
+      "sha256": "6d3feb91cc7f55f101b09b9d1c31bc37d08ed495e68cc747bce5495c7e5dedc5"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA02_primary_statistics.md",
       "role": "appendix",
-      "sha256": "2d2a2cd3317a562a959c5dcd5dd7b4f4a6e0c64ee8acbc0767d32dfe355b9782"
+      "sha256": "1bd42c6529c560d92841104c0bd7900910557e0305c0e3e687478ffefb655d0b"
     },
     {
       "generation_script": "scripts/paper/build_results_paper.py",
       "path": "results_paper/tables/tableA02_primary_statistics.tex",
       "role": "appendix",
-      "sha256": "cff1636ec1d2ca3b23e0287b22391708eefa0686d0f2aea4784c92ff418c8e34"
+      "sha256": "0edeff009e41b665183920dc49c6bc1cff386972f3b8235fe985f35a7da6846e"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/tableA03_failure_routes.csv",
+      "role": "appendix",
+      "sha256": "573b9dc8b77b4562165907226594666912c73713d8d63b8cb49bc99927bfb7fa"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/tableA03_failure_routes.md",
+      "role": "appendix",
+      "sha256": "0a3204939f406efb7f9d7e7fcecd2d726469d584b529e4b6a4a42fde9371ccdd"
+    },
+    {
+      "generation_script": "scripts/paper/build_results_paper.py",
+      "path": "results_paper/tables/tableA03_failure_routes.tex",
+      "role": "appendix",
+      "sha256": "53ed8d672d0aaf53300e5beb92f1808f75b1faf02e1cbfeda018641fb14d32a9"
     }
   ]
 }

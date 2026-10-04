@@ -21,7 +21,8 @@ PNG figures only. Single source of truth for the manuscript.
 | `figures/appendix/figA02_seed_robustness.png` | Per-seed robustness |
 | `figures/appendix/figA03_native_frvcp_reference.png` | Native FRVCP reference |
 | `figures/appendix/figA04_learning_curves.png` | Development VAL learning curves |
-| `tables/tableA01_*`, `tableA02_*` | Per-seed / paired stats |
+| `figures/appendix/figA05_failure_consistency.png` | Frozen-raw failure consistency |
+| `tables/tableA01_*` … `tableA03_*` | Per-seed / paired / failure routes |
 | `case_study/illustrative_val_episode.json` | Source for Fig. 1 |
 
 ## Regenerate

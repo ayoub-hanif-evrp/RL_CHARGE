@@ -23,6 +23,8 @@ Owner-only items are marked TODO where metadata is unavailable.
 
 ## Owner TODO (do not invent)
 
+Do **not** invent license, author identity, ORCID, DOI, or venue.
+
 - [ ] Confirm intended SPDX license and add `LICENSE` if known
 - [ ] Author name(s), email(s), ORCID(s), affiliation(s) for `CITATION.cff`
 - [ ] Optional `.zenodo.json` with verified metadata only
@@ -30,6 +32,16 @@ Owner-only items are marked TODO where metadata is unavailable.
 - [ ] Archive via GitHub/Zenodo and insert DOI into the manuscript **after** release
 - [ ] Confirm public distribution rights for any non-vendored external data
 - [ ] Write manuscript `.tex` / paper source from `paper/` artifacts
+
+## Scientific repair notes (agent-completable)
+
+- [x] Document frozen station-feature duplication (`docs/FROZEN_METHOD_NOTES.md`)
+- [x] Provenance/semantic station-feature tests
+- [x] V4 candidates note (not implemented)
+- [x] Environment reproducibility note + capture script
+- [x] Strong-comparator feasibility study (analysis only)
+- [x] Development envelope-ablation script/protocol (TRAIN/VAL; not executed as confirmatory)
+- [x] Frozen-raw failure appendix table/figure
 
 ## Forbidden before release
 

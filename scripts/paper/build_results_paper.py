@@ -57,10 +57,11 @@ COLOR = {
 }
 ABL_ORDER = [
     ("B0", "Base HPPO\n(B0)"),
-    ("B1", "+ Time cap\n(B1)"),
-    ("B3", "+ Scaling\n(B3)"),
-    ("B2", "FA-HPPO\n(B2)"),
+    ("B1", "+ Time-aware cap\n(B1)"),
+    ("B3", "+ Return scaling\n(B3)"),
+    ("B2", "FA-HPPO full\n(B2)"),
 ]
+MC_P_FLOOR = 5e-5  # (1)/(20000+1) Monte Carlo resolution for n_perm=20000
 
 
 def _sha(path: Path) -> str:
@@ -87,6 +88,18 @@ def fmt(v, d=3):
     if v is None or (isinstance(v, float) and (math.isnan(v) or math.isinf(v))):
         return "NA"
     return f"{v:.{d}f}"
+
+
+def fmt_p(p) -> str:
+    """Paper-facing p-value; avoid false precision at the Monte Carlo floor."""
+    if p is None:
+        return "NA"
+    p = float(p)
+    if p <= MC_P_FLOOR + 1e-15:
+        return "<5e-5"
+    if p < 1e-3:
+        return f"{p:.1e}"
+    return f"{p:.4f}"
 
 
 def summarize_learned(rows, method):
@@ -726,7 +739,7 @@ def build_tables(all_s, ch_s, ablation, rows):
             ]
             for m in ORDER_BASE
         ],
-        "FA-HPPO = mean over 5 training seeds; baselines deterministic. Infeasible completion = horizon H. CI = hierarchical bootstrap (seed→route). All Holm-adjusted primary p < 0.001.",
+        "FA-HPPO = mean over 5 training seeds; baselines deterministic. Infeasible completion = horizon H. CI = hierarchical bootstrap (seed→route). All Holm-adjusted primary p < 0.001 (Monte Carlo floor).",
     )
     rows_abl = []
     for code, lab in ABL_ORDER:
@@ -747,9 +760,9 @@ def build_tables(all_s, ch_s, ablation, rows):
     write_table(
         "table03_development_ablation",
         "Table 3 — Development methodology ablation",
-        ["Variant", "Time cap", "Return scale", "VAL feas.", "SD", "Charge-req feas.", "Completion", "Value loss", "Grad norm"],
+        ["Variant", "Time-aware cap", "Return scale", "VAL feas.", "SD", "Charge-req feas.", "Completion", "Value loss", "Grad norm"],
         rows_abl,
-        "DEVELOPMENT / GOLD VALIDATION ONLY — not V3 TEST. Five seeds 42–46.",
+        "DEVELOPMENT / GOLD VALIDATION ONLY — not V3 TEST. Descriptive names primary; B0/B1/B3/B2 are provenance labels. Five seeds 42–46.",
     )
     amt = {m: summarize_learned(rows, m) for m in ("HybridPPO", "FA-HPPO-Max", "FA-HPPO-Min")}
     write_table(
@@ -761,7 +774,7 @@ def build_tables(all_s, ch_s, ablation, rows):
             ["FA-HPPO-Max", "forced u=1", fmt(amt["FA-HPPO-Max"]["feasibility_mean"]), f"[{fmt(amt['FA-HPPO-Max']['feasibility_ci95'][0])}, {fmt(amt['FA-HPPO-Max']['feasibility_ci95'][1])}]", fmt(amt["FA-HPPO-Max"]["completion_all_mean"], 3), "≈ free; envelope upper bound"],
             ["FA-HPPO-Min", "forced u=0", fmt(amt["FA-HPPO-Min"]["feasibility_mean"]), f"[{fmt(amt['FA-HPPO-Min']['feasibility_ci95'][0])}, {fmt(amt['FA-HPPO-Min']['feasibility_ci95'][1])}]", fmt(amt["FA-HPPO-Min"]["completion_all_mean"], 3), "degenerate lower-bound stress"],
         ],
-        "Same frozen checkpoints on V3 TEST. Do not claim free continuous u beats Max.",
+        "Same frozen checkpoints on V3 TEST. Feasibility-aware envelope accounts for much of the gain; do not claim learned continuous amount beats Max.",
     )
     write_table(
         "tableA01_per_seed",
@@ -789,15 +802,116 @@ def build_tables(all_s, ch_s, ablation, rows):
                 t["family"],
                 fmt(t["effect"], 4),
                 f"[{fmt(t['ci95'][0], 4)}, {fmt(t['ci95'][1], 4)}]",
-                f"{t['p_raw']:.2e}",
-                f"{t['p_holm']:.2e}",
+                fmt_p(t["p_raw"]),
+                fmt_p(t["p_holm"]),
                 t.get("procedure", "predeclared"),
                 str(t["n_independent_units"]),
             ]
             for t in paired
         ],
-        "Predeclared seed-averaged route-paired analysis with Holm correction.",
+        "Predeclared seed-averaged route-paired analysis with Holm correction. "
+        "Paper-facing p-values use <5e-5 at the n_perm=20000 Monte Carlo floor; raw JSON retains machine values.",
     )
+    build_failure_analysis(rows)
+
+
+def build_failure_analysis(rows) -> None:
+    """Frozen-raw failure summary. No TEST replay; no pre-failure trajectories."""
+    hybrid = method_rows(rows, "HybridPPO")
+    by_route = defaultdict(list)
+    for r in hybrid:
+        by_route[r["route_id"]].append(r)
+    fail_counts = []
+    table_rows = []
+    for route_id, rr in sorted(by_route.items()):
+        n_fail = sum(1 for r in rr if not r["feasible"])
+        fail_counts.append(n_fail)
+        if n_fail == 0:
+            continue
+        seeds_fail = sorted(int(r["seed"]) for r in rr if not r["feasible"])
+        seeds_ok = sorted(int(r["seed"]) for r in rr if r["feasible"])
+        sample = next(r for r in rr if not r["feasible"])
+        visits = [float(r.get("n_station_visits") or 0) for r in rr if not r["feasible"]]
+        terms = [r.get("terminal_soc") for r in rr if not r["feasible"] and r.get("terminal_soc") is not None]
+        table_rows.append(
+            [
+                route_id,
+                sample.get("layout"),
+                sample.get("length_bin"),
+                sample.get("charge_class"),
+                str(n_fail),
+                ",".join(str(s) for s in seeds_fail),
+                ",".join(str(s) for s in seeds_ok) if seeds_ok else "—",
+                sample.get("reason") or "NA",
+                fmt(mean(visits), 2),
+                fmt(mean(terms), 3) if terms else "NA",
+            ]
+        )
+    write_table(
+        "tableA03_failure_routes",
+        "Table A3 — FA-HPPO failing routes (frozen V3 raw)",
+        [
+            "Route",
+            "Layout",
+            "Length",
+            "Charge class",
+            "n_seeds_fail",
+            "Fail seeds",
+            "OK seeds",
+            "Reason",
+            "Mean visits (fail)",
+            "Mean terminal SOC (fail)",
+        ],
+        table_rows,
+        "From frozen raw rows only. Pre-failure action/SOC trajectories were not recorded in V3 raw data "
+        "and are unavailable without replaying TEST (forbidden). Shared failures = n_seeds_fail=5.",
+    )
+
+    # Fig A05: consistency histogram + layout×length failure rate among charging-required
+    fig, axes = plt.subplots(1, 2, figsize=(8.6, 3.4))
+    counts = Counter(fail_counts)
+    xs = np.arange(0, 6)
+    ys = [counts.get(int(x), 0) for x in xs]
+    axes[0].bar(xs, ys, color="#0072B2", edgecolor="white", width=0.7)
+    for x, y in zip(xs, ys):
+        axes[0].text(x, y + 0.5, str(y), ha="center", va="bottom", fontsize=7)
+    axes[0].set_xlabel("Number of FA-HPPO seeds failing route (0–5)")
+    axes[0].set_ylabel("Number of routes")
+    axes[0].set_title("(a) Failure consistency across seeds", loc="left")
+    axes[0].set_xticks(xs)
+
+    layouts = ["R", "C", "RC"]
+    bins = ["short", "medium", "long"]
+    rate = np.zeros((3, 3))
+    for i, layout in enumerate(layouts):
+        for j, length in enumerate(bins):
+            cell_routes = [
+                rid
+                for rid, rr in by_route.items()
+                if rr[0].get("layout") == layout
+                and rr[0].get("length_bin") == length
+                and rr[0].get("charge_class") == "charging_required"
+            ]
+            if not cell_routes:
+                rate[i, j] = np.nan
+                continue
+            # route-level: fraction of (route×seed) failures
+            cell_rows = [r for rid in cell_routes for r in by_route[rid]]
+            rate[i, j] = mean(float(not r["feasible"]) for r in cell_rows)
+    im = axes[1].imshow(rate, vmin=0, vmax=max(0.25, float(np.nanmax(rate))), cmap="magma")
+    axes[1].set_xticks(range(3), bins)
+    axes[1].set_yticks(range(3), layouts)
+    for i in range(3):
+        for j in range(3):
+            if np.isnan(rate[i, j]):
+                axes[1].text(j, i, "NA", ha="center", va="center", color="white", fontsize=8)
+            else:
+                axes[1].text(j, i, f"{rate[i, j]:.2f}", ha="center", va="center", color="white", fontsize=8)
+    fig.colorbar(im, ax=axes[1], fraction=0.046)
+    axes[1].set_title("(b) Charging-required failure rate", loc="left")
+    fig.suptitle("Frozen V3 raw failure analysis — no TEST replay", fontsize=9, color="#8B0000")
+    fig.tight_layout()
+    save_png(fig, FIG_A / "figA05_failure_consistency.png")
 
 
 def write_readme():
@@ -825,7 +939,8 @@ PNG figures only. Single source of truth for the manuscript.
 | `figures/appendix/figA02_seed_robustness.png` | Per-seed robustness |
 | `figures/appendix/figA03_native_frvcp_reference.png` | Native FRVCP reference |
 | `figures/appendix/figA04_learning_curves.png` | Development VAL learning curves |
-| `tables/tableA01_*`, `tableA02_*` | Per-seed / paired stats |
+| `figures/appendix/figA05_failure_consistency.png` | Frozen-raw failure consistency |
+| `tables/tableA01_*` … `tableA03_*` | Per-seed / paired / failure routes |
 | `case_study/illustrative_val_episode.json` | Source for Fig. 1 |
 
 ## Regenerate
@@ -881,11 +996,14 @@ def verify() -> None:
         "figA02_seed_robustness.png",
         "figA03_native_frvcp_reference.png",
         "figA04_learning_curves.png",
+        "figA05_failure_consistency.png",
     }
     names = {p.name for p in pngs}
     missing = expected - names
     if missing:
         raise SystemExit(f"missing PNGs: {sorted(missing)}")
+    if not (TAB / "tableA03_failure_routes.md").is_file():
+        raise SystemExit("missing tableA03_failure_routes")
     for path in FIG.rglob("*"):
         if path.is_file() and path.suffix.lower() != ".png":
             raise SystemExit(f"non-PNG under figures: {path}")
@@ -946,6 +1064,7 @@ def main() -> None:
         {"path": "results_paper/figures/appendix/figA02_seed_robustness.png", "role": "appendix", "dataset": "SynthCharge V3 TEST"},
         {"path": "results_paper/figures/appendix/figA03_native_frvcp_reference.png", "role": "appendix", "dataset": "native FRVCP"},
         {"path": "results_paper/figures/appendix/figA04_learning_curves.png", "role": "appendix-development", "dataset": "gold VAL"},
+        {"path": "results_paper/figures/appendix/figA05_failure_consistency.png", "role": "appendix", "dataset": "SynthCharge V3 TEST", "note": "frozen raw only"},
     ]
     for stem in (
         "table01_benchmark_protocol",
@@ -954,6 +1073,7 @@ def main() -> None:
         "table04_amount_sensitivity",
         "tableA01_per_seed",
         "tableA02_primary_statistics",
+        "tableA03_failure_routes",
     ):
         for ext in ("csv", "md", "tex"):
             artifacts.append({"path": f"results_paper/tables/{stem}.{ext}", "role": "appendix" if stem.startswith("tableA") else "main"})
