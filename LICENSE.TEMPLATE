@@ -1,0 +1,10 @@
+# SPDX license TODO (owner only)
+
+Do not invent a license.
+
+Owner TODO:
+1. Choose an SPDX identifier (e.g. MIT, Apache-2.0, GPL-3.0-only).
+2. Replace this file with a real `LICENSE` containing the full license text.
+3. Update `CITATION.cff` and README license badges accordingly.
+
+Until then, redistribution rights are undefined beyond repository visibility settings.

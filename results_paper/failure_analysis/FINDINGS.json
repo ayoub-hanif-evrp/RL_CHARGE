@@ -1,0 +1,465 @@
+{
+  "label": "Frozen V3 raw failure analysis \u2014 no TEST replay",
+  "n_routes": 180,
+  "n_route_seed_failures": 52,
+  "routes_with_any_failure": 20,
+  "routes_failing_all_5_seeds": 5,
+  "routes_failing_exactly_1_seed": 9,
+  "fail_count_histogram": {
+    "0": 160,
+    "1": 9,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 5
+  },
+  "failures_per_seed": {
+    "42": 9,
+    "43": 10,
+    "44": 9,
+    "45": 8,
+    "46": 16
+  },
+  "seed_46_vs_45": {
+    "seed_45_failures": 8,
+    "seed_46_failures": 16,
+    "delta_46_minus_45": 8
+  },
+  "reason_counts": {
+    "NO_FEASIBLE_ACTION": 52
+  },
+  "all_seeds_fail_routes": [
+    "v3sc_sc_C_n30_s400121_01",
+    "v3sc_sc_RC_n15_s400281_00",
+    "v3sc_sc_R_n15_s400099_00",
+    "v3sc_sc_R_n15_s400108_01",
+    "v3sc_sc_R_n15_s400369_02"
+  ],
+  "unavailable": [
+    "Pre-failure action/SOC trajectories were not stored in V3 raw rows.",
+    "Causal step-level diagnosis would require forbidden TEST replay."
+  ],
+  "answers": {
+    "few_hard_routes": "5 routes fail for all five seeds; 20 routes have \u22651 seed failure out of 180.",
+    "same_routes_all_seeds": "5 routes fail for every seed (see all_seeds_fail_routes).",
+    "layout_length": "See tableA03 / per-route records; failures are charging_required only in frozen rows inspected.",
+    "seed_46_vs_45": "Seed 46 has 16 route failures vs 8 for seed 45."
+  },
+  "routes": [
+    {
+      "route_id": "v3sc_sc_C_n15_s400460_01",
+      "layout": "C",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 5,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 1,
+      "fail_seeds": [
+        43
+      ],
+      "ok_seeds": [
+        42,
+        44,
+        45,
+        46
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 1.0,
+      "mean_terminal_soc_fail": 0.27005547758517784
+    },
+    {
+      "route_id": "v3sc_sc_C_n15_s402638_02",
+      "layout": "C",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 4,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 1,
+      "fail_seeds": [
+        46
+      ],
+      "ok_seeds": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.0,
+      "mean_terminal_soc_fail": 0.2013408535365873
+    },
+    {
+      "route_id": "v3sc_sc_C_n15_s402710_00",
+      "layout": "C",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 4,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 2,
+      "fail_seeds": [
+        45,
+        46
+      ],
+      "ok_seeds": [
+        42,
+        43,
+        44
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 1.5,
+      "mean_terminal_soc_fail": 0.2757071708372682
+    },
+    {
+      "route_id": "v3sc_sc_C_n30_s400121_01",
+      "layout": "C",
+      "length_bin": "long",
+      "charge_class": "charging_required",
+      "n_customers": 11,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 5,
+      "fail_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "ok_seeds": [],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.0,
+      "mean_terminal_soc_fail": 0.11069961441705585
+    },
+    {
+      "route_id": "v3sc_sc_RC_n15_s400092_00",
+      "layout": "RC",
+      "length_bin": "medium",
+      "charge_class": "charging_required",
+      "n_customers": 9,
+      "certificate_station_visits": 2,
+      "n_seeds_fail": 3,
+      "fail_seeds": [
+        42,
+        43,
+        46
+      ],
+      "ok_seeds": [
+        44,
+        45
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 3.6666666666666665,
+      "mean_terminal_soc_fail": 0.17249069054292074
+    },
+    {
+      "route_id": "v3sc_sc_RC_n15_s400128_02",
+      "layout": "RC",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 4,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 3,
+      "fail_seeds": [
+        43,
+        44,
+        46
+      ],
+      "ok_seeds": [
+        42,
+        45
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.3333333333333333,
+      "mean_terminal_soc_fail": 0.08915329066712613
+    },
+    {
+      "route_id": "v3sc_sc_RC_n15_s400281_00",
+      "layout": "RC",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 5,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 5,
+      "fail_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "ok_seeds": [],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.0,
+      "mean_terminal_soc_fail": 0.17996401068815177
+    },
+    {
+      "route_id": "v3sc_sc_RC_n15_s400317_02",
+      "layout": "RC",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 5,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 1,
+      "fail_seeds": [
+        45
+      ],
+      "ok_seeds": [
+        42,
+        43,
+        44,
+        46
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.0,
+      "mean_terminal_soc_fail": 0.017426776586239416
+    },
+    {
+      "route_id": "v3sc_sc_RC_n15_s400407_01",
+      "layout": "RC",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 5,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 1,
+      "fail_seeds": [
+        46
+      ],
+      "ok_seeds": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.0,
+      "mean_terminal_soc_fail": 0.05578147857477348
+    },
+    {
+      "route_id": "v3sc_sc_RC_n15_s400497_02",
+      "layout": "RC",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 4,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 2,
+      "fail_seeds": [
+        42,
+        45
+      ],
+      "ok_seeds": [
+        43,
+        44,
+        46
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 1.0,
+      "mean_terminal_soc_fail": 0.26019129466704416
+    },
+    {
+      "route_id": "v3sc_sc_RC_n30_s400005_01",
+      "layout": "RC",
+      "length_bin": "long",
+      "charge_class": "charging_required",
+      "n_customers": 11,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 1,
+      "fail_seeds": [
+        46
+      ],
+      "ok_seeds": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 1.0,
+      "mean_terminal_soc_fail": 0.08807222836298696
+    },
+    {
+      "route_id": "v3sc_sc_RC_n50_s400161_01",
+      "layout": "RC",
+      "length_bin": "long",
+      "charge_class": "charging_required",
+      "n_customers": 15,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 4,
+      "fail_seeds": [
+        42,
+        43,
+        44,
+        46
+      ],
+      "ok_seeds": [
+        45
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 5.0,
+      "mean_terminal_soc_fail": 0.08610770422459155
+    },
+    {
+      "route_id": "v3sc_sc_R_n15_s400072_00",
+      "layout": "R",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 5,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 1,
+      "fail_seeds": [
+        46
+      ],
+      "ok_seeds": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.0,
+      "mean_terminal_soc_fail": 0.10016488812749576
+    },
+    {
+      "route_id": "v3sc_sc_R_n15_s400099_00",
+      "layout": "R",
+      "length_bin": "medium",
+      "charge_class": "charging_required",
+      "n_customers": 7,
+      "certificate_station_visits": 2,
+      "n_seeds_fail": 5,
+      "fail_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "ok_seeds": [],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.0,
+      "mean_terminal_soc_fail": 0.055104251000024154
+    },
+    {
+      "route_id": "v3sc_sc_R_n15_s400108_01",
+      "layout": "R",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 5,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 5,
+      "fail_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "ok_seeds": [],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.0,
+      "mean_terminal_soc_fail": 0.2137537706935364
+    },
+    {
+      "route_id": "v3sc_sc_R_n15_s400306_02",
+      "layout": "R",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 5,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 1,
+      "fail_seeds": [
+        46
+      ],
+      "ok_seeds": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 1.0,
+      "mean_terminal_soc_fail": 0.20171955895495952
+    },
+    {
+      "route_id": "v3sc_sc_R_n15_s400369_02",
+      "layout": "R",
+      "length_bin": "short",
+      "charge_class": "charging_required",
+      "n_customers": 5,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 5,
+      "fail_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "ok_seeds": [],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.2,
+      "mean_terminal_soc_fail": 0.1881350213120967
+    },
+    {
+      "route_id": "v3sc_sc_R_n30_s400093_00",
+      "layout": "R",
+      "length_bin": "medium",
+      "charge_class": "charging_required",
+      "n_customers": 10,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 4,
+      "fail_seeds": [
+        42,
+        43,
+        44,
+        46
+      ],
+      "ok_seeds": [
+        45
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.0,
+      "mean_terminal_soc_fail": 0.02694370532500181
+    },
+    {
+      "route_id": "v3sc_sc_R_n30_s400120_00",
+      "layout": "R",
+      "length_bin": "medium",
+      "charge_class": "charging_required",
+      "n_customers": 9,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 1,
+      "fail_seeds": [
+        44
+      ],
+      "ok_seeds": [
+        42,
+        43,
+        45,
+        46
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 2.0,
+      "mean_terminal_soc_fail": 0.17807644865687686
+    },
+    {
+      "route_id": "v3sc_sc_R_n50_s400114_02",
+      "layout": "R",
+      "length_bin": "long",
+      "charge_class": "charging_required",
+      "n_customers": 13,
+      "certificate_station_visits": 1,
+      "n_seeds_fail": 1,
+      "fail_seeds": [
+        46
+      ],
+      "ok_seeds": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "reason": "NO_FEASIBLE_ACTION",
+      "mean_n_station_visits_fail": 0.0,
+      "mean_terminal_soc_fail": 0.03277274090063049
+    }
+  ]
+}

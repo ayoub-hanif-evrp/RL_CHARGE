@@ -1,0 +1,20 @@
+# Citation metadata template — owner values are TODO (do not invent).
+cff-version: 1.2.0
+message: "If you use this software, please cite it using these metadata once completed."
+title: "RL_CHARGE: Feasibility-Aware PPO for Fixed-Route Electric Vehicle Charging"
+type: software
+# TODO(owner): authors, orcid, email, affiliation
+authors:
+  - family-names: "TODO"
+    given-names: "TODO"
+    # orcid: "https://orcid.org/TODO"
+repository-code: "https://github.com/ayoub-hanif-evrp/RL_CHARGE"
+license: "TODO"
+# identifiers:
+#   - type: doi
+#     value: "TODO-after-zenodo"
+version: "0.1.0"
+abstract: >
+  Fixed-route EV charging control with a feasibility-aware SOC envelope and
+  PPO-based station/continue decisions (FA-HPPO). V3 confirmatory evidence is
+  frozen; see paper/CLAIMS.md.

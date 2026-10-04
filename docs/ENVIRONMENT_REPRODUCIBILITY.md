@@ -38,13 +38,43 @@ It is a reconstruction aid, not a claim of complete environment fidelity.
 
 ```bash
 python scripts/repro/capture_environment.py
+# or:
+python scripts/repro/capture_environment.py --out results/development/envelope_ablation/ENVIRONMENT_CAPTURE.json
 ```
 
-Writes `ENVIRONMENT_CAPTURE.json` (or a path you pass) with python, platform,
-key package versions, and `pip freeze`.
+Writes JSON with python, platform, key package versions, and `pip freeze`.
+
+## Exact reproduction command (best effort)
+
+```bash
+# Create a fresh venv with Python 3.12.x matching the experiment major/minor.
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+pip install -U pip setuptools
+pip install -r requirements-experiment-lock.txt
+pip install -e . --no-deps
+pip install pytest
+python -m pytest tests -q
+python scripts/paper/build_results_paper.py --verify
+```
+
+This reconstructs **known** package pins only. It does not claim bit-identical
+Windows↔Linux Torch numerics.
+
+## Compatibility-test command (CI-like)
+
+```bash
+# Python 3.11 or 3.12
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install numpy "pyvrp==0.14.0" pytest
+pip install -e . --no-deps
+python -m pytest tests -q
+```
 
 ## CI
 
 GitHub Actions runs unit tests on **Python 3.11 and 3.12** (CPU torch).
 CI versions may differ from the Windows experiment host; they validate
-portability, not bit-identical numerics.
+portability, not bit-identical numerics. Torch 2.14.0 may not resolve
+identically on Ubuntu CI wheels — document the resolved `pip freeze` from
+`capture_environment.py` rather than inventing a pin.

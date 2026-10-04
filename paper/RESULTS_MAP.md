@@ -22,4 +22,6 @@ python scripts/paper/build_results_paper.py --verify
 | Fig A5 | `results_paper/figures/appendix/figA05_failure_consistency.png` | V3 frozen raw | appendix (no TEST replay) |
 | Tables 1–4, A1–A3 | `results_paper/tables/` | frozen stats/raw | see README |
 
+Deeper frozen-raw failure write-up: `results_paper/failure_analysis/`.
+
 See `results_paper/README.md` and `results_paper/MANIFEST.json`.

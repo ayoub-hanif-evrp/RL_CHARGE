@@ -35,13 +35,17 @@ Do **not** invent license, author identity, ORCID, DOI, or venue.
 
 ## Scientific repair notes (agent-completable)
 
-- [x] Document frozen station-feature duplication (`docs/FROZEN_METHOD_NOTES.md`)
-- [x] Provenance/semantic station-feature tests
-- [x] V4 candidates note (not implemented)
-- [x] Environment reproducibility note + capture script
-- [x] Strong-comparator feasibility study (analysis only)
-- [x] Development envelope-ablation script/protocol (TRAIN/VAL; not executed as confirmatory)
-- [x] Frozen-raw failure appendix table/figure
+- [x] Document frozen station-feature duplication (`docs/FROZEN_METHOD_NOTES.md`, `docs/STATION_FEATURE_AUDIT.md`)
+- [x] Provenance/semantic station-feature + SOC mapping tests
+- [x] Continuous-head limitation note (`docs/CONTINUOUS_HEAD_LIMITATION.md`)
+- [x] V4 proposal (`docs/V4_PROPOSAL.md`) — not trained
+- [x] Environment reproducibility note + capture script + partial lockfile
+- [x] Optimization comparator design (`docs/OPTIMIZATION_COMPARATOR_DESIGN.md`)
+- [x] SynthCharge envelope A/B/C ablation completed (development-only)
+- [x] SynthCharge B0–B2 same-domain script prepared (not fully executed; ~15–22 CPU-h)
+- [x] Frozen-raw failure analysis (`results_paper/failure_analysis/`, tableA03, figA05)
+- [x] `LICENSE.TEMPLATE` + `CITATION.cff.template` (owner TODOs)
+- [x] `docs/SCIENTIFIC_FIXES_REPORT.md`
 
 ## Forbidden before release
 

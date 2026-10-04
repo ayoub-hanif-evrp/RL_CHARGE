@@ -22,7 +22,13 @@
         "46": 1.0
       },
       "completion_mean": 3.8815769671241807,
-      "completion_sd": 0.10680345516990623
+      "completion_sd": 0.10680345516990623,
+      "route_weighted_feas_mean": 0.9933333333333334,
+      "value_loss_mean": 0.005656029793733488,
+      "value_loss_sd": 0.0001732695795152666,
+      "grad_norm_preclip_mean": 0.49402114779615164,
+      "grad_norm_preclip_sd": 0.04947732922458262,
+      "note_missing_metrics": "NO_FEASIBLE_ACTION / station visits / charging time were not logged in the initial validation.json schema; parent-balanced feas/completion and curve optimization stats are reported. Re-rollout optional and not required for V3 integrity."
     },
     "B_energy_to_max": {
       "display_name": "EnergyLower-to-Max",
@@ -37,7 +43,13 @@
         "46": 0.9888888888888889
       },
       "completion_mean": 3.882717364500175,
-      "completion_sd": 0.10785979245694853
+      "completion_sd": 0.10785979245694853,
+      "route_weighted_feas_mean": 0.9888888888888889,
+      "value_loss_mean": 0.006057385457589051,
+      "value_loss_sd": 0.0005841024260612086,
+      "grad_norm_preclip_mean": 0.5356363777089129,
+      "grad_norm_preclip_sd": 0.0867926924609796,
+      "note_missing_metrics": "NO_FEASIBLE_ACTION / station visits / charging time were not logged in the initial validation.json schema; parent-balanced feas/completion and curve optimization stats are reported. Re-rollout optional and not required for V3 integrity."
     },
     "C_energy_to_time": {
       "display_name": "EnergyLower-to-TimeUpper",
@@ -52,7 +64,13 @@
         "46": 1.0
       },
       "completion_mean": 3.9146620303655646,
-      "completion_sd": 0.12328720387307898
+      "completion_sd": 0.12328720387307898,
+      "route_weighted_feas_mean": 0.9822222222222222,
+      "value_loss_mean": 0.005585786458232186,
+      "value_loss_sd": 0.0004838991240682285,
+      "grad_norm_preclip_mean": 0.4972374208762964,
+      "grad_norm_preclip_sd": 0.040624366551367114,
+      "note_missing_metrics": "NO_FEASIBLE_ACTION / station visits / charging time were not logged in the initial validation.json schema; parent-balanced feas/completion and curve optimization stats are reported. Re-rollout optional and not required for V3 integrity."
     }
   }
 }
