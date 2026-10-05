@@ -1,0 +1,41 @@
+{
+  "name": "v4_synthcharge_test",
+  "role": "fresh_external_confirmatory_TEST_for_V4_reward_FA_HPPO",
+  "extends": "configs/v2/synthcharge_final_benchmark.json",
+  "independent_of_v3_test": true,
+  "physics_profile": "synthcharge_linear",
+  "generator_arguments": {
+    "depot_mode": "center",
+    "cluster_std": 0.05,
+    "cluster_ratio": 0.5,
+    "charger_at_depot": false,
+    "time_horizon": 10.0,
+    "vehicle_capacity": 1.5,
+    "consumption_rate": 0.25,
+    "velocity": 1.0,
+    "refuel_rate": 1.0,
+    "battery_strategy": "adaptive",
+    "fixed_battery_val": 0.4,
+    "service_min": 0.01,
+    "service_max": 0.03
+  },
+  "layouts": ["R", "C", "RC"],
+  "customer_counts": [15, 30, 50],
+  "stations_by_customers": {"15": 3, "30": 6, "50": 10},
+  "seed_starts": {"test": 500000},
+  "max_candidate_seeds_per_split": 10000,
+  "length_bins": {"short": [3, 5], "medium": [6, 10], "long": [11, 15]},
+  "quotas": {
+    "test": {"routes_per_cell": 20, "charging_required": 16, "no_charge_required": 4}
+  },
+  "one_route_per_instance": true,
+  "whole_route_certificate_only": true,
+  "do_not_split_routes": true,
+  "pyvrp_max_iterations": 1000,
+  "pyvrp_distance_scale": 1000,
+  "pyvrp_demand_scale": 100,
+  "certificate_max_seconds": 10.0,
+  "certificate_max_expansions": 25000,
+  "policy_inspection_forbidden_during_generation": true,
+  "seed_range_note": "TRAIN=100000+, VAL=200000+, V2 TEST=300000+, V3 TEST=400000+; V4 TEST starts at 500000"
+}

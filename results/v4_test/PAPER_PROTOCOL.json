@@ -1,0 +1,77 @@
+{
+  "name": "v4_reward_paper_protocol",
+  "written_before_test_generation_and_evaluation": true,
+  "test_cannot_trigger_retraining": true,
+  "test_cannot_trigger_reward_redesign": true,
+  "proposed_method": {
+    "name": "FA-HPPO with normalized time-horizon reward",
+    "code_names": ["V4_BASE_NO_L_FAIL", "normalized_time_horizon_reward"],
+    "reward": {
+      "feasible_step": "r_t = -Delta_t / C_train",
+      "terminal_failure": "r_fail = -(H - t) / C_train",
+      "C_train": 10.0,
+      "C_train_rule": "median_depot_horizon_over_TRAIN_routes_only"
+    },
+    "architecture": "frozen V3 FA-HPPO (time-aware envelope, Beta amount head, same PPO config)"
+  },
+  "relationship_to_prior_stages": {
+    "v1_v2_v3": "frozen evidence untouched; V3 TEST remains consumed and is not reused",
+    "v4_reward_development": "TRAIN/VAL reward ablation under results/v4_reward/; PBRS retained as negative/neutral ablation"
+  },
+  "primary_comparison": {
+    "methods": ["V4_FA_HPPO", "V3_FA_HPPO"],
+    "same_fresh_test": true,
+    "note": "Both evaluated on the identical fresh V4 TEST corpus"
+  },
+  "baselines": [
+    "GreedyMinimumSufficientCharge",
+    "GreedyFullCharge",
+    "OneStepLookahead"
+  ],
+  "baseline_retuning_forbidden": true,
+  "confirmatory_test": {
+    "benchmark": "SynthCharge v1.0 linear",
+    "physics_profile": "synthcharge_linear",
+    "generator_seed_start": 500000,
+    "max_candidate_seeds": 10000,
+    "seed_range_audit": "TRAIN>=100000, VAL>=200000, V2 TEST>=300000, V3 TEST>=400000; V4 uses 500000+",
+    "layouts": ["R", "C", "RC"],
+    "customer_scales": [15, 30, 50],
+    "length_bins": {"short": [3, 5], "medium": [6, 10], "long": [11, 15]},
+    "routes_per_layout_scale_cell": 20,
+    "charging_required_per_cell": 16,
+    "no_charge_required_per_cell": 4,
+    "n_routes_target": 180,
+    "n_charging_required_target": 144,
+    "n_no_charge_required_target": 36,
+    "certificate_procedure": "identical to V3 SynthCharge paper TEST (charging certificate search; classify_route)",
+    "paper_test_config": "results/v4_test/configs/synthcharge_v4_test.json",
+    "admission_independent_of_policy": true,
+    "independent_of_v3_test_corpus": true
+  },
+  "seeds": [42, 43, 44, 45, 46],
+  "primary_metric": "feasibility over all TEST routes",
+  "secondary_metrics": [
+    "failure-retaining completion",
+    "completion on common-feasible routes",
+    "charging time",
+    "energy charged",
+    "station visits",
+    "terminal SOC",
+    "distance",
+    "runtime"
+  ],
+  "paired_analyses_predeclared": [
+    "V4_FA_HPPO vs V3_FA_HPPO feasibility win/tie/loss on matched route x seed",
+    "V4 vs V3 failure-retaining completion on all routes",
+    "V4 vs V3 operational metrics on matched common-feasible subset",
+    "stratified by layout, customer scale, charging-required, layout x difficulty"
+  ],
+  "checkpoint_sources": {
+    "V4_FA_HPPO": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_{42..46}/best.pt",
+    "V3_FA_HPPO": "checkpoints_v2/final/synthcharge/HybridPPO/seed_{42..46}/best.pt"
+  },
+  "development_selection_wording": "V4_BASE_NO_L_FAIL matched the best mean development feasibility and obtained the lowest mean failure-retaining completion among the tied variants. Effects across seeds were variable, so the reward is selected primarily for its simple objective-consistent formulation rather than claimed as a large performance improvement.",
+  "no_pbrs_superiority_claim": true,
+  "conservative_message": "The normalized time-horizon reward provides a simpler objective-aligned formulation without arbitrary weighted penalties. Development evidence showed no meaningful feasibility advantage from PBRS, so the simpler reward was selected and evaluated prospectively on a fresh held-out TEST."
+}
