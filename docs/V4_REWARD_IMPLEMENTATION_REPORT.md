@@ -115,19 +115,20 @@ python scripts/v4_reward/build_comparison_figure.py
 
 ## 10. Final clean freeze
 
-After code/docs fixes are committed on a clean tree:
+Completed on clean tree `299f244ce305eedb80ea0856da22f0b8c1bd6961` (`git_dirty=false`):
 
 ```bash
-python scripts/v4_reward/run_final_clean.py
+python scripts/v4_reward/run_final_clean_parallel.py
+python scripts/v4_reward/write_final_freeze.py
 ```
 
 Artifacts:
 
 - `results/v4_reward/final_clean/V4_BASE_NO_L_FAIL/seed_{42..46}/`
-- `checkpoints_v4/final_reward/V4_BASE_NO_L_FAIL/seed_{42..46}/`
+- `checkpoints_v4/final_reward/V4_BASE_NO_L_FAIL/seed_{42..46}/` (gitignored; hashes in freeze)
 - `results/v4_reward/FINAL_REWARD_FREEZE.json`
 
-Manifests require `git_dirty=false`, repository-relative checkpoint paths, TRAIN/VAL hashes, PPO config hash, checkpoint SHA256.
+Final clean VAL (matches development selection numbers): mean feasibility **98.2%**, mean completion **3.878**.
 
 ## 11. V1–V3 integrity
 
