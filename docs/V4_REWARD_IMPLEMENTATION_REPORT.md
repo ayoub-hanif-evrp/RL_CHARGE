@@ -82,11 +82,12 @@ No epsilon penalty was added; empirical TRAIN/VAL successes under development ch
 
 Source: `results/v4_reward/SUMMARY.md`. These checkpoints are **development evidence only**; final freeze uses `final_clean/`.
 
-### Lexicographic selection
+### Development selection rule
 
 1. Maximize mean parent-balanced VAL feasibility → tie `V3_TIME` / `V4_BASE` / `V4_BASE_NO_L_FAIL` at 98.2%.
 2. Among tied, minimize mean parent-balanced failure-retaining completion → **`V4_BASE_NO_L_FAIL`** (3.878).
-3. Secondary energy/station/SOC metrics reported on common-feasible matched pairs only; they do not redefine the objective.
+3. Effects across seeds were variable; the reward is selected primarily for its simple objective-consistent formulation rather than claimed as a large performance improvement.
+4. Secondary energy/station/SOC metrics reported on common-feasible matched pairs only; they do not redefine the objective.
 
 ## 7. Per-seed feasibility (development)
 

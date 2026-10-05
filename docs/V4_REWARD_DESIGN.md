@@ -213,8 +213,8 @@ No new reward weights were introduced after seeing these VAL numbers.
 
 ## 6. Selected development reward
 
-Under the predeclared lexicographic rule
-(max VAL feasibility, then min failure-retaining completion):
+Under the **development selection rule**
+(max mean parent-balanced VAL feasibility, then min mean failure-retaining completion):
 
 **`V4_BASE_NO_L_FAIL`** — normalized time-horizon reward:
 
@@ -224,6 +224,12 @@ r_{\mathrm{fail}}=-(H-t)/C_{\mathrm{train}}.
 \]
 
 With \(C_{\mathrm{train}}=10\) on SynthCharge.
+
+`V4_BASE_NO_L_FAIL` matched the best mean development feasibility and obtained the
+lowest mean failure-retaining completion among the tied variants. Effects across
+seeds were variable, so the reward is selected primarily for its simple
+objective-consistent formulation rather than claimed as a large performance
+improvement.
 
 ## 7. Experimental isolation
 

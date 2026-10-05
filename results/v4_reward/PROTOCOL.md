@@ -20,10 +20,17 @@ python scripts/v4_reward/analyze_val_pairs.py
 python scripts/paper/build_v4_training_figures.py V4_BASE_NO_L_FAIL
 python scripts/v4_reward/build_comparison_figure.py
 
-# Clean final freeze (requires clean git tree)
-python scripts/v4_reward/run_final_clean.py
+# Authoritative final freeze (code-clean tree; new namespace)
+python scripts/v4_reward/run_final_clean_parallel.py
 python scripts/v4_reward/write_final_freeze.py
+python scripts/v4_reward/build_ops_metrics_tables.py
 ```
+
+Namespaces:
+- development ablation: `results/v4_reward/ablation/` (do not overwrite)
+- historical final_clean: `results/v4_reward/final_clean/`
+- authoritative: `results/v4_reward/final_authoritative/` + `checkpoints_v4/final_authoritative/`
+
 
 ## Hard rules
 

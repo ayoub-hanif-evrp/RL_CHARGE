@@ -1,0 +1,7 @@
+{
+  "source": "results/v4_reward/val_route_rows/",
+  "n_method_rows": 24,
+  "n_common_rows": 12,
+  "confirmatory_test_consumed": false,
+  "note": "Development VAL only. Common-feasible subset avoids survivor bias for cross-method ops claims."
+}

@@ -3,9 +3,10 @@
 Aggregation rules:
 - Never extrapolate a seed beyond its last observed update.
 - Aggregate only on the common update range shared by all loaded seeds.
-- Uncertainty: Student-t 95% CI across seeds (n=5 => t_{0.975,4}).
+- Uncertainty: Student-t 95% CI across seeds (n=5 => t_{0.975,4} ≈ 2.776445105).
 
 Default final figures use V4_BASE_NO_L_FAIL (selected development reward).
+Prefer authoritative final runs over older namespaces.
 """
 
 from __future__ import annotations
@@ -20,25 +21,37 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy import stats
 
 ROOT = Path(__file__).resolve().parents[2]
-ABLATION = ROOT / "results" / "v4_reward" / "ablation"
-FINAL = ROOT / "results" / "v4_reward" / "final_clean"
+# Prefer newest authoritative namespace first.
+CURVE_ROOTS = (
+    ROOT / "results" / "v4_reward" / "final_authoritative",
+    ROOT / "results" / "v4_reward" / "final_clean",
+    ROOT / "results" / "v4_reward" / "ablation",
+)
 FIG = ROOT / "results_v4" / "figures"
 DPI = 600
 SEEDS = (42, 43, 44, 45, 46)
 DEFAULT_VARIANT = "V4_BASE_NO_L_FAIL"
-# two-sided 95% Student-t critical value for df=4
-T_CRIT_5 = float(stats.t.ppf(0.975, df=4))
+# two-sided 95% Student-t critical value for df=4 (no SciPy dependency)
+T_CRIT_5 = 2.776445105
+
+
+def _t_crit(n: int) -> float:
+    if n == 5:
+        return T_CRIT_5
+    if n <= 1:
+        return float("nan")
+    # Fallback table for small n used in unit tests (df=n-1).
+    table = {2: 12.706204736, 3: 4.3026527299, 4: 3.1824463053, 5: T_CRIT_5}
+    return float(table.get(n, T_CRIT_5))
 
 
 def _load_curves(variant: str) -> dict[int, list[dict]]:
     out: dict[int, list[dict]] = {}
-    roots = (FINAL, ABLATION)
     for seed in SEEDS:
         path = None
-        for base in roots:
+        for base in CURVE_ROOTS:
             candidate = base / variant / f"seed_{seed}" / "curves.jsonl"
             if candidate.is_file():
                 path = candidate
@@ -51,7 +64,7 @@ def _load_curves(variant: str) -> dict[int, list[dict]]:
     return out
 
 
-def _series(curves: dict[int, list[dict]], key: str) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def _series(curves: dict[int, list[dict]], key: str) -> tuple[np.ndarray, np.ndarray, tuple[np.ndarray, np.ndarray]]:
     """Mean ± Student-t 95% CI on the intersection of seed update supports."""
     per_seed = []
     for rows in curves.values():
@@ -61,7 +74,6 @@ def _series(curves: dict[int, list[dict]], key: str) -> tuple[np.ndarray, np.nda
     empty = (np.asarray([]), np.asarray([]), (np.asarray([]), np.asarray([])))
     if not per_seed:
         return empty
-    # common updates present in EVERY seed (no forward-fill / extrapolation)
     common = set(per_seed[0].keys())
     for by_u in per_seed[1:]:
         common &= set(by_u.keys())
@@ -73,7 +85,7 @@ def _series(curves: dict[int, list[dict]], key: str) -> tuple[np.ndarray, np.nda
     n = mat.shape[0]
     if n > 1:
         se = mat.std(axis=0, ddof=1) / np.sqrt(n)
-        tcrit = float(stats.t.ppf(0.975, df=n - 1))
+        tcrit = _t_crit(n)
         lo, hi = mu - tcrit * se, mu + tcrit * se
     else:
         lo, hi = mu.copy(), mu.copy()
@@ -101,49 +113,33 @@ def _save(fig, name: str) -> Path:
 
 
 def fig_reward_evolution(variant: str = DEFAULT_VARIANT) -> Path | None:
+    """Single-panel objective return G = -T (success) or -H (failure)."""
     curves = _load_curves(variant)
     if not curves:
         return None
-    # Older ablation logs used base_episode_return_mean (= normalized objective for unshaped rewards).
     c_train = 10.0
     for rows in curves.values():
         if rows and rows[0].get("c_train") is not None:
             c_train = float(rows[0]["c_train"])
             break
     _style()
-    fig, axes = plt.subplots(1, 2, figsize=(8.2, 3.3))
-    # (key, ylabel, title, scale_if_fallback)
-    panels = (
-        (
-            axes[0],
-            "objective_episode_return_mean",
-            "Mean objective episode return (−T / −H)",
-            "(a) Objective return",
-            c_train,
-        ),
-        (
-            axes[1],
-            "normalized_base_episode_return_mean",
-            "Mean normalized base return",
-            "(b) Normalized base return",
-            1.0,
-        ),
-    )
-    for ax, key, ylabel, title, fallback_scale in panels:
-        xs, mu, (lo, hi) = _series(curves, key)
-        if xs.size == 0:
-            xs, mu, (lo, hi) = _series(curves, "base_episode_return_mean")
-            if xs.size:
-                mu = mu * fallback_scale
-                lo = lo * fallback_scale
-                hi = hi * fallback_scale
-        if xs.size == 0:
-            continue
-        ax.plot(xs, mu, color="#0072B2", lw=1.8)
-        ax.fill_between(xs, lo, hi, color="#0072B2", alpha=0.18)
-        ax.set_xlabel("PPO update")
-        ax.set_ylabel(ylabel)
-        ax.set_title(title, loc="left")
+    fig, ax = plt.subplots(figsize=(6.2, 3.4))
+    xs, mu, (lo, hi) = _series(curves, "objective_episode_return_mean")
+    if xs.size == 0:
+        xs, mu, (lo, hi) = _series(curves, "normalized_base_episode_return_mean")
+        if xs.size:
+            mu, lo, hi = mu * c_train, lo * c_train, hi * c_train
+    if xs.size == 0:
+        xs, mu, (lo, hi) = _series(curves, "base_episode_return_mean")
+        if xs.size:
+            mu, lo, hi = mu * c_train, lo * c_train, hi * c_train
+    if xs.size == 0:
+        plt.close(fig)
+        return None
+    ax.plot(xs, mu, color="#0072B2", lw=1.8)
+    ax.fill_between(xs, lo, hi, color="#0072B2", alpha=0.18)
+    ax.set_xlabel("PPO update")
+    ax.set_ylabel("Mean objective episode return (−T / −H)")
     fig.tight_layout()
     return _save(fig, "fig_v4_reward_evolution.png")
 
@@ -162,9 +158,19 @@ def fig_loss_evolution(variant: str = DEFAULT_VARIANT) -> Path | None:
         if xs.size == 0:
             continue
         ax.plot(xs, mu, color="#0072B2", lw=1.8)
-        ax.fill_between(xs, np.maximum(lo, 1e-12), np.maximum(hi, 1e-12), color="#0072B2", alpha=0.18)
-        if logy and np.all(mu > 0):
-            ax.set_yscale("log")
+        if logy:
+            # Log axis requires positive values; policy loss must NOT be clamped.
+            ax.fill_between(
+                xs,
+                np.maximum(lo, 1e-12),
+                np.maximum(hi, 1e-12),
+                color="#0072B2",
+                alpha=0.18,
+            )
+            if np.all(mu > 0):
+                ax.set_yscale("log")
+        else:
+            ax.fill_between(xs, lo, hi, color="#0072B2", alpha=0.18)
         ax.set_xlabel("PPO update")
         ax.set_ylabel(ylabel)
         ax.set_title(title, loc="left")
@@ -201,6 +207,7 @@ def fig_gradient_norm(variant: str = DEFAULT_VARIANT) -> Path | None:
     if xs.size == 0:
         return None
     ax.plot(xs, mu, color="#D55E00", lw=1.8)
+    # Gradient norms are non-negative; clamp only for optional log axis.
     ax.fill_between(xs, np.maximum(lo, 1e-12), np.maximum(hi, 1e-12), color="#D55E00", alpha=0.18)
     ax.set_xlabel("PPO update")
     ax.set_ylabel("Pre-clip gradient norm")
@@ -216,17 +223,25 @@ def _sha(path: Path) -> str:
 
 def main() -> None:
     variant = DEFAULT_VARIANT
-    if len(sys.argv) > 1:
+    if len(sys.argv) > 1 and not sys.argv[1].startswith("-"):
         variant = sys.argv[1]
     written = []
     for fn in (fig_reward_evolution, fig_loss_evolution, fig_validation_learning, fig_gradient_norm):
         path = fn(variant)
         if path is not None:
             written.append({"path": str(path.relative_to(ROOT)).replace("\\", "/"), "sha256": _sha(path)})
+    # Prefer which root actually supplied curves
+    source = None
+    for base in CURVE_ROOTS:
+        if (base / variant / "seed_42" / "curves.jsonl").is_file():
+            source = str(base.relative_to(ROOT)).replace("\\", "/")
+            break
     manifest = {
         "variant": variant,
+        "curve_source": source,
         "aggregation": "common_update_intersection_no_extrapolation",
         "uncertainty": "student_t_95ci_across_seeds",
+        "t_crit_n5": T_CRIT_5,
         "n_seeds_found": len(_load_curves(variant)),
         "figures": written,
         "note": "TRAIN/VAL development figures only. Not V3/V4 TEST.",

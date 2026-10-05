@@ -9,6 +9,25 @@ from typing import Any
 
 from data.paths import REPO_ROOT, ROUTES_DIR, SPLITS_DIR
 
+# Generated experiment outputs must not mark the *code* tree dirty.
+APPROVED_OUTPUT_PREFIXES = (
+    "results/",
+    "results_v4/",
+    "results_paper/",
+    "checkpoints/",
+    "checkpoints_v2/",
+    "checkpoints_v3/",
+    "checkpoints_v4/",
+    "checkpoints_development/",
+)
+
+_NOISE_PREFIXES = (
+    "__pycache__/",
+    ".pytest_cache/",
+    ".mypy_cache/",
+    ".ruff_cache/",
+)
+
 
 def sha256_file(path: Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -28,18 +47,51 @@ def git_sha(repo: Path | None = None) -> str:
         return "unknown"
 
 
-def git_dirty(repo: Path | None = None) -> bool:
-    root = Path(repo) if repo is not None else REPO_ROOT
+def _porcelain_paths(repo: Path) -> list[str]:
     try:
         out = subprocess.check_output(
             ["git", "status", "--porcelain"],
-            cwd=root,
+            cwd=repo,
             stderr=subprocess.DEVNULL,
             text=True,
         )
-        return bool(out.strip())
     except Exception:
+        return ["<git-status-unavailable>"]
+    paths: list[str] = []
+    for line in out.splitlines():
+        if not line.strip():
+            continue
+        path = line[3:].strip().replace("\\", "/")
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1]
+        paths.append(path)
+    return paths
+
+
+def _is_approved_output(path: str) -> bool:
+    p = path.replace("\\", "/")
+    if any(p.startswith(prefix) or f"/{prefix}" in f"/{p}" for prefix in APPROVED_OUTPUT_PREFIXES):
         return True
+    if any(part.endswith("__pycache__") or part in {".pytest_cache", ".mypy_cache", ".ruff_cache"} for part in p.split("/")):
+        return True
+    if any(p.startswith(prefix) for prefix in _NOISE_PREFIXES):
+        return True
+    return False
+
+
+def code_dirty_paths(repo: Path | None = None) -> list[str]:
+    """Paths that count as source-code dirtiness (excludes approved outputs)."""
+    root = Path(repo) if repo is not None else REPO_ROOT
+    return [p for p in _porcelain_paths(root) if not _is_approved_output(p)]
+
+
+def code_git_dirty(repo: Path | None = None) -> bool:
+    return bool(code_dirty_paths(repo))
+
+
+def git_dirty(repo: Path | None = None) -> bool:
+    """Backward-compatible alias for code_git_dirty (approved outputs ignored)."""
+    return code_git_dirty(repo)
 
 
 def device_info() -> dict[str, Any]:
@@ -110,9 +162,13 @@ def v2_split_hashes() -> dict[str, str]:
 
 
 def run_manifest(**extra: Any) -> dict[str, Any]:
-    dirty = git_dirty()
+    sha = git_sha()
+    dirty = code_git_dirty()
     payload = {
-        "git_sha": git_sha(),
+        "git_sha": sha,
+        "training_git_sha": sha,
+        "code_git_dirty": dirty,
+        # Legacy field: now means code dirtiness (approved outputs ignored).
         "git_dirty": dirty,
         "run_kind": "dirty_exploratory" if dirty else "clean_sha",
         "final_v2_requires_clean_frozen_sha": True,

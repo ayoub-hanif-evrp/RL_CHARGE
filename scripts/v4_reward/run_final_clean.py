@@ -1,6 +1,8 @@
-"""Clean final rerun of the selected V4 reward (V4_BASE_NO_L_FAIL) on seeds 42–46.
+"""Authoritative clean final rerun of V4_BASE_NO_L_FAIL on seeds 42–46.
 
-Requires a clean git working tree. Does not touch V3 or consume TEST.
+Requires a code-clean git tree (approved experiment outputs ignored).
+Does not touch V3 or consume TEST. Writes a new namespace; does not overwrite
+development ablation or prior final_clean runs.
 """
 
 from __future__ import annotations
@@ -15,6 +17,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
+from experiments.provenance import code_dirty_paths, code_git_dirty  # noqa: E402
+from experiments.stats import logical_checkpoint_path  # noqa: E402
 from rl.ablation import AblationConfig  # noqa: E402
 from rl.checkpoint import load_hybrid_actor, sha256_file  # noqa: E402
 from rl.ppo import PPOConfig  # noqa: E402
@@ -24,8 +28,8 @@ from routing.serialize import read_jsonl  # noqa: E402
 
 SEEDS = (42, 43, 44, 45, 46)
 VARIANT = "V4_BASE_NO_L_FAIL"
-OUT_ROOT = ROOT / "results" / "v4_reward" / "final_clean" / VARIANT
-CKPT_ROOT = ROOT / "checkpoints_v4" / "final_reward" / VARIANT
+OUT_ROOT = ROOT / "results" / "v4_reward" / "final_authoritative" / VARIANT
+CKPT_ROOT = ROOT / "checkpoints_v4" / "final_authoritative" / VARIANT
 PPO_CFG = ROOT / "configs" / "rl" / "hybrid_ppo_paper.toml"
 
 
@@ -35,27 +39,6 @@ def _git(cmd: list[str]) -> str:
 
 def _sha_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-# Training writes into these namespaces; they must not fail the preflight dirty check.
-_OUTPUT_PREFIXES = (
-    "results/v4_reward/final_clean/",
-    "checkpoints_v4/final_reward/",
-)
-
-
-def _code_dirty_paths() -> list[str]:
-    rows = []
-    for line in _git(["status", "--porcelain"]).splitlines():
-        if not line.strip():
-            continue
-        path = line[3:].strip().replace("\\", "/")
-        if " -> " in path:
-            path = path.split(" -> ", 1)[1]
-        if any(path.startswith(prefix) for prefix in _OUTPUT_PREFIXES):
-            continue
-        rows.append(path)
-    return rows
 
 
 def _routes(split: str):
@@ -78,14 +61,16 @@ def main() -> None:
     parser.add_argument("--allow-dirty", action="store_true")
     args = parser.parse_args()
 
-    dirty_paths = _code_dirty_paths()
+    dirty_paths = code_dirty_paths()
     dirty = bool(dirty_paths)
     sha = _git(["rev-parse", "HEAD"])
     if dirty and not args.allow_dirty:
         raise SystemExit(
-            "working tree has uncommitted non-output changes; commit fixes before final clean rerun: "
+            "working tree has uncommitted source changes; commit fixes before authoritative final run: "
             + ", ".join(dirty_paths[:12])
         )
+    if code_git_dirty() != dirty:
+        raise SystemExit("internal provenance inconsistency")
 
     train_routes, train_corpus = _routes("train")
     val_routes, val_corpus = _routes("validation")
@@ -101,7 +86,7 @@ def main() -> None:
         out_ckpt = CKPT_ROOT / f"seed_{seed}"
         dest = OUT_ROOT / f"seed_{seed}"
         if (dest / "validation.json").is_file() and (out_ckpt / "best.pt").is_file():
-            print(f"skip final {VARIANT} seed={seed}", flush=True)
+            print(f"skip authoritative {VARIANT} seed={seed}", flush=True)
             continue
         config = PPOConfig.from_toml(PPO_CFG)
         config.seed = int(seed)
@@ -111,7 +96,7 @@ def main() -> None:
             val_routes=val_routes,
             config=config,
             ablation=ablation,
-            method=f"V4_FINAL_{VARIANT}",
+            method=f"V4_AUTH_{VARIANT}",
             out_dir=out_ckpt,
             return_scale=1.0,
             reward_config=reward,
@@ -125,31 +110,44 @@ def main() -> None:
             src = out_ckpt / name
             if src.is_file():
                 (dest / name).write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+        ckpt_rel = logical_checkpoint_path(str(best))
         summary = {
-            "stage": "V4_FINAL_REWARD",
+            "stage": "V4_FINAL_AUTHORITATIVE",
             "variant": VARIANT,
             "reward_kind": reward.kind.value,
             "human_name": "normalized_time_horizon_reward",
             "c_train": float(c_train),
             "c_train_rule": reward.c_train_rule,
             "seed": int(seed),
+            "training_git_sha": sha,
+            "code_git_dirty": False,
             "git_sha": sha,
-            "git_dirty": bool(dirty),
+            "git_dirty": False,
+            "run_kind": "clean_sha",
             "train_corpus": str(train_corpus.relative_to(ROOT)).replace("\\", "/"),
             "val_corpus": str(val_corpus.relative_to(ROOT)).replace("\\", "/"),
             "train_corpus_sha256": _sha_file(train_corpus),
             "val_corpus_sha256": _sha_file(val_corpus),
             "ppo_config": str(PPO_CFG.relative_to(ROOT)).replace("\\", "/"),
             "ppo_config_sha256": _sha_file(PPO_CFG),
-            "checkpoint": str(best.relative_to(ROOT)).replace("\\", "/"),
+            "checkpoint": ckpt_rel,
             "checkpoint_sha256": sha256_file(best),
             "best_update": manifest.get("best_update"),
             "runtime_s": manifest.get("runtime_s"),
             "parent_balanced_val_feasibility": val["parent_balanced_feasibility"],
             "parent_balanced_completion_all": val["parent_balanced_completion_all"],
+            "training_manifest_code_git_dirty": manifest.get("code_git_dirty"),
+            "training_manifest_run_kind": manifest.get("run_kind"),
             "confirmatory_test_consumed": False,
             "not_v3_test": True,
         }
+        if manifest.get("code_git_dirty") or manifest.get("run_kind") != "clean_sha":
+            raise SystemExit(
+                f"training manifest not clean for seed={seed}: "
+                f"code_git_dirty={manifest.get('code_git_dirty')} run_kind={manifest.get('run_kind')}"
+            )
+        if "C:/" in str(manifest.get("checkpoint", "")) or "Users/" in str(manifest.get("checkpoint", "")):
+            raise SystemExit(f"absolute checkpoint path leaked into training manifest: {manifest.get('checkpoint')}")
         (dest / "validation.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
         print(json.dumps(summary, indent=2), flush=True)
 

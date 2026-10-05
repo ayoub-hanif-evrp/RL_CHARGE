@@ -265,8 +265,15 @@ def test_figure_builder_is_pure_from_logs(tmp_path, monkeypatch):
         (d / "curves.jsonl").write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
 
     monkeypatch.setattr(figmod, "ROOT", root)
-    monkeypatch.setattr(figmod, "ABLATION", root / "results" / "v4_reward" / "ablation")
-    monkeypatch.setattr(figmod, "FINAL", root / "results" / "v4_reward" / "final_clean")
+    monkeypatch.setattr(
+        figmod,
+        "CURVE_ROOTS",
+        (
+            root / "results" / "v4_reward" / "final_authoritative",
+            root / "results" / "v4_reward" / "final_clean",
+            root / "results" / "v4_reward" / "ablation",
+        ),
+    )
     monkeypatch.setattr(figmod, "FIG", root / "results_v4" / "figures")
     monkeypatch.setattr(figmod, "SEEDS", (42, 43))
     # ensure common-key fields exist for new preferred metrics

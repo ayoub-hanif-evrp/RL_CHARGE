@@ -1,16 +1,18 @@
 {
   "variant": "V4_BASE_NO_L_FAIL",
+  "curve_source": "results/v4_reward/final_clean",
   "aggregation": "common_update_intersection_no_extrapolation",
   "uncertainty": "student_t_95ci_across_seeds",
+  "t_crit_n5": 2.776445105,
   "n_seeds_found": 5,
   "figures": [
     {
       "path": "results_v4/figures/fig_v4_reward_evolution.png",
-      "sha256": "6014afd41c42cf5395868be4ec7ecb8e6e4bdc35cc3d1ebc4f4605e293ef9e73"
+      "sha256": "61b57bbb4e44151bb39f560c8abd26af2dcad81e97a6aeac412a7dfde1d1f714"
     },
     {
       "path": "results_v4/figures/fig_v4_loss_evolution.png",
-      "sha256": "6c80663bb8c2a57f19861d9ee4fb657886d1a3f63006ac08f5cdb0363be3dfa0"
+      "sha256": "cacd044e51ef70b154e60259a1977ca144645dcf87c7f1f5ab54f4efa4081bcd"
     },
     {
       "path": "results_v4/figures/fig_v4_validation_learning.png",
