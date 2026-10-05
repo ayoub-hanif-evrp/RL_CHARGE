@@ -1,0 +1,21 @@
+{
+  "benchmark": "synthcharge_v4_reward_paper_test",
+  "consumed": true,
+  "evaluation_git_sha": "9d25b8f295aaac3b49166a3a3b97c0d32139da3d",
+  "independent_of_v3_test": true,
+  "methods": [
+    "GreedyFullCharge",
+    "GreedyMinimumSufficientCharge",
+    "OneStepLookahead",
+    "V3_FA_HPPO",
+    "V4_FA_HPPO"
+  ],
+  "n_routes": 180,
+  "n_rows": 2340,
+  "no_checkpoint_reselection": true,
+  "no_retrain_after_test": true,
+  "no_reward_redesign_after_test": true,
+  "raw_file": "results/v4_test/raw/synthcharge_v4_test.jsonl",
+  "raw_sha256_lf": "431014b397eba9191b09312f83ccb7523641e353f3d37ae9c6d57bb2a31b00dc",
+  "runtime_s": 239.64282751083374
+}

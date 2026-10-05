@@ -1,0 +1,526 @@
+{
+  "exact_reward_equations": {
+    "feasible_step": "r_t = -Delta_t / C_train",
+    "terminal_failure": "r_fail = -(H - t) / C_train",
+    "episode_return_success": "G = -T_completion / C_train",
+    "episode_return_failure": "G = -H / C_train"
+  },
+  "c_train": 10.0,
+  "c_train_rule": "median_depot_horizon_over_TRAIN_routes_only",
+  "clean_training_git_sha": "8fc7533d3eed6f017cf4a944669c995a8b2a781b",
+  "five_checkpoint_hashes": {
+    "42": "759f8d093719b73e2910c6cebe7fec001b6c1cca638f75a50ce5478eae15c434",
+    "43": "e4873c13d14e33174ea816d98cf22e1089884bcb37d28c535eba6a038f6b74f7",
+    "44": "f6afb1fe24a263a087fbe18e3b56ece04b02085ca8e3d4dace1dc672975ab57c",
+    "45": "562fb328eada8f9ec069b96e5929d35da5abe62951c2fd2a2e8268c1b3d6dc71",
+    "46": "1d49363f136bfae129be1273354f95acd6351e7d789363481ea1f1d5a67449ef"
+  },
+  "final_five_seed_val": {
+    "feasibility_mean": 0.9822222222222222,
+    "feasibility_sd": 0.009938079899999086,
+    "completion_mean": 3.8780193168987287,
+    "completion_sd": 0.04609898835440457,
+    "per_seed": {
+      "42": {
+        "checkpoint": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_42/best.pt",
+        "checkpoint_sha256": "759f8d093719b73e2910c6cebe7fec001b6c1cca638f75a50ce5478eae15c434",
+        "best_update": 340,
+        "runtime_s": 5049.913242399925,
+        "parent_balanced_val_feasibility": 0.9888888888888889,
+        "parent_balanced_completion_all": 3.8136965467645942
+      },
+      "43": {
+        "checkpoint": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_43/best.pt",
+        "checkpoint_sha256": "e4873c13d14e33174ea816d98cf22e1089884bcb37d28c535eba6a038f6b74f7",
+        "best_update": 330,
+        "runtime_s": 5044.330868899939,
+        "parent_balanced_val_feasibility": 0.9888888888888889,
+        "parent_balanced_completion_all": 3.9160311229931852
+      },
+      "44": {
+        "checkpoint": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_44/best.pt",
+        "checkpoint_sha256": "f6afb1fe24a263a087fbe18e3b56ece04b02085ca8e3d4dace1dc672975ab57c",
+        "best_update": 270,
+        "runtime_s": 5063.576476600021,
+        "parent_balanced_val_feasibility": 0.9888888888888889,
+        "parent_balanced_completion_all": 3.84448496305245
+      },
+      "45": {
+        "checkpoint": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_45/best.pt",
+        "checkpoint_sha256": "562fb328eada8f9ec069b96e5929d35da5abe62951c2fd2a2e8268c1b3d6dc71",
+        "best_update": 190,
+        "runtime_s": 5004.385475699906,
+        "parent_balanced_val_feasibility": 0.9777777777777777,
+        "parent_balanced_completion_all": 3.9091392278168042
+      },
+      "46": {
+        "checkpoint": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_46/best.pt",
+        "checkpoint_sha256": "1d49363f136bfae129be1273354f95acd6351e7d789363481ea1f1d5a67449ef",
+        "best_update": 330,
+        "runtime_s": 5001.1735930999275,
+        "parent_balanced_val_feasibility": 0.9666666666666667,
+        "parent_balanced_completion_all": 3.906744723866611
+      }
+    }
+  },
+  "fresh_test_protocol": "results/v4_test/PAPER_PROTOCOL.json",
+  "fresh_test_lock": "results/v4_test/TEST_LOCK.json",
+  "fresh_test_raw": "results/v4_test/raw/synthcharge_v4_test.jsonl",
+  "paired_v4_vs_v3": {
+    "n_paired": 900,
+    "feasibility_counts": {
+      "v4_only_feasible": 10,
+      "v3_only_feasible": 15,
+      "both_feasible": 841,
+      "both_infeasible": 34
+    },
+    "feasibility_mean_across_seeds": {
+      "V4_FA_HPPO": {
+        "n": 5,
+        "mean": 0.9455555555555556,
+        "sd": 0.018172696926440118
+      },
+      "V3_FA_HPPO": {
+        "n": 5,
+        "mean": 0.9511111111111111,
+        "sd": 0.012044157438154892
+      }
+    },
+    "per_seed_feasibility": {
+      "42": {
+        "V4_FA_HPPO": 0.95,
+        "V3_FA_HPPO": 0.95
+      },
+      "43": {
+        "V4_FA_HPPO": 0.9722222222222222,
+        "V3_FA_HPPO": 0.95
+      },
+      "44": {
+        "V4_FA_HPPO": 0.9388888888888889,
+        "V3_FA_HPPO": 0.9555555555555556
+      },
+      "45": {
+        "V4_FA_HPPO": 0.9444444444444444,
+        "V3_FA_HPPO": 0.9666666666666667
+      },
+      "46": {
+        "V4_FA_HPPO": 0.9222222222222223,
+        "V3_FA_HPPO": 0.9333333333333333
+      }
+    },
+    "paired_completion_all_v4_minus_v3": {
+      "n": 900,
+      "mean": -0.012580597221572018,
+      "sd": 0.9908318694799221
+    },
+    "common_feasible_operational_v4_minus_v3": {
+      "route_completion_time": {
+        "n": 841,
+        "mean_v4_minus_v3": -0.049010626531108555,
+        "sd": 0.4275012553341686
+      },
+      "total_charging_time": {
+        "n": 841,
+        "mean_v4_minus_v3": -0.00269746609990715,
+        "sd": 0.12800549301532976
+      },
+      "total_energy_charged": {
+        "n": 841,
+        "mean_v4_minus_v3": -0.00269746609990715,
+        "sd": 0.12800549301532976
+      },
+      "n_station_visits": {
+        "n": 841,
+        "mean_v4_minus_v3": -0.039239001189060645,
+        "sd": 1.510954095045326
+      },
+      "terminal_soc": {
+        "n": 841,
+        "mean_v4_minus_v3": 0.007107661865388392,
+        "sd": 0.17654637431151055
+      },
+      "total_distance": {
+        "n": 841,
+        "mean_v4_minus_v3": -0.022162123384250023,
+        "sd": 0.3810208564949849
+      },
+      "runtime_s": {
+        "n": 841,
+        "mean_v4_minus_v3": -0.0017870150958592078,
+        "sd": 0.026916893657566186
+      }
+    }
+  },
+  "baselines": {
+    "GreedyFullCharge": {
+      "feasibility": {
+        "n": 180,
+        "mean": 0.5277777777777778,
+        "sd": null
+      },
+      "completion_all": {
+        "n": 180,
+        "mean": 6.579854506081032,
+        "sd": 3.288257308050359
+      }
+    },
+    "GreedyMinimumSufficientCharge": {
+      "feasibility": {
+        "n": 180,
+        "mean": 0.4444444444444444,
+        "sd": null
+      },
+      "completion_all": {
+        "n": 180,
+        "mean": 6.970423329610347,
+        "sd": 3.4181034624998707
+      }
+    },
+    "OneStepLookahead": {
+      "feasibility": {
+        "n": 180,
+        "mean": 0.6888888888888889,
+        "sd": null
+      },
+      "completion_all": {
+        "n": 180,
+        "mean": 5.452363261367941,
+        "sd": 3.1158596518011312
+      }
+    },
+    "V3_FA_HPPO": {
+      "feasibility": {
+        "n": 5,
+        "mean": 0.9511111111111111,
+        "sd": 0.012044157438154892
+      },
+      "completion_all": {
+        "n": 5,
+        "mean": 4.152851140394627,
+        "sd": 0.06377168744442167
+      }
+    },
+    "V4_FA_HPPO": {
+      "feasibility": {
+        "n": 5,
+        "mean": 0.9455555555555556,
+        "sd": 0.018172696926440118
+      },
+      "completion_all": {
+        "n": 5,
+        "mean": 4.140270543173054,
+        "sd": 0.047462382931537345
+      }
+    }
+  },
+  "charging_required": {
+    "V4_FA_HPPO": {
+      "n": 5,
+      "mean": 0.9319444444444445,
+      "sd": 0.022715871158050172
+    },
+    "V3_FA_HPPO": {
+      "n": 5,
+      "mean": 0.9388888888888889,
+      "sd": 0.015055196797693633
+    }
+  },
+  "layout_difficulty": {
+    "by_layout": {
+      "C": {
+        "V4_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9933333333333333,
+          "sd": 0.014907119849998594
+        },
+        "V3_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9966666666666667,
+          "sd": 0.007453559924999322
+        }
+      },
+      "R": {
+        "V4_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9366666666666666,
+          "sd": 0.0298142396999972
+        },
+        "V3_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9466666666666667,
+          "sd": 0.013944333775567917
+        }
+      },
+      "RC": {
+        "V4_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9066666666666666,
+          "sd": 0.02788866755113584
+        },
+        "V3_FA_HPPO": {
+          "n": 5,
+          "mean": 0.91,
+          "sd": 0.022360679774997907
+        }
+      }
+    },
+    "by_length_bin": {
+      "long": {
+        "V4_FA_HPPO": {
+          "n": 5,
+          "mean": 0.96,
+          "sd": 0.025276251480171805
+        },
+        "V3_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9733333333333333,
+          "sd": 0.009128709291752735
+        }
+      },
+      "medium": {
+        "V4_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9533333333333334,
+          "sd": 0.029814239699997188
+        },
+        "V3_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9533333333333333,
+          "sd": 0.03415650255319863
+        }
+      },
+      "short": {
+        "V4_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9233333333333333,
+          "sd": 0.014907119849998601
+        },
+        "V3_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9266666666666666,
+          "sd": 0.009128709291752798
+        }
+      }
+    },
+    "by_n_customers": {
+      "15": {
+        "V4_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9142857142857143,
+          "sd": 0.025808908796046175
+        },
+        "V3_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9214285714285714,
+          "sd": 0.018054465342979876
+        }
+      },
+      "30": {
+        "V4_FA_HPPO": {
+          "n": 5,
+          "mean": 0.96,
+          "sd": 0.019917183909278775
+        },
+        "V3_FA_HPPO": {
+          "n": 5,
+          "mean": 0.96,
+          "sd": 0.023706190564373276
+        }
+      },
+      "50": {
+        "V4_FA_HPPO": {
+          "n": 5,
+          "mean": 0.9902439024390244,
+          "sd": 0.02181529734146138
+        },
+        "V3_FA_HPPO": {
+          "n": 5,
+          "mean": 1.0,
+          "sd": 0.0
+        }
+      }
+    }
+  },
+  "operational_metrics_tables": "results/v4_reward/tables/",
+  "reward_ablation": {
+    "c_train": 10.0,
+    "n_cells": 20,
+    "variants": {
+      "V3_TIME": {
+        "n": 5,
+        "feas_mean": 0.9822222222222223,
+        "feas_sd": 0.016850834320114548,
+        "feas_per_seed": {
+          "42": 0.9888888888888889,
+          "43": 0.9777777777777777,
+          "44": 0.9555555555555556,
+          "45": 0.9888888888888889,
+          "46": 1.0
+        },
+        "comp_mean": 3.9146620303655646,
+        "comp_sd": 0.12328720387307898,
+        "comp_per_seed": {
+          "42": 3.9430179153408966,
+          "43": 4.020471719125671,
+          "44": 4.038607785544788,
+          "45": 3.793540873552983,
+          "46": 3.7776718582634836
+        },
+        "best_update_mean": 219.8,
+        "statuses": [
+          "early_stop",
+          "early_stop",
+          "completed",
+          "early_stop",
+          "completed"
+        ]
+      },
+      "V4_BASE": {
+        "n": 5,
+        "feas_mean": 0.9822222222222223,
+        "feas_sd": 0.016850834320114548,
+        "feas_per_seed": {
+          "42": 0.9888888888888889,
+          "43": 0.9777777777777777,
+          "44": 0.9555555555555556,
+          "45": 0.9888888888888889,
+          "46": 1.0
+        },
+        "comp_mean": 3.9146620303655646,
+        "comp_sd": 0.12328720387307898,
+        "comp_per_seed": {
+          "42": 3.9430179153408966,
+          "43": 4.020471719125671,
+          "44": 4.038607785544788,
+          "45": 3.793540873552983,
+          "46": 3.7776718582634836
+        },
+        "best_update_mean": 219.8,
+        "statuses": [
+          "early_stop",
+          "early_stop",
+          "completed",
+          "early_stop",
+          "completed"
+        ]
+      },
+      "V4_PBRS": {
+        "n": 5,
+        "feas_mean": 0.9777777777777779,
+        "feas_sd": 0.011111111111111127,
+        "feas_per_seed": {
+          "42": 0.9888888888888889,
+          "43": 0.9666666666666667,
+          "44": 0.9888888888888889,
+          "45": 0.9777777777777777,
+          "46": 0.9666666666666667
+        },
+        "comp_mean": 3.8912061465452377,
+        "comp_sd": 0.08183535630975511,
+        "comp_per_seed": {
+          "42": 3.7945454130344065,
+          "43": 3.9988433295231243,
+          "44": 3.9479478256726552,
+          "45": 3.8441836672894163,
+          "46": 3.8705104972065874
+        },
+        "best_update_mean": 222.0,
+        "statuses": [
+          "early_stop",
+          "early_stop",
+          "early_stop",
+          "completed",
+          "completed"
+        ]
+      },
+      "V4_BASE_NO_L_FAIL": {
+        "n": 5,
+        "feas_mean": 0.9822222222222223,
+        "feas_sd": 0.009938079899999086,
+        "feas_per_seed": {
+          "42": 0.9888888888888889,
+          "43": 0.9888888888888889,
+          "44": 0.9888888888888889,
+          "45": 0.9777777777777777,
+          "46": 0.9666666666666667
+        },
+        "comp_mean": 3.8780193168987296,
+        "comp_sd": 0.04609898835440457,
+        "comp_per_seed": {
+          "42": 3.8136965467645942,
+          "43": 3.9160311229931852,
+          "44": 3.84448496305245,
+          "45": 3.9091392278168042,
+          "46": 3.906744723866611
+        },
+        "best_update_mean": 292.0,
+        "statuses": [
+          "completed",
+          "completed",
+          "completed",
+          "early_stop",
+          "completed"
+        ]
+      }
+    },
+    "confirmatory_test_consumed": false,
+    "note": "TRAIN/VAL development only"
+  },
+  "figures": {
+    "variant": "V4_BASE_NO_L_FAIL",
+    "curve_source": "results/v4_reward/final_authoritative",
+    "aggregation": "common_update_intersection_no_extrapolation",
+    "uncertainty": "student_t_95ci_across_seeds",
+    "t_crit_n5": 2.776445105,
+    "n_seeds_found": 5,
+    "figures": [
+      {
+        "path": "results_v4/figures/fig_v4_reward_evolution.png",
+        "sha256": "61b57bbb4e44151bb39f560c8abd26af2dcad81e97a6aeac412a7dfde1d1f714"
+      },
+      {
+        "path": "results_v4/figures/fig_v4_loss_evolution.png",
+        "sha256": "cacd044e51ef70b154e60259a1977ca144645dcf87c7f1f5ab54f4efa4081bcd"
+      },
+      {
+        "path": "results_v4/figures/fig_v4_validation_learning.png",
+        "sha256": "c84e40dbf0249f08e3ab272aadf7c425f8e8fd5cb897e353519ec30ee769fcd3"
+      },
+      {
+        "path": "results_v4/figures/fig_v4_gradient_norm.png",
+        "sha256": "1691bb6607d8835ce95cd8e826130f28acc5ba47deb0eebae8a70792673c4acd"
+      }
+    ],
+    "note": "TRAIN/VAL development figures only. Not V3/V4 TEST."
+  },
+  "protocol_seed_start": 500000,
+  "test_lock_n_routes": 180,
+  "checkpoint_freeze": {
+    "n_v4": 5,
+    "n_v3": 5
+  },
+  "evaluation_consumed": {
+    "benchmark": "synthcharge_v4_reward_paper_test",
+    "consumed": true,
+    "evaluation_git_sha": "9d25b8f295aaac3b49166a3a3b97c0d32139da3d",
+    "independent_of_v3_test": true,
+    "methods": [
+      "GreedyFullCharge",
+      "GreedyMinimumSufficientCharge",
+      "OneStepLookahead",
+      "V3_FA_HPPO",
+      "V4_FA_HPPO"
+    ],
+    "n_routes": 180,
+    "n_rows": 2340,
+    "no_checkpoint_reselection": true,
+    "no_retrain_after_test": true,
+    "no_reward_redesign_after_test": true,
+    "raw_file": "results/v4_test/raw/synthcharge_v4_test.jsonl",
+    "raw_sha256_lf": "431014b397eba9191b09312f83ccb7523641e353f3d37ae9c6d57bb2a31b00dc",
+    "runtime_s": 239.64282751083374
+  },
+  "ci_tests": "python -m pytest tests -q (must be green before TEST)",
+  "v1_v2_v3_untouched": true,
+  "conservative_message": "The normalized time-horizon reward provides a simpler objective-aligned formulation without arbitrary weighted penalties. Development evidence showed no meaningful feasibility advantage from PBRS, so the simpler reward was selected and evaluated prospectively on a fresh held-out TEST."
+}
