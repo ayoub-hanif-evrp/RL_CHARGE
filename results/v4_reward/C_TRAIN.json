@@ -1,0 +1,6 @@
+{
+  "c_train": 10.0,
+  "rule": "median_depot_horizon_over_TRAIN_routes_only",
+  "dataset": "synthcharge_final/train",
+  "n_train_routes": 180
+}

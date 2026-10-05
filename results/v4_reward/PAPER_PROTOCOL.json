@@ -1,0 +1,44 @@
+{
+  "stage": "V4_REWARD",
+  "status": "development_train_val_only",
+  "written_before_test_evaluation": true,
+  "confirmatory_test_consumed": false,
+  "method_family": "FA-HPPO",
+  "architecture": "frozen_V3_HybridPPO_FULL_time_aware_envelope",
+  "isolates_factor": "reward_kind_only",
+  "not_combined_with": ["V4-A_station_feature_fix", "V4-B_endpoint_beta", "V4-C_planner"],
+  "train_data": "data/routes_v2/synthcharge_final/train/corpus.jsonl",
+  "val_data": "data/routes_v2/synthcharge_final/validation/corpus.jsonl",
+  "forbidden_for_selection": [
+    "data/routes_v2/synthcharge_v3_test",
+    "results/v3_hppo/raw/synthcharge_test.jsonl"
+  ],
+  "seeds": [42, 43, 44, 45, 46],
+  "reward_variants": ["V3_TIME", "V4_BASE", "V4_PBRS", "V4_BASE_NO_L_FAIL"],
+  "c_train_rule": "median_depot_horizon_over_TRAIN_routes_only",
+  "potential": "Phi(s)=-L_remaining(s)/C_train; Phi_absorbing=0; gamma=1; F=Phi'-Phi",
+  "primary_dev_metrics": [
+    "parent_balanced_val_feasibility",
+    "parent_balanced_completion_all"
+  ],
+  "secondary_metrics": [
+    "total_energy_charged",
+    "n_station_visits",
+    "terminal_soc",
+    "total_charging_time",
+    "grad_norm_preclip",
+    "value_loss",
+    "policy_loss",
+    "entropy",
+    "approx_kl",
+    "clip_fraction"
+  ],
+  "checkpoint_selection": "parent_balanced_lexicographic_on_VAL",
+  "ppo_config": "configs/rl/hybrid_ppo_paper.toml",
+  "artifact_roots": {
+    "results": "results/v4_reward",
+    "checkpoints": "checkpoints_v4/reward_ablation",
+    "figures": "results_v4/figures"
+  },
+  "fresh_test_policy": "No V4 TEST may be generated or consumed until reward is selected, method/checkpoints frozen, and a dedicated TEST protocol is committed."
+}

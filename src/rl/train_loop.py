@@ -17,6 +17,7 @@ from rl.env import ShieldedRouteEnv
 from rl.features import extract_features
 from rl.normalization import Normalizer
 from rl.ppo import HybridPPO, PPOConfig
+from rl.rewards import RewardConfig
 from rl.sampler import HierarchicalSampler
 from routing.fixed_route import FrozenRoute
 from routing.serialize import canonical_dumps
@@ -207,11 +208,16 @@ def train_hybrid_ppo(
     val_max_routes: Optional[int] = None,
     return_scale: Optional[float] = None,
     learning_split: str = "train",
+    reward_config: Optional[RewardConfig] = None,
 ) -> dict:
     assert_learning_split(learning_split)
     ablation = ablation or AblationConfig()
+    reward_config = reward_config or RewardConfig.v3_time()
     if return_scale is not None:
         config = replace(config, return_scale=float(return_scale))
+    elif reward_config.embeds_c_train:
+        # V4 rewards already divide by C_train; avoid a second scale.
+        config = replace(config, return_scale=1.0)
     out_dir = Path(out_dir) if out_dir is not None else CHECKPOINTS_DIR / method / f"seed_{config.seed}"
     out_dir.mkdir(parents=True, exist_ok=True)
     sampler = HierarchicalSampler(train_routes, seed=config.seed)
@@ -241,6 +247,7 @@ def train_hybrid_ppo(
             LoadConvention.OFFICIAL_REFERENCE_PICKUP,
             normalizer=normalizer,
             ablation=ablation,
+            reward_config=reward_config,
         )
 
     actor = HybridPolicyActor(
@@ -266,8 +273,18 @@ def train_hybrid_ppo(
             "grad_norm": stats["grad_norm"],
             "grad_norm_preclip": stats.get("grad_norm_preclip", stats["grad_norm"]),
             "return_scale": float(config.return_scale),
+            "reward_kind": reward_config.kind.value,
+            "c_train": float(reward_config.c_train),
+            "c_train_rule": reward_config.c_train_rule,
             "scaled_reward_mean": stats.get("scaled_reward_mean"),
             "raw_episode_return_mean": stats.get("raw_episode_return_mean"),
+            "base_episode_return_mean": stats.get("base_episode_return_mean"),
+            "shaped_episode_return_mean": stats.get("shaped_episode_return_mean"),
+            "shaping_contribution_mean": stats.get("shaping_contribution_mean"),
+            "val_feasibility": None,
+            "val_completion_all": None,
+            "val_parent_balanced_feasibility": None,
+            "val_parent_balanced_completion_all": None,
         }
         if update % max(int(config.eval_interval), 1) == 0 or update == config.budget_updates - 1:
             val = evaluate_routes(val_routes, actor, max_routes=val_max_routes)
@@ -305,6 +322,7 @@ def train_hybrid_ppo(
                         "normalizer_provenance": normalizer_provenance,
                         "return_scale": float(config.return_scale),
                         "time_aware_envelope": bool(ablation.time_aware),
+                        "reward_config": reward_config.to_dict(),
                     },
                 )
                 row["checkpoint_sha256"] = ckpt_hash
@@ -351,7 +369,10 @@ def train_hybrid_ppo(
     )
     if best_path.is_file():
         manifest["checkpoint_sha256"] = sha256_file(best_path)
+    manifest["reward_config"] = reward_config.to_dict()
+    manifest["return_scale"] = float(config.return_scale)
     (out_dir / "manifest.json").write_text(canonical_dumps(manifest) + "\n", encoding="utf-8")
+    (out_dir / "reward_config.json").write_text(canonical_dumps(reward_config.to_dict()) + "\n", encoding="utf-8")
     (out_dir / "normalizer_provenance.json").write_text(
         canonical_dumps(normalizer_provenance) + "\n", encoding="utf-8"
     )

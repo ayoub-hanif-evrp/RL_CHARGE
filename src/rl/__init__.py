@@ -8,6 +8,7 @@ from .features import FeatureBundle, extract_features
 from .normalization import Normalizer
 from .policy import HybridPolicy
 from .ppo import HybridPPO, PPOConfig
+from .rewards import RewardComputer, RewardConfig, RewardKind, compute_c_train
 from .sampler import HierarchicalSampler
 from .seed import seed_everything
 
@@ -20,10 +21,14 @@ __all__ = [
     "HybridPolicy",
     "Normalizer",
     "PPOConfig",
+    "RewardComputer",
+    "RewardConfig",
+    "RewardKind",
     "RolloutBuffer",
     "ShieldedRouteEnv",
     "StepInfo",
     "Transition",
+    "compute_c_train",
     "extract_features",
     "seed_everything",
 ]

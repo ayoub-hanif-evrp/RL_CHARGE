@@ -9,7 +9,6 @@ from domain.load_convention import LoadConvention, require_load_convention
 from physics.parameters import PhysicsProfile
 from routing.fixed_route import FrozenRoute
 from simulation.feasibility import InfeasibilityReason
-from simulation.progress import failure_step_reward
 from simulation.shield import (
     CONTINUE_INDEX,
     action_from_discrete,
@@ -21,6 +20,7 @@ from simulation.simulator import FixedRouteSimulator
 from .ablation import AblationConfig
 from .features import FeatureBundle, extract_features
 from .normalization import Normalizer
+from .rewards import RewardComputer, RewardConfig
 
 
 @dataclass
@@ -45,6 +45,7 @@ class ShieldedRouteEnv:
         normalizer: Optional[Normalizer] = None,
         ablation: Optional[AblationConfig] = None,
         charging_model=None,
+        reward_config: Optional[RewardConfig] = None,
     ):
         self.instance = instance
         self.route = route
@@ -52,6 +53,8 @@ class ShieldedRouteEnv:
         self.profile = profile or PhysicsProfile.from_instance(instance)
         self.normalizer = normalizer
         self.ablation = ablation or AblationConfig()
+        self.reward_config = reward_config or RewardConfig.v3_time()
+        self.reward_computer = RewardComputer(self.reward_config)
         self.simulator = FixedRouteSimulator(
             instance,
             route.customer_ids,
@@ -61,7 +64,10 @@ class ShieldedRouteEnv:
         )
         self.simulator.time_aware_envelope = bool(self.ablation.time_aware)
         self.return_value = 0.0
+        self.base_return_value = 0.0
+        self.shaping_return_value = 0.0
         self.failed = False
+        self._phi = 0.0
 
     @property
     def horizon(self) -> float:
@@ -79,11 +85,52 @@ class ShieldedRouteEnv:
     def reset(self) -> FeatureBundle:
         self.simulator.reset()
         self.return_value = 0.0
+        self.base_return_value = 0.0
+        self.shaping_return_value = 0.0
         self.failed = False
+        self._phi = self.reward_computer.potential(self.simulator)
         return self._features()
 
     def observe(self) -> FeatureBundle:
         return self._features()
+
+    def _apply_breakdown(self, breakdown) -> dict:
+        self.return_value += float(breakdown.reward)
+        self.base_return_value += float(breakdown.base_reward)
+        self.shaping_return_value += float(breakdown.shaping_reward)
+        self._phi = float(breakdown.phi_after)
+        return {
+            "reward_kind": self.reward_config.kind.value,
+            "c_train": float(self.reward_config.c_train),
+            "base_reward": float(breakdown.base_reward),
+            "shaping_reward": float(breakdown.shaping_reward),
+            "phi_before": float(breakdown.phi_before),
+            "phi_after": float(breakdown.phi_after),
+            "l_remaining": float(breakdown.l_remaining),
+            "delta_t": float(breakdown.delta_t),
+        }
+
+    def _failure(self, *, t0: float, reason: InfeasibilityReason, executed: dict, extra_update: dict | None = None) -> StepInfo:
+        breakdown = self.reward_computer.failure_step(
+            self.simulator,
+            decision_time=t0,
+            phi_before=self._phi,
+        )
+        reward_extra = self._apply_breakdown(breakdown)
+        self.failed = True
+        extra = {**executed["extra"], **reward_extra}
+        if extra_update:
+            extra.update(extra_update)
+        return StepInfo(
+            reward=float(breakdown.reward),
+            done=True,
+            failed=True,
+            features=self._features(),
+            reason=reason,
+            executed_discrete=executed["executed_discrete"],
+            executed_u=executed["executed_u"],
+            extra=extra,
+        )
 
     def step(self, discrete_index: int, u: float = 0.0) -> StepInfo:
         if discrete_index == CONTINUE_INDEX:
@@ -100,32 +147,17 @@ class ShieldedRouteEnv:
             },
         }
         if not shield.any_legal:
-            reward = failure_step_reward(self.simulator, decision_time=t0)
-            self.return_value += reward
-            self.failed = True
-            executed["extra"] = {
-                **executed["extra"],
-                "dead_end": dead_end_diagnostic(self.simulator),
-            }
-            return StepInfo(
-                reward=reward,
-                done=True,
-                failed=True,
-                features=self._features(),
+            return self._failure(
+                t0=t0,
                 reason=InfeasibilityReason.NO_FEASIBLE_ACTION,
-                **executed,
+                executed=executed,
+                extra_update={"dead_end": dead_end_diagnostic(self.simulator)},
             )
         if discrete_index >= len(shield.mask) or not shield.mask[discrete_index]:
-            reward = failure_step_reward(self.simulator, decision_time=t0)
-            self.return_value += reward
-            self.failed = True
-            return StepInfo(
-                reward=reward,
-                done=True,
-                failed=True,
-                features=self._features(),
+            return self._failure(
+                t0=t0,
                 reason=InfeasibilityReason.INVALID_STATE,
-                **executed,
+                executed=executed,
             )
         action = action_from_discrete(
             self.simulator,
@@ -136,24 +168,27 @@ class ShieldedRouteEnv:
         result = self.simulator.step(action)
         t1 = self.simulator.state.time.value
         if not result.feasible:
-            reward = failure_step_reward(self.simulator, decision_time=t0)
-            self.return_value += reward
-            self.failed = True
-            return StepInfo(
-                reward=reward,
-                done=True,
-                failed=True,
-                features=self._features(),
+            return self._failure(
+                t0=t0,
                 reason=result.reason,
-                **executed,
+                executed=executed,
             )
-        reward = -(t1 - t0)
-        self.return_value += reward
+        breakdown = self.reward_computer.feasible_step(
+            delta_t=t1 - t0,
+            phi_before=self._phi,
+            simulator_after=self.simulator,
+        )
+        reward_extra = self._apply_breakdown(breakdown)
         done = self.simulator.state.completed
+        if done:
+            # Absorbing terminal: force Φ = 0 for bookkeeping consistency.
+            self._phi = 0.0
         return StepInfo(
-            reward=reward,
+            reward=float(breakdown.reward),
             done=done,
             failed=False,
             features=self._features(),
-            **executed,
+            executed_discrete=executed["executed_discrete"],
+            executed_u=executed["executed_u"],
+            extra={**executed["extra"], **reward_extra},
         )

@@ -1,0 +1,19 @@
+{
+  "stage": "V4_REWARD",
+  "label": "TRAIN/VAL reward ablation \u2014 NOT confirmatory TEST",
+  "variant": "V3_TIME",
+  "seed": 44,
+  "reward_kind": "V3_TIME",
+  "c_train": 10.0,
+  "c_train_rule": "median_depot_horizon_over_TRAIN_routes_only",
+  "ppo_return_scale": 10.0,
+  "architecture": "V3_FA_HPPO_FULL_time_aware",
+  "dataset": "synthcharge_final",
+  "parent_balanced_val_feasibility": 0.9555555555555556,
+  "parent_balanced_completion_all": 4.038607785544788,
+  "route_weighted_feasibility": 0.9555555555555556,
+  "best_update": 280,
+  "status": "completed",
+  "confirmatory_test_consumed": false,
+  "not_v3_test": true
+}
