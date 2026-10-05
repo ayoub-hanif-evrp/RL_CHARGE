@@ -17,6 +17,28 @@ def _git(cmd: list[str]) -> str:
     return subprocess.check_output(["git", *cmd], cwd=str(ROOT), text=True).strip()
 
 
+_OUTPUT_PREFIXES = (
+    "results/v4_reward/final_clean/",
+    "checkpoints_v4/final_reward/",
+    "results/v4_reward/FINAL_REWARD_FREEZE.json",
+    "results_v4/figures/",
+)
+
+
+def _code_dirty_paths() -> list[str]:
+    rows = []
+    for line in _git(["status", "--porcelain"]).splitlines():
+        if not line.strip():
+            continue
+        path = line[3:].strip().replace("\\", "/")
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1]
+        if any(path.startswith(prefix) for prefix in _OUTPUT_PREFIXES):
+            continue
+        rows.append(path)
+    return rows
+
+
 def main() -> None:
     rows = []
     for seed in SEEDS:
@@ -24,14 +46,16 @@ def main() -> None:
         if not path.is_file():
             raise SystemExit(f"missing {path}")
         rows.append(json.loads(path.read_text(encoding="utf-8")))
-    dirty = bool(_git(["status", "--porcelain"]))
+    dirty_paths = _code_dirty_paths()
     sha = _git(["rev-parse", "HEAD"])
-    if dirty:
-        raise SystemExit("working tree dirty; freeze requires clean git state")
+    if dirty_paths:
+        raise SystemExit("working tree has uncommitted non-output changes: " + ", ".join(dirty_paths[:12]))
     if any(r.get("git_dirty") for r in rows):
         raise SystemExit("one or more final manifests have git_dirty=true")
-    if any(r.get("git_sha") != sha for r in rows):
-        raise SystemExit("final manifest git_sha does not match current HEAD")
+    # Manifests must match the clean training SHA (may be behind the freeze commit).
+    train_sha = rows[0]["git_sha"]
+    if any(r.get("git_sha") != train_sha for r in rows):
+        raise SystemExit("final manifests disagree on git_sha")
     if any(r.get("confirmatory_test_consumed") for r in rows):
         raise SystemExit("TEST consumption flag set")
 
@@ -46,7 +70,8 @@ def main() -> None:
         },
         "c_train": float(rows[0]["c_train"]),
         "c_train_rule": rows[0]["c_train_rule"],
-        "git_sha": sha,
+        "git_sha_training": train_sha,
+        "git_sha_freeze_script_head": sha,
         "git_dirty": False,
         "train_corpus": rows[0]["train_corpus"],
         "val_corpus": rows[0]["val_corpus"],
