@@ -1,0 +1,23 @@
+{
+  "checkpoint": "checkpoints_v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_42/best.pt",
+  "train": {
+    "split": "train",
+    "n_routes": 180,
+    "n_success": 173,
+    "n_abs_diff_lt_1e-9": 0,
+    "n_abs_diff_lt_1e-6": 0,
+    "min_abs_diff": 4.11615971498265,
+    "median_abs_diff": 6.217980322663889
+  },
+  "validation": {
+    "split": "validation",
+    "n_routes": 90,
+    "n_success": 89,
+    "n_abs_diff_lt_1e-9": 0,
+    "n_abs_diff_lt_1e-6": 0,
+    "min_abs_diff": 4.285207630429318,
+    "median_abs_diff": 6.111687273497788
+  },
+  "conclusion": "No successful TRAIN or VAL route under this checkpoint finishes with |T-H|<1e-6. T=H remains a theoretical boundary for V4_BASE_NO_L_FAIL where success and failure returns coincide. No epsilon penalty was added.",
+  "confirmatory_test_consumed": false
+}

@@ -175,6 +175,30 @@ def test_v4_base_no_l_fail_omits_progress_term(write_instance):
     info = env.step(10_000, 0.0)
     assert info.failed
     assert env.return_value == pytest.approx(-h / c)
+    assert env.objective_return_value == pytest.approx(-h)
+    assert env.normalized_base_return_value == pytest.approx(-h / c)
+    assert env.shaping_return_value == pytest.approx(0.0)
+
+
+def test_objective_return_success_is_minus_T(write_instance):
+    c = 10.0
+    env, _, _ = _make(write_instance, RewardConfig.v4(RewardKind.V4_BASE_NO_L_FAIL, c))
+    env.reset()
+    steps = 0
+    while not env.simulator.state.completed and steps < 20:
+        env.step(CONTINUE_INDEX, 0.0)
+        steps += 1
+    t = env.simulator.state.time.value
+    assert env.objective_return_value == pytest.approx(-t)
+    assert env.normalized_base_return_value == pytest.approx(-t / c)
+    assert env.return_value == pytest.approx(-t / c)
+
+
+def test_pbrs_gamma_must_match_ppo():
+    cfg = RewardConfig.v4(RewardKind.V4_PBRS, 10.0)
+    cfg.assert_compatible_with_ppo_gamma(1.0)
+    with pytest.raises(ValueError, match="gamma mismatch"):
+        cfg.assert_compatible_with_ppo_gamma(0.99)
 
 
 def test_c_train_train_only_median():
@@ -242,8 +266,17 @@ def test_figure_builder_is_pure_from_logs(tmp_path, monkeypatch):
 
     monkeypatch.setattr(figmod, "ROOT", root)
     monkeypatch.setattr(figmod, "ABLATION", root / "results" / "v4_reward" / "ablation")
+    monkeypatch.setattr(figmod, "FINAL", root / "results" / "v4_reward" / "final_clean")
     monkeypatch.setattr(figmod, "FIG", root / "results_v4" / "figures")
     monkeypatch.setattr(figmod, "SEEDS", (42, 43))
+    # ensure common-key fields exist for new preferred metrics
+    for seed in (42, 43):
+        path = abl / f"seed_{seed}" / "curves.jsonl"
+        rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+        for row in rows:
+            row["objective_episode_return_mean"] = row["base_episode_return_mean"]
+            row["normalized_base_episode_return_mean"] = row["base_episode_return_mean"]
+        path.write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
     p1 = figmod.fig_reward_evolution(variant)
     p2 = figmod.fig_loss_evolution(variant)
     assert p1 is not None and p1.is_file()

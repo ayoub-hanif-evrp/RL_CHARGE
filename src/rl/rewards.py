@@ -64,6 +64,15 @@ class RewardConfig:
         if abs(float(self.gamma) - 1.0) > 1e-12 and self.kind == RewardKind.V4_PBRS:
             raise ValueError("V4_PBRS currently supports gamma=1 only (F=Φ'-Φ)")
 
+    def assert_compatible_with_ppo_gamma(self, ppo_gamma: float, *, tol: float = 1e-12) -> None:
+        """PBRS shaping F=Φ'-Φ is valid only when PPO gamma matches reward gamma."""
+        if self.kind != RewardKind.V4_PBRS:
+            return
+        if abs(float(ppo_gamma) - float(self.gamma)) > tol:
+            raise ValueError(
+                f"V4_PBRS gamma mismatch: reward_config.gamma={self.gamma} vs ppo_gamma={ppo_gamma}"
+            )
+
     @classmethod
     def v3_time(cls) -> "RewardConfig":
         return cls(kind=RewardKind.V3_TIME, c_train=1.0)

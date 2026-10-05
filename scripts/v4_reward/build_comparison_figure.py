@@ -1,4 +1,4 @@
-"""Bar comparison of V4 reward variants from SUMMARY.json."""
+"""Paired/per-seed VAL comparison of V4 reward variants (no truncated axes)."""
 
 from __future__ import annotations
 
@@ -26,27 +26,43 @@ COLORS = {
 def main() -> None:
     payload = json.loads(SUMMARY.read_text(encoding="utf-8"))
     variants = payload["variants"]
-    fig, axes = plt.subplots(1, 2, figsize=(8.4, 3.5))
+    fig, axes = plt.subplots(1, 2, figsize=(8.6, 3.7))
     x = np.arange(len(ORDER))
-    feas = [100.0 * variants[v]["feas_mean"] for v in ORDER]
-    feas_sd = [100.0 * variants[v]["feas_sd"] for v in ORDER]
-    comp = [variants[v]["comp_mean"] for v in ORDER]
-    comp_sd = [variants[v]["comp_sd"] for v in ORDER]
-    axes[0].bar(x, feas, yerr=feas_sd, color=[COLORS[v] for v in ORDER], capsize=3, width=0.7, edgecolor="none")
-    for i, v in enumerate(feas):
-        axes[0].text(i, v + 0.35, f"{v:.1f}", ha="center", fontsize=8)
-    axes[0].set_xticks(x, ORDER, rotation=15, ha="right")
-    axes[0].set_ylabel("VAL feasibility (%)")
-    axes[0].set_ylim(90, 102)
-    axes[0].set_title("(a) Parent-balanced VAL feasibility", loc="left")
 
-    axes[1].bar(x, comp, yerr=comp_sd, color=[COLORS[v] for v in ORDER], capsize=3, width=0.7, edgecolor="none")
-    for i, v in enumerate(comp):
-        axes[1].text(i, v + 0.03, f"{v:.3f}", ha="center", fontsize=8)
-    axes[1].set_xticks(x, ORDER, rotation=15, ha="right")
-    axes[1].set_ylabel("VAL completion (failure-retaining)")
-    axes[1].set_ylim(3.5, 4.3)
-    axes[1].set_title("(b) Parent-balanced VAL completion", loc="left")
+    # Panel A: feasibility with seed points
+    ax = axes[0]
+    means = []
+    for i, v in enumerate(ORDER):
+        seeds = sorted(variants[v]["feas_per_seed"].items(), key=lambda kv: int(kv[0]))
+        vals = [100.0 * float(val) for _, val in seeds]
+        means.append(float(np.mean(vals)))
+        ax.scatter(np.full(len(vals), i), vals, color=COLORS[v], s=28, zorder=3, edgecolors="white", linewidths=0.4)
+        ax.errorbar(i, means[-1], yerr=100.0 * float(variants[v]["feas_sd"]), fmt="none", ecolor="#333333", capsize=3, elinewidth=1.0, zorder=2)
+        ax.plot(i, means[-1], "D", color=COLORS[v], markersize=6, markeredgecolor="black", markeredgewidth=0.4, zorder=4)
+    ax.set_xticks(x, ORDER, rotation=15, ha="right")
+    ax.set_ylabel("VAL feasibility (%)")
+    ax.set_ylim(0, 105)
+    ax.set_title("(a) Parent-balanced VAL feasibility", loc="left")
+    ax.axhline(100, color="#DDDDDD", lw=0.8, zorder=0)
+
+    # Panel B: completion with seed points
+    ax = axes[1]
+    means = []
+    for i, v in enumerate(ORDER):
+        seeds = sorted(variants[v]["comp_per_seed"].items(), key=lambda kv: int(kv[0]))
+        vals = [float(val) for _, val in seeds]
+        means.append(float(np.mean(vals)))
+        ax.scatter(np.full(len(vals), i), vals, color=COLORS[v], s=28, zorder=3, edgecolors="white", linewidths=0.4)
+        ax.errorbar(i, means[-1], yerr=float(variants[v]["comp_sd"]), fmt="none", ecolor="#333333", capsize=3, elinewidth=1.0, zorder=2)
+        ax.plot(i, means[-1], "D", color=COLORS[v], markersize=6, markeredgecolor="black", markeredgewidth=0.4, zorder=4)
+    ax.set_xticks(x, ORDER, rotation=15, ha="right")
+    ax.set_ylabel("Failure-retaining VAL completion")
+    ymin = min(min(float(x) for x in variants[v]["comp_per_seed"].values()) for v in ORDER)
+    ymax = max(max(float(x) for x in variants[v]["comp_per_seed"].values()) for v in ORDER)
+    pad = 0.15 * (ymax - ymin + 1e-6)
+    ax.set_ylim(ymin - pad, ymax + pad)
+    ax.set_title("(b) Parent-balanced VAL completion", loc="left")
+
     for ax in axes:
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)

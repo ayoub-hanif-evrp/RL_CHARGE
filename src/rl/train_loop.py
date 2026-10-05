@@ -213,6 +213,7 @@ def train_hybrid_ppo(
     assert_learning_split(learning_split)
     ablation = ablation or AblationConfig()
     reward_config = reward_config or RewardConfig.v3_time()
+    reward_config.assert_compatible_with_ppo_gamma(float(config.gamma))
     if return_scale is not None:
         config = replace(config, return_scale=float(return_scale))
     elif reward_config.embeds_c_train:
@@ -277,6 +278,11 @@ def train_hybrid_ppo(
             "c_train": float(reward_config.c_train),
             "c_train_rule": reward_config.c_train_rule,
             "scaled_reward_mean": stats.get("scaled_reward_mean"),
+            "objective_episode_return_mean": stats.get("objective_episode_return_mean"),
+            "normalized_base_episode_return_mean": stats.get("normalized_base_episode_return_mean"),
+            "shaping_episode_return_mean": stats.get("shaping_episode_return_mean"),
+            "training_episode_return_mean": stats.get("training_episode_return_mean"),
+            # Legacy aliases (training return / normalized objective)
             "raw_episode_return_mean": stats.get("raw_episode_return_mean"),
             "base_episode_return_mean": stats.get("base_episode_return_mean"),
             "shaped_episode_return_mean": stats.get("shaped_episode_return_mean"),

@@ -1,0 +1,9 @@
+{
+  "n_rows": 1800,
+  "n_routes": 90,
+  "n_variants": 4,
+  "n_seeds": 5,
+  "val_corpus": "data/routes_v2/synthcharge_final/validation/corpus.jsonl",
+  "val_corpus_sha256": "85a6e267b4af4d7c211d826926cf4fa6f124381dc40a38ef84060b081e79fe71",
+  "confirmatory_test_consumed": false
+}

@@ -1,24 +1,25 @@
 {
-  "variant": "V4_PBRS",
-  "source": "results/v4_reward/ablation/*/curves.jsonl",
+  "variant": "V4_BASE_NO_L_FAIL",
+  "aggregation": "common_update_intersection_no_extrapolation",
+  "uncertainty": "student_t_95ci_across_seeds",
   "n_seeds_found": 5,
   "figures": [
     {
       "path": "results_v4/figures/fig_v4_reward_evolution.png",
-      "sha256": "f3aa806ba36b6c242646c2f90d2bf2182fb6f52dd50890ec4da09b12f8613d24"
+      "sha256": "6014afd41c42cf5395868be4ec7ecb8e6e4bdc35cc3d1ebc4f4605e293ef9e73"
     },
     {
       "path": "results_v4/figures/fig_v4_loss_evolution.png",
-      "sha256": "0ad1f8d7c603e9ea353a6a164e7597cd88cd732498bb59a85356ca74c24a4a56"
+      "sha256": "6c80663bb8c2a57f19861d9ee4fb657886d1a3f63006ac08f5cdb0363be3dfa0"
     },
     {
       "path": "results_v4/figures/fig_v4_validation_learning.png",
-      "sha256": "86b398e2ba4015bd3b3e5783b30b80e7c9ea1f1d693e8d63510575cb6d1f66ce"
+      "sha256": "c84e40dbf0249f08e3ab272aadf7c425f8e8fd5cb897e353519ec30ee769fcd3"
     },
     {
       "path": "results_v4/figures/fig_v4_gradient_norm.png",
-      "sha256": "2e8256e18b3d583ab9008e13b9e1ab119de3d8de4057fb30582893f576a55bf0"
+      "sha256": "1691bb6607d8835ce95cd8e826130f28acc5ba47deb0eebae8a70792673c4acd"
     }
   ],
-  "note": "TRAIN/VAL development figures only. Not V3 TEST."
+  "note": "TRAIN/VAL development figures only. Not V3/V4 TEST."
 }

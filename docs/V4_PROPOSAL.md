@@ -9,7 +9,7 @@ V3 remains frozen and valid. The items below are **proposals only**.
 | **V4-C** | Strong planning/optimization comparator | Address weak baseline critique | new `src/planning/` (or MILP/DP) | No (comparator) | Prefer yes for confirmatory | Prototype on VAL; full 180 if accepted | Planner matches/exceeds FA-HPPO under same assumptions |
 | **V4-D** | Fresh untouched TEST | Confirmatory family including V4 method ± planner | protocol/lock only | Uses V4 ckpts | Yes (new) | Corpus gen + 180×methods | Predeclared V4 claims without consuming V3 |
 | **V4-E** | Optional nonlinear / OOD benchmark | Limit of linear SynthCharge | physics/data | Yes | Yes | Large | FA-HPPO envelope still helps under nonlinear charge/energy |
-| **V4-F** | Reward study: `V3_TIME` / `V4_BASE` / `V4_PBRS` / `V4_BASE_NO_L_FAIL` | Clear completion-time objective + PBRS credit assignment; no arbitrary weights | `src/rl/rewards.py` + env wiring | Yes (TRAIN/VAL) | **No** until freeze + dedicated TEST protocol | ~20 cells × paper budget | PBRS improves VAL feasibility / completion vs base without soft TW/distance hacks |
+| **V4-F** | Reward study: `V3_TIME` / `V4_BASE` / `V4_PBRS` / `V4_BASE_NO_L_FAIL` | Clear completion-time objective; PBRS as ablation only; no arbitrary weights | `src/rl/rewards.py` + env wiring | Yes (TRAIN/VAL) | **No** until freeze + dedicated TEST protocol | ~20 cells × paper budget | **Selected:** `V4_BASE_NO_L_FAIL` (lexicographic VAL). PBRS did not improve mean VAL feasibility vs unshaped base; result retained as ablation |
 
 V4-F design document: `docs/V4_REWARD_DESIGN.md`.  
 Artifact root: `results/v4_reward/` (does not modify V3).

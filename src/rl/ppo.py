@@ -126,9 +126,21 @@ class HybridPPO:
             value = float(output.value.item())
         info = env.step(discrete, u)
         if info.done:
-            self.last_raw_episode_returns.append(float(env.return_value))
-            self.last_base_episode_returns.append(float(getattr(env, "base_return_value", env.return_value)))
-            self.last_shaped_episode_returns.append(float(getattr(env, "return_value", 0.0)))
+            training_ret = float(env.return_value)
+            # Legacy alias: historically "raw" meant env.return_value (training return),
+            # which under PBRS already includes shaping — keep for compatibility.
+            self.last_raw_episode_returns.append(training_ret)
+            self.last_training_episode_returns.append(training_ret)
+            self.last_objective_episode_returns.append(float(getattr(env, "objective_return_value", training_ret)))
+            self.last_normalized_base_episode_returns.append(
+                float(getattr(env, "normalized_base_return_value", getattr(env, "base_return_value", training_ret)))
+            )
+            self.last_shaping_episode_returns.append(float(getattr(env, "shaping_return_value", 0.0)))
+            # Legacy aliases
+            self.last_base_episode_returns.append(
+                float(getattr(env, "normalized_base_return_value", getattr(env, "base_return_value", training_ret)))
+            )
+            self.last_shaped_episode_returns.append(training_ret)
             self.last_shaping_contributions.append(float(getattr(env, "shaping_return_value", 0.0)))
         buffer.add(
             Transition(
@@ -143,12 +155,19 @@ class HybridPPO:
         )
         return info, n_left - 1
 
-    def collect(self, env: ShieldedRouteEnv, n_steps: Optional[int] = None) -> RolloutBuffer:
-        steps = n_steps or self.config.rollout_steps
+    def _reset_episode_trackers(self) -> None:
         self.last_raw_episode_returns = []
+        self.last_training_episode_returns = []
+        self.last_objective_episode_returns = []
+        self.last_normalized_base_episode_returns = []
+        self.last_shaping_episode_returns = []
         self.last_base_episode_returns = []
         self.last_shaped_episode_returns = []
         self.last_shaping_contributions = []
+
+    def collect(self, env: ShieldedRouteEnv, n_steps: Optional[int] = None) -> RolloutBuffer:
+        steps = n_steps or self.config.rollout_steps
+        self._reset_episode_trackers()
         buffer = RolloutBuffer(gamma=self.config.gamma, gae_lambda=self.config.gae_lambda)
         features = env.reset()
         remaining = steps
@@ -165,10 +184,7 @@ class HybridPPO:
 
     def collect_from_factory(self, env_factory, n_steps: Optional[int] = None) -> RolloutBuffer:
         steps = n_steps or self.config.rollout_steps
-        self.last_raw_episode_returns = []
-        self.last_base_episode_returns = []
-        self.last_shaped_episode_returns = []
-        self.last_shaping_contributions = []
+        self._reset_episode_trackers()
         buffer = RolloutBuffer(gamma=self.config.gamma, gae_lambda=self.config.gae_lambda)
         env = env_factory()
         features = env.reset()
@@ -246,10 +262,15 @@ class HybridPPO:
                 clip_fractions.append(float(clip_fraction.item()))
                 grad_norms.append(float(grad_norm.detach().cpu() if torch.is_tensor(grad_norm) else grad_norm))
         scaled_rewards = [float(step.reward) for step in buffer.transitions]
-        raw_episodes = list(self.last_raw_episode_returns)
-        base_episodes = list(getattr(self, "last_base_episode_returns", []))
-        shaped_episodes = list(getattr(self, "last_shaped_episode_returns", []))
-        shaping_eps = list(getattr(self, "last_shaping_contributions", []))
+
+        def _mean(xs):
+            xs = list(xs)
+            return float(np.mean(xs) if xs else 0.0)
+
+        training = list(getattr(self, "last_training_episode_returns", self.last_raw_episode_returns))
+        objective = list(getattr(self, "last_objective_episode_returns", []))
+        normalized = list(getattr(self, "last_normalized_base_episode_returns", []))
+        shaping = list(getattr(self, "last_shaping_episode_returns", []))
         return {
             "loss": float(np.mean(losses) if losses else 0.0),
             "policy_loss": float(np.mean(policy_losses) if policy_losses else 0.0),
@@ -261,10 +282,16 @@ class HybridPPO:
             "grad_norm_preclip": float(np.mean(grad_norms) if grad_norms else 0.0),
             "return_scale": float(self.config.return_scale),
             "scaled_reward_mean": float(np.mean(scaled_rewards) if scaled_rewards else 0.0),
-            "raw_episode_return_mean": float(np.mean(raw_episodes) if raw_episodes else 0.0),
-            "base_episode_return_mean": float(np.mean(base_episodes) if base_episodes else 0.0),
-            "shaped_episode_return_mean": float(np.mean(shaped_episodes) if shaped_episodes else 0.0),
-            "shaping_contribution_mean": float(np.mean(shaping_eps) if shaping_eps else 0.0),
+            # Preferred metrics
+            "objective_episode_return_mean": _mean(objective),
+            "normalized_base_episode_return_mean": _mean(normalized),
+            "shaping_episode_return_mean": _mean(shaping),
+            "training_episode_return_mean": _mean(training),
+            # Legacy (compat): raw/shaped == training return; base == normalized objective
+            "raw_episode_return_mean": _mean(training),
+            "base_episode_return_mean": _mean(normalized),
+            "shaped_episode_return_mean": _mean(training),
+            "shaping_contribution_mean": _mean(shaping),
         }
 
     def smoke_train(self, env: ShieldedRouteEnv, updates: int = 1) -> dict:

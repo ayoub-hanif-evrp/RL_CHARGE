@@ -1,0 +1,156 @@
+{
+  "exact_horizon_audit_val_rows": {
+    "n_success_rows": 1766,
+    "n_abs_diff_lt_1e-9": 0,
+    "n_abs_diff_lt_1e-6": 0,
+    "min_abs_diff": 3.824028127752733,
+    "median_abs_diff": 6.116211283832202,
+    "note": "No successful VAL evaluation row finishes exactly at the horizon under either tolerance; T=H remains a theoretical boundary where success and failure returns coincide for V4_BASE_NO_L_FAIL."
+  },
+  "train_note": "Exact T=H was not observed on any successful VAL evaluation row across all 4 variants \u00d7 5 seeds (n_success rows in audit). No epsilon penalty added.",
+  "pairs": [
+    {
+      "comparison": "V4_BASE_NO_L_FAIL vs V3_TIME",
+      "a": "V3_TIME",
+      "b": "V4_BASE_NO_L_FAIL",
+      "feasibility_b_vs_a": {
+        "b_only_feasible": 7,
+        "a_only_feasible": 7,
+        "tie": 436,
+        "n": 450
+      },
+      "feasibility_counts_note": "win means V4_BASE_NO_L_FAIL feasible and V3_TIME not; loss means V3_TIME feasible and V4_BASE_NO_L_FAIL not",
+      "per_seed_feasibility": {
+        "42": {
+          "V3_TIME": 0.9888888888888889,
+          "V4_BASE_NO_L_FAIL": 0.9888888888888889
+        },
+        "43": {
+          "V3_TIME": 0.9777777777777777,
+          "V4_BASE_NO_L_FAIL": 0.9888888888888889
+        },
+        "44": {
+          "V3_TIME": 0.9555555555555556,
+          "V4_BASE_NO_L_FAIL": 0.9888888888888889
+        },
+        "45": {
+          "V3_TIME": 0.9888888888888889,
+          "V4_BASE_NO_L_FAIL": 0.9777777777777777
+        },
+        "46": {
+          "V3_TIME": 1.0,
+          "V4_BASE_NO_L_FAIL": 0.9666666666666667
+        }
+      },
+      "paired_completion_all_b_minus_a": {
+        "mean": -0.036642713466835265,
+        "sd": 1.0180200835116706,
+        "n": 450
+      },
+      "common_feasible_operational_b_minus_a": {
+        "completion_time": {
+          "n": 435,
+          "mean_b_minus_a": -0.03673383155701749,
+          "sd": 0.3398255911005723
+        },
+        "total_charging_time": {
+          "n": 435,
+          "mean_b_minus_a": -0.013836980521669817,
+          "sd": 0.12585137269438065
+        },
+        "total_energy_charged": {
+          "n": 435,
+          "mean_b_minus_a": -0.013836980521669817,
+          "sd": 0.12585137269438065
+        },
+        "n_station_visits": {
+          "n": 435,
+          "mean_b_minus_a": -0.15862068965517243,
+          "sd": 1.3389375838656568
+        },
+        "terminal_soc": {
+          "n": 435,
+          "mean_b_minus_a": -0.003071679047169288,
+          "sd": 0.19575085818680482
+        },
+        "total_distance": {
+          "n": 435,
+          "mean_b_minus_a": -0.0504332356112084,
+          "sd": 0.35264253888628916
+        }
+      }
+    },
+    {
+      "comparison": "V4_PBRS vs V4_BASE_NO_L_FAIL",
+      "a": "V4_BASE_NO_L_FAIL",
+      "b": "V4_PBRS",
+      "feasibility_b_vs_a": {
+        "b_only_feasible": 5,
+        "a_only_feasible": 7,
+        "tie": 438,
+        "n": 450
+      },
+      "feasibility_counts_note": "win means V4_PBRS feasible and V4_BASE_NO_L_FAIL not; loss means V4_BASE_NO_L_FAIL feasible and V4_PBRS not",
+      "per_seed_feasibility": {
+        "42": {
+          "V4_BASE_NO_L_FAIL": 0.9888888888888889,
+          "V4_PBRS": 0.9888888888888889
+        },
+        "43": {
+          "V4_BASE_NO_L_FAIL": 0.9888888888888889,
+          "V4_PBRS": 0.9666666666666667
+        },
+        "44": {
+          "V4_BASE_NO_L_FAIL": 0.9888888888888889,
+          "V4_PBRS": 0.9888888888888889
+        },
+        "45": {
+          "V4_BASE_NO_L_FAIL": 0.9777777777777777,
+          "V4_PBRS": 0.9777777777777777
+        },
+        "46": {
+          "V4_BASE_NO_L_FAIL": 0.9666666666666667,
+          "V4_PBRS": 0.9666666666666667
+        }
+      },
+      "paired_completion_all_b_minus_a": {
+        "mean": 0.013186829646508934,
+        "sd": 0.9239506600400762,
+        "n": 450
+      },
+      "common_feasible_operational_b_minus_a": {
+        "completion_time": {
+          "n": 435,
+          "mean_b_minus_a": -0.007221871991266698,
+          "sd": 0.30814163451666693
+        },
+        "total_charging_time": {
+          "n": 435,
+          "mean_b_minus_a": -0.0014113462926295306,
+          "sd": 0.11692099748140447
+        },
+        "total_energy_charged": {
+          "n": 435,
+          "mean_b_minus_a": -0.0014113462926295306,
+          "sd": 0.11692099748140447
+        },
+        "n_station_visits": {
+          "n": 435,
+          "mean_b_minus_a": 0.05057471264367816,
+          "sd": 1.3048009155855897
+        },
+        "terminal_soc": {
+          "n": 435,
+          "mean_b_minus_a": -0.000201927069686888,
+          "sd": 0.19558609662057014
+        },
+        "total_distance": {
+          "n": 435,
+          "mean_b_minus_a": -0.005322301859019121,
+          "sd": 0.3095028822728825
+        }
+      }
+    }
+  ],
+  "confirmatory_test_consumed": false
+}

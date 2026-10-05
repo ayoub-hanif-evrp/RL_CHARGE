@@ -1,36 +1,45 @@
 # V4 reward implementation report
 
 **Date:** 2026-10-05  
-**Stage:** V4-F reward study — full TRAIN/VAL ablation complete  
+**Stage:** V4-F reward finalization — selected `V4_BASE_NO_L_FAIL`  
 **Confirmatory TEST consumed:** **No**
 
 ---
 
-## 1. Exact mathematical reward equation
+## 1. Selected reward (normalized time-horizon)
 
-Feasible step (`V4_PBRS`):
-
-\[
-r_t
-=
--\frac{\Delta t}{C_{\mathrm{train}}}
-+
-\Phi(s_{t+1})-\Phi(s_t),
-\qquad
-\Phi(s)=-\frac{L_{\mathrm{remaining}}(s)}{C_{\mathrm{train}}},
-\quad
-\Phi_{\mathrm{absorbing}}=0.
-\]
-
-## 2. Exact failure equation (`V4_PBRS`)
+Feasible transitions:
 
 \[
-r_{\mathrm{fail}}^{\mathrm{base}}=-\frac{H-t_0}{C_{\mathrm{train}}},
-\qquad
-F=\frac{L(s_t)}{C_{\mathrm{train}}}.
+r_t=-\frac{\Delta t}{C_{\mathrm{train}}}
 \]
 
-Cumulative shaped failure return: \((L_0-H)/C_{\mathrm{train}}\).
+Terminal failure:
+
+\[
+r_{\mathrm{fail}}=-\frac{H-t}{C_{\mathrm{train}}}
+\]
+
+Episode return:
+
+\[
+G=
+\begin{cases}
+-T_{\mathrm{completion}}/C_{\mathrm{train}}, & \text{successful route}\\
+-H/C_{\mathrm{train}}, & \text{failed route}
+\end{cases}
+\]
+
+with \(C_{\mathrm{train}}=10\) on SynthCharge.
+
+## 2. PBRS ablation (not selected)
+
+`V4_PBRS` remains an **ablation**, not the selected reward.
+
+- Mean parent-balanced VAL feasibility did **not** improve (97.8% vs 98.2%).
+- Correct unshaped comparator: **`V4_BASE_NO_L_FAIL`** (same base failure without \(L\), plus shaping).
+- Negative/neutral PBRS result is retained in `SUMMARY` / figures and is not overwritten.
+- No new reward weights were introduced after seeing VAL results.
 
 ## 3. Exact \(C_{\mathrm{train}}\)
 
@@ -42,25 +51,27 @@ Cumulative shaped failure return: \((L_0-H)/C_{\mathrm{train}}\).
 
 On SynthCharge TRAIN, median = max = 10, so `V4_BASE` is numerically equivalent to `V3_TIME` with PPO `return_scale=10`.
 
-## 4. Files added / changed
+## 4. Logging / gamma safety
 
-See previous section of this report / git history. Main runtime artifacts now populated under:
+PPO metrics (see `src/rl/ppo.py`):
 
-- `results/v4_reward/ablation/{variant}/seed_{42..46}/`
-- `checkpoints_v4/reward_ablation/{variant}/seed_{42..46}/`
-- `results_v4/figures/`
+| Metric | Meaning |
+|--------|---------|
+| `objective_episode_return_mean` | unnormalized \(-T\) / \(-H\) |
+| `normalized_base_episode_return_mean` | objective / \(C_{\mathrm{train}}\) |
+| `shaping_episode_return_mean` | accumulated PBRS shaping |
+| `training_episode_return_mean` | actual PPO reward return |
+| `raw_episode_return_mean` | **legacy alias** of training return (marked for compatibility) |
 
-## 5. Tests
+For PBRS, `RewardConfig.assert_compatible_with_ppo_gamma` requires `ppo_config.gamma == reward_config.gamma` (tol \(10^{-12}\)).
 
-Full suite previously green (252). Reward-specific: `tests/rl/test_v4_rewards.py`.
+## 5. Exact-horizon boundary
 
-## 6. V1–V3 integrity
+If a successful route finishes at \(T=H\), success and failure returns coincide for `V4_BASE_NO_L_FAIL`.  
+Audit artifacts: `results/v4_reward/analysis/EXACT_HORIZON_AUDIT.json` (and paired-analysis horizon section).  
+No epsilon penalty was added; empirical TRAIN/VAL successes under development checkpoints are documented there.
 
-V3 locks/raw/checkpoints untouched. No V4 TEST consumed.
-
-## 7–9. TRAIN/VAL experiments (full 4 × 5)
-
-All **20 cells** completed (~5.2 h wall-clock, 5-wide parallel).
+## 6. Development ablation (4 × 5, dirty-tree runs — not final freeze)
 
 | Variant | VAL feas. mean±SD | Completion mean±SD | Mean best update |
 |---|---:|---:|---:|
@@ -69,45 +80,65 @@ All **20 cells** completed (~5.2 h wall-clock, 5-wide parallel).
 | V4_PBRS | 97.8% ± 1.1 | 3.891 ± 0.082 | 222 |
 | V4_BASE_NO_L_FAIL | 98.2% ± 1.0 | 3.878 ± 0.046 | 292 |
 
-Source: `results/v4_reward/SUMMARY.md`.
+Source: `results/v4_reward/SUMMARY.md`. These checkpoints are **development evidence only**; final freeze uses `final_clean/`.
 
-### Interpretation (development only)
+### Lexicographic selection
 
-1. **`V3_TIME` ≡ `V4_BASE`** on this corpus (identical per-seed numbers): expected, because \(C_{\mathrm{train}}=10\) matches V3 PPO scale.
-2. **`V4_PBRS`**: slightly lower mean feasibility (−0.4 pp) but slightly better mean completion and lower seed SD. Not a clear win on the primary lexicographic VAL criterion.
-3. **`V4_BASE_NO_L_FAIL`**: same mean feasibility as V3/BASE, **best mean completion** and tightest completion SD; took longer on average to select best ckpt (292 updates). Suggests the \(L_{\mathrm{remaining}}\) failure-progress term is **not clearly helpful** on SynthCharge VAL under this protocol.
+1. Maximize mean parent-balanced VAL feasibility → tie `V3_TIME` / `V4_BASE` / `V4_BASE_NO_L_FAIL` at 98.2%.
+2. Among tied, minimize mean parent-balanced failure-retaining completion → **`V4_BASE_NO_L_FAIL`** (3.878).
+3. Secondary energy/station/SOC metrics reported on common-feasible matched pairs only; they do not redefine the objective.
 
-Negative/neutral finding is reported as required: PBRS did not dominate V3/BASE on parent-balanced VAL feasibility.
-
-## 8. Per-seed feasibility
+## 7. Per-seed feasibility (development)
 
 - **V3_TIME**: 42:98.9%, 43:97.8%, 44:95.6%, 45:98.9%, 46:100.0%
 - **V4_BASE**: 42:98.9%, 43:97.8%, 44:95.6%, 45:98.9%, 46:100.0%
 - **V4_PBRS**: 42:98.9%, 43:96.7%, 44:98.9%, 45:97.8%, 46:96.7%
 - **V4_BASE_NO_L_FAIL**: 42:98.9%, 43:98.9%, 44:98.9%, 45:97.8%, 46:96.7%
 
-## 10–12. Figures (from saved curves)
+## 8. Route-level VAL + paired analysis
 
-- `results_v4/figures/fig_v4_reward_evolution.png` (V4_PBRS, 5 seeds)
-- `results_v4/figures/fig_v4_loss_evolution.png`
-- `results_v4/figures/fig_v4_validation_learning.png`
-- `results_v4/figures/fig_v4_gradient_norm.png`
-- `results_v4/figures/fig_v4_reward_ablation_val.png` (4-variant VAL bars)
+- Export: `results/v4_reward/val_route_rows/` (90 routes × 4 variants × 5 seeds; no TEST).
+- Analysis: `results/v4_reward/analysis/` (paired win/tie/loss, common-feasible operational deltas).
 
-Rebuild:
+## 9. Figures
+
+Rebuild (selected reward = `V4_BASE_NO_L_FAIL`; prefers `final_clean` curves when present):
 
 ```bash
 python scripts/paper/build_v4_training_figures.py
 python scripts/v4_reward/build_comparison_figure.py
 ```
 
-## 13. Unresolved scientific issues
+- Aggregation: common update support across seeds; no forward-fill beyond last observed update.
+- Uncertainty: Student-t 95% CI (n=5 ⇒ \(t_{0.975,4}\)).
+- Ablation figure: full 0–105% feasibility axis; seed points + mean.
 
-1. Reward selection is **not frozen** yet — VAL evidence does not uniquely favor PBRS.
-2. Common-feasible energy/visit summaries across variants not yet exported as tables.
-3. Fresh V4 TEST **not authorized** until an explicit freeze + TEST protocol.
+## 10. Final clean freeze
 
-## 14. Explicit TEST statement
+After code/docs fixes are committed on a clean tree:
 
-**No new confirmatory TEST was generated or consumed.**  
-Selection remains TRAIN/VAL development evidence only.
+```bash
+python scripts/v4_reward/run_final_clean.py
+```
+
+Artifacts:
+
+- `results/v4_reward/final_clean/V4_BASE_NO_L_FAIL/seed_{42..46}/`
+- `checkpoints_v4/final_reward/V4_BASE_NO_L_FAIL/seed_{42..46}/`
+- `results/v4_reward/FINAL_REWARD_FREEZE.json`
+
+Manifests require `git_dirty=false`, repository-relative checkpoint paths, TRAIN/VAL hashes, PPO config hash, checkpoint SHA256.
+
+## 11. V1–V3 integrity
+
+V1/V2/V3 locks, raw results, and checkpoints were not modified for this finalization.  
+**No V4 confirmatory TEST was generated or consumed.**
+
+## 12. Methodology statement
+
+FA-HPPO uses an objective-aligned time reward rather than a weighted mixture of
+arbitrary penalties. Feasible transitions incur normalized elapsed-time cost,
+while failure maps the episode to the route horizon. Hard EV and time-window
+requirements are enforced structurally. Distance contributes through travel
+time, while energy charged, charging stops, and terminal SOC are reported
+separately as operational metrics.

@@ -66,6 +66,9 @@ class ShieldedRouteEnv:
         self.return_value = 0.0
         self.base_return_value = 0.0
         self.shaping_return_value = 0.0
+        # Scientific objective return: -T on success, -H on failure (no L, no shaping).
+        self.objective_return_value = 0.0
+        self.normalized_base_return_value = 0.0
         self.failed = False
         self._phi = 0.0
 
@@ -87,9 +90,24 @@ class ShieldedRouteEnv:
         self.return_value = 0.0
         self.base_return_value = 0.0
         self.shaping_return_value = 0.0
+        self.objective_return_value = 0.0
+        self.normalized_base_return_value = 0.0
         self.failed = False
         self._phi = self.reward_computer.potential(self.simulator)
         return self._features()
+
+    def _finalize_objective(self, *, failed: bool) -> None:
+        """Set objective / normalized-base returns at episode end.
+
+        Objective (unnormalized): -T on success, -H on failure.
+        Normalized base: objective / C_train (for V3_TIME, c_train defaults to 1).
+        """
+        if failed:
+            self.objective_return_value = -float(self.horizon)
+        else:
+            self.objective_return_value = -float(self.simulator.state.time.value)
+        c = float(self.reward_config.c_train)
+        self.normalized_base_return_value = self.objective_return_value / c
 
     def observe(self) -> FeatureBundle:
         return self._features()
@@ -118,6 +136,15 @@ class ShieldedRouteEnv:
         )
         reward_extra = self._apply_breakdown(breakdown)
         self.failed = True
+        self._finalize_objective(failed=True)
+        reward_extra.update(
+            {
+                "objective_return": float(self.objective_return_value),
+                "normalized_base_return": float(self.normalized_base_return_value),
+                "training_return": float(self.return_value),
+                "shaping_return": float(self.shaping_return_value),
+            }
+        )
         extra = {**executed["extra"], **reward_extra}
         if extra_update:
             extra.update(extra_update)
@@ -183,6 +210,15 @@ class ShieldedRouteEnv:
         if done:
             # Absorbing terminal: force Φ = 0 for bookkeeping consistency.
             self._phi = 0.0
+            self._finalize_objective(failed=False)
+            reward_extra.update(
+                {
+                    "objective_return": float(self.objective_return_value),
+                    "normalized_base_return": float(self.normalized_base_return_value),
+                    "training_return": float(self.return_value),
+                    "shaping_return": float(self.shaping_return_value),
+                }
+            )
         return StepInfo(
             reward=float(breakdown.reward),
             done=done,

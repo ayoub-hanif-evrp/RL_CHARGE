@@ -173,6 +173,12 @@ G_{\mathrm{fail}}^{\mathrm{noL}}= -H/C.
 Still \(G_{\mathrm{success}}=-T/C\ge -H/C\), but failures no longer depend on
 remaining progress \(L_k\).
 
+**Exact-horizon boundary.** If a successful route finishes at \(T=H\), then
+\(G_{\mathrm{success}}=G_{\mathrm{fail}}=-H/C\). Empirically, no successful
+TRAIN/VAL evaluation under the development checkpoints satisfies
+\(|T-H|<10^{-6}\) (see `results/v4_reward/analysis/EXACT_HORIZON_AUDIT.json`).
+This remains a theoretical boundary; no epsilon penalty is added.
+
 ---
 
 ## 4. What we deliberately do **not** put in the reward
@@ -191,7 +197,35 @@ metrics**, not primary objectives.
 
 ---
 
-## 5. Experimental isolation
+## 5. PBRS ablation status (development result)
+
+`V4_PBRS` is an **ablation**, not the selected reward.
+
+On the completed SynthCharge TRAIN/VAL 5-seed matrix:
+
+- mean parent-balanced VAL feasibility did **not** improve vs `V4_BASE` /
+  `V3_TIME` (97.8% vs 98.2%);
+- the correct unshaped comparator for PBRS is **`V4_BASE_NO_L_FAIL`**
+  (same base failure without \(L\), plus shaping);
+- the negative/neutral PBRS result remains reported and is not overwritten.
+
+No new reward weights were introduced after seeing these VAL numbers.
+
+## 6. Selected development reward
+
+Under the predeclared lexicographic rule
+(max VAL feasibility, then min failure-retaining completion):
+
+**`V4_BASE_NO_L_FAIL`** — normalized time-horizon reward:
+
+\[
+r_t=-\Delta t/C_{\mathrm{train}},\qquad
+r_{\mathrm{fail}}=-(H-t)/C_{\mathrm{train}}.
+\]
+
+With \(C_{\mathrm{train}}=10\) on SynthCharge.
+
+## 7. Experimental isolation
 
 First V4 reward study uses **frozen V3 architecture** (FA-HPPO features /
 Beta head / envelope as in V3 paper method) and only changes the reward kind.
@@ -204,11 +238,13 @@ separate committed protocol after freeze.
 
 ---
 
-## 6. Artifact namespace
+## 8. Artifact namespace
 
 ```
 results/v4_reward/
+results/v4_reward/final_clean/
 checkpoints_v4/reward_ablation/
+checkpoints_v4/final_reward/
 docs/V4_REWARD_DESIGN.md
 scripts/v4_reward/
 scripts/paper/build_v4_training_figures.py
@@ -216,3 +252,12 @@ scripts/paper/build_v4_training_figures.py
 
 V3 paths under `results/v3_hppo/`, `checkpoints_v2/final/`, `checkpoints_v3/`
 remain read-only evidence.
+
+## 9. Reviewer-defensible methodology statement
+
+FA-HPPO uses an objective-aligned time reward rather than a weighted mixture of
+arbitrary penalties. Feasible transitions incur normalized elapsed-time cost,
+while failure maps the episode to the route horizon. Hard EV and time-window
+requirements are enforced structurally. Distance contributes through travel
+time, while energy charged, charging stops, and terminal SOC are reported
+separately as operational metrics.
