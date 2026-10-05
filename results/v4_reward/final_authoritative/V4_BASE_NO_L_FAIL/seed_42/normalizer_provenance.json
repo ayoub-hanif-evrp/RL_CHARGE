@@ -1,0 +1,1 @@
+{"git_sha":"8fc7533d3eed6f017cf4a944669c995a8b2a781b","max_dynamic_steps":256,"n_dynamic_states":1590,"n_routes":180,"policy":"GreedyMinimumSufficientCharge","seed":0,"soc_interval":"continuation_to_max","split":"train"}

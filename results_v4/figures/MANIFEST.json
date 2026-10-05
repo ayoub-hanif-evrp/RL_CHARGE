@@ -1,6 +1,6 @@
 {
   "variant": "V4_BASE_NO_L_FAIL",
-  "curve_source": "results/v4_reward/final_clean",
+  "curve_source": "results/v4_reward/final_authoritative",
   "aggregation": "common_update_intersection_no_extrapolation",
   "uncertainty": "student_t_95ci_across_seeds",
   "t_crit_n5": 2.776445105,
