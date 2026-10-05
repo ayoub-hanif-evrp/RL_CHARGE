@@ -37,6 +37,27 @@ def _sha_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+# Training writes into these namespaces; they must not fail the preflight dirty check.
+_OUTPUT_PREFIXES = (
+    "results/v4_reward/final_clean/",
+    "checkpoints_v4/final_reward/",
+)
+
+
+def _code_dirty_paths() -> list[str]:
+    rows = []
+    for line in _git(["status", "--porcelain"]).splitlines():
+        if not line.strip():
+            continue
+        path = line[3:].strip().replace("\\", "/")
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1]
+        if any(path.startswith(prefix) for prefix in _OUTPUT_PREFIXES):
+            continue
+        rows.append(path)
+    return rows
+
+
 def _routes(split: str):
     assert_learning_split(split)
     corpus = ROOT / "data" / "routes_v2" / "synthcharge_final" / split / "corpus.jsonl"
@@ -57,10 +78,14 @@ def main() -> None:
     parser.add_argument("--allow-dirty", action="store_true")
     args = parser.parse_args()
 
-    dirty = bool(_git(["status", "--porcelain"]))
+    dirty_paths = _code_dirty_paths()
+    dirty = bool(dirty_paths)
     sha = _git(["rev-parse", "HEAD"])
     if dirty and not args.allow_dirty:
-        raise SystemExit("working tree is dirty; commit fixes before final clean rerun")
+        raise SystemExit(
+            "working tree has uncommitted non-output changes; commit fixes before final clean rerun: "
+            + ", ".join(dirty_paths[:12])
+        )
 
     train_routes, train_corpus = _routes("train")
     val_routes, val_corpus = _routes("validation")
