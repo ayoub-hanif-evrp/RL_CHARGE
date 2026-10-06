@@ -107,7 +107,7 @@ requires predeclared V4 protocol (not silent V3 insertion).
 
 | Path | When |
 |------|------|
-| **A. Development-only comparison now** | Implement beam/MPC or MILP under `src/planning/` / `scripts/development/`; evaluate TRAIN/VAL only |
+| **A. Development-only comparison now** | Implement beam/MPC or MILP under `src/planning/` / `scripts/v3/development/`; evaluate TRAIN/VAL only |
 | **B. Post-hoc V3 analysis** | Only if labeled *POST-HOC EXPLORATORY*; never edit `paired_primary.json` |
 | **C. New predeclared V4 TEST** | **Preferred** for strongest confirmatory evidence if a same-problem optimizer is established |
 

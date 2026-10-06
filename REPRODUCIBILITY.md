@@ -4,7 +4,8 @@
 
 Authoritative reward training SHA is recorded in
 `results/v4/reward_development/FINAL_REWARD_FREEZE.json` (`training_git_sha`).
-Checkpoints: `models/v4/fa_hppo/`.
+Checkpoints: `models/v4/fa_hppo/` (binaries local/Release; checksums in
+`models/v4/fa_hppo/CHECKSUMS.json`). See also `models/README.md`.
 
 Regenerate **displays only** (no TEST rerun, no retrain):
 

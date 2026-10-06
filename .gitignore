@@ -33,7 +33,13 @@ desktop.ini
 .pytest_cache/
 
 # Experiment artifacts (tables/summaries/figures stay tracked)
-models/
+# models/: track docs/checksums only; ignore all weights and run sidecars
+models/**
+!models/README.md
+!models/v4/
+!models/v4/fa_hppo/
+!models/v4/fa_hppo/CHECKSUMS.json
+models/**/*.pt
 results/raw/
 results/runs/
 results/smoke/raw/
@@ -44,6 +50,7 @@ results/v3/generate_test.log
 results/v3/evaluate_test.log
 results/v3/build_artifacts.log
 results/v3/ablation_*.log
+results/v3/development/**/*.pt
 
 # FRVCP download cache (XML/JSON under benchmark/ are tracked)
 data/external/frvcpy/benchmark/zips/

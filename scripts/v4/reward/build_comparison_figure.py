@@ -13,7 +13,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[3]
 SUMMARY = ROOT / "results" / "v4" / "reward_development" / "SUMMARY.json"
-FIG = ROOT / "results" / "v4" / "training_figures" / "figures"
+FIG = ROOT / "results" / "v4" / "reward_development" / "figures"
 ORDER = ("V3_TIME", "V4_BASE", "V4_PBRS", "V4_BASE_NO_L_FAIL")
 COLORS = {
     "V3_TIME": "#999999",

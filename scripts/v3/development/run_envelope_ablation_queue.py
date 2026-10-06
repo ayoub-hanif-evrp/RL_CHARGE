@@ -41,7 +41,7 @@ def main() -> None:
             proc = subprocess.run(
                 [
                     sys.executable,
-                    "scripts/development/run_envelope_ablation.py",
+                    "scripts/v3/development/run_envelope_ablation.py",
                     "--variant",
                     variant,
                     "--seed",

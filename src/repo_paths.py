@@ -25,14 +25,16 @@ RESULTS_V4 = RESULTS_DIR / "v4"
 RESULTS_V4_PAPER = RESULTS_V4 / "paper"
 RESULTS_V4_TEST = RESULTS_V4 / "test"
 RESULTS_V4_REWARD = RESULTS_V4 / "reward_development"
-RESULTS_V4_TRAINING_FIGS = RESULTS_V4 / "training_figures"
+RESULTS_V4_REWARD_FIGS = RESULTS_V4_REWARD / "figures"
 
 MODELS_V1 = MODELS_DIR / "v1"
 MODELS_V2 = MODELS_DIR / "v2"
 MODELS_V3 = MODELS_DIR / "v3"
 MODELS_V4 = MODELS_DIR / "v4"
 MODELS_V4_FA_HPPO = MODELS_V4 / "fa_hppo"
-MODELS_DEVELOPMENT = MODELS_DIR / "development"
+MODELS_V3_DEVELOPMENT = MODELS_V3 / "development"
+# Back-compat alias
+MODELS_DEVELOPMENT = MODELS_V3_DEVELOPMENT
 
 # Historical path → canonical path (posix, relative to repo root, trailing slash for dirs)
 LEGACY_PREFIXES: tuple[tuple[str, str], ...] = (
@@ -43,20 +45,24 @@ LEGACY_PREFIXES: tuple[tuple[str, str], ...] = (
     ("checkpoints_v4/", "models/v4/"),
     ("checkpoints_v3/", "models/v3/"),
     ("checkpoints_v2/", "models/v2/"),
-    ("checkpoints_development/", "models/development/"),
+    ("checkpoints_development/", "models/v3/development/"),
+    ("models/development/", "models/v3/development/"),
     ("checkpoints/", "models/v1/"),
     ("results_v4_paper/", "results/v4/paper/"),
-    ("results_v4/", "results/v4/training_figures/"),
+    ("results/v4/training_figures/", "results/v4/paper/"),
+    ("results_v4/", "results/v4/paper/"),
     ("results_paper/", "results/v3/paper/"),
     ("results/v4_reward/", "results/v4/reward_development/"),
     ("results/v4_test/", "results/v4/test/"),
     ("results/v3_hppo/", "results/v3/"),
+    ("results/development/", "results/v3/development/"),
     ("results/final/", "results/v1/final/"),
     ("results/pilot/", "results/v1/pilot/"),
     ("results/summaries/", "results/v1/summaries/"),
     ("scripts/v4_reward/", "scripts/v4/reward/"),
     ("scripts/v4_test/", "scripts/v4/test/"),
     ("scripts/v3_hppo/", "scripts/v3/"),
+    ("scripts/development/", "scripts/v3/development/"),
     ("configs/rl/", "configs/common/rl/"),
     ("configs/physics/", "configs/common/physics/"),
     ("configs/experiments/", "configs/common/experiments/"),
@@ -128,7 +134,7 @@ def logical_model_path(path: str, filename: str | None = None) -> str:
             return f"{base}/{'/'.join(parts)}"
         return base
     # Already under models/
-    for root in ("models/v4", "models/v3", "models/v2", "models/v1", "models/development"):
+    for root in ("models/v4", "models/v3", "models/v2", "models/v1"):
         idx = text.replace("\\", "/").rfind(root)
         if idx >= 0:
             return text.replace("\\", "/")[idx:]

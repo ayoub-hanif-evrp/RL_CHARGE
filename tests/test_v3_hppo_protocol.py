@@ -37,7 +37,7 @@ def test_v2_final_untouched_marker_files():
 
 
 def test_paper_claims_file():
-    text = (ROOT / "paper" / "CLAIMS.md").read_text(encoding="utf-8")
+    text = (ROOT / "results" / "v3" / "paper" / "claims" / "CLAIMS.md").read_text(encoding="utf-8")
     assert "MUST NOT" in text
     assert "frvcpy" in text.lower()
     assert "customer order" in text.lower() or "customer ordering" in text.lower()
@@ -62,7 +62,7 @@ def test_wording_and_claims_discipline():
     wording = (V3 / "WORDING_CLARIFICATIONS.md").read_text(encoding="utf-8")
     assert "independently generated" in wording
     assert "external domain" in wording.lower() or "external generalization" in wording.lower()
-    claims = (ROOT / "paper" / "CLAIMS.md").read_text(encoding="utf-8")
+    claims = (ROOT / "results" / "v3" / "paper" / "claims" / "CLAIMS.md").read_text(encoding="utf-8")
     assert "FA-HPPO-Max" in claims
     assert "DiscretePPO" in claims
     assert "feasibility-aware" in claims.lower()

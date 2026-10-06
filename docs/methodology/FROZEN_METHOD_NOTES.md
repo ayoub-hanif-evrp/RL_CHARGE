@@ -150,4 +150,4 @@ Honest amount-control statement:
 - `docs/V4_METHOD_CANDIDATES.md` — proposed fixes / alternatives
 - `docs/STRONG_COMPARATOR_FEASIBILITY_STUDY.md` — planning baselines
 - `docs/ENVIRONMENT_REPRODUCIBILITY.md` — known vs unknown package versions
-- `paper/CLAIMS.md` — claim discipline
+- `results/v3/paper/claims/CLAIMS.md` — claim discipline

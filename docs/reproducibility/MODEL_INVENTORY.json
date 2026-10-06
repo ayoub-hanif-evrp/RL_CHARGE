@@ -1,210 +1,210 @@
 [
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_42/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/A_arrival_to_max/seed_42/best.pt",
     "sha256": "c42ccce10e5d1fe629245a1d950645978bba452b9490fe54ef6120ab6f490337",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_42/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/A_arrival_to_max/seed_42/last.pt",
     "sha256": "cb20e77e7490d35578d24560fba126d4e15d66d476fe99f49631d258ff618b79",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_43/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/A_arrival_to_max/seed_43/best.pt",
     "sha256": "a949338e8aa92cb9e3ebcff7ac9494b6c18bfb56bd3d1e986c17e2bbecb95d3d",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_43/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/A_arrival_to_max/seed_43/last.pt",
     "sha256": "a8305e3701f8f67046362ab2bd34403c0aaa388f281cb814cfad52c8de6a5958",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_44/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/A_arrival_to_max/seed_44/best.pt",
     "sha256": "7e8f78307ea308a74f76dec6cbe8fa8d2d381a34ba2f47dcdcff4c689ab72cc1",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_44/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/A_arrival_to_max/seed_44/last.pt",
     "sha256": "5b47a58349dd5e9f44ffc91297928a510e76a61277176c535c6445dbebcb071d",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_45/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/A_arrival_to_max/seed_45/best.pt",
     "sha256": "949fe416e412c196b31f40cd2deb3e19aed5ac67710a07481e79a0e7a05e3884",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_45/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/A_arrival_to_max/seed_45/last.pt",
     "sha256": "e8fce69219b0dc5d19a763431c9f2872bef0312d173f903436692c1e03812744",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_46/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/A_arrival_to_max/seed_46/best.pt",
     "sha256": "763da9ddf5e08dbd371af5686c649d43a87709d7f6940b0c3d0a26d2a62b273f",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_46/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/A_arrival_to_max/seed_46/last.pt",
     "sha256": "e1d918888afad784316ce44428da184874eaf353ffb1b972881aa315320c0fa4",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/B_energy_to_max/seed_42/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/B_energy_to_max/seed_42/best.pt",
     "sha256": "e8ff79e10055002b8ca322dc9a1c93b5dfc0df6b20a241f2725dfdb7df5b3b95",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/B_energy_to_max/seed_42/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/B_energy_to_max/seed_42/last.pt",
     "sha256": "101a7de475a47a77edd045f3ce78a394e86ae259fc00c6c950788139aa85dee0",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/B_energy_to_max/seed_43/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/B_energy_to_max/seed_43/best.pt",
     "sha256": "5d1425d24dc491c88343d3f732be57b7560ab00c5b81497f811f44147f2eeba0",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/B_energy_to_max/seed_43/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/B_energy_to_max/seed_43/last.pt",
     "sha256": "958db95ce60335180ca7a251edef79d020524fb75b6c03391729491db3f35f65",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/B_energy_to_max/seed_44/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/B_energy_to_max/seed_44/best.pt",
     "sha256": "521c3db53dafd22d0e77b33c3abb4a7155cfe4751aba2db268d8d0d538903cd2",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/B_energy_to_max/seed_44/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/B_energy_to_max/seed_44/last.pt",
     "sha256": "4bf67ccbd3242d1cad4b944a69d9740814e362b3d34f5c30ef3e612b6ca98720",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/B_energy_to_max/seed_45/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/B_energy_to_max/seed_45/best.pt",
     "sha256": "2d7f5a8d6d5fdd0d1ed324f10510c80f25503b6380dca594f2e4b9d5d7fc7d59",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/B_energy_to_max/seed_45/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/B_energy_to_max/seed_45/last.pt",
     "sha256": "698a4c7ce058f7cd640937c942eccd704584bbf565bf702c53640accfe368f33",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/B_energy_to_max/seed_46/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/B_energy_to_max/seed_46/best.pt",
     "sha256": "849c7e767aa63b17d0e866f08c26aea6c30f91da21200102c9fd94fe3c9b09ea",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/B_energy_to_max/seed_46/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/B_energy_to_max/seed_46/last.pt",
     "sha256": "251f07606c9c1441db1fb577b5fda0a0d7043c0b0207dfa10fff7eb6bce05957",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/C_energy_to_time/seed_42/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/C_energy_to_time/seed_42/best.pt",
     "sha256": "a455c500892aeee1e37c052a5173ed6cd285d9195f3604e78a9fd056c71038dc",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/C_energy_to_time/seed_42/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/C_energy_to_time/seed_42/last.pt",
     "sha256": "fc50185d60d4c0b9901069ae47b75547ed6af14fe99b24336f99e8394e9a04d8",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/C_energy_to_time/seed_43/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/C_energy_to_time/seed_43/best.pt",
     "sha256": "03b25ce000302c5ff30b63f4bea64bd741a82301b1a57668bf0d6af18c5ba81b",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/C_energy_to_time/seed_43/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/C_energy_to_time/seed_43/last.pt",
     "sha256": "6a5de6d19e4fd1a239ec20350c1d17cbcdab57ed100a5f914cf0369643373c32",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/C_energy_to_time/seed_44/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/C_energy_to_time/seed_44/best.pt",
     "sha256": "cf536bbc55b1a318ab1625e8ee3e805bfe89cba421afc782751107ba09def21f",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/C_energy_to_time/seed_44/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/C_energy_to_time/seed_44/last.pt",
     "sha256": "5a0ee2f8d12ec453c4af2ae35147033bc0f1cfc920ca5958d9a37a5c58803036",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/C_energy_to_time/seed_45/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/C_energy_to_time/seed_45/best.pt",
     "sha256": "88201f487dafb3de51ae798f69ecf16b4bb5d1923760d235b66259d8314bbcea",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/C_energy_to_time/seed_45/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/C_energy_to_time/seed_45/last.pt",
     "sha256": "9df440e271992bf98041e8102246cf1a5f7a82ac31b105122a715231ffe23ac5",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/C_energy_to_time/seed_46/best.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/C_energy_to_time/seed_46/best.pt",
     "sha256": "9ebaaa14a5e10ee9687e635d5a0cf52fe5922bf98f8ff3805cfb6e7956bfe939",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"
   },
   {
-    "version": "development",
-    "path": "models/development/envelope_ablation/C_energy_to_time/seed_46/last.pt",
+    "version": "v3",
+    "path": "models/v3/development/envelope_ablation/C_energy_to_time/seed_46/last.pt",
     "sha256": "5b8424789276a2b41aaf44cf2fb3167dfc0f58ee7cb3043359ea45b9a988b4b7",
     "used_by": "envelope ablation development",
     "decision": "OPTIONAL_ARCHIVE"

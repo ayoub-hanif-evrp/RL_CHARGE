@@ -1,0 +1,46 @@
+{
+  "method": "V4_FA_HPPO",
+  "reward": "V4_BASE_NO_L_FAIL",
+  "checkpoints": [
+    {
+      "seed": 42,
+      "path": "models/v4/fa_hppo/seed_42/best.pt",
+      "checkpoint_sha256": "759f8d093719b73e2910c6cebe7fec001b6c1cca638f75a50ce5478eae15c434",
+      "local_sha256": "759f8d093719b73e2910c6cebe7fec001b6c1cca638f75a50ce5478eae15c434",
+      "matches_freeze": true,
+      "legacy_path": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_42/best.pt"
+    },
+    {
+      "seed": 43,
+      "path": "models/v4/fa_hppo/seed_43/best.pt",
+      "checkpoint_sha256": "e4873c13d14e33174ea816d98cf22e1089884bcb37d28c535eba6a038f6b74f7",
+      "local_sha256": "e4873c13d14e33174ea816d98cf22e1089884bcb37d28c535eba6a038f6b74f7",
+      "matches_freeze": true,
+      "legacy_path": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_43/best.pt"
+    },
+    {
+      "seed": 44,
+      "path": "models/v4/fa_hppo/seed_44/best.pt",
+      "checkpoint_sha256": "f6afb1fe24a263a087fbe18e3b56ece04b02085ca8e3d4dace1dc672975ab57c",
+      "local_sha256": "f6afb1fe24a263a087fbe18e3b56ece04b02085ca8e3d4dace1dc672975ab57c",
+      "matches_freeze": true,
+      "legacy_path": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_44/best.pt"
+    },
+    {
+      "seed": 45,
+      "path": "models/v4/fa_hppo/seed_45/best.pt",
+      "checkpoint_sha256": "562fb328eada8f9ec069b96e5929d35da5abe62951c2fd2a2e8268c1b3d6dc71",
+      "local_sha256": "562fb328eada8f9ec069b96e5929d35da5abe62951c2fd2a2e8268c1b3d6dc71",
+      "matches_freeze": true,
+      "legacy_path": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_45/best.pt"
+    },
+    {
+      "seed": 46,
+      "path": "models/v4/fa_hppo/seed_46/best.pt",
+      "checkpoint_sha256": "1d49363f136bfae129be1273354f95acd6351e7d789363481ea1f1d5a67449ef",
+      "local_sha256": "1d49363f136bfae129be1273354f95acd6351e7d789363481ea1f1d5a67449ef",
+      "matches_freeze": true,
+      "legacy_path": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_46/best.pt"
+    }
+  ]
+}

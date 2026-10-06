@@ -137,10 +137,15 @@ Frozen protocol JSON **contents** were not rewritten (historical path strings pr
 - Frozen manifests that still mention old paths (byte-identical provenance)
 - `results/development/`, `results/runs/`, `results/smoke/`, `results/raw/`
 
-## Supporting docs
+## Final polish pass (post-`c46d3ec`)
 
-- `docs/reproducibility/CLEANUP_PLAN.md`
-- `docs/reproducibility/REPOSITORY_MIGRATION.json`
-- `docs/reproducibility/PATH_MIGRATION.md`
-- `docs/reproducibility/MODEL_INVENTORY.md`
-- This report: `docs/reproducibility/REPOSITORY_CLEANUP_REPORT.md`
+- Tracked `models/README.md` + `models/v4/fa_hppo/CHECKSUMS.json`; `.gitignore` ignores only `models/**/*.pt`
+- Removed one-shot migration helpers under `scripts/common/`
+- Removed inaccurate `REPOSITORY_MIGRATION.json` / old cleanup-plan; rely on `PATH_MIGRATION.md` + this report
+- Deleted redundant `docs/archive/` cleanup/history Markdown and `context.md`
+- Slimmed `MODEL_INVENTORY.md` (JSON remains canonical)
+- Removed duplicate `results/v4/training_figures/` (canonical training displays are paper figs 12–15 / A01)
+- Moved `results|scripts|models/development` → `*/v3/development/`
+- Moved V3 `paper/CLAIMS.md` + `RESULTS_MAP.md` → `results/v3/paper/claims/`
+
+No training, no TEST rerun, frozen scientific hashes unchanged.

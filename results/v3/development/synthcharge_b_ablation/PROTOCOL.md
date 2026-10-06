@@ -16,5 +16,5 @@ Seeds: 42–46. Budget: `configs/common/rl/hybrid_ppo.toml`.
 **Status:** script prepared; full 20-cell execution not started in the scientific-fixes pack (~15–22 CPU-hours).
 
 ```bash
-python scripts/development/run_synthcharge_b_ablation.py --variant all
+python scripts/v3/development/run_synthcharge_b_ablation.py --variant all
 ```

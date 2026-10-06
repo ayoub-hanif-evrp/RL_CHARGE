@@ -22,7 +22,9 @@ def main() -> None:
     freeze = _load(V4T / "CHECKPOINT_FREEZE.json")
     consumed = _load(V4T / "EVALUATION_CONSUMED.json")
     stats = _load(V4T / "statistics" / "main_summary.json")
-    fig_manifest = _load(ROOT / "results" / "v4" / "training_figures" / "figures" / "MANIFEST.json")
+    fig_manifest = _load(ROOT / "results" / "v4" / "paper" / "manifests" / "FIGURE_MANIFEST.json")
+    if fig_manifest is None:
+        fig_manifest = _load(ROOT / "results" / "v4" / "reward_development" / "figures" / "MANIFEST.json")
     ablation = _load(V4R / "SUMMARY.json")
     payload = {
         "exact_reward_equations": reward.get("equations") if reward else None,

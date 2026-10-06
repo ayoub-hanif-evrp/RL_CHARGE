@@ -1114,7 +1114,7 @@ def write_readme() -> None:
         "| 19 | `fig19_charge_decision.png` | What does one charge decision look like? |",
         "| 20 | `fig20_frvcp_reference.png` | Native FRVCP reference? |",
         "",
-        "Captions: `CAPTIONS.md`. Map: `../paper/RESULTS_MAP.md`.",
+        "Captions: `CAPTIONS.md`. Map: `claims/RESULTS_MAP.md`.",
         "",
         "```bash",
         "python scripts/paper/build_results_paper.py",

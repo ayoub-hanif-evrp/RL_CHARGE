@@ -34,10 +34,10 @@ Uses existing frozen `AblationConfig` fields only (no `src/` edits).
 ## Launch
 
 ```bash
-python scripts/development/run_envelope_ablation.py --variant all
+python scripts/v3/development/run_envelope_ablation.py --variant all
 # or one cell:
-python scripts/development/run_envelope_ablation.py --variant A_arrival_to_max --seed 42
+python scripts/v3/development/run_envelope_ablation.py --variant A_arrival_to_max --seed 42
 ```
 
-Outputs: `results/development/envelope_ablation/{variant}/seed_{s}/validation.json`
-Checkpoints: `models/development/envelope_ablation/...`
+Outputs: `results/v3/development/envelope_ablation/{variant}/seed_{s}/validation.json`
+Checkpoints: `models/v3/development/envelope_ablation/...`

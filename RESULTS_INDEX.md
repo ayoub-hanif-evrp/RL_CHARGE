@@ -8,7 +8,7 @@
 | Captions | `results/v4/paper/captions/CAPTIONS.md` |
 | Manifest | `results/v4/paper/MANIFEST.json` |
 | Builder | `scripts/paper/build_v4_results_paper.py` |
-| Authoritative models | `models/v4/fa_hppo/` |
+| Authoritative models | `models/v4/fa_hppo/` + `models/v4/fa_hppo/CHECKSUMS.json` |
 | Claims | `paper/V4_CLAIMS.md` |
 | Benchmark wording | `docs/methodology/V4_BENCHMARK_WORDING.md` |
 
@@ -35,7 +35,8 @@ python scripts/paper/build_v4_results_paper.py --verify
 | Stage | Path |
 |-------|------|
 | V3 publication displays | `results/v3/paper/` |
-| V3 confirmatory | `results/v3/` |
+| V3 claims map | `results/v3/paper/claims/` |
+| V3 confirmatory + development | `results/v3/` (incl. `development/`) |
 | V2 | `results/v2/final/` |
 | V1 | `results/v1/final/` |
 

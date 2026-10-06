@@ -274,7 +274,7 @@ def test_figure_builder_is_pure_from_logs(tmp_path, monkeypatch):
             root / "results" / "v4" / "reward_development" / "ablation",
         ),
     )
-    monkeypatch.setattr(figmod, "FIG", root / "results" / "v4" / "training_figures" / "figures")
+    monkeypatch.setattr(figmod, "FIG", root / "results" / "v4" / "reward_development" / "figures")
     monkeypatch.setattr(figmod, "SEEDS", (42, 43))
     # ensure common-key fields exist for new preferred metrics
     for seed in (42, 43):

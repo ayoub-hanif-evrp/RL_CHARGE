@@ -7,7 +7,7 @@ The controller does **not** choose customer order.
 
 | Kind | Path |
 |------|------|
-| Models | `models/v{1,2,3,4}/`, `models/development/` |
+| Models | `models/v{1,2,3,4}/` (`.pt` binaries local/Release; docs+checksums tracked) |
 | Results | `results/v{1,2,3,4}/` |
 | Configs | `configs/common/`, `configs/v{1,2,3,4}/` |
 | Scripts | `scripts/v{1,2,3,4}/`, `scripts/paper/`, `scripts/common/` |
@@ -33,7 +33,7 @@ python scripts/paper/build_v4_results_paper.py --verify
 ```
 
 Outputs: `results/v4/paper/` (PNG figures + tables). Claims: `paper/V4_CLAIMS.md`.
-Authoritative checkpoints: `models/v4/fa_hppo/`.
+Authoritative checkpoints: `models/v4/fa_hppo/` (see `models/README.md` and `models/v4/fa_hppo/CHECKSUMS.json`).
 
 ## Repository stages (independent)
 
@@ -41,7 +41,7 @@ Authoritative checkpoints: `models/v4/fa_hppo/`.
 |-------|----------|------|
 | V1 | `results/v1/final/`, `models/v1/` | Historical archive |
 | V2 | `results/v2/final/`, `models/v2/` | Historical archive |
-| V3-HPPO | `results/v3/`, `models/v3/` | Historical confirmatory package |
+| V3-HPPO | `results/v3/`, `models/v3/` (incl. `development/`) | Historical confirmatory package |
 | **V4** | `results/v4/{reward_development,test,paper}/`, `models/v4/` | **Current standalone paper package** |
 
 Each version is independent for manuscript writing. Do not mix prior-version

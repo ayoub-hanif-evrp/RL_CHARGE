@@ -39,7 +39,7 @@ It is a reconstruction aid, not a claim of complete environment fidelity.
 ```bash
 python scripts/repro/capture_environment.py
 # or:
-python scripts/repro/capture_environment.py --out results/development/envelope_ablation/ENVIRONMENT_CAPTURE.json
+python scripts/repro/capture_environment.py --out results/v3/development/envelope_ablation/ENVIRONMENT_CAPTURE.json
 ```
 
 Writes JSON with python, platform, key package versions, and `pip freeze`.

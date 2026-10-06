@@ -29,7 +29,7 @@ CURVE_ROOTS = (
     ROOT / "results" / "v4" / "reward_development" / "final_clean",
     ROOT / "results" / "v4" / "reward_development" / "ablation",
 )
-FIG = ROOT / "results" / "v4" / "training_figures" / "figures"
+FIG = ROOT / "results" / "v4" / "reward_development" / "figures"
 DPI = 600
 SEEDS = (42, 43, 44, 45, 46)
 DEFAULT_VARIANT = "V4_BASE_NO_L_FAIL"
