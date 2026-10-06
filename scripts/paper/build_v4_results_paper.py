@@ -19,7 +19,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patches import Circle, FancyArrowPatch, FancyBboxPatch, Rectangle
+from matplotlib.patches import FancyBboxPatch
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "results_v4_paper"
@@ -67,17 +67,61 @@ COLOR = {
     "GreedyMinimumSufficientCharge": "#E69F00",
 }
 REWARD_ORDER = (
-    ("V3_TIME", "Time + progress failure"),
-    ("V4_BASE", "Normalized equivalent"),
-    ("V4_PBRS", "Potential-shaped"),
-    ("V4_BASE_NO_L_FAIL", "Time-horizon (selected)"),
+    ("V3_TIME", "Progress"),
+    ("V4_BASE", "Normalized"),
+    ("V4_PBRS", "PBRS"),
+    ("V4_BASE_NO_L_FAIL", "Time-horizon"),
 )
+REWARD_FULL = {
+    "V3_TIME": "Time + progress failure",
+    "V4_BASE": "Normalized equivalent",
+    "V4_PBRS": "Potential-shaped",
+    "V4_BASE_NO_L_FAIL": "Time-horizon (selected)",
+}
+TRAJ = OUT / "data" / "illustrative_val_trajectory.json"
+EXPECTED_FIGS = (
+    "fig01_usecase_route.png",
+    "fig02_method_schematic.png",
+    "fig03_soc_envelope.png",
+    "fig04_illustrative_soc.png",
+    "fig05_main_feasibility.png",
+    "fig06_main_completion.png",
+    "fig07_charging_required.png",
+    "fig08_performance_ecdf.png",
+    "fig09_by_layout.png",
+    "fig10_by_length.png",
+    "fig11_difficulty_heatmap.png",
+    "fig12_reward_ablation_val.png",
+    "fig13_reward_evolution.png",
+    "fig14_loss_evolution.png",
+    "fig15_validation_learning.png",
+    "figA01_gradient_norm.png",
+    "figA03_per_seed_test_feasibility.png",
+    "figA04_failure_reasons.png",
+)
+FAILURE_LABEL = {
+    "TIME_WINDOW_VIOLATION": "Time-window violation",
+    "SOC_VIOLATION": "SOC violation",
+    "BATTERY_VIOLATION": "Battery violation",
+    "CAPACITY_VIOLATION": "Capacity violation",
+    "NO_FEASIBLE_ACTION": "No feasible action",
+    "HORIZON_EXCEEDED": "Horizon exceeded",
+    "UNKNOWN": "Unknown",
+    "unknown": "Unknown",
+}
 REWARD_COLOR = {
     "V3_TIME": "#999999",
     "V4_BASE": "#56B4E9",
     "V4_PBRS": "#0072B2",
     "V4_BASE_NO_L_FAIL": "#E69F00",
 }
+
+# Pinned frozen evidence hashes (must not change in this polish pass)
+PINNED_RAW_SHA256_LF = "431014b397eba9191b09312f83ccb7523641e353f3d37ae9c6d57bb2a31b00dc"
+PINNED_TEST_LOCK_SHA256_LF = "c0055ba29beaa9b36590ef7e84cc9a60735f52adabaf7ca51dfdde5b89444d58"
+PINNED_EVALUATION_CONSUMED_SHA256 = "3cdcef0bb339f63a21466d5dd26d27e8c0d518820ed402de21eec78a02bc54b7"
+PINNED_REWARD_FREEZE_SHA256 = "c6a520e1a588445c880056777c8298de5fbbf1ae1cdfeac3865b104e036dc82f"
+PINNED_MAIN_FEAS = 0.9455555555555556
 
 FIG_ENTRIES: list[dict] = []
 
@@ -317,33 +361,37 @@ def _write_csv(path: Path, rows: list[dict]) -> None:
 
 def build_tables(rows: list[dict], stats: dict) -> None:
     TAB.mkdir(parents=True, exist_ok=True)
-    # Table 1
+    # Table 1 — FA-HPPO uses 95% Student-t CI across five seeds; baselines are deterministic
     t1 = []
     for m in METHODS:
         info = stats["methods"][LABEL[m]]
-        t1.append(
-            {
-                "method": LABEL[m],
-                "feasibility": info["feasibility_mean"],
-                "feasibility_sd": info.get("feasibility_sd"),
-                "completion_all": info["completion_mean"],
-                "completion_sd": info.get("completion_sd"),
-                "runtime_s": info["runtime_mean"],
-            }
-        )
+        row = {
+            "method": LABEL[m],
+            "feasibility": info["feasibility_mean"],
+            "feasibility_ci_lo": info.get("feasibility_t95", [None, None])[0] if m == METHOD_CODE else None,
+            "feasibility_ci_hi": info.get("feasibility_t95", [None, None])[1] if m == METHOD_CODE else None,
+            "completion_all": info["completion_mean"],
+            "completion_ci_lo": info.get("completion_t95", [None, None])[0] if m == METHOD_CODE else None,
+            "completion_ci_hi": info.get("completion_t95", [None, None])[1] if m == METHOD_CODE else None,
+            "runtime_s": info["runtime_mean"],
+            "uncertainty": "student_t_95_five_seeds" if m == METHOD_CODE else "deterministic",
+        }
+        t1.append(row)
     _write_csv(TAB / "table01_main_test.csv", t1)
     lines = [
         "# Table 1 — V4 TEST main results",
         "",
         "Fresh independently generated held-out SynthCharge TEST (180 routes).",
+        "FA-HPPO intervals are 95% Student-t confidence intervals across five independently trained seeds.",
+        "Deterministic baselines have no uncertainty estimates.",
         "",
         "| Method | Feasibility | Failure-retaining completion | Runtime (s) |",
         "|---|---:|---:|---:|",
     ]
     for r in t1:
-        if r["feasibility_sd"] is not None:
-            feas = f"{100*r['feasibility']:.2f}% ± {100*r['feasibility_sd']:.2f}"
-            comp = f"{r['completion_all']:.3f} ± {r['completion_sd']:.3f}"
+        if r["feasibility_ci_lo"] is not None:
+            feas = f"{100*r['feasibility']:.2f}% [{100*r['feasibility_ci_lo']:.2f}, {100*r['feasibility_ci_hi']:.2f}]"
+            comp = f"{r['completion_all']:.3f} [{r['completion_ci_lo']:.3f}, {r['completion_ci_hi']:.3f}]"
         else:
             feas = f"{100*r['feasibility']:.2f}%"
             comp = f"{r['completion_all']:.3f}"
@@ -355,26 +403,61 @@ def build_tables(rows: list[dict], stats: dict) -> None:
     for m in METHODS:
         if m == METHOD_CODE:
             info = stats["by_charge_class"]["charging_required"]
-            t2.append({"method": LABEL[m], "subset": "charging_required", "n": 144, "feasibility": info["mean"], "sd": info["sd"]})
+            lo, hi = info["t95"]
+            t2.append(
+                {
+                    "method": LABEL[m],
+                    "subset": "charging_required",
+                    "n_routes": 144,
+                    "feasibility": info["mean"],
+                    "ci_lo": lo,
+                    "ci_hi": hi,
+                    "uncertainty": "student_t_95_five_seeds",
+                }
+            )
             info2 = stats["by_charge_class"]["no_charge_required"]
-            t2.append({"method": LABEL[m], "subset": "no_charge_required", "n": 36, "feasibility": info2["mean"], "sd": info2["sd"]})
+            lo2, hi2 = info2["t95"]
+            t2.append(
+                {
+                    "method": LABEL[m],
+                    "subset": "no_charge_required",
+                    "n_routes": 36,
+                    "feasibility": info2["mean"],
+                    "ci_lo": lo2,
+                    "ci_hi": hi2,
+                    "uncertainty": "student_t_95_five_seeds",
+                }
+            )
         else:
             for subset, n in (("charging_required", 144), ("no_charge_required", 36)):
                 sub = [r for r in rows if r["method"] == m and r.get("charge_class") == subset]
-                t2.append({"method": LABEL[m], "subset": subset, "n": n, "feasibility": feas_rate(sub), "sd": None})
+                t2.append(
+                    {
+                        "method": LABEL[m],
+                        "subset": subset,
+                        "n_routes": n,
+                        "feasibility": feas_rate(sub),
+                        "ci_lo": None,
+                        "ci_hi": None,
+                        "uncertainty": "deterministic",
+                    }
+                )
     _write_csv(TAB / "table02_charging_required.csv", t2)
     md = [
         "# Table 2 — Charging-required / no-charge subsets",
         "",
-        "| Method | Subset | n | Feasibility |",
+        "`n_routes` is the number of TEST routes in the subset (not seed×route).",
+        "FA-HPPO uncertainty is a 95% Student-t interval across five independently trained seeds.",
+        "",
+        "| Method | Subset | n_routes | Feasibility |",
         "|---|---|---:|---:|",
     ]
     for r in t2:
-        if r["sd"] is not None:
-            feas = f"{100*r['feasibility']:.2f}% ± {100*r['sd']:.2f}"
+        if r["ci_lo"] is not None:
+            feas = f"{100*r['feasibility']:.2f}% [{100*r['ci_lo']:.2f}, {100*r['ci_hi']:.2f}]"
         else:
             feas = f"{100*r['feasibility']:.2f}%"
-        md.append(f"| {r['method']} | {r['subset']} | {r['n']} | {feas} |")
+        md.append(f"| {r['method']} | {r['subset']} | {r['n_routes']} | {feas} |")
     (TAB / "table02_charging_required.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
     # Table 3 regime
@@ -427,8 +510,11 @@ def build_tables(rows: list[dict], stats: dict) -> None:
         "# Table 4 — Reward development ablation (VALIDATION)",
         "",
         "TRAIN/VAL development evidence only. TEST not used for selection.",
+        "Uncertainty is mean ± SD across five training seeds (not a 95% Student-t CI).",
+        "Full definitions: Progress = Time + progress failure; Normalized = Normalized equivalent;",
+        "PBRS = Potential-shaped; Time-horizon = selected normalized time-horizon reward.",
         "",
-        "| Reward | VAL feasibility | VAL completion | Mean best update | Selected |",
+        "| Reward | VAL feasibility (mean ± SD) | VAL completion (mean ± SD) | Mean best update | Selected |",
         "|---|---:|---:|---:|---|",
     ]
     for r in t4:
@@ -439,7 +525,7 @@ def build_tables(rows: list[dict], stats: dict) -> None:
         )
     (TAB / "table04_reward_ablation.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
-    # Table 5 operational
+    # Table 5 operational (supplemental)
     ops_fields = [
         ("route_completion_time", "completion_time"),
         ("total_charging_time", "charging_time"),
@@ -452,7 +538,7 @@ def build_tables(rows: list[dict], stats: dict) -> None:
     t5 = []
     for m in METHODS:
         feas = [r for r in rows if r["method"] == m and r.get("feasible")]
-        # for FA-HPPO pool all seeds' feasible rows
+        n_unit = "route×seed" if m == METHOD_CODE else "route"
         for field, name in ops_fields:
             vals = [float(r[field]) for r in feas]
             mu, sd = _mean_sd(vals)
@@ -463,11 +549,11 @@ def build_tables(rows: list[dict], stats: dict) -> None:
                     "method": LABEL[m],
                     "metric": name,
                     "n": len(vals),
+                    "n_unit": n_unit,
                     "mean": mu,
                     "sd": sd,
                 }
             )
-    # matched common-feasible FA-HPPO vs each baseline (seed-averaged route pairs: use seed 42..46 mean of matched)
     fa_idx = {(int(r["seed"]), r["route_id"]): r for r in rows if r["method"] == METHOD_CODE}
     for m in METHODS[1:]:
         base = {r["route_id"]: r for r in rows if r["method"] == m}
@@ -485,23 +571,29 @@ def build_tables(rows: list[dict], stats: dict) -> None:
                     "method": f"FA-HPPO minus {LABEL[m]}",
                     "metric": name,
                     "n": len(deltas),
+                    "n_unit": "matched route×seed pairs",
                     "mean": mu,
                     "sd": sd,
                 }
             )
     _write_csv(TAB / "table05_operational_metrics.csv", t5)
     md = [
-        "# Table 5 — Operational metrics",
+        "# Table 5 — Operational metrics (supplemental)",
         "",
         "> Method-feasible rows carry a **survivor-bias warning** and must not be read as",
         "> cross-method efficiency gains. Prefer matched common-feasible deltas for comparisons.",
         "",
-        "| Conditioning | Method | Metric | n | Mean | SD |",
-        "|---|---|---|---:|---:|---:|",
+        "Units of `n`:",
+        "- FA-HPPO method-feasible rows: route×seed observations;",
+        "- deterministic baselines: route observations;",
+        "- matched comparisons: matched route×seed pairs.",
+        "",
+        "| Conditioning | Method | Metric | n | n_unit | Mean | SD |",
+        "|---|---|---|---:|---|---:|---:|",
     ]
     for r in t5:
         md.append(
-            f"| {r['conditioning']} | {r['method']} | {r['metric']} | {r['n']} | "
+            f"| {r['conditioning']} | {r['method']} | {r['metric']} | {r['n']} | {r['n_unit']} | "
             f"{r['mean']:.6g} | {r['sd']:.6g} |"
         )
     (TAB / "table05_operational_metrics.md").write_text("\n".join(md) + "\n", encoding="utf-8")
@@ -514,56 +606,78 @@ def build_tables(rows: list[dict], stats: dict) -> None:
 
 def fig01_usecase() -> None:
     _style()
-    fig, ax = plt.subplots(figsize=(6.2, 4.2))
-    # schematic geometry
-    depot = np.array([0.1, 0.5])
-    customers = np.array([[0.28, 0.72], [0.45, 0.35], [0.62, 0.68], [0.78, 0.40], [0.90, 0.60]])
-    stations = np.array([[0.38, 0.55], [0.70, 0.50]])
-    ax.plot([depot[0], *customers[:, 0], depot[0]], [depot[1], *customers[:, 1], depot[1]], "-", color="#0072B2", lw=2.0, zorder=1)
-    ax.scatter(*depot, s=160, c="#000000", marker="s", zorder=3, label="Depot")
-    ax.scatter(customers[:, 0], customers[:, 1], s=90, c="#0072B2", zorder=3, label="Fixed customers")
-    ax.scatter(stations[:, 0], stations[:, 1], s=120, c="#D55E00", marker="^", zorder=3, label="Charging stations")
+    fig, ax = plt.subplots(figsize=(6.4, 4.2))
+    depot = np.array([0.08, 0.50])
+    customers = np.array([[0.26, 0.72], [0.44, 0.38], [0.62, 0.70], [0.78, 0.42], [0.92, 0.62]])
+    stations = np.array([[0.44, 0.58], [0.70, 0.28]])
+    # primary frozen customer sequence (solid)
+    route_x = [depot[0], *customers[:, 0], depot[0]]
+    route_y = [depot[1], *customers[:, 1], depot[1]]
+    ax.plot(route_x, route_y, "-", color="#0072B2", lw=2.0, zorder=1, label="Fixed customer sequence")
+    # explicit charging insertion detour: C2 → S1 → C3 (replace direct C2–C3 visually)
+    c2, c3, s1 = customers[1], customers[2], stations[0]
+    ax.plot([c2[0], s1[0], c3[0]], [c2[1], s1[1], c3[1]], "--", color="#D55E00", lw=2.0, zorder=2, label="Charging insertion")
+    ax.scatter(*depot, s=160, c="#000000", marker="s", zorder=4, label="Depot")
+    ax.scatter(customers[:, 0], customers[:, 1], s=90, c="#0072B2", zorder=4, label="Customers")
+    ax.scatter(stations[:, 0], stations[:, 1], s=120, c="#D55E00", marker="^", zorder=4, label="Stations")
     for i, (x, y) in enumerate(customers, 1):
         ax.text(x, y + 0.05, f"C{i}", ha="center", fontsize=8)
     for i, (x, y) in enumerate(stations, 1):
-        ax.text(x, y - 0.06, f"S{i}", ha="center", fontsize=8, color="#D55E00")
-    ax.annotate("learned charge insertion", xy=stations[0], xytext=(0.35, 0.20),
-                arrowprops=dict(arrowstyle="->", color="#D55E00"), fontsize=8, color="#D55E00")
-    ax.set_xlim(0, 1)
+        ax.text(x + 0.03, y - 0.05, f"S{i}", ha="left", fontsize=8, color="#D55E00")
+    ax.set_xlim(0, 1.05)
     ax.set_ylim(0, 1)
     ax.set_xticks([])
     ax.set_yticks([])
-    ax.legend(frameon=False, loc="upper left")
-    ax.set_title("Fixed customer order; charging decisions are learned", loc="left")
+    ax.legend(frameon=False, loc="upper left", fontsize=8)
     _save(fig, "fig01_usecase_route", split="methodology", sources=[])
 
 
 def fig02_method() -> None:
     _style()
-    fig, ax = plt.subplots(figsize=(8.4, 3.2))
+    fig, ax = plt.subplots(figsize=(9.2, 3.4))
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis("off")
-    boxes = [
-        (0.02, "Fixed route\nstate"),
-        (0.18, "Feasibility\nshield"),
-        (0.34, "Features"),
-        (0.48, "Hybrid\nPPO"),
-        (0.62, "CONTINUE /\nstation"),
-        (0.76, "Amount u\n+ SOC map"),
-        (0.90, "Simulator\ntransition"),
+    labels = [
+        "Fixed route\nstate",
+        "Feasibility\nshield",
+        "Features",
+        "Hybrid\nPPO",
+        "CONTINUE /\nstation",
+        "Amount u +\nSOC map",
+        "Simulator\ntransition",
     ]
-    for x, text in boxes:
-        ax.add_patch(FancyBboxPatch((x, 0.38), 0.12, 0.28, boxstyle="round,pad=0.01", facecolor="#E8F1F8", edgecolor="#0072B2", lw=1.0))
-        ax.text(x + 0.06, 0.52, text, ha="center", va="center", fontsize=7.5)
-    for i in range(len(boxes) - 1):
-        x0 = boxes[i][0] + 0.12
-        x1 = boxes[i + 1][0]
-        ax.annotate("", xy=(x1, 0.52), xytext=(x0, 0.52), arrowprops=dict(arrowstyle="->", color="#333333", lw=1.2))
+    n = len(labels)
+    left, right = 0.015, 0.985
+    width = 0.112
+    span = right - left - width
+    xs = [left + i * span / (n - 1) for i in range(n)]
+    for x, text in zip(xs, labels):
+        ax.add_patch(
+            FancyBboxPatch(
+                (x, 0.42),
+                width,
+                0.28,
+                boxstyle="round,pad=0.006",
+                facecolor="#E8F1F8",
+                edgecolor="#0072B2",
+                lw=1.0,
+                clip_on=False,
+            )
+        )
+        ax.text(x + width / 2, 0.56, text, ha="center", va="center", fontsize=7.0)
+    for i in range(n - 1):
+        ax.annotate(
+            "",
+            xy=(xs[i + 1] - 0.002, 0.56),
+            xytext=(xs[i] + width + 0.002, 0.56),
+            arrowprops=dict(arrowstyle="->", color="#333333", lw=1.1),
+            clip_on=False,
+        )
     ax.text(
         0.5,
-        0.18,
-        r"Reward: $r_t=-\Delta t/C_{\mathrm{train}}$,  $r_{\mathrm{fail}}=-(H-t)/C_{\mathrm{train}}$  ($C_{\mathrm{train}}=10$)",
+        0.22,
+        r"$r_t=-\Delta t/C_{\mathrm{train}}$,\ \ $r_{\mathrm{fail}}=-(H-t)/C_{\mathrm{train}}$\ \ ($C_{\mathrm{train}}=10$)",
         ha="center",
         fontsize=8,
     )
@@ -579,53 +693,101 @@ def fig02_method() -> None:
 
 def fig03_envelope() -> None:
     _style()
-    fig, ax = plt.subplots(figsize=(6.0, 3.6))
-    x = np.linspace(0, 1, 200)
-    lower = 0.25 + 0.05 * np.sin(2 * np.pi * x)
-    upper = 0.85 - 0.08 * np.cos(2 * np.pi * x)
-    u = 0.55
+    fig, ax = plt.subplots(figsize=(4.8, 4.8))
+    lower, upper, u = 0.35, 0.90, 0.55
     target = lower + u * (upper - lower)
-    arrival = 0.42 + 0.03 * np.sin(4 * np.pi * x)
-    ax.fill_between(x, lower, upper, color="#0072B2", alpha=0.15, label="Feasible envelope")
-    ax.plot(x, lower, color="#009E73", lw=1.8, label=r"$SOC_{\mathrm{lower}}$")
-    ax.plot(x, upper, color="#D55E00", lw=1.8, label=r"$SOC_{\mathrm{upper}}$")
-    ax.plot(x, target, color="#0072B2", lw=2.0, label=r"$SOC_{\mathrm{target}}$")
-    ax.plot(x, arrival, color="#666666", ls="--", lw=1.2, label="Arrival SOC")
-    ax.set_xlabel("Normalized progress along visit")
+    arrival = 0.48
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1.08)
+    ax.axhline(upper, color="#D55E00", lw=2.0)
+    ax.axhline(lower, color="#009E73", lw=2.0)
+    ax.axhline(target, color="#0072B2", lw=2.2)
+    ax.axhline(arrival, color="#666666", ls="--", lw=1.4)
+    ax.fill_between([0.30, 0.70], lower, upper, color="#0072B2", alpha=0.10)
+    ax.annotate("", xy=(0.50, upper - 0.01), xytext=(0.50, lower + 0.01), arrowprops=dict(arrowstyle="<->", color="#333333", lw=1.2))
+    ax.text(0.52, (lower + upper) / 2, "admissible\ninterval", ha="left", va="center", fontsize=8, color="#333333")
+    ax.annotate("", xy=(0.38, target), xytext=(0.38, lower), arrowprops=dict(arrowstyle="<->", color="#0072B2", lw=1.0))
+    ax.text(0.22, (lower + target) / 2, r"$u$ fraction", ha="center", va="center", fontsize=8, color="#0072B2")
+    ax.text(0.74, upper, r"$SOC_{\mathrm{upper}}$", va="center", color="#D55E00", fontsize=9)
+    ax.text(0.74, lower, r"$SOC_{\mathrm{lower}}$", va="center", color="#009E73", fontsize=9)
+    ax.text(0.74, target, r"$SOC_{\mathrm{target}}$", va="center", color="#0072B2", fontsize=9)
+    ax.text(0.74, arrival, "Arrival SOC", va="center", color="#666666", fontsize=9)
+    ax.text(0.05, 1.02, "Optimistic time-feasibility upper bound", fontsize=7.5, color="#D55E00")
+    ax.text(0.05, 0.02, "Energy-continuation lower bound", fontsize=7.5, color="#009E73")
+    ax.text(0.05, target + 0.04, "Selected target SOC", fontsize=7.5, color="#0072B2")
+    ax.set_xticks([])
     ax.set_ylabel("SOC")
-    ax.set_ylim(0, 1)
-    ax.legend(frameon=False, loc="lower right", fontsize=8)
     _save(fig, "fig03_soc_envelope", split="methodology", sources=[])
 
 
 def fig04_soc_traj() -> None:
+    if not TRAJ.is_file():
+        raise SystemExit("missing VAL trajectory; run scripts/paper/record_v4_illustrative_val_trajectory.py")
+    ep = _load_json(TRAJ)
     _style()
-    fig, ax = plt.subplots(figsize=(6.4, 3.4))
-    # Illustrative TRAIN/VAL-style trajectory (not TEST)
-    t = np.array([0, 1, 2, 2.4, 3.2, 4.0, 4.5, 5.2, 6.0, 6.8])
-    soc = np.array([0.90, 0.72, 0.55, 0.82, 0.60, 0.42, 0.78, 0.55, 0.38, 0.50])
-    lower = np.linspace(0.20, 0.25, len(t))
-    upper = np.linspace(0.95, 0.90, len(t))
-    ax.fill_between(t, lower, upper, color="#0072B2", alpha=0.12)
-    ax.plot(t, soc, "-o", color="#0072B2", lw=1.8, ms=5)
-    for ti, label in ((0, "Depot"), (1, "C1"), (2, "C2"), (2.4, "S1"), (4.5, "S2"), (6.8, "Depot")):
-        ax.axvline(ti, color="#DDDDDD", lw=0.8, zorder=0)
-        ax.text(ti, 0.05, label, ha="center", fontsize=7, color="#444444")
+    fig, ax = plt.subplots(figsize=(6.6, 3.5))
+    tl = ep["soc_timeline"]
+    times = [float(p["time"]) for p in tl]
+    socs = [float(p["soc"]) for p in tl]
+    ax.plot(times, socs, "-o", color="#0072B2", lw=1.8, ms=4.5, zorder=3)
+    for p in tl:
+        if p.get("kind") == "station_arrive":
+            ax.axvline(float(p["time"]), color="#D55E00", ls=":", lw=1.0, alpha=0.8)
+            ax.scatter([float(p["time"])], [float(p["soc"])], c="#D55E00", s=36, zorder=4, marker="^")
+            if p.get("soc_lower") is not None and p.get("soc_upper") is not None:
+                ax.vlines(
+                    float(p["time"]),
+                    float(p["soc_lower"]),
+                    float(p["soc_upper"]),
+                    colors="#999999",
+                    lw=3,
+                    alpha=0.35,
+                    zorder=2,
+                )
+            ax.text(float(p["time"]), min(0.97, float(p["soc"]) + 0.08), p.get("node", "S"), color="#D55E00", fontsize=7, ha="center")
+        elif p.get("kind") == "arrive" and str(p.get("node", "")).startswith("C"):
+            ax.text(float(p["time"]), float(p["soc"]) - 0.08, p["node"], fontsize=6.5, ha="center", color="#444444")
     ax.set_xlabel("Time")
     ax.set_ylabel("SOC")
-    ax.set_ylim(0, 1)
-    ax.set_title("Illustrative TRAIN/VAL SOC trajectory (not TEST)", loc="left", fontsize=9)
-    _save(fig, "fig04_illustrative_soc", split="TRAIN/VAL", sources=[])
+    ax.set_ylim(0, 1.05)
+    ax.set_title(f"VALIDATION route {ep['route_id']} (seed {ep['seed']}; not TEST)", loc="left", fontsize=8)
+    _save(
+        fig,
+        "fig04_illustrative_soc",
+        split="VAL",
+        sources=["results_v4_paper/data/illustrative_val_trajectory.json"],
+    )
 
 
-def _bar_methods(ax, values: dict[str, float], yerr: dict[str, float] | None, ylabel: str, ylim=None) -> None:
+def _bar_methods(
+    ax,
+    values: dict[str, float],
+    yerr: dict[str, float] | None,
+    ylabel: str,
+    ylim=None,
+    *,
+    fmt: str = "{:.1f}%",
+) -> None:
     xs = np.arange(len(METHODS))
     means = [values[m] for m in METHODS]
     colors = [COLOR[m] for m in METHODS]
     ax.bar(xs, means, color=colors, width=0.72, edgecolor="white", linewidth=0.4)
-    if yerr:
-        errs = [yerr.get(m) or 0.0 for m in METHODS]
-        ax.errorbar(xs, means, yerr=errs, fmt="none", ecolor="#333333", capsize=3, elinewidth=1.0)
+    # Only FA-HPPO receives error-bar artists
+    if yerr and yerr.get(METHOD_CODE):
+        ax.errorbar(
+            [xs[0]],
+            [means[0]],
+            yerr=[yerr[METHOD_CODE]],
+            fmt="none",
+            ecolor="#333333",
+            capsize=3,
+            elinewidth=1.0,
+        )
+    y_top = ylim[1] if ylim and ylim[1] is not None else max(means) * 1.15
+    y_bot = ylim[0] if ylim else 0.0
+    pad = 0.015 * (y_top - y_bot + 1e-9)
+    for i, m in enumerate(METHODS):
+        ax.text(xs[i], means[i] + pad, fmt.format(means[i]), ha="center", va="bottom", fontsize=8)
     ax.set_xticks(xs, [SHORT[m] for m in METHODS], rotation=15, ha="right")
     ax.set_ylabel(ylabel)
     if ylim is not None:
@@ -634,39 +796,31 @@ def _bar_methods(ax, values: dict[str, float], yerr: dict[str, float] | None, yl
 
 def fig05_feas(rows: list[dict], stats: dict) -> None:
     _style()
-    fig, ax = plt.subplots(figsize=(6.2, 3.6))
+    fig, ax = plt.subplots(figsize=(6.2, 3.8))
     values = {m: 100 * stats["methods"][LABEL[m]]["feasibility_mean"] for m in METHODS}
     yerr = {}
-    for m in METHODS:
-        info = stats["methods"][LABEL[m]]
-        if info.get("feasibility_t95"):
-            lo, hi = info["feasibility_t95"][0], info["feasibility_t95"][1]
-            yerr[m] = 100 * max(info["feasibility_mean"] - lo, hi - info["feasibility_mean"])
-        else:
-            yerr[m] = 0.0
-    _bar_methods(ax, values, yerr, "TEST feasibility (%)", ylim=(0, 105))
+    info = stats["methods"][LABEL[METHOD_CODE]]
+    lo, hi = info["feasibility_t95"]
+    yerr[METHOD_CODE] = 100 * max(info["feasibility_mean"] - lo, hi - info["feasibility_mean"])
+    _bar_methods(ax, values, yerr, "TEST feasibility (%)", ylim=(0, 110), fmt="{:.1f}%")
     _save(fig, "fig05_main_feasibility", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
 
 
 def fig06_comp(stats: dict) -> None:
     _style()
-    fig, ax = plt.subplots(figsize=(6.2, 3.6))
+    fig, ax = plt.subplots(figsize=(6.2, 3.8))
     values = {m: stats["methods"][LABEL[m]]["completion_mean"] for m in METHODS}
     yerr = {}
-    for m in METHODS:
-        info = stats["methods"][LABEL[m]]
-        if info.get("completion_t95"):
-            lo, hi = info["completion_t95"][0], info["completion_t95"][1]
-            yerr[m] = max(info["completion_mean"] - lo, hi - info["completion_mean"])
-        else:
-            yerr[m] = 0.0
-    _bar_methods(ax, values, yerr, "Failure-retaining completion", ylim=(0, None))
+    info = stats["methods"][LABEL[METHOD_CODE]]
+    lo, hi = info["completion_t95"]
+    yerr[METHOD_CODE] = max(info["completion_mean"] - lo, hi - info["completion_mean"])
+    _bar_methods(ax, values, yerr, "Failure-retaining completion", ylim=(0, max(values.values()) * 1.25), fmt="{:.3f}")
     _save(fig, "fig06_main_completion", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
 
 
 def fig07_charging(rows: list[dict], stats: dict) -> None:
     _style()
-    fig, ax = plt.subplots(figsize=(6.2, 3.6))
+    fig, ax = plt.subplots(figsize=(6.2, 3.8))
     values = {}
     yerr = {}
     for m in METHODS:
@@ -674,22 +828,26 @@ def fig07_charging(rows: list[dict], stats: dict) -> None:
             info = stats["by_charge_class"]["charging_required"]
             values[m] = 100 * info["mean"]
             lo, hi = info["t95"]
-            yerr[m] = 100 * max(info["mean"] - lo, hi - info["mean"])
+            yerr[METHOD_CODE] = 100 * max(info["mean"] - lo, hi - info["mean"])
         else:
             sub = [r for r in rows if r["method"] == m and r.get("charge_class") == "charging_required"]
             values[m] = 100 * feas_rate(sub)
-            yerr[m] = 0.0
-    _bar_methods(ax, values, yerr, "Charging-required feasibility (%)", ylim=(0, 105))
+    _bar_methods(ax, values, yerr, "Charging-required feasibility (%)", ylim=(0, 110), fmt="{:.1f}%")
     _save(fig, "fig07_charging_required", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
 
 
 def fig08_ecdf(rows: list[dict]) -> None:
     _style()
     fig, ax = plt.subplots(figsize=(6.2, 3.6))
+    # One value per route for every method (FA-HPPO seed-averaged)
+    route_ids = sorted({r["route_id"] for r in rows if r["method"] != METHOD_CODE})
     for m in METHODS:
         if m == METHOD_CODE:
-            # pool seed means? Use all route×seed failure-retaining completions
-            vals = np.sort([float(r["completion_time_all_routes"]) for r in rows if r["method"] == m])
+            by_route = defaultdict(list)
+            for r in rows:
+                if r["method"] == METHOD_CODE:
+                    by_route[r["route_id"]].append(float(r["completion_time_all_routes"]))
+            vals = np.sort([float(np.mean(by_route[rid])) for rid in route_ids])
         else:
             vals = np.sort([float(r["completion_time_all_routes"]) for r in rows if r["method"] == m])
         y = np.arange(1, len(vals) + 1) / len(vals)
@@ -709,19 +867,21 @@ def fig09_layout(rows: list[dict], stats: dict) -> None:
     width = 0.18
     for i, m in enumerate(METHODS):
         means = []
-        errs = []
         for layout in layouts:
             if m == METHOD_CODE:
-                info = stats["by_layout"][layout]
-                means.append(100 * info["mean"])
-                lo, hi = info["t95"]
-                errs.append(100 * max(info["mean"] - lo, hi - info["mean"]))
+                means.append(100 * stats["by_layout"][layout]["mean"])
             else:
                 sub = [r for r in rows if r["method"] == m and r.get("layout") == layout]
                 means.append(100 * feas_rate(sub))
-                errs.append(0.0)
-        ax.bar(x + (i - 1.5) * width, means, width=width, color=COLOR[m], label=SHORT[m],
-               yerr=errs if m == METHOD_CODE else None, capsize=2, error_kw={"elinewidth": 0.8})
+        xpos = x + (i - 1.5) * width
+        ax.bar(xpos, means, width=width, color=COLOR[m], label=SHORT[m])
+        if m == METHOD_CODE:
+            errs = []
+            for layout in layouts:
+                info = stats["by_layout"][layout]
+                lo, hi = info["t95"]
+                errs.append(100 * max(info["mean"] - lo, hi - info["mean"]))
+            ax.errorbar(xpos, means, yerr=errs, fmt="none", ecolor="#333333", capsize=2, elinewidth=0.8)
     ax.set_xticks(x, layouts)
     ax.set_ylabel("TEST feasibility (%)")
     ax.set_ylim(0, 105)
@@ -758,9 +918,11 @@ def fig11_heatmap(stats: dict) -> None:
     ax.set_yticks(range(3), layouts)
     for i in range(3):
         for j in range(3):
-            ax.text(j, i, f"{mat[i, j]:.1f}%", ha="center", va="center", color="black", fontsize=9)
+            val = mat[i, j]
+            color = "white" if val >= 55 else "black"
+            ax.text(j, i, f"{val:.1f}%", ha="center", va="center", color=color, fontsize=9)
     fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="Feasibility (%)")
-    ax.set_xlabel("Route-length bin")
+    ax.set_xlabel("Frozen-route-length bin")
     ax.set_ylabel("Layout")
     _save(fig, "fig11_difficulty_heatmap", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
 
@@ -768,7 +930,7 @@ def fig11_heatmap(stats: dict) -> None:
 def fig12_ablation() -> None:
     _style()
     abl = _load_json(ABLATION)["variants"]
-    fig, axes = plt.subplots(1, 2, figsize=(8.4, 3.5))
+    fig, axes = plt.subplots(1, 2, figsize=(7.8, 3.4))
     xs = np.arange(len(REWARD_ORDER))
     feas = [100 * abl[c]["feas_mean"] for c, _ in REWARD_ORDER]
     fsd = [100 * abl[c]["feas_sd"] for c, _ in REWARD_ORDER]
@@ -780,12 +942,15 @@ def fig12_ablation() -> None:
         (axes[0], feas, fsd, "VALIDATION feasibility (%)", "(a) Feasibility"),
         (axes[1], comp, csd, "VALIDATION completion", "(b) Failure-retaining completion"),
     ):
-        ax.scatter(xs, vals, c=colors, s=40, zorder=3, edgecolors="white", linewidths=0.4)
         ax.errorbar(xs, vals, yerr=err, fmt="none", ecolor="#333333", capsize=3, zorder=2)
         for i, (c, _) in enumerate(REWARD_ORDER):
             marker = "D" if c == "V4_BASE_NO_L_FAIL" else "o"
-            ax.plot(i, vals[i], marker, color=colors[i], markersize=7, markeredgecolor="black", markeredgewidth=0.4, zorder=4)
-        ax.set_xticks(xs, labels, rotation=20, ha="right")
+            ax.plot(i, vals[i], marker, color=colors[i], markersize=7.5, markeredgecolor="black", markeredgewidth=0.45, zorder=4)
+        ax.set_xticks(xs)
+        tick_labels = ax.set_xticklabels(labels, rotation=0, ha="center")
+        for tick, (_, lab) in zip(tick_labels, REWARD_ORDER):
+            if lab == "Time-horizon":
+                tick.set_fontweight("bold")
         ax.set_ylabel(ylabel)
         ax.set_title(title, loc="left")
         if ax is axes[0]:
@@ -931,18 +1096,18 @@ def figA4_failures(rows: list[dict]) -> None:
     for r in rows:
         if r["method"] == METHOD_CODE and not r.get("feasible"):
             reasons[str(r.get("reason") or "unknown")] += 1
-    # average counts over seeds roughly by dividing? show total over 5×180
     items = sorted(reasons.items(), key=lambda kv: -kv[1])[:8]
     fig, ax = plt.subplots(figsize=(6.4, 3.4))
     if not items:
         ax.text(0.5, 0.5, "No failures", ha="center")
     else:
-        labels = [k for k, _ in items]
+        codes = [k for k, _ in items]
+        labels = [FAILURE_LABEL.get(k, k.replace("_", " ").title()) for k in codes]
         vals = [v for _, v in items]
         ax.barh(range(len(labels)), vals, color="#D55E00")
         ax.set_yticks(range(len(labels)), labels, fontsize=8)
         ax.invert_yaxis()
-        ax.set_xlabel("Failure count (all seeds pooled)")
+        ax.set_xlabel("Failure count (route×seed, pooled)")
     fig.tight_layout()
     _save(fig, "figA04_failure_reasons", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
 
@@ -954,69 +1119,107 @@ def figA4_failures(rows: list[dict]) -> None:
 
 def write_captions() -> None:
     CAP.mkdir(parents=True, exist_ok=True)
-    text = r"""# V4 figure captions (standalone)
+    traj = _load_json(TRAJ) if TRAJ.is_file() else {}
+    rule = traj.get("selection", {}).get(
+        "rule",
+        "First charging-required VALIDATION route in stable route_id order that is feasible under the frozen V4 seed-42 checkpoint and contains at least one charging action.",
+    )
+    route_id = traj.get("route_id", "N/A")
+    seed = traj.get("seed", 42)
+    text = """# V4 figure captions (standalone)
 
 All TEST figures use the fresh independently generated held-out SynthCharge TEST.
 TRAIN/VAL figures are development evidence; TEST was not used for training or checkpoint selection.
+Uncertainty conventions are stated explicitly per figure (never as generic "error bars").
 
-**Fig. 1.** Fixed-route EV charging use case: the customer sequence is fixed while charging-station insertion and charge amount are learned.
+**Fig. 1 (methodology).** Fixed-route EV charging use case. The solid path is the frozen customer sequence (depot → customers → depot). Candidate charging stations are shown separately; the dashed orange path illustrates one charging insertion (customer → station → next frozen customer). The customer order itself is unchanged. Charge insertion is a learned decision; the figure only depicts the geometric idea.
 
-**Fig. 2.** FA-HPPO control loop with feasibility-aware shielding, hybrid discrete/continuous decisions, SOC envelope mapping, and the normalized time-horizon reward.
+**Fig. 2 (methodology).** FA-HPPO control loop: fixed-route state → feasibility shield → features → hybrid PPO → CONTINUE/station → continuous amount $u$ with SOC mapping → simulator transition. Equations below the workflow state the normalized time-horizon reward and the SOC-target map $SOC_{\\mathrm{target}}=SOC_{\\mathrm{lower}}+u(SOC_{\\mathrm{upper}}-SOC_{\\mathrm{lower}})$.
 
-**Fig. 3.** Feasibility-aware SOC envelope: continuation lower bound, optimistic time-aware upper bound, and target SOC parameterized by continuous amount \(u\).
+**Fig. 3 (methodology).** Single-decision SOC envelope (not a simulated trajectory). Vertical scale shows arrival SOC, energy-continuation lower bound $SOC_{\\mathrm{lower}}$, optimistic time-feasibility upper bound $SOC_{\\mathrm{upper}}$, and selected target SOC with $SOC_{\\mathrm{lower}}\\le SOC_{\\mathrm{target}}\\le SOC_{\\mathrm{upper}}$ and $SOC_{\\mathrm{target}}=SOC_{\\mathrm{lower}}+u(SOC_{\\mathrm{upper}}-SOC_{\\mathrm{lower}})$.
 
-**Fig. 4.** Illustrative TRAIN/VAL SOC trajectory with charging stops on a fixed customer route (methodology illustration; not TEST).
+**Fig. 4 (VALIDATION).** Real SOC trajectory from frozen V4 evidence (not TEST). Selection rule: __RULE__ Selected route `__ROUTE_ID__`, seed __SEED__. Markers show station arrivals and SOC envelopes at charge decisions.
 
-**Fig. 5.** Main TEST feasibility for FA-HPPO and three heuristic/planning baselines under the same feasibility-aware environment. FA-HPPO shows five-seed Student-t uncertainty; baselines are deterministic.
+**Fig. 5 (TEST).** Main TEST feasibility for FA-HPPO and three deterministic baselines under the same feasibility-aware environment. FA-HPPO whiskers are the half-width of the 95% Student-t interval across five seeds; baselines have no uncertainty artists.
 
-**Fig. 6.** Failure-retaining completion on all TEST routes (infeasible episodes retain the route horizon \(H\)). Lower is better.
+**Fig. 6 (TEST).** Failure-retaining completion on all TEST routes (infeasible episodes retain the route horizon $H$). Lower is better. FA-HPPO whiskers are the 95% Student-t half-width across five seeds; baselines are deterministic point values.
 
-**Fig. 7.** Feasibility on the charging-required TEST subset (144 routes). FA-HPPO reaches 100% on the complementary 36 no-charge-required routes.
+**Fig. 7 (TEST).** Feasibility on the charging-required TEST subset (144 routes). FA-HPPO whiskers are the 95% Student-t half-width across five seeds; baselines are deterministic. FA-HPPO reaches 100% on the complementary 36 no-charge-required routes.
 
-**Fig. 8.** Empirical CDF of failure-retaining completion for FA-HPPO and baselines on all TEST routes.
+**Fig. 8 (TEST).** Empirical CDF of failure-retaining completion. Every method contributes exactly 180 route-level values: FA-HPPO values are seed-averaged per route before constructing the ECDF; deterministic baselines contribute their single value per route.
 
-**Fig. 9.** TEST feasibility by layout (`C`, `R`, `RC`), exposing regime dependence.
+**Fig. 9 (TEST).** TEST feasibility by layout (`C`, `R`, `RC`). FA-HPPO whiskers are 95% Student-t half-widths across five seeds within each layout; baselines have no uncertainty artists.
 
-**Fig. 10.** FA-HPPO TEST feasibility by balanced frozen-route-length bin (`short`, `medium`, `long`).
+**Fig. 10 (TEST; supplemental candidate).** FA-HPPO TEST feasibility by balanced frozen-route-length bin (`short`, `medium`, `long`). Whiskers are 95% Student-t half-widths across five seeds. Bins are frozen-route-length strata, not customer-scale cells.
 
-**Fig. 11.** Layout × route-length feasibility heatmap for FA-HPPO on the locked TEST (balanced 3×3 strata).
+**Fig. 11 (TEST).** Layout × frozen-route-length feasibility heatmap for FA-HPPO on the locked TEST (balanced 3×3 strata). Color scale is fixed to 0%–100%.
 
-**Fig. 12.** VALIDATION reward-development ablation. Potential-based shaping did not improve validation feasibility; the simpler time-horizon reward was selected.
+**Fig. 12 (VALIDATION).** Reward-development ablation on VALIDATION. Display labels: Progress, Normalized, PBRS, Time-horizon (selected, diamond marker). Uncertainty is mean ± SD across five training seeds (not a 95% Student-t CI). Potential-based shaping did not improve validation feasibility; the simpler time-horizon reward was selected.
 
-**Fig. 13.** TRAIN objective episode return (\(G=-T\) on success, \(G=-H\) on failure), mean across seeds with Student-t 95% interval on the common update support.
+**Fig. 13 (TRAIN; supplemental).** TRAIN objective episode return ($G=-T$ on success, $G=-H$ on failure), mean across seeds with Student-t 95% interval on the common update support (no extrapolation after early stopping).
 
-**Fig. 14.** TRAIN PPO policy and value losses (diagnostics; decreasing loss is not claimed as convergence).
+**Fig. 14 (TRAIN; supplemental).** TRAIN PPO policy and value losses with Student-t 95% intervals on the common update support. Diagnostics only; decreasing loss is not claimed as convergence. Policy loss may be negative.
 
-**Fig. 15.** VALIDATION parent-balanced feasibility versus PPO update.
+**Fig. 15 (VALIDATION; supplemental).** VALIDATION parent-balanced feasibility versus PPO update, mean with Student-t 95% interval across five seeds on the common update support.
 
-**Fig. A1.** Pre-clip gradient norm during authoritative training.
+**Fig. A1 (TRAIN; supplemental).** Pre-clip gradient norm during authoritative training (Student-t 95% interval; log axis only where valid).
 
-**Fig. A3.** Per-seed FA-HPPO feasibility on the locked TEST.
+**Fig. A3 (TEST; supplemental).** Per-seed FA-HPPO feasibility on the locked TEST.
 
-**Fig. A4.** Pooled FA-HPPO failure-reason counts on the locked TEST.
+**Fig. A4 (TEST; supplemental).** Pooled FA-HPPO failure-reason counts on the locked TEST (route×seed). Display labels are human-readable; underlying reason codes are preserved in the raw evidence.
 """
+    text = (
+        text.replace("__RULE__", str(rule))
+        .replace("__ROUTE_ID__", str(route_id))
+        .replace("__SEED__", str(seed))
+    )
     (CAP / "CAPTIONS.md").write_text(text, encoding="utf-8")
 
 
 def write_readme(stats: dict) -> None:
     mu = stats["methods"]["FA-HPPO"]["feasibility_mean"]
+    lo, hi = stats["methods"]["FA-HPPO"]["feasibility_t95"]
     text = f"""# V4 paper-facing package (standalone)
 
 This directory contains **only** V4 manuscript-facing evidence.
+It does not compare to prior experimental versions.
 
 ## Primary TEST result
 
-FA-HPPO achieves **{100*mu:.2f}%** mean feasibility (5 seeds) on the fresh
-independently generated held-out SynthCharge TEST and substantially outperforms
-One-step lookahead, Greedy full charge, and Greedy minimum charge under the same
-feasibility-aware environment.
+FA-HPPO achieves **{100*mu:.2f}%** [{100*lo:.2f}, {100*hi:.2f}] feasibility
+(95% Student-t CI across five seeds) on the fresh independently generated
+held-out SynthCharge TEST and substantially outperforms One-step lookahead,
+Greedy full charge, and Greedy minimum charge under the same feasibility-aware
+environment.
 
-## Reproduce displays (no TEST rerun)
+## Recommended main-paper figures
+
+Use a compact subset in the manuscript; keep the rest as a figure library / supplement.
+
+| Priority | Figure | Role |
+|---|---|---|
+| Main | Fig. 1 `fig01_usecase_route.png` | Fixed-route charging problem |
+| Main | Fig. 2 `fig02_method_schematic.png` | FA-HPPO method schematic |
+| Main | Fig. 3 `fig03_soc_envelope.png` | SOC envelope |
+| Main | Fig. 5 `fig05_main_feasibility.png` | Main TEST feasibility |
+| Main | Fig. 6 or Fig. 8 | Completion / distribution |
+| Main | Fig. 11 `fig11_difficulty_heatmap.png` | Difficulty heatmap |
+| Main | Fig. 12 `fig12_reward_ablation_val.png` | Reward ablation |
+| Optional main | Fig. 4 `fig04_illustrative_soc.png` | Real VAL SOC trajectory (if space) |
+| Supplement | Figs. 7, 9, 10, 13–15, A1, A3, A4 | Charging subset, strata, training, diagnostics |
+
+Do not force all 18 figures into the main manuscript.
+
+## Reproduce displays (no TEST rerun / no retraining)
 
 ```bash
 python scripts/paper/build_v4_results_paper.py
 python scripts/paper/build_v4_results_paper.py --verify
 ```
+
+Illustrative VAL trajectory source (Fig. 4):
+`results_v4_paper/data/illustrative_val_trajectory.json`
+(regenerate with `python scripts/paper/record_v4_illustrative_val_trajectory.py` only if needed; do not retrain).
 
 ## Benchmark strata
 
@@ -1086,7 +1289,17 @@ def write_manifest(stats: dict) -> dict:
 
 
 def verify(manifest: dict) -> None:
-    # frozen hashes unchanged
+    # Pinned frozen evidence must be unchanged (no TEST rerun / reward change)
+    pinned = {
+        "raw": (_lf_sha(RAW), PINNED_RAW_SHA256_LF),
+        "test_lock": (_lf_sha(LOCK), PINNED_TEST_LOCK_SHA256_LF),
+        "evaluation_consumed": (_sha(CONSUMED), PINNED_EVALUATION_CONSUMED_SHA256),
+        "reward_freeze": (_sha(REWARD_FREEZE), PINNED_REWARD_FREEZE_SHA256),
+    }
+    for name, (got, exp) in pinned.items():
+        if got != exp:
+            raise SystemExit(f"--verify failed: pinned {name} hash changed ({got} != {exp})")
+    # Manifest must also mirror current frozen files
     checks = {
         "raw": (_lf_sha(RAW), manifest["frozen_source_hashes"]["raw"]),
         "test_lock": (_lf_sha(LOCK), manifest["frozen_source_hashes"]["test_lock"]),
@@ -1095,25 +1308,93 @@ def verify(manifest: dict) -> None:
     }
     for name, (got, exp) in checks.items():
         if got != exp:
-            raise SystemExit(f"--verify failed: {name} hash changed")
-    if abs(manifest["main_test_feasibility_mean"] - 0.9455555555555556) > 1e-9:
+            raise SystemExit(f"--verify failed: manifest {name} hash mismatch")
+    if abs(manifest["main_test_feasibility_mean"] - PINNED_MAIN_FEAS) > 1e-9:
         raise SystemExit("--verify failed: main feasibility mismatch")
     if manifest["test"]["n_routes"] != 180:
         raise SystemExit("--verify failed: n_routes")
-    # no prior-version method labels in paper outputs
-    forbidden = ("V3_FA_HPPO", "V3-HPPO", "prior-version", "external-domain")
-    for path in list(FIG.glob("*.png")) + list(TAB.glob("*.md")) + [CAP / "CAPTIONS.md", OUT / "README.md"]:
-        if not path.is_file() or path.suffix == ".png":
+    if not manifest.get("standalone", False) or manifest.get("prior_version_comparisons", True):
+        raise SystemExit("--verify failed: package must remain standalone")
+    if not all(
+        (
+            manifest.get("no_test_rerun"),
+            manifest.get("no_checkpoint_reselection"),
+            manifest.get("no_reward_redesign"),
+            manifest.get("no_post_test_training"),
+        )
+    ):
+        raise SystemExit("--verify failed: accidental retraining/TEST-rerun flags")
+
+    # All expected figures exist and hashes match
+    present = {p.name for p in FIG.glob("*.png")}
+    missing = [name for name in EXPECTED_FIGS if name not in present]
+    if missing:
+        raise SystemExit(f"--verify failed: missing figures {missing}")
+    by_name = {e["filename"]: e for e in manifest["figures"]}
+    for name in EXPECTED_FIGS:
+        if name not in by_name:
+            raise SystemExit(f"--verify failed: figure not in manifest {name}")
+        entry = by_name[name]
+        path = ROOT / entry["path"]
+        if not path.is_file():
+            raise SystemExit(f"--verify failed: missing figure file {name}")
+        if _sha(path) != entry["figure_sha256"]:
+            raise SystemExit(f"--verify failed: figure hash drift {name}")
+        if "evidence_split" not in entry or "builder_script" not in entry:
+            raise SystemExit(f"--verify failed: incomplete figure metadata {name}")
+        if "source_files" not in entry or "source_hashes" not in entry:
+            raise SystemExit(f"--verify failed: incomplete source metadata {name}")
+
+    # Fig. 4 must reference real VAL trajectory source
+    fig4 = by_name["fig04_illustrative_soc.png"]
+    if "results_v4_paper/data/illustrative_val_trajectory.json" not in fig4.get("source_files", []):
+        raise SystemExit("--verify failed: Fig. 4 missing real VAL trajectory source")
+    if not TRAJ.is_file():
+        raise SystemExit("--verify failed: illustrative VAL trajectory file missing")
+    traj = _load_json(TRAJ)
+    if traj.get("selection", {}).get("split") != "validation":
+        raise SystemExit("--verify failed: Fig. 4 trajectory is not VALIDATION")
+    if traj.get("selection", {}).get("not_test_evidence") is not True:
+        raise SystemExit("--verify failed: Fig. 4 must not be TEST evidence")
+    if int(traj.get("seed", -1)) != 42:
+        raise SystemExit("--verify failed: Fig. 4 must use seed 42")
+    if not traj.get("feasible") or int(traj.get("n_charge_actions", 0)) < 1:
+        raise SystemExit("--verify failed: Fig. 4 trajectory must be feasible with ≥1 charge")
+    traj_hash = fig4["source_hashes"].get("results_v4_paper/data/illustrative_val_trajectory.json")
+    if traj_hash != _sha(TRAJ):
+        raise SystemExit("--verify failed: Fig. 4 trajectory source hash mismatch")
+
+    # No prior-version labels in paper-facing text outputs
+    forbidden = (
+        "V3_FA_HPPO",
+        "V3-HPPO",
+        "prior-version",
+        "external-domain",
+        "results_v3",
+        "results_v2",
+        "results_v1",
+    )
+    text_paths = list(TAB.glob("*.md")) + [CAP / "CAPTIONS.md", OUT / "README.md", OUT / "MANIFEST.json"]
+    for path in text_paths:
+        if not path.is_file():
             continue
         text = path.read_text(encoding="utf-8")
         for token in forbidden:
             if token in text:
                 raise SystemExit(f"--verify failed: forbidden token {token!r} in {path}")
-    for entry in manifest["figures"]:
-        path = ROOT / entry["path"]
-        if _sha(path) != entry["figure_sha256"]:
-            raise SystemExit(f"--verify failed: figure hash drift {entry['filename']}")
-    print("VERIFY OK", json.dumps({"n_figures": len(manifest["figures"]), "feas": manifest["main_test_feasibility_mean"]}, indent=2))
+
+    print(
+        "VERIFY OK",
+        json.dumps(
+            {
+                "n_figures": len(manifest["figures"]),
+                "feas": manifest["main_test_feasibility_mean"],
+                "fig04_route": traj.get("route_id"),
+                "fig04_seed": traj.get("seed"),
+            },
+            indent=2,
+        ),
+    )
 
 
 def main() -> None:

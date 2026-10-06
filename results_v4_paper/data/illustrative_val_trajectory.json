@@ -1,0 +1,302 @@
+{
+  "selection": {
+    "split": "validation",
+    "charge_class": "charging_required",
+    "min_charge_actions": 1,
+    "checkpoint_seed": 42,
+    "rule": "First charging-required VALIDATION route in stable route_id order that is feasible under the frozen V4 seed-42 checkpoint and contains at least one charging action.",
+    "not_test_evidence": true
+  },
+  "route_id": "v2sc_sc_C_n15_s200037_01",
+  "raw_instance_id": "sc_C_n15_s200037",
+  "seed": 42,
+  "checkpoint": "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_42/best.pt",
+  "checkpoint_sha256": "759f8d093719b73e2910c6cebe7fec001b6c1cca638f75a50ce5478eae15c434",
+  "physics_profile": "synthcharge_linear",
+  "customer_ids": [
+    "C8",
+    "C6",
+    "C5",
+    "C7",
+    "C3",
+    "C4",
+    "C1",
+    "C2"
+  ],
+  "station_ids": [
+    "S0",
+    "S1",
+    "S2"
+  ],
+  "depot_id": "D0",
+  "n_charge_actions": 2,
+  "completed": true,
+  "feasible": true,
+  "terminal_time": 3.8765740127310804,
+  "terminal_soc": 0.382946435804602,
+  "steps": [
+    {
+      "step": 0,
+      "time_before": 0.0,
+      "soc_before": 1.0,
+      "location_before": "D0",
+      "discrete": 2,
+      "u": 0.9332045912742615,
+      "action": "CHARGE",
+      "station_id": "S1",
+      "soc_lower": 0.8545629850525647,
+      "soc_upper": 1.0,
+      "soc_target": 0.9902854751427347,
+      "soc_arrival": 0.8545629850525647,
+      "soc_after_charge": 0.9902854751427348,
+      "charge_arrival_time": 0.2326992239158964,
+      "charge_departure_time": 0.28698821995196444,
+      "time_after": 0.28698821995196444,
+      "soc_after": 0.9902854751427348,
+      "location_after": "S1",
+      "feasible": true
+    },
+    {
+      "step": 1,
+      "time_before": 0.28698821995196444,
+      "soc_before": 0.9902854751427348,
+      "location_before": "S1",
+      "discrete": 0,
+      "u": 0.0,
+      "action": "CONTINUE",
+      "time_after": 1.42923575,
+      "soc_after": 0.8033422248996582,
+      "location_after": "C8",
+      "feasible": true
+    },
+    {
+      "step": 2,
+      "time_before": 1.42923575,
+      "soc_before": 0.8033422248996582,
+      "location_before": "C8",
+      "discrete": 0,
+      "u": 0.0,
+      "action": "CONTINUE",
+      "time_after": 1.4921500554629041,
+      "soc_after": 0.7713917839853431,
+      "location_after": "C6",
+      "feasible": true
+    },
+    {
+      "step": 3,
+      "time_before": 1.4921500554629041,
+      "soc_before": 0.7713917839853431,
+      "location_before": "C6",
+      "discrete": 0,
+      "u": 0.0,
+      "action": "CONTINUE",
+      "time_after": 1.5436343563755872,
+      "soc_after": 0.7457551459149162,
+      "location_after": "C5",
+      "feasible": true
+    },
+    {
+      "step": 4,
+      "time_before": 1.5436343563755872,
+      "soc_before": 0.7457551459149162,
+      "location_before": "C5",
+      "discrete": 0,
+      "u": 0.0,
+      "action": "CONTINUE",
+      "time_after": 1.5903873738305372,
+      "soc_after": 0.7251242162555724,
+      "location_after": "C7",
+      "feasible": true
+    },
+    {
+      "step": 5,
+      "time_before": 1.5903873738305372,
+      "soc_before": 0.7251242162555724,
+      "location_before": "C7",
+      "discrete": 3,
+      "u": 0.9312021732330322,
+      "action": "CHARGE",
+      "station_id": "S2",
+      "soc_lower": 0.10033505701468784,
+      "soc_upper": 1.0,
+      "soc_target": 0.9381050071041825,
+      "soc_arrival": 0.10033505701468784,
+      "soc_after_charge": 0.9381050071041825,
+      "charge_arrival_time": 2.590050028615953,
+      "charge_departure_time": 2.925158008651751,
+      "time_after": 2.925158008651751,
+      "soc_after": 0.9381050071041825,
+      "location_after": "S2",
+      "feasible": true
+    },
+    {
+      "step": 6,
+      "time_before": 2.925158008651751,
+      "soc_before": 0.9381050071041825,
+      "location_before": "S2",
+      "discrete": 0,
+      "u": 0.0,
+      "action": "CONTINUE",
+      "time_after": 3.0114680806933483,
+      "soc_after": 0.8915970558281844,
+      "location_after": "C3",
+      "feasible": true
+    },
+    {
+      "step": 7,
+      "time_before": 3.0114680806933483,
+      "soc_before": 0.8915970558281844,
+      "location_before": "C3",
+      "discrete": 0,
+      "u": 0.0,
+      "action": "CONTINUE",
+      "time_after": 3.180845182868041,
+      "soc_after": 0.7924574607190016,
+      "location_after": "C4",
+      "feasible": true
+    },
+    {
+      "step": 8,
+      "time_before": 3.180845182868041,
+      "soc_before": 0.7924574607190016,
+      "location_before": "C4",
+      "discrete": 0,
+      "u": 0.0,
+      "action": "CONTINUE",
+      "time_after": 3.2737283028680406,
+      "soc_after": 0.7462454107190015,
+      "location_after": "C1",
+      "feasible": true
+    },
+    {
+      "step": 9,
+      "time_before": 3.2737283028680406,
+      "soc_before": 0.7462454107190015,
+      "location_before": "C1",
+      "discrete": 0,
+      "u": 0.0,
+      "action": "CONTINUE",
+      "time_after": 3.311530252868041,
+      "soc_after": 0.7360987857190016,
+      "location_after": "C2",
+      "feasible": true
+    },
+    {
+      "step": 10,
+      "time_before": 3.311530252868041,
+      "soc_before": 0.7360987857190016,
+      "location_before": "C2",
+      "discrete": 0,
+      "u": 0.0,
+      "action": "CONTINUE",
+      "time_after": 3.8765740127310804,
+      "soc_after": 0.382946435804602,
+      "location_after": "D0",
+      "feasible": true
+    }
+  ],
+  "soc_timeline": [
+    {
+      "time": 0.0,
+      "soc": 1.0,
+      "kind": "start",
+      "node": "D0"
+    },
+    {
+      "time": 0.2326992239158964,
+      "soc": 0.8545629850525647,
+      "kind": "station_arrive",
+      "node": "S1",
+      "soc_lower": 0.8545629850525647,
+      "soc_upper": 1.0,
+      "soc_target": 0.9902854751427347
+    },
+    {
+      "time": 0.28698821995196444,
+      "soc": 0.9902854751427348,
+      "kind": "charge_depart",
+      "node": "S1",
+      "soc_lower": 0.8545629850525647,
+      "soc_upper": 1.0,
+      "soc_target": 0.9902854751427347,
+      "u": 0.9332045912742615
+    },
+    {
+      "time": 1.42923575,
+      "soc": 0.8033422248996582,
+      "kind": "arrive",
+      "node": "C8"
+    },
+    {
+      "time": 1.4921500554629041,
+      "soc": 0.7713917839853431,
+      "kind": "arrive",
+      "node": "C6"
+    },
+    {
+      "time": 1.5436343563755872,
+      "soc": 0.7457551459149162,
+      "kind": "arrive",
+      "node": "C5"
+    },
+    {
+      "time": 1.5903873738305372,
+      "soc": 0.7251242162555724,
+      "kind": "arrive",
+      "node": "C7"
+    },
+    {
+      "time": 2.590050028615953,
+      "soc": 0.10033505701468784,
+      "kind": "station_arrive",
+      "node": "S2",
+      "soc_lower": 0.10033505701468784,
+      "soc_upper": 1.0,
+      "soc_target": 0.9381050071041825
+    },
+    {
+      "time": 2.925158008651751,
+      "soc": 0.9381050071041825,
+      "kind": "charge_depart",
+      "node": "S2",
+      "soc_lower": 0.10033505701468784,
+      "soc_upper": 1.0,
+      "soc_target": 0.9381050071041825,
+      "u": 0.9312021732330322
+    },
+    {
+      "time": 3.0114680806933483,
+      "soc": 0.8915970558281844,
+      "kind": "arrive",
+      "node": "C3"
+    },
+    {
+      "time": 3.180845182868041,
+      "soc": 0.7924574607190016,
+      "kind": "arrive",
+      "node": "C4"
+    },
+    {
+      "time": 3.2737283028680406,
+      "soc": 0.7462454107190015,
+      "kind": "arrive",
+      "node": "C1"
+    },
+    {
+      "time": 3.311530252868041,
+      "soc": 0.7360987857190016,
+      "kind": "arrive",
+      "node": "C2"
+    },
+    {
+      "time": 3.8765740127310804,
+      "soc": 0.382946435804602,
+      "kind": "arrive",
+      "node": "D0"
+    }
+  ],
+  "not_test_evidence": true,
+  "layout": "C",
+  "length_bin": "medium",
+  "charge_class": "charging_required"
+}
