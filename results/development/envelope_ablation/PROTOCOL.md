@@ -20,7 +20,7 @@ Uses existing frozen `AblationConfig` fields only (no `src/` edits).
 
 ## Budget / seeds
 
-- PPO config: `configs/rl/hybrid_ppo.toml` (same as V3 training budget)
+- PPO config: `configs/common/rl/hybrid_ppo.toml` (same as V3 training budget)
 - Seeds: 42–46
 - Dataset: `data/routes_v2/synthcharge_final/{train,validation}`
 - Checkpoint selection: TRAIN/VAL only (standard `train_hybrid_ppo`)
@@ -40,4 +40,4 @@ python scripts/development/run_envelope_ablation.py --variant A_arrival_to_max -
 ```
 
 Outputs: `results/development/envelope_ablation/{variant}/seed_{s}/validation.json`
-Checkpoints: `checkpoints_development/envelope_ablation/...`
+Checkpoints: `models/development/envelope_ablation/...`

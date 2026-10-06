@@ -14,7 +14,7 @@ from data.paths import REPO_ROOT
 
 from .charging import GenericPiecewiseLinearChargingModel
 
-MONTOYA_TOML = REPO_ROOT / "configs" / "physics" / "montoya_piecewise.toml"
+MONTOYA_TOML = REPO_ROOT / "configs" / "common" / "physics" / "montoya_piecewise.toml"
 MONTOYA_BATTERY_WH = 16000.0
 
 

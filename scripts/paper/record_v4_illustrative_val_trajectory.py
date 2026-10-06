@@ -33,8 +33,8 @@ from simulation.shield import (  # noqa: E402
 from simulation.simulator import FixedRouteSimulator  # noqa: E402
 
 SEED = 42
-CKPT = ROOT / "checkpoints_v4" / "final_authoritative" / "V4_BASE_NO_L_FAIL" / f"seed_{SEED}" / "best.pt"
-OUT = ROOT / "results_v4_paper" / "data" / "illustrative_val_trajectory.json"
+CKPT = ROOT / "models" / "v4" / "fa_hppo" / f"seed_{SEED}" / "best.pt"
+OUT = ROOT / "results" / "v4" / "paper" / "data" / "illustrative_val_trajectory.json"
 VAL_CORPUS = ROOT / "data" / "routes_v2" / "synthcharge_final" / "validation" / "corpus.jsonl"
 
 SELECTION = {

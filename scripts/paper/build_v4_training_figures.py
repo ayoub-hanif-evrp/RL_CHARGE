@@ -25,11 +25,11 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 # Prefer newest authoritative namespace first.
 CURVE_ROOTS = (
-    ROOT / "results" / "v4_reward" / "final_authoritative",
-    ROOT / "results" / "v4_reward" / "final_clean",
-    ROOT / "results" / "v4_reward" / "ablation",
+    ROOT / "results" / "v4" / "reward_development" / "final_authoritative",
+    ROOT / "results" / "v4" / "reward_development" / "final_clean",
+    ROOT / "results" / "v4" / "reward_development" / "ablation",
 )
-FIG = ROOT / "results_v4" / "figures"
+FIG = ROOT / "results" / "v4" / "training_figures" / "figures"
 DPI = 600
 SEEDS = (42, 43, 44, 45, 46)
 DEFAULT_VARIANT = "V4_BASE_NO_L_FAIL"

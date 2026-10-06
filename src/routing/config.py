@@ -13,7 +13,7 @@ from data.paths import REPO_ROOT
 from physics.errors import InvalidPhysicsParameterError, MissingPhysicsParameterError
 from routing.serialize import canonical_dumps
 
-ROUTING_CONFIG_DIR = REPO_ROOT / "configs" / "routing"
+ROUTING_CONFIG_DIR = REPO_ROOT / "configs" / "common" / "routing"
 DEFAULT_ROUTING_CONFIG = "pyvrp"
 
 

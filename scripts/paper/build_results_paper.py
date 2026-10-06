@@ -1,10 +1,10 @@
-"""Build publication-facing results_paper/ (PNG figures + tables) from frozen data.
+"""Build publication-facing results/v3/paper/ (PNG figures + tables) from frozen data.
 
 READ ONLY for TEST evidence. Case-study JSON is a VAL illustration (not TEST).
 Never trains final models, evaluates TEST, or modifies frozen raw rows.
 
 Official single publication-figure generator. PNG only.
-All figures live flat in results_paper/figures/ (no appendix/).
+All figures live flat in results/v3/paper/figures/ (no appendix/).
 """
 
 from __future__ import annotations
@@ -28,14 +28,14 @@ from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
-sys.path.insert(0, str(ROOT / "scripts" / "v3_hppo"))
+sys.path.insert(0, str(ROOT / "scripts" / "v3"))
 
 from experiments.stats import hierarchical_bootstrap_ci, mean_sd_across_training_seeds  # noqa: E402
 from common import SEEDS, V3, lf_sha256, load_json  # noqa: E402
 
 RAW = V3 / "raw" / "synthcharge_test.jsonl"
 STATS = V3 / "statistics"
-OUT = ROOT / "results_paper"
+OUT = ROOT / "results" / "v3" / "paper"
 FIG = OUT / "figures"
 TAB = OUT / "tables"
 CASE = OUT / "case_study" / "illustrative_val_episode.json"
@@ -839,8 +839,8 @@ def fig19_charge_decision():
 # Fig. 20 — native FRVCP reference
 # ---------------------------------------------------------------------------
 def fig20_frvcp():
-    summary_csv = ROOT / "results/final/statistics/frvcpy_native/method_summary.csv"
-    gap_csv = ROOT / "results/final/tables/frvcpy_native/table_F_frvcpy.csv"
+    summary_csv = ROOT / "results/v1/final/statistics/frvcpy_native/method_summary.csv"
+    gap_csv = ROOT / "results/v1/final/tables/frvcpy_native/table_F_frvcpy.csv"
     rows = list(csv.DictReader(summary_csv.open(encoding="utf-8")))
     gaps = {}
     for r in csv.DictReader(gap_csv.open(encoding="utf-8")):
@@ -1036,7 +1036,7 @@ def build_tables(all_s, ch_s, ablation, rows):
 
 
 def write_captions() -> None:
-    text = """# Figure captions (`results_paper/figures/`)
+    text = """# Figure captions (`results/v3/paper/figures/`)
 
 PNG only (600 dpi). Flat folder (no appendix/). Captions carry interpretation.
 
@@ -1085,7 +1085,7 @@ PNG only (600 dpi). Flat folder (no appendix/). Captions carry interpretation.
 
 def write_readme() -> None:
     lines = [
-        "# Publication outputs (`results_paper/`)",
+        "# Publication outputs (`results/v3/paper/`)",
         "",
         "Canonical manuscript outputs. **PNG only** (600 dpi). All figures are flat in `figures/`.",
         "",
@@ -1201,12 +1201,12 @@ def main() -> None:
     write_captions()
     write_readme()
     artifacts = [
-        {"path": "results_paper/README.md", "role": "index"},
-        {"path": "results_paper/CAPTIONS.md", "role": "captions"},
-        {"path": "results_paper/case_study/illustrative_val_episode.json", "role": "methodology-illustration", "note": "VAL not TEST"},
+        {"path": "results/v3/paper/README.md", "role": "index"},
+        {"path": "results/v3/paper/CAPTIONS.md", "role": "captions"},
+        {"path": "results/v3/paper/case_study/illustrative_val_episode.json", "role": "methodology-illustration", "note": "VAL not TEST"},
     ]
     for stem in FIGS:
-        artifacts.append({"path": f"results_paper/figures/{stem}.png", "role": "figure"})
+        artifacts.append({"path": f"results/v3/paper/figures/{stem}.png", "role": "figure"})
     for stem in (
         "table01_benchmark_protocol",
         "table02_main_results",
@@ -1217,7 +1217,7 @@ def main() -> None:
         "tableA03_failure_routes",
     ):
         for ext in ("csv", "md", "tex"):
-            artifacts.append({"path": f"results_paper/tables/{stem}.{ext}", "role": "table"})
+            artifacts.append({"path": f"results/v3/paper/tables/{stem}.{ext}", "role": "table"})
     build_manifest(artifacts)
     print("results_paper written")
 

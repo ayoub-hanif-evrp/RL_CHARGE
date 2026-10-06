@@ -241,33 +241,33 @@ def test_attention_and_pool_encoders_run(write_instance):
 
 
 def test_hybrid_ppo_paper_config_exists():
-    cfg = PPOConfig.from_toml(REPO_ROOT / "configs" / "rl" / "hybrid_ppo.toml")
+    cfg = PPOConfig.from_toml(REPO_ROOT / "configs" / "common" / "rl" / "hybrid_ppo.toml")
     assert cfg.budget_updates == 400
     assert cfg.rollout_steps == 256
     assert cfg.eval_interval == 10
     assert cfg.early_stopping_patience == 20
-    paper = PPOConfig.from_toml(REPO_ROOT / "configs" / "rl" / "hybrid_ppo_paper.toml")
+    paper = PPOConfig.from_toml(REPO_ROOT / "configs" / "common" / "rl" / "hybrid_ppo_paper.toml")
     assert paper.budget_updates == 400
     assert paper.early_stopping_patience == 20
-    discrete = PPOConfig.from_toml(REPO_ROOT / "configs" / "rl" / "discrete_ppo.toml")
-    attention = PPOConfig.from_toml(REPO_ROOT / "configs" / "rl" / "attention_ppo.toml")
+    discrete = PPOConfig.from_toml(REPO_ROOT / "configs" / "common" / "rl" / "discrete_ppo.toml")
+    attention = PPOConfig.from_toml(REPO_ROOT / "configs" / "common" / "rl" / "attention_ppo.toml")
     for other in (discrete, attention):
         assert other.budget_updates == 400
         assert other.rollout_steps == 256
         assert other.eval_interval == 10
         assert other.early_stopping_patience == 20
-    smoke = PPOConfig.from_toml(REPO_ROOT / "configs" / "rl" / "hybrid_ppo_smoke.toml")
+    smoke = PPOConfig.from_toml(REPO_ROOT / "configs" / "common" / "rl" / "hybrid_ppo_smoke.toml")
     assert smoke.budget_updates == 2
-    pilot = PPOConfig.from_toml(REPO_ROOT / "configs" / "rl" / "hybrid_ppo_pilot.toml")
+    pilot = PPOConfig.from_toml(REPO_ROOT / "configs" / "common" / "rl" / "hybrid_ppo_pilot.toml")
     assert pilot.budget_updates == 400
     assert pilot.early_stopping_patience == 20
 
 
 def test_paper_docs_and_defaults_exclude_ddqn():
-    experiments = (REPO_ROOT / "docs" / "experiments.md").read_text(encoding="utf-8")
-    rl = (REPO_ROOT / "docs" / "rl.md").read_text(encoding="utf-8")
-    evaluate = (REPO_ROOT / "scripts" / "evaluate.py").read_text(encoding="utf-8")
-    analyze = (REPO_ROOT / "scripts" / "analyze_results.py").read_text(encoding="utf-8")
+    experiments = (REPO_ROOT / "docs" / "methodology" / "experiments.md").read_text(encoding="utf-8")
+    rl = (REPO_ROOT / "docs" / "methodology" / "rl.md").read_text(encoding="utf-8")
+    evaluate = (REPO_ROOT / "scripts" / "common" / "evaluate.py").read_text(encoding="utf-8")
+    analyze = (REPO_ROOT / "scripts" / "common" / "analyze_results.py").read_text(encoding="utf-8")
     assert "--method legacy_ddqn" not in experiments
     assert "legacy_ddqn" not in experiments
     assert "LegacyTwoStageDDQN" not in rl

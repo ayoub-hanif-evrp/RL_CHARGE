@@ -58,9 +58,9 @@ def test_hierarchical_aggregation_uses_seed_then_parent():
 def test_make_figures_and_tables_isolate_scenarios():
     from data.paths import REPO_ROOT
 
-    figures = (REPO_ROOT / "scripts" / "make_figures.py").read_text(encoding="utf-8")
-    tables = (REPO_ROOT / "scripts" / "make_tables.py").read_text(encoding="utf-8")
-    analyze = (REPO_ROOT / "scripts" / "analyze_results.py").read_text(encoding="utf-8")
+    figures = (REPO_ROOT / "scripts" / "common" / "make_figures.py").read_text(encoding="utf-8")
+    tables = (REPO_ROOT / "scripts" / "common" / "make_tables.py").read_text(encoding="utf-8")
+    analyze = (REPO_ROOT / "scripts" / "common" / "analyze_results.py").read_text(encoding="utf-8")
     assert "required=True" in figures
     assert "single scenario" in figures.lower() or "Never mix scenarios" in figures
     assert "exclude_non_paper_methods" in tables
@@ -163,16 +163,16 @@ def test_logical_checkpoint_path_strips_windows_abs_path():
     from experiments.stats import logical_checkpoint_path
 
     raw = r"C:\Users\AYOUB\RL_CHARGE_PAPER\checkpoints\HybridPPO\seed_42\best.pt"
-    assert logical_checkpoint_path(raw) == "checkpoints/HybridPPO/seed_42/best.pt"
+    assert logical_checkpoint_path(raw) == "models/v1/HybridPPO/seed_42/best.pt"
     folder = r"C:\Users\AYOUB\RL_CHARGE_PAPER\checkpoints\HybridPPO\seed_42"
-    assert logical_checkpoint_path(folder, "best.pt") == "checkpoints/HybridPPO/seed_42/best.pt"
+    assert logical_checkpoint_path(folder, "best.pt") == "models/v1/HybridPPO/seed_42/best.pt"
     v2 = r"C:\Users\AYOUB\OneDrive - EMSI\Bureau\RL code\checkpoints_v2\B2\seed_42\best.pt"
-    assert logical_checkpoint_path(v2) == "checkpoints_v2/B2/seed_42/best.pt"
+    assert logical_checkpoint_path(v2) == "models/v2/B2/seed_42/best.pt"
     v4 = (
         r"C:\Users\AYOUB\OneDrive - EMSI\Bureau\RL code\checkpoints_v4"
         r"\final_authoritative\V4_BASE_NO_L_FAIL\seed_42\best.pt"
     )
     assert (
         logical_checkpoint_path(v4)
-        == "checkpoints_v4/final_authoritative/V4_BASE_NO_L_FAIL/seed_42/best.pt"
+        == "models/v4/fa_hppo/seed_42/best.pt"
     )

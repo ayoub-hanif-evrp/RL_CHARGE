@@ -8,7 +8,7 @@ from typing import List
 
 from data.paths import REPO_ROOT
 
-SEEDS_TOML = REPO_ROOT / "configs" / "experiments" / "seeds.toml"
+SEEDS_TOML = REPO_ROOT / "configs" / "common" / "experiments" / "seeds.toml"
 
 
 def load_seed_list(name: str = "paper", path: Path | None = None) -> List[int]:

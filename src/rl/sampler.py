@@ -1,6 +1,6 @@
 """Hierarchical episode sampling: parent -> canonical route -> terrain.
 
-Declared in configs/experiments/sampling.toml. Avoids overweighting
+Declared in configs/common/experiments/sampling.toml. Avoids overweighting
 Level / Nearly Level / Very Gentle siblings of the same frozen sequence.
 """
 

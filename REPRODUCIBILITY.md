@@ -3,7 +3,8 @@
 ## Current V4 package (standalone)
 
 Authoritative reward training SHA is recorded in
-`results/v4_reward/FINAL_REWARD_FREEZE.json` (`training_git_sha`).
+`results/v4/reward_development/FINAL_REWARD_FREEZE.json` (`training_git_sha`).
+Checkpoints: `models/v4/fa_hppo/`.
 
 Regenerate **displays only** (no TEST rerun, no retrain):
 
@@ -12,15 +13,15 @@ python scripts/paper/build_v4_results_paper.py
 python scripts/paper/build_v4_results_paper.py --verify
 ```
 
-Outputs: `results_v4_paper/`.
+Outputs: `results/v4/paper/`.
 
-Verify frozen TEST lock / consumption:
+Verify frozen TEST lock (resolves legacy path keys via `repo_paths`):
 
 ```bash
-python scripts/v4_test/write_test_lock.py --verify
+python scripts/v4/test/write_test_lock.py --verify
 ```
 
-Do **not** reopen `results/v4_test/EVALUATION_CONSUMED.json`.
+Do **not** reopen `results/v4/test/EVALUATION_CONSUMED.json`.
 
 ## Environment / tests
 
@@ -42,8 +43,8 @@ python scripts/paper/build_results_paper.py
 python scripts/paper/build_results_paper.py --verify
 ```
 
-Outputs remain under `results_paper/` and must not be mixed into
-`results_v4_paper/`.
+Outputs remain under `results/v3/paper/` and must not be mixed into
+`results/v4/paper/`.
 
 ## Immutable rules
 
@@ -52,3 +53,5 @@ Outputs remain under `results_paper/` and must not be mixed into
 - No deletion of unfavorable rows.
 - Certificate timeout ≠ infeasible.
 - V4 paper package must remain free of prior-version comparisons.
+
+Layout aliases: `src/repo_paths.py`. See `docs/reproducibility/PATH_MIGRATION.md`.

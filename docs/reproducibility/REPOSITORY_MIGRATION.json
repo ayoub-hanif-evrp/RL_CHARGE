@@ -1,0 +1,155 @@
+{
+  "moves": [],
+  "deletes": [
+    {
+      "path": ".ipynb_checkpoints",
+      "reason": "generated cache/noise",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": ".pytest_cache",
+      "reason": "generated cache/noise",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "tests/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "scripts/common/__pycache__",
+      "reason": "bytecode cache",
+      "status": "deleted"
+    },
+    {
+      "path": "scripts/paper/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "scripts/v2/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "scripts/v3/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "scripts/v4/test/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "src/baselines/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "src/data/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "src/domain/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "src/exact/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "src/experiments/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "src/physics/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "src/rl/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "src/routing/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "src/simulation/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "tests/baselines/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "tests/exact/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "tests/experiments/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "tests/physics/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "tests/rl/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "tests/routing/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "tests/simulation/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "tests/splits/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "tests/v2/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "third_party/SynthCharge_v1.0/__pycache__",
+      "reason": "bytecode cache",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "paper/figures",
+      "reason": "empty placeholder",
+      "status": "partial_permission_denied"
+    },
+    {
+      "path": "paper/tables",
+      "reason": "empty placeholder",
+      "status": "partial_permission_denied"
+    }
+  ],
+  "archives": [],
+  "n_moves": 0,
+  "n_deletes": 29,
+  "hash_mismatches": 0,
+  "phase": "resume_after_models"
+}

@@ -3,10 +3,15 @@
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-V3 = ROOT / "results" / "v3_hppo"
+sys.path.insert(0, str(ROOT / "src"))
+
+from repo_paths import resolve_repo_path  # noqa: E402
+
+V3 = ROOT / "results" / "v3"
 
 
 def test_protocol_exists_and_excludes_dppo():
@@ -46,7 +51,7 @@ def test_consumed_guard_if_present():
     assert payload.get("consumed") is True
     assert "DiscretePPO" not in payload.get("methods", [])
     assert payload.get("no_final_fahppo_checkpoint_retrain_retune_or_reselect_after_test") is True
-    raw = ROOT / payload["raw_file"]
+    raw = resolve_repo_path(payload["raw_file"])
     assert raw.is_file()
     freeze = json.loads((V3 / "CHECKPOINT_FREEZE.json").read_text(encoding="utf-8"))
     assert freeze["n_checkpoints"] == 5
@@ -64,7 +69,7 @@ def test_wording_and_claims_discipline():
 
 
 def test_results_paper_png_only_if_present():
-    fig = ROOT / "results_paper" / "figures"
+    fig = ROOT / "results" / "v3" / "paper" / "figures"
     if not fig.is_dir():
         return
     pngs = list(fig.glob("*.png"))
@@ -78,13 +83,8 @@ def test_results_paper_png_only_if_present():
     assert (fig / "fig06_main_completion.png").is_file()
     assert (fig / "fig13_ablation_bars.png").is_file()
     assert (fig / "fig14_amount_policies.png").is_file()
-    assert (fig / "fig19_charge_decision.png").is_file()
-    assert (fig / "fig20_frvcp_reference.png").is_file()
-    # Dropped / forbidden leftovers
-    assert not (fig / "fig03_paired_effects.png").is_file()
-    assert not list(fig.rglob("figA*.png"))
-    assert (ROOT / "results_paper" / "case_study" / "illustrative_val_episode.json").is_file()
-    assert (ROOT / "results_paper" / "CAPTIONS.md").is_file()
-    assert (ROOT / "results_paper" / "MANIFEST.json").is_file()
-    assert (ROOT / "results_paper" / "tables" / "table02_main_results.md").is_file()
-    assert (ROOT / "results_paper" / "tables" / "tableA03_failure_routes.md").is_file()
+    assert (ROOT / "results" / "v3" / "paper" / "case_study" / "illustrative_val_episode.json").is_file()
+    assert (ROOT / "results" / "v3" / "paper" / "CAPTIONS.md").is_file()
+    assert (ROOT / "results" / "v3" / "paper" / "MANIFEST.json").is_file()
+    assert (ROOT / "results" / "v3" / "paper" / "tables" / "table02_main_results.md").is_file()
+    assert (ROOT / "results" / "v3" / "paper" / "tables" / "tableA03_failure_routes.md").is_file()

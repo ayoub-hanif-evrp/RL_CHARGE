@@ -19,7 +19,9 @@ ROUTES_DIR = DATA_DIR / "routes"
 SPLITS_DIR = DATA_DIR / "splits"
 EXTERNAL_DIR = DATA_DIR / "external"
 RESULTS_DIR = REPO_ROOT / "results"
-CHECKPOINTS_DIR = REPO_ROOT / "checkpoints"
+MODELS_DIR = REPO_ROOT / "models"
+# V1 default checkpoint root (historical `checkpoints/` → `models/v1/`)
+CHECKPOINTS_DIR = MODELS_DIR / "v1"
 
 INSTANCE_SUFFIX = ".txt"
 

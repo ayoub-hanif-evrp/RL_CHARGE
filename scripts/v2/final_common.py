@@ -54,7 +54,7 @@ def dump_json(path: Path, payload) -> None:
 
 
 def checkpoint_dir(dataset: str, method: str, seed: int) -> Path:
-    return ROOT / "checkpoints_v2" / "final" / dataset / method / f"seed_{seed}"
+    return ROOT / "models" / "v2" / "final" / dataset / method / f"seed_{seed}"
 
 
 def dataset_files(dataset: str) -> dict:
@@ -78,7 +78,7 @@ def dataset_files(dataset: str) -> dict:
 
 def config_path(method: str) -> str:
     if method == "HybridPPO":
-        return "configs/rl/hybrid_ppo.toml"
+        return "configs/common/rl/hybrid_ppo.toml"
     if method == "DiscretePPO":
-        return "configs/rl/discrete_ppo.toml"
+        return "configs/common/rl/discrete_ppo.toml"
     raise ValueError(method)

@@ -33,21 +33,17 @@ desktop.ini
 .pytest_cache/
 
 # Experiment artifacts (tables/summaries/figures stay tracked)
-checkpoints/
-checkpoints_v2/
-checkpoints_v3/
-checkpoints_v4/
-checkpoints_development/
+models/
 results/raw/
 results/runs/
 results/smoke/raw/
 results/smoke/runs/
-results/pilot/**/*.pt
-results/v3_hppo/*.log
-results/v3_hppo/generate_test.log
-results/v3_hppo/evaluate_test.log
-results/v3_hppo/build_artifacts.log
-results/v3_hppo/ablation_*.log
+results/v1/pilot/**/*.pt
+results/v3/*.log
+results/v3/generate_test.log
+results/v3/evaluate_test.log
+results/v3/build_artifacts.log
+results/v3/ablation_*.log
 
 # FRVCP download cache (XML/JSON under benchmark/ are tracked)
 data/external/frvcpy/benchmark/zips/

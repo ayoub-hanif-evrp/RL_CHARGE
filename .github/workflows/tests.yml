@@ -42,4 +42,4 @@ jobs:
       - name: Official reference parity
         run: python -m pytest tests/baselines/test_frvcpy_parity.py -q --tb=short
       - name: Native FRVCP smoke
-        run: python scripts/run_frvcpy_benchmark.py --data data/external/frvcpy --scenario frvcpy_native --fixtures-only
+        run: python scripts/v1/run_frvcpy_benchmark.py --data data/external/frvcpy --scenario frvcpy_native --fixtures-only

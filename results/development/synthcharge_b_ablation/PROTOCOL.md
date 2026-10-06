@@ -11,7 +11,7 @@ Reproduces the gold time-cap × return-scaling 2×2 on SynthCharge TRAIN/VAL.
 | B3 | off | on |
 | B2 | on | on |
 
-Seeds: 42–46. Budget: `configs/rl/hybrid_ppo.toml`.
+Seeds: 42–46. Budget: `configs/common/rl/hybrid_ppo.toml`.
 
 **Status:** script prepared; full 20-cell execution not started in the scientific-fixes pack (~15–22 CPU-hours).
 

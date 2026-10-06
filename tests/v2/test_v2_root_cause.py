@@ -42,7 +42,7 @@ V1_SHA256 = {
 # SHA-256 of the committed LF bytes at pre-V2 HEAD fe34811. A Windows checkout
 # with core.autocrlf rewrites this file to CRLF, which is a different digest
 # (d2b34b88...) and is not the repository artifact.
-PROVENANCE_RELATIVE = "results/final/PROVENANCE.json"
+PROVENANCE_RELATIVE = "results/v1/final/PROVENANCE.json"
 PROVENANCE_COMMITTED_SHA256 = "df2c6328ae5b2e54d32931d3be9fa8bf07b376e1d8c8c9316526573d9c2629cc"
 PRE_V2_HEAD = "fe34811cf7f96b08e69d791600dea54e49998c36"
 
@@ -83,7 +83,7 @@ def test_consumed_test_parents_are_rejected():
 
 def test_timeout_is_not_infeasible():
     mapping = json.loads(
-        (REPO_ROOT / "results/pilot/correctness_audit/official_route_plan_mapping.json").read_text(
+        (REPO_ROOT / "results/v1/pilot/correctness_audit/official_route_plan_mapping.json").read_text(
             encoding="utf-8"
         )
     )
@@ -103,7 +103,7 @@ def test_timeout_is_not_infeasible():
 
 def test_known_positive_search_replays(tmp_path):
     mapping = json.loads(
-        (REPO_ROOT / "results/pilot/correctness_audit/official_route_plan_mapping.json").read_text(
+        (REPO_ROOT / "results/v1/pilot/correctness_audit/official_route_plan_mapping.json").read_text(
             encoding="utf-8"
         )
     )
@@ -216,7 +216,7 @@ def test_return_scale_is_one_global_train_constant():
 
 def test_time_aware_upper_bound_does_not_exceed_max_soc():
     mapping = json.loads(
-        (REPO_ROOT / "results/pilot/correctness_audit/official_route_plan_mapping.json").read_text(
+        (REPO_ROOT / "results/v1/pilot/correctness_audit/official_route_plan_mapping.json").read_text(
             encoding="utf-8"
         )
     )
@@ -243,7 +243,7 @@ def test_time_aware_upper_bound_does_not_exceed_max_soc():
 
 def test_official_charge_to_max_is_not_falsely_pruned():
     mapping = json.loads(
-        (REPO_ROOT / "results/pilot/correctness_audit/official_route_plan_mapping.json").read_text(
+        (REPO_ROOT / "results/v1/pilot/correctness_audit/official_route_plan_mapping.json").read_text(
             encoding="utf-8"
         )
     )
@@ -363,7 +363,7 @@ def _tiny_config(scale: float) -> PPOConfig:
 
 def _tiny_instance():
     mapping = json.loads(
-        (REPO_ROOT / "results/pilot/correctness_audit/official_route_plan_mapping.json").read_text(
+        (REPO_ROOT / "results/v1/pilot/correctness_audit/official_route_plan_mapping.json").read_text(
             encoding="utf-8"
         )
     )

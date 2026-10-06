@@ -74,7 +74,7 @@ def _assert_frozen_start(dataset: str, method: str, seed: int) -> None:
         _refuse("final training seeds are 42, 43, 44, 45, 46")
     if dataset not in ("gold", "synthcharge") or method not in ("HybridPPO", "DiscretePPO"):
         _refuse("dataset must be gold or synthcharge and method must be HybridPPO or DiscretePPO")
-    out = ROOT / "checkpoints_v2" / "final" / dataset / method / f"seed_{seed}"
+    out = ROOT / "models" / "v2" / "final" / dataset / method / f"seed_{seed}"
     if (out / "manifest.json").is_file() and (out / "best.pt").is_file():
         manifest = json.loads((out / "manifest.json").read_text(encoding="utf-8"))
         if manifest.get("best_update") is not None:
@@ -104,7 +104,7 @@ def main() -> None:
         )
     config.seed = int(args.seed)
     scale = global_return_scale(train_routes)
-    out = ROOT / "checkpoints_v2" / "final" / args.dataset / args.method / f"seed_{args.seed}"
+    out = ROOT / "models" / "v2" / "final" / args.dataset / args.method / f"seed_{args.seed}"
     manifest = train_hybrid_ppo(
         train_routes=train_routes,
         val_routes=val_routes,

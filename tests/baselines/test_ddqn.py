@@ -58,9 +58,9 @@ def test_soc_head_is_station_conditioned():
 
 
 def test_ddqn_internal_config_is_not_a_paper_experiment():
-    with (REPO_ROOT / "configs" / "rl" / "legacy_ddqn.toml").open("rb") as handle:
+    with (REPO_ROOT / "configs" / "common" / "rl" / "legacy_ddqn.toml").open("rb") as handle:
         raw = tomllib.load(handle)
-    text = (REPO_ROOT / "configs" / "rl" / "legacy_ddqn.toml").read_text(encoding="utf-8")
+    text = (REPO_ROOT / "configs" / "common" / "rl" / "legacy_ddqn.toml").read_text(encoding="utf-8")
     assert "not used in paper experiments" in text
     assert int(raw["gradient_steps"]) == 102400
     assert int(raw["val_interval"]) == 2560

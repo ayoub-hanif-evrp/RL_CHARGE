@@ -11,8 +11,11 @@ from data.paths import REPO_ROOT, ROUTES_DIR, SPLITS_DIR
 
 # Generated experiment outputs must not mark the *code* tree dirty.
 APPROVED_OUTPUT_PREFIXES = (
+    "models/",
     "results/",
+    # Legacy prefixes (pre-layout migration) kept for safety / frozen references
     "results_v4/",
+    "results_v4_paper/",
     "results_paper/",
     "checkpoints/",
     "checkpoints_v2/",

@@ -1,0 +1,136 @@
+# Part 3B experiments
+
+Training, evaluation, ablations, and statistics live here. The Part 3A MDP,
+shield, Hybrid PPO architecture, corpus, and splits are frozen unless a
+verified bug appears.
+
+## Paper scope
+
+**Proposed method (only one):** Hybrid PPO for fixed-route charging
+(WHEN + WHERE + HOW MUCH).
+
+**Deterministic baselines:** `GreedyMinimumSufficientCharge`,
+`GreedyFullCharge`, `OneStepLookahead`.
+
+**RL / architectural comparators:** DiscretePPO (continuous vs six-level
+categorical charge amount). AttentionPPO (node-type embedding on the same
+frozen-route actor; not a joint-routing paper clone).
+
+**Ablations of Hybrid PPO:** A1–A5.
+
+**External benchmark:** `frvcpy` only on native compatible FRVCP data.
+
+**Restricted EVRPTW-GR search:** diagnostic/reference only, with its
+documented action-set limitation (`restricted_continuation_or_full_soc`).
+
+**Not in the paper:** `LegacyTwoStageDDQN`. Do not train it for paper seeds,
+evaluate it on TEST, or put it in paper tables. Implementation may remain
+in the repo as historical/internal code.
+
+## What is and is not compared
+
+- Primary objective: **route completion time**. Energy, distance, and times
+  stay separate. There is no mixed-unit `total_cost`.
+- Every method sees the same predetermined split population. Failures stay in
+  the table (`feasible=false`). The all-routes objective uses depot due date
+  `H` for infeasible episodes so filtering cannot hide losses.
+- Validation is never mixed into test tables.
+- **AttentionPPO** is an architectural baseline (node-type embedding on the
+  frozen-route actor). It is **not** a reproduction of joint routing+charging
+  papers (eTruckRouting, EV-GNN, HeVRPMD, curriculum HetGAT EVRPTW).
+- **frvcpy** is exact only on native Montoya/FRVCP instances under
+  `data/external/frvcpy/`. Those IDs are never joined to EVRPTW-GR splits.
+  `evrptwgr_to_frvcp_surrogate()` remains `not_equivalent`.
+- Restricted label-setting searches CONTINUE plus
+  `{continuation-minimum SOC, maximum SOC}` (`u=0`/`u=1` through
+  `continuation_to_max`, not arrival SOC). A finish is feasible/optimal
+  for that restricted action set only (`restricted_continuation_or_full_soc`),
+  never exact for continuous Hybrid PPO. The discrete state includes
+  `stations_visited_since_progress` and a (time, SOC) Pareto frontier.
+  Timeouts are `timeout`. Do not treat it as a global charging oracle.
+
+## Seeds
+
+Paper: `42,43,44,45,46`. Extended: `42…51`. Ablations: `42,43,44`.
+Do not pick the best seed. Config: `configs/common/experiments/seeds.toml`.
+
+## Multi-seed statistics
+
+Do not collapse every training seed into one parent mean as the only
+uncertainty. Report:
+
+1. Per-seed metrics.
+2. Mean and SD **across training seeds**.
+3. Parent-cluster uncertainty.
+
+Hierarchical bootstrap resampling unit: **training seed, then
+`base_instance`**. Paired Hybrid vs baseline tests match parents; learned
+methods use the mean-over-seeds per parent unless the comparison is the same
+seed. Holm correction is over comparisons.
+
+SOC-reserve rows use `scenario=soc_reserve` and never enter Hybrid PPO
+`scenario=main_test` sample sizes.
+
+## Hardware
+
+CUDA if `torch.cuda.is_available()`, else CPU. Device is recorded in each
+run manifest.
+
+## Commands
+
+```bash
+python -m pytest tests -q
+python scripts/audit_corpus.py --routes data/routes
+python scripts/preflight_experiments.py --paper
+python scripts/train_rl.py --method hybrid_ppo --split train --seeds paper
+python scripts/train_rl.py --method discrete_ppo --seeds paper
+python scripts/train_rl.py --method attention_ppo --seeds paper
+python scripts/run_ablations.py --seeds ablation
+python scripts/run_baselines.py --split test --scenario main_test
+python scripts/evaluate.py --split test --scenario main_test --methods hybrid_ppo,discrete_ppo,attention_ppo --seeds paper
+python scripts/evaluate.py --split test --scenario ablation --methods A1,A2,A3,A4,A5 --seeds ablation
+python scripts/v1/run_frvcpy_benchmark.py --data data/external/frvcpy --scenario frvcpy_native
+python scripts/run_restricted_search.py --splits train,validation
+python scripts/run_exact_small.py --split train --max-customers 5
+python scripts/run_soc_reserve.py --levels 0,0.05,0.10,0.15
+python scripts/analyze_results.py --scenario main_test --split test
+python scripts/make_tables.py --scenario main_test
+python scripts/make_figures.py
+```
+
+Smoke (not paper): add `--smoke` to `train_rl.py` / `run_ablations.py` and use
+`--scenario smoke`. `--methods all` is smoke-only.
+
+Pilot (TRAIN/VAL only, not TEST): `configs/common/rl/hybrid_ppo_pilot.toml` then inspect
+`curves.jsonl` under `results/pilot/`. Do not choose the paper budget from TEST.
+
+Size-generalization is extra (`scripts/run_size_generalization.py`), never the
+headline test number.
+
+Paper Hybrid PPO budget is the TRAIN/VAL protocol frozen in
+`configs/common/rl/hybrid_ppo.toml`: 400 updates, 256 rollout steps, validation
+every 10, patience 20. DiscretePPO and AttentionPPO use the same maximum
+interaction budget (102,400 environment transitions per seed). Smoke stays in
+`configs/common/rl/hybrid_ppo_smoke.toml`.
+
+Validation model selection (paper/pilot): full validation population,
+lexicographic **parent-balanced feasibility then** parent-balanced all-routes
+completion time (`H` for failures). Route-weighted VAL metrics are logged only.
+Smoke may cap `val_max_routes`.
+
+Feature normalization is fit on **all TRAIN routes** (reset features) plus a
+TRAIN-only greedy-min dynamic pass. Val/test states never enter the fit.
+
+## Result files
+
+```
+results/raw/{run_id}.jsonl
+results/runs/{run_id}/manifest.json
+results/summaries/*.csv
+results/tables/*.csv + *.md
+results/figures/*.png
+checkpoints/{method}/seed_{k}/
+```
+
+Raw records include method, route, parent, terrain, split, seed, feasibility,
+separate time/energy/distance metrics, runtime, and provenance hashes.

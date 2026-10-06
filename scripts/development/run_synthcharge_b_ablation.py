@@ -26,7 +26,7 @@ from routing.v2_corpus import global_return_scale  # noqa: E402
 
 SEEDS = (42, 43, 44, 45, 46)
 OUT_ROOT = ROOT / "results" / "development" / "synthcharge_b_ablation"
-CKPT_ROOT = ROOT / "checkpoints_development" / "synthcharge_b_ablation"
+CKPT_ROOT = ROOT / "models" / "development" / "synthcharge_b_ablation"
 VARIANTS = {
     "B0": {"time_aware": False, "scale": False, "label": "Base HPPO (B0)"},
     "B1": {"time_aware": True, "scale": False, "label": "+ Time-aware cap (B1)"},

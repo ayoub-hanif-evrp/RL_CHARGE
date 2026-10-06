@@ -1,0 +1,1507 @@
+[
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_42/best.pt",
+    "sha256": "c42ccce10e5d1fe629245a1d950645978bba452b9490fe54ef6120ab6f490337",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_42/last.pt",
+    "sha256": "cb20e77e7490d35578d24560fba126d4e15d66d476fe99f49631d258ff618b79",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_43/best.pt",
+    "sha256": "a949338e8aa92cb9e3ebcff7ac9494b6c18bfb56bd3d1e986c17e2bbecb95d3d",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_43/last.pt",
+    "sha256": "a8305e3701f8f67046362ab2bd34403c0aaa388f281cb814cfad52c8de6a5958",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_44/best.pt",
+    "sha256": "7e8f78307ea308a74f76dec6cbe8fa8d2d381a34ba2f47dcdcff4c689ab72cc1",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_44/last.pt",
+    "sha256": "5b47a58349dd5e9f44ffc91297928a510e76a61277176c535c6445dbebcb071d",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_45/best.pt",
+    "sha256": "949fe416e412c196b31f40cd2deb3e19aed5ac67710a07481e79a0e7a05e3884",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_45/last.pt",
+    "sha256": "e8fce69219b0dc5d19a763431c9f2872bef0312d173f903436692c1e03812744",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_46/best.pt",
+    "sha256": "763da9ddf5e08dbd371af5686c649d43a87709d7f6940b0c3d0a26d2a62b273f",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/A_arrival_to_max/seed_46/last.pt",
+    "sha256": "e1d918888afad784316ce44428da184874eaf353ffb1b972881aa315320c0fa4",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/B_energy_to_max/seed_42/best.pt",
+    "sha256": "e8ff79e10055002b8ca322dc9a1c93b5dfc0df6b20a241f2725dfdb7df5b3b95",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/B_energy_to_max/seed_42/last.pt",
+    "sha256": "101a7de475a47a77edd045f3ce78a394e86ae259fc00c6c950788139aa85dee0",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/B_energy_to_max/seed_43/best.pt",
+    "sha256": "5d1425d24dc491c88343d3f732be57b7560ab00c5b81497f811f44147f2eeba0",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/B_energy_to_max/seed_43/last.pt",
+    "sha256": "958db95ce60335180ca7a251edef79d020524fb75b6c03391729491db3f35f65",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/B_energy_to_max/seed_44/best.pt",
+    "sha256": "521c3db53dafd22d0e77b33c3abb4a7155cfe4751aba2db268d8d0d538903cd2",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/B_energy_to_max/seed_44/last.pt",
+    "sha256": "4bf67ccbd3242d1cad4b944a69d9740814e362b3d34f5c30ef3e612b6ca98720",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/B_energy_to_max/seed_45/best.pt",
+    "sha256": "2d7f5a8d6d5fdd0d1ed324f10510c80f25503b6380dca594f2e4b9d5d7fc7d59",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/B_energy_to_max/seed_45/last.pt",
+    "sha256": "698a4c7ce058f7cd640937c942eccd704584bbf565bf702c53640accfe368f33",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/B_energy_to_max/seed_46/best.pt",
+    "sha256": "849c7e767aa63b17d0e866f08c26aea6c30f91da21200102c9fd94fe3c9b09ea",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/B_energy_to_max/seed_46/last.pt",
+    "sha256": "251f07606c9c1441db1fb577b5fda0a0d7043c0b0207dfa10fff7eb6bce05957",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/C_energy_to_time/seed_42/best.pt",
+    "sha256": "a455c500892aeee1e37c052a5173ed6cd285d9195f3604e78a9fd056c71038dc",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/C_energy_to_time/seed_42/last.pt",
+    "sha256": "fc50185d60d4c0b9901069ae47b75547ed6af14fe99b24336f99e8394e9a04d8",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/C_energy_to_time/seed_43/best.pt",
+    "sha256": "03b25ce000302c5ff30b63f4bea64bd741a82301b1a57668bf0d6af18c5ba81b",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/C_energy_to_time/seed_43/last.pt",
+    "sha256": "6a5de6d19e4fd1a239ec20350c1d17cbcdab57ed100a5f914cf0369643373c32",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/C_energy_to_time/seed_44/best.pt",
+    "sha256": "cf536bbc55b1a318ab1625e8ee3e805bfe89cba421afc782751107ba09def21f",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/C_energy_to_time/seed_44/last.pt",
+    "sha256": "5a0ee2f8d12ec453c4af2ae35147033bc0f1cfc920ca5958d9a37a5c58803036",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/C_energy_to_time/seed_45/best.pt",
+    "sha256": "88201f487dafb3de51ae798f69ecf16b4bb5d1923760d235b66259d8314bbcea",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/C_energy_to_time/seed_45/last.pt",
+    "sha256": "9df440e271992bf98041e8102246cf1a5f7a82ac31b105122a715231ffe23ac5",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/C_energy_to_time/seed_46/best.pt",
+    "sha256": "9ebaaa14a5e10ee9687e635d5a0cf52fe5922bf98f8ff3805cfb6e7956bfe939",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "development",
+    "path": "models/development/envelope_ablation/C_energy_to_time/seed_46/last.pt",
+    "sha256": "5b8424789276a2b41aaf44cf2fb3167dfc0f58ee7cb3043359ea45b9a988b4b7",
+    "used_by": "envelope ablation development",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/ablation_A1/seed_42/best.pt",
+    "sha256": "e92239fe22d07ef4c8bc14af5398b4cd11411dba1103db9ce41a533889ff40fd",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/ablation_A1/seed_42/last.pt",
+    "sha256": "248cad2020a816bafed9f4f7fd61e6ee9176b3b1ffc901e55777f4a786382ba0",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/ablation_A2/seed_42/best.pt",
+    "sha256": "feee9a1d184358ac12ffa5672d75bd25ded1cd4287755fd56f88fbde6a617d51",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/ablation_A2/seed_42/last.pt",
+    "sha256": "34ead463e2323950d9907d08906c14c6c793e987af86597123228669bad226e1",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/ablation_A3/seed_42/best.pt",
+    "sha256": "902de60307bcbb3b18fb02a7ed4b5e7fad8794a025c256c9ca7b42e4a3ad9016",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/ablation_A3/seed_42/last.pt",
+    "sha256": "d912c661fb10e57021992f2349a95555ef5ec2a35cf52ba8cf656eeb021dcef8",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/ablation_A4/seed_42/best.pt",
+    "sha256": "4bce91320a5cfd5d7fc8fc8cb2345da267e021c0d28d85666ced1068e5b61bc5",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/ablation_A4/seed_42/last.pt",
+    "sha256": "80f608ed628b8324c027b6a12cf4ccb119bda2486736e8d7a9fced107af3fa33",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/ablation_A5/seed_42/best.pt",
+    "sha256": "73f12418fe78e3e5a49bdb3eacc5765beb2fc2d02d8e1433cf1c00c4d06cecf1",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/ablation_A5/seed_42/last.pt",
+    "sha256": "0284dce66eb52a9b63bdfd5a582af00e79df092900158dd23117b6f81b16dee3",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/AttentionPPO/seed_42/best.pt",
+    "sha256": "e1148d989dadc0df6cf320a9b86eba68da2771048bbf762f48da1377d274ee48",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/AttentionPPO/seed_42/last.pt",
+    "sha256": "5e80a31d709a87e6872b10a29a56e39e681867b7246dd684c69d94568ef8cbd5",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/DiscretePPO/seed_42/best.pt",
+    "sha256": "e92239fe22d07ef4c8bc14af5398b4cd11411dba1103db9ce41a533889ff40fd",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/DiscretePPO/seed_42/last.pt",
+    "sha256": "248cad2020a816bafed9f4f7fd61e6ee9176b3b1ffc901e55777f4a786382ba0",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/HybridPPO/seed_42/best.pt",
+    "sha256": "ac7a942c74e19f92055b9f26f76ec6ce8909adda509a5a4e5f7d9c68a28adb81",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/HybridPPO/seed_42/last.pt",
+    "sha256": "32a5d026777a509d036958cb5a8ed8558e6d839629792df40fef2aca0150b375",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/HybridPPO/seed_43/best.pt",
+    "sha256": "9be13d2a2e8a41ee352e26304c47e429ad789dd6bc90ecec4dc8caf543c9f69b",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/HybridPPO/seed_43/last.pt",
+    "sha256": "3f36f6bfc1d998e9cbd5308886644c825dc8e453f48a022507569552e441ccd5",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/HybridPPO_pilot/seed_42/best.pt",
+    "sha256": "3ccb995ae6526e80a9a6e47967cdb86f2a5bfb235780e13487f19557c78b7855",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/HybridPPO_pilot/seed_42/last.pt",
+    "sha256": "35053ae06f5a3129b371154b78ea71f90783dd85526151a7dce0e1e646f4d7d6",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v1",
+    "path": "models/v1/LegacyTwoStageDDQN/seed_42/best.pt",
+    "sha256": "812b5bbe1375be2962f79d3426daea83bb7713aa8594bb1d62631b9c6867a121",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/_timing/best.pt",
+    "sha256": "ec56b914bc7ac26e759223f11fe9319e16b45bcd50587ba56a0189c3c20f09ba",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/_timing/last.pt",
+    "sha256": "8f56a46893a75bcd719c2864bda606e0b3ff00bb05639c4a9d60f6c41a12f855",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B0/seed_42/best.pt",
+    "sha256": "012fe336793a9bd5a7a9ff9bc37298b0d7cc8cc68e31ab4f3fd3eaaf74d248f0",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B0/seed_42/last.pt",
+    "sha256": "1908018b7ba9644fb766961b06b79324094c1b4158011b0e5afb1094b8610086",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B0/seed_43/best.pt",
+    "sha256": "92e01e2a2a0eae6dba97d7b043b79cb198af6c93b3cf325927b8fa9da1570454",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B0/seed_43/last.pt",
+    "sha256": "8b1af281be96da0435aae1e7866bcc13abd3c1e8b14005503c112a518b7a80b8",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B1/seed_42/best.pt",
+    "sha256": "4c0600d58b64b1818dc1c0e6c7572cf4b9122408018c14c3bea5716ffca7bbe1",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B1/seed_42/last.pt",
+    "sha256": "7b994a52f52f1c56cb85389de615611396214a7b36fb37760fbf84ffedba9663",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B1/seed_43/best.pt",
+    "sha256": "92e702bc133f6d8688253a4367ffc4f7092b084b2b54568580831be46caea522",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B1/seed_43/last.pt",
+    "sha256": "055d09195f612c152cb722b1214297eac3edf915b44912a921364404bf6ad115",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B2/seed_42/best.pt",
+    "sha256": "b4153cae9658b3984a180d802d96439c9b19a492ab3e356db9b93a1685e0d0c5",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B2/seed_42/last.pt",
+    "sha256": "faaf3f137ae9b8328c6e17403c8b06c8d0dc4db4e3e3f20d82a1b44c7c5d981a",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B2/seed_43/best.pt",
+    "sha256": "6dc54d2af9288eaa6c4c468fd827783a135cedbbd69eec0d48d6f4b7f251f50d",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B2/seed_43/last.pt",
+    "sha256": "26c70ccfb560818373169b2382e18bd502fe362f169986b38bc379e25a1f3a83",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B2_pyvrp/seed_42/best.pt",
+    "sha256": "690c680e61d69239c386135691e469ab520274305deb3deedde4adc14e2e6adb",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B2_pyvrp/seed_42/last.pt",
+    "sha256": "7f7e9a90ebd4217a971e5993fbda4cd236d52e7212f007a634ef6eea59cd8fa6",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B2_pyvrp/seed_43/best.pt",
+    "sha256": "72c3e143b1b7be59a540c16464f742c83dc9848d1000192da9727b4f790ad41f",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B2_pyvrp/seed_43/last.pt",
+    "sha256": "59252140491e782fe7eb016b43ee1e2d58b0b70e737b1ac845323b2d84515c35",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B3/seed_42/best.pt",
+    "sha256": "1ba4c6b0663a99c9e3926e8c4c08df37ae69d6b47ae2af676ae9fed1f8d56e6a",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B3/seed_42/last.pt",
+    "sha256": "c11f862ab2e5af41d413e986d868c29feabcf438072c8236cb4ce15ded28cf5f",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B3/seed_43/best.pt",
+    "sha256": "43f4e4f00b0a46979e8c1318715a70ab2e6089fc7b4cb5d70a45f3ff4897c235",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/B3/seed_43/last.pt",
+    "sha256": "80e20e269eec07acc06ae298a34d41dded890f326285fc9821b713203502b849",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/DiscretePPO/seed_42/best.pt",
+    "sha256": "2465df1893de5ed71b70decb25596344f828dcaecd60b83d4266ad18d451658f",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/DiscretePPO/seed_42/last.pt",
+    "sha256": "9c1b0472bba07bc93af752be643696e0b081697c1874194d12a46918abb9075a",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/DiscretePPO/seed_43/best.pt",
+    "sha256": "a32a490a8c8663a2422a93c8522a11e992ab7812c1efb5c89025d21a9d78f84a",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/DiscretePPO/seed_43/last.pt",
+    "sha256": "b79aea15d3c07a3bd83acaa7afec8635370227045fde426d0b3a834d41dfe5c3",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/DiscretePPO/seed_44/best.pt",
+    "sha256": "32edafc672242460d8de9fcaa974651caa43a282e17f3e4f87331cbeb77cb0f8",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/DiscretePPO/seed_44/last.pt",
+    "sha256": "13ac1f16a06dba1a1281f2948e671f4c54dfa731cc7559d1bca5d8a9ae2e6ed9",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/DiscretePPO/seed_45/best.pt",
+    "sha256": "f6ae1cb3e7dc7b27baca14b0511b5db310447207a5468082eda4882bc4a9226b",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/DiscretePPO/seed_45/last.pt",
+    "sha256": "b2a82897a0f90726b9c6bf728906a194ec17bbd2723f59d5debdd5489604daa3",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/DiscretePPO/seed_46/best.pt",
+    "sha256": "085cf59587f9e0bfd338104447ef305d82914395c1d4a0ed31e1f5fe419ac75a",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/DiscretePPO/seed_46/last.pt",
+    "sha256": "46b93b13e5b8c8e3e7320458e6f48f08411c2f4df59bbd8dc35df6a29e59a8f8",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/HybridPPO/seed_42/best.pt",
+    "sha256": "44945d63dcb648d8dede18157a7b16c87670b80be8aac25c15b8d2b85898a79a",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/HybridPPO/seed_42/last.pt",
+    "sha256": "3e0ade3e7ef87ef4d8496216d4334e476df2cb88cacdbbfbf7f9f12b20a62d51",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/HybridPPO/seed_43/best.pt",
+    "sha256": "f24e8fe408993c2aae4363efe78c56672bd28c9ebabe4b70c833458820b30f48",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/HybridPPO/seed_43/last.pt",
+    "sha256": "181427642b06797c2c2177533d047f455d39dd777be6810edadfbeedaed2c27b",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/HybridPPO/seed_44/best.pt",
+    "sha256": "e990e4f73956141c71b7dba1af6a9b0357d6a9d3d456841877a33461f888b6f0",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/HybridPPO/seed_44/last.pt",
+    "sha256": "c9a40eb2ed5d72861544faebd8971e3c1baddd2b2fd1331f3387025b1d2e6399",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/HybridPPO/seed_45/best.pt",
+    "sha256": "04ca618d5589aae9b3d09618ed768454b580bac852c4b5c30975b96970bee7e6",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/HybridPPO/seed_45/last.pt",
+    "sha256": "9022065692e635aabc6f556642dba2de2d7822f25bce6ec2f45e35e5aa95ae6a",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/HybridPPO/seed_46/best.pt",
+    "sha256": "de219f76ce26ae3ef1cd68fc1a75f2f2bbe1c2e2d7fa9a2ca8ea77cdbb9bec4a",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/gold/HybridPPO/seed_46/last.pt",
+    "sha256": "fa735f80a6f8227a82c41fdb762ffeb2c77ec6521e673c1779627d334402c24b",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/DiscretePPO/seed_42/best.pt",
+    "sha256": "e161c4b255972a603ca67143a0ba2c5ef03d24947f344563c5cd854ac82952a4",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/DiscretePPO/seed_42/last.pt",
+    "sha256": "6913b4c85e7903477b8a71201c044edd0ba80a10743ae3fd0fe6c23367c65d94",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/DiscretePPO/seed_43/best.pt",
+    "sha256": "d8fc03e3738dda676a81994ea6b67f702ef6021de62036c4611a7d91a3c7ca5b",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/DiscretePPO/seed_43/last.pt",
+    "sha256": "c7f1c797604747fa73b00dba128d3e13e0bcf1eb005e7426bf65f280370625f7",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/DiscretePPO/seed_44/best.pt",
+    "sha256": "06fbe6e816f3ed0b3d4b47d8e1a88f1beef89386a3a545d7a005d8d6fe502523",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/DiscretePPO/seed_44/last.pt",
+    "sha256": "6657a0c64cdc90b0fcab752273668355506588b1437dee0aaa581612485021c0",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/DiscretePPO/seed_45/best.pt",
+    "sha256": "117e32187c3d0e12ed516130c1eb787267322befe40acbf74dbb9123c567ca75",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/DiscretePPO/seed_45/last.pt",
+    "sha256": "98a7e298b08e21992ff31181c4735a0b39b8ae606b2ec12cbcf13b000b0c2613",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/DiscretePPO/seed_46/best.pt",
+    "sha256": "deeed0545afaaa044f1277749fac6b5d94dbb7fc73ffda1a5473e9d25f86d193",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/DiscretePPO/seed_46/last.pt",
+    "sha256": "a6cd48d582730897e40350bd8107851d8fd7054fde08ca2dbddf770426f7f934",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/HybridPPO/seed_42/best.pt",
+    "sha256": "143e16bb2a30dbd6df483d0d3088785ee1f679745ba2d48726227102d9ba1f20",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/HybridPPO/seed_42/last.pt",
+    "sha256": "ac612d45ee45d60a45d4e92d0a95bb53f468b8c0c773eca6db0fdb99b8af8e1c",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/HybridPPO/seed_43/best.pt",
+    "sha256": "52c3b8e1bb5bc4327ac201ac4f92689901f73014c712c70f36fdb4ea37e93509",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/HybridPPO/seed_43/last.pt",
+    "sha256": "a342704c1bb6f1763ff6beea97570414f6676510eb8431e477526a7b5a6720d0",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/HybridPPO/seed_44/best.pt",
+    "sha256": "40b29fa525337a1aed569c2680d20b360c67909818f8c193597ba04b35bd91fb",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/HybridPPO/seed_44/last.pt",
+    "sha256": "e53f3f2e0ee1ea5dffc1f405a8bd3074c14039bb7a92a93fb53a746d4981a26d",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/HybridPPO/seed_45/best.pt",
+    "sha256": "6692076670f5f409fb37978dab5e691fea32663aced25de5daf8ffc62e5cebec",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/HybridPPO/seed_45/last.pt",
+    "sha256": "0b5f3e4b1f294f882f44afa200c16a3bafb6e35227fa215ac4869de1a709cbc7",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/HybridPPO/seed_46/best.pt",
+    "sha256": "bbc699941e82dbb9f0521c3dd5c4563fcbd40c0685ee2939a09187064d33d2af",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v2",
+    "path": "models/v2/final/synthcharge/HybridPPO/seed_46/last.pt",
+    "sha256": "7d0145c8c9d9e0c2442d6f8b840e328cb91fad44e06390bb22583f4196f4ea79",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B0/seed_42/best.pt",
+    "sha256": "6c652b3a28ec1bfa4bfc425a78faecbd8e52d45dd99da41758e165c515889fec",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B0/seed_42/last.pt",
+    "sha256": "ca2a31d76b6cdd633f72d90eeae8da8b4d004585bdaabd91321069dc44f09f3a",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B0/seed_43/best.pt",
+    "sha256": "bced56f8c0598d8c801bb594363bd13292b64b0a156cbebc482267671b5ba4ad",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B0/seed_43/last.pt",
+    "sha256": "e2e3834afa3cbf431de99084b8df1fb0c280f6c1c20a72d8e61ab573eceba6e9",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B0/seed_44/best.pt",
+    "sha256": "72f1404908ec14d1b1bb58ddf394997ffccd1641795f6c631b65598ce19e7dfd",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B0/seed_44/last.pt",
+    "sha256": "68f233f3f71246277001234ebb7435db36e388ebf12d504357bd477baa11a59b",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B0/seed_45/best.pt",
+    "sha256": "460c3dc025a60ed53379d1b3d6726ab9954e2433e7e22421e75eb50ab053ed78",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B0/seed_45/last.pt",
+    "sha256": "3886920cb206d93b90df26451bd86170e5bc91e2cbee6b30c0ed103998cb9ff1",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B0/seed_46/best.pt",
+    "sha256": "6b6c05f9dc7aa6b04f9f1758c8263f13ecdc7df0204469cb229f5bf922d98d59",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B0/seed_46/last.pt",
+    "sha256": "9995b8b83b8380829bcba7c99fdf0c7a10ac952302408a0477135fccd4747401",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B1/seed_42/best.pt",
+    "sha256": "98784ae65f2ba387a1b9509db892ab853cc971d989c927c4a896bdf90fad7b39",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B1/seed_42/last.pt",
+    "sha256": "3d874cb3c78e9aea37c2ffd64146716919f5311a0b3f551bc4c8d2a6034a8a84",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B1/seed_43/best.pt",
+    "sha256": "484111664a46c811e7a7b585a808b37eb79c12d7483c251f2aedd59797c980b9",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B1/seed_43/last.pt",
+    "sha256": "8dd0f0376159e0c391597903d8a3bc950f1e53337043c5384a035b04bd0ccacd",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B1/seed_44/best.pt",
+    "sha256": "faffab3c202f364eaef8ad09c38105d227a50400c406cb39ee57e57294d03a3a",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B1/seed_44/last.pt",
+    "sha256": "7af246fc1ed1f817aa69882e515f2c2da3c319cf70916bb4c3827825e18bd69b",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B1/seed_45/best.pt",
+    "sha256": "6f99e865d96387c4337953ac387b69f327d9f37a20d44881c200f1cb19935e77",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B1/seed_45/last.pt",
+    "sha256": "dfc1668ea086075eb1e91eaa293ded9d66f3c1f051ea0aa81c2143738562410c",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B1/seed_46/best.pt",
+    "sha256": "2dd819f5dc2c8476c0fd355a323aa1e4256e22f3301ee3074f08295239c09268",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B1/seed_46/last.pt",
+    "sha256": "ccc472f6dd17525d39d1a52eede780b4ac756b1b2d8c4f53abe838fcaba5ebf4",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B2/seed_42/best.pt",
+    "sha256": "1fafe6ff16d6b303d3d8ca4cfbddab7ebb2f2d25ceb7bb6f361cdc146ea029c7",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B2/seed_42/last.pt",
+    "sha256": "836fc508e514c75bd56c0401cb3a043cb2034efb3ec877696e5760e75df0a832",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B2/seed_43/best.pt",
+    "sha256": "78c629dcb4225e0c145cf498c7cd8a4c4639fb0a76b44db99138c2049146c586",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B2/seed_43/last.pt",
+    "sha256": "cc973a38b387847af4a84fca0e4a04e22d7c644b9752c8471b1452c6492bd044",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B2/seed_44/best.pt",
+    "sha256": "deb5e904fd4f98f3b16620b8e4027498bad755182713b1aa61374a931c37dbea",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B2/seed_44/last.pt",
+    "sha256": "d31972fefbcd937d24c91fd1c35df3c3784b8193bb271dce618b74af45303cb5",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B2/seed_45/best.pt",
+    "sha256": "8933e4750cfaf278c872863df86e43c5c693b64089aa0642b3dda38269c456b8",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B2/seed_45/last.pt",
+    "sha256": "42d82c0e4a979db3d7449a7ba7a585134d9801afdf1d418b18315e8ff4a66c03",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B2/seed_46/best.pt",
+    "sha256": "269a2179fb13a079405c57acf086c166b5c6dc35030a78ebc5fab875c99a627c",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B2/seed_46/last.pt",
+    "sha256": "7871af4b2628469c6f35ac0127299b03d4b75361de0feca3427ab0862ef58b71",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B3/seed_42/best.pt",
+    "sha256": "c24ac9105098645928fc69803698f5aedbb0614c5bab261a99346da25516294c",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B3/seed_42/last.pt",
+    "sha256": "f375bb8705a32af98e273e30bd61d4e75d90992583dae9ae03b6a5edb6f987fb",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B3/seed_43/best.pt",
+    "sha256": "b103c95335f5eac845b9ab49e53753cd82b33893ea7dfea645ba7fcb149fb446",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B3/seed_43/last.pt",
+    "sha256": "d15001a29907bcb71d4d08d9740f7d58e5d8520313ae1a1b5722f8feb376d6c3",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B3/seed_44/best.pt",
+    "sha256": "31bd523e481d18867fc17084a20ff8dc3ab6553b637eb730d1c814da349c39de",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B3/seed_44/last.pt",
+    "sha256": "ca520bf2c7425c001fe4339e39b34c33c2decd564a864fbc969d0b12ae7a3389",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B3/seed_45/best.pt",
+    "sha256": "498380aa2ecfa2648cb0685524975105a54e0771eb1dcafc010a3bb80fc2ae02",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B3/seed_45/last.pt",
+    "sha256": "419cac099f8fb65f6b7988c1e38796a8836eea8ed1510b399bcd74f8336b5cf3",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B3/seed_46/best.pt",
+    "sha256": "7edc441095bab78bcba0019b7ee0a4f6665886710eb97bb503c523f856336b0e",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v3",
+    "path": "models/v3/ablation/B3/seed_46/last.pt",
+    "sha256": "fb6a4cdc8c93d240820ee22a4fed1a75abb709439cf5e185ab49460bb22516c0",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/fa_hppo/seed_42/best.pt",
+    "sha256": "759f8d093719b73e2910c6cebe7fec001b6c1cca638f75a50ce5478eae15c434",
+    "used_by": "V4 TEST / paper Fig.4 / authoritative",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/fa_hppo/seed_42/last.pt",
+    "sha256": "d5c95a523707d44b84b5ea59d03159da77bcf709b6ac7c40a4e38aee01137b8b",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/fa_hppo/seed_43/best.pt",
+    "sha256": "e4873c13d14e33174ea816d98cf22e1089884bcb37d28c535eba6a038f6b74f7",
+    "used_by": "V4 TEST / paper Fig.4 / authoritative",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/fa_hppo/seed_43/last.pt",
+    "sha256": "457d2fd6077ebbf8005f4362d7bdbe9a7f54c2d7d7e5686031acd8f20ddcd588",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/fa_hppo/seed_44/best.pt",
+    "sha256": "f6afb1fe24a263a087fbe18e3b56ece04b02085ca8e3d4dace1dc672975ab57c",
+    "used_by": "V4 TEST / paper Fig.4 / authoritative",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/fa_hppo/seed_44/last.pt",
+    "sha256": "cc6b543a4357fb41098a5ba695e1603ee8bf33d4ac158186dc1c7c01f5ae8767",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/fa_hppo/seed_45/best.pt",
+    "sha256": "562fb328eada8f9ec069b96e5929d35da5abe62951c2fd2a2e8268c1b3d6dc71",
+    "used_by": "V4 TEST / paper Fig.4 / authoritative",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/fa_hppo/seed_45/last.pt",
+    "sha256": "d9e5cbc5cb18dc7fc5f9be1ac503499e2a5bb332081d3b2a7e6fd0a18685abc4",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/fa_hppo/seed_46/best.pt",
+    "sha256": "1d49363f136bfae129be1273354f95acd6351e7d789363481ea1f1d5a67449ef",
+    "used_by": "V4 TEST / paper Fig.4 / authoritative",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/fa_hppo/seed_46/last.pt",
+    "sha256": "c2f221501456ada2c72c05b689e2ccc7484c446e89b8d918c69082de5a4168db",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/final_reward/seed_42/best.pt",
+    "sha256": "a5d9042485697414b614fe31b87b42d7c2b9b3e76830905f0741643b4f09bd74",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/final_reward/seed_42/last.pt",
+    "sha256": "22ce85e86b719e24f7b3fed6d1dc1d6b3e19c99926b1815daa766ffbb55608d7",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/final_reward/seed_43/best.pt",
+    "sha256": "dfcc1f84dc78e89137ddc96708f3f7e5fb855c3556143c760911b464b2c557ba",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/final_reward/seed_43/last.pt",
+    "sha256": "e7508cffe3524b47367bd24e709c1bc7743e0fd3380504664b9d7340ee496c16",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/final_reward/seed_44/best.pt",
+    "sha256": "251962870c795f321adbd32969c095e759c806ee3f69f87a28778df6883175e0",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/final_reward/seed_44/last.pt",
+    "sha256": "f598b833a3a9b6da3ca77594b92866bab16f7f3d975ecf38a61c2bc9bd690299",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/final_reward/seed_45/best.pt",
+    "sha256": "9aa3cd6e258dd14d7387fbaa410bc39f5077b5463a0b5f182dfe95e91b67447e",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/final_reward/seed_45/last.pt",
+    "sha256": "66203640b59d6995045fb0de1d371781a5052226fe868707e83a8084956fd55a",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/final_reward/seed_46/best.pt",
+    "sha256": "ddf973c5f19323a632365ab5bab55fa8f69d0a82e0e563ec19526f550f874a18",
+    "used_by": "historical",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/final_reward/seed_46/last.pt",
+    "sha256": "f16b3ceecf574e1b2a25b6713de7fe8027b80dc063bd778871ba62aa9aa9a975",
+    "used_by": "training last snapshot",
+    "decision": "OPTIONAL_ARCHIVE"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V3_TIME/seed_42/best.pt",
+    "sha256": "317f4e9f9fc1f483796a5fc858eb7cca8738d757fa66494241abe8ac92d8fe92",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V3_TIME/seed_42/last.pt",
+    "sha256": "45f0c3a441f3ad139cdcfc61ab1b1fbe0dd5c9094803808492f6a10310993d9c",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V3_TIME/seed_43/best.pt",
+    "sha256": "b02054aae6d5a62d89c0dda156a10b02e2a4940b6e1fb25ba01baa54418ff43d",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V3_TIME/seed_43/last.pt",
+    "sha256": "6e21f21cf8711901c5ad073f94e37b947f0048a805e766ddaebb35179fb16238",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V3_TIME/seed_44/best.pt",
+    "sha256": "7e0531b059f7b717c6016b4783bedf7feedabcd6e4c06e1d843385ad0dcfa13a",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V3_TIME/seed_44/last.pt",
+    "sha256": "9761fd7fe2343269d195d4f23272bed971bdedf30c4e501bfb4b6315a5e2d9bc",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V3_TIME/seed_45/best.pt",
+    "sha256": "f7232bad89fbae7e4045056bddb0541c27f8c2d00c47156ab62bebfce51b5596",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V3_TIME/seed_45/last.pt",
+    "sha256": "8765ac582e29ac3373b291f02cea8c74f12be86412d5d210b6144a9000549384",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V3_TIME/seed_46/best.pt",
+    "sha256": "e8ae1337f5db1a80b63a52e241a8932f63cf8d3bc5b01de5917d9fdd4c1b78ee",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V3_TIME/seed_46/last.pt",
+    "sha256": "0b68ed9d3f9401c84d2599f75927f5a80745b68923068ffbff0361a2a65cd660",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE/seed_42/best.pt",
+    "sha256": "15ed51a1f69a1d6ab54d1eba1cba9aa8834eb121b6869f7aa21aeb4d6c48b91f",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE/seed_42/last.pt",
+    "sha256": "8aa6e70235debac7132103e87e27904225f405e2f5592e923ecb646c784110b4",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE/seed_43/best.pt",
+    "sha256": "1d798b027e0b8267363b2a3e9473aa031fa5a59855cc377917553da66d284473",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE/seed_43/last.pt",
+    "sha256": "404c0bdd8490d80bb19aac9f991b5ebd26c2c1fb345954f47236fef54dbd97d8",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE/seed_44/best.pt",
+    "sha256": "29f96c299ba4b9990968406897bad762d912c2e4e506d67b54629f682943e4a6",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE/seed_44/last.pt",
+    "sha256": "ef742144568dab48488d17e57e249d9edd5717a2aab451994877d9b6a9d9187a",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE/seed_45/best.pt",
+    "sha256": "705918d40df173fe9a8133e369071daaeb8bf6b5b9d64efdd6f96a36fc54a9ea",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE/seed_45/last.pt",
+    "sha256": "bdbba9c22fd00988e692db14bfc920ccfde66e3893bd02b369a075bf44cef295",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE/seed_46/best.pt",
+    "sha256": "5d7543505f6f8df5a4341aeffcf6f9a84138105cf9f7df7fc37c1c40b7f66068",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE/seed_46/last.pt",
+    "sha256": "0fdcac85ff4d0c13e516708b5388666aff3abd6a76bc2b0ede7ff539c8ba5c22",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_42/best.pt",
+    "sha256": "165d10f2ba5b5c5402d8047ebe5af7568cb649faf8fa28eafe5ca324185aacf6",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_42/last.pt",
+    "sha256": "7b41921fb594cd114e96149b98ff1a5c1440f9dc5b291dc49e531cd3a4c5414d",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_43/best.pt",
+    "sha256": "e0bd320a7fe56519c584ac903a3da19387bb5f36b1225c9bf3fd13aa23fe3187",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_43/last.pt",
+    "sha256": "3d13a78491321355e6557d56a52f061616dd9414cc7a3fd11d7ce17ebabadcb1",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_44/best.pt",
+    "sha256": "54602fe34a4a8dcb378a378c6ecb8174fe1b155e28f630716f57fcd0707c1551",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_44/last.pt",
+    "sha256": "1c1a7ddba62f89aab5889748d4ac84b7008b20f9e6f4c5d38c98a9ef5e4ade0c",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_45/best.pt",
+    "sha256": "b895c6c96315cec668817c93b2dceb26e8a0fb7b0d91960bcd66b7890fd7b4c8",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_45/last.pt",
+    "sha256": "94219acfdaa7445285b260aa3b613fb1194892d2d18724f36d9c8efbd0be574a",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_46/best.pt",
+    "sha256": "610bca082de4f1f4b699edf46d246b871bfd7ed9e965ede14ba80da3a000d0ab",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_BASE_NO_L_FAIL/seed_46/last.pt",
+    "sha256": "00764008af2a3413c50a388037246c94c4f7adb17d217d24c5e8747d2953030c",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_PBRS/seed_42/best.pt",
+    "sha256": "507fe5c7b4fea66c2f9f62b80e4db09857f23a243b080522ab325be4e60416dd",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_PBRS/seed_42/last.pt",
+    "sha256": "68a025fb5238d9971ed55501fe2fcd7c2cb0c69fb1341dfac2fa9488f680d856",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_PBRS/seed_43/best.pt",
+    "sha256": "8db3f127e5c21d392a2a11a91004273c66f0b7f996006648ed4dd4bb4eb1acd6",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_PBRS/seed_43/last.pt",
+    "sha256": "7dff629ea5196234d07af86fe8161e180cf84aec34044a1eb2539e6f2dca635c",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_PBRS/seed_44/best.pt",
+    "sha256": "0b5eac85531086d3f672629086893ee7243d01acbf17f2e54105ee7941e705ca",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_PBRS/seed_44/last.pt",
+    "sha256": "8f424afea980988b86826f4800b015bd66b01477e6a7af40cb926dc2d133f0ce",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_PBRS/seed_45/best.pt",
+    "sha256": "1b625239b98abd25d9ec9a4f9a949e32787b440b0ac1c8b1ff9e0ef6bd90cb97",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_PBRS/seed_45/last.pt",
+    "sha256": "34d909b878472dd7747ad967f2b7e7e917a64bf622194e44f42151c75ce41086",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_PBRS/seed_46/best.pt",
+    "sha256": "bb8efade72881616eeb7bf211208f26512dd2ce14250a0f526e85356fa71beeb",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation/V4_PBRS/seed_46/last.pt",
+    "sha256": "2de5dbf967c8e8a7b9c1271ea581f5e425cecbf18535cb6f62348a5127534f51",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation_smoke/V4_PBRS/seed_42/best.pt",
+    "sha256": "0588c75cba72340687e0c09ea67e413bc88de8977d6a6add6801376f3eb3834d",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  },
+  {
+    "version": "v4",
+    "path": "models/v4/reward_ablation_smoke/V4_PBRS/seed_42/last.pt",
+    "sha256": "9b105859343474510fd9b7a5db81ebcb9cb3568ea5482a5b93aa411d037c141b",
+    "used_by": "V4 reward ablation (VAL)",
+    "decision": "KEEP"
+  }
+]

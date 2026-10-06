@@ -1,4 +1,4 @@
-"""Build standalone V4 paper package (results_v4_paper/) from frozen evidence only.
+"""Build standalone V4 paper package (results/v4/paper/) from frozen evidence only.
 
 No retraining. No TEST rerun. No prior-version comparisons in paper-facing outputs.
 PNG only. Supports --verify.
@@ -22,21 +22,21 @@ import numpy as np
 from matplotlib.patches import FancyBboxPatch
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / "results_v4_paper"
+OUT = ROOT / "results" / "v4" / "paper"
 FIG = OUT / "figures"
 TAB = OUT / "tables"
 STAT = OUT / "statistics"
 CAP = OUT / "captions"
 MAN = OUT / "manifests"
 
-RAW = ROOT / "results" / "v4_test" / "raw" / "synthcharge_v4_test.jsonl"
-LOCK = ROOT / "results" / "v4_test" / "TEST_LOCK.json"
-CONSUMED = ROOT / "results" / "v4_test" / "EVALUATION_CONSUMED.json"
-CKPT_FREEZE = ROOT / "results" / "v4_test" / "CHECKPOINT_FREEZE.json"
-PROTOCOL = ROOT / "results" / "v4_test" / "PAPER_PROTOCOL.json"
-REWARD_FREEZE = ROOT / "results" / "v4_reward" / "FINAL_REWARD_FREEZE.json"
-ABLATION = ROOT / "results" / "v4_reward" / "SUMMARY.json"
-AUTH = ROOT / "results" / "v4_reward" / "final_authoritative" / "V4_BASE_NO_L_FAIL"
+RAW = ROOT / "results" / "v4" / "test" / "raw" / "synthcharge_v4_test.jsonl"
+LOCK = ROOT / "results" / "v4" / "test" / "TEST_LOCK.json"
+CONSUMED = ROOT / "results" / "v4" / "test" / "EVALUATION_CONSUMED.json"
+CKPT_FREEZE = ROOT / "results" / "v4" / "test" / "CHECKPOINT_FREEZE.json"
+PROTOCOL = ROOT / "results" / "v4" / "test" / "PAPER_PROTOCOL.json"
+REWARD_FREEZE = ROOT / "results" / "v4" / "reward_development" / "FINAL_REWARD_FREEZE.json"
+ABLATION = ROOT / "results" / "v4" / "reward_development" / "SUMMARY.json"
+AUTH = ROOT / "results" / "v4" / "reward_development" / "final_authoritative" / "V4_BASE_NO_L_FAIL"
 
 SEEDS = (42, 43, 44, 45, 46)
 T_CRIT_5 = 2.776445105
@@ -688,15 +688,16 @@ def fig02_method() -> None:
         ha="center",
         fontsize=8,
     )
-    _save(fig, "fig02_method_schematic", split="methodology", sources=["results/v4_reward/FINAL_REWARD_FREEZE.json"])
+    _save(fig, "fig02_method_schematic", split="methodology", sources=["results/v4/reward_development/FINAL_REWARD_FREEZE.json"])
 
 
 def fig03_envelope() -> None:
     _style()
     fig, ax = plt.subplots(figsize=(4.8, 4.8))
-    lower, upper, u = 0.35, 0.90, 0.55
+    # Implementation: SOC_lower = max(SOC_arrival, SOC_continuation)
+    # Illustrative values must obey arrival <= lower.
+    arrival, lower, upper, u = 0.25, 0.35, 0.90, 0.55
     target = lower + u * (upper - lower)
-    arrival = 0.48
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1.08)
     ax.axhline(upper, color="#D55E00", lw=2.0)
@@ -713,7 +714,13 @@ def fig03_envelope() -> None:
     ax.text(0.74, target, r"$SOC_{\mathrm{target}}$", va="center", color="#0072B2", fontsize=9)
     ax.text(0.74, arrival, "Arrival SOC", va="center", color="#666666", fontsize=9)
     ax.text(0.05, 1.02, "Optimistic time-feasibility upper bound", fontsize=7.5, color="#D55E00")
-    ax.text(0.05, 0.02, "Energy-continuation lower bound", fontsize=7.5, color="#009E73")
+    ax.text(
+        0.05,
+        0.02,
+        r"Target lower bound $=\max($arrival SOC, energy-continuation$)$",
+        fontsize=7.0,
+        color="#009E73",
+    )
     ax.text(0.05, target + 0.04, "Selected target SOC", fontsize=7.5, color="#0072B2")
     ax.set_xticks([])
     ax.set_ylabel("SOC")
@@ -755,7 +762,7 @@ def fig04_soc_traj() -> None:
         fig,
         "fig04_illustrative_soc",
         split="VAL",
-        sources=["results_v4_paper/data/illustrative_val_trajectory.json"],
+        sources=["results/v4/paper/data/illustrative_val_trajectory.json"],
     )
 
 
@@ -802,8 +809,8 @@ def fig05_feas(rows: list[dict], stats: dict) -> None:
     info = stats["methods"][LABEL[METHOD_CODE]]
     lo, hi = info["feasibility_t95"]
     yerr[METHOD_CODE] = 100 * max(info["feasibility_mean"] - lo, hi - info["feasibility_mean"])
-    _bar_methods(ax, values, yerr, "TEST feasibility (%)", ylim=(0, 110), fmt="{:.1f}%")
-    _save(fig, "fig05_main_feasibility", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
+    _bar_methods(ax, values, yerr, "TEST feasibility (%)", ylim=(0, 105), fmt="{:.1f}%")
+    _save(fig, "fig05_main_feasibility", split="TEST", sources=["results/v4/test/raw/synthcharge_v4_test.jsonl"])
 
 
 def fig06_comp(stats: dict) -> None:
@@ -815,7 +822,7 @@ def fig06_comp(stats: dict) -> None:
     lo, hi = info["completion_t95"]
     yerr[METHOD_CODE] = max(info["completion_mean"] - lo, hi - info["completion_mean"])
     _bar_methods(ax, values, yerr, "Failure-retaining completion", ylim=(0, max(values.values()) * 1.25), fmt="{:.3f}")
-    _save(fig, "fig06_main_completion", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
+    _save(fig, "fig06_main_completion", split="TEST", sources=["results/v4/test/raw/synthcharge_v4_test.jsonl"])
 
 
 def fig07_charging(rows: list[dict], stats: dict) -> None:
@@ -832,8 +839,8 @@ def fig07_charging(rows: list[dict], stats: dict) -> None:
         else:
             sub = [r for r in rows if r["method"] == m and r.get("charge_class") == "charging_required"]
             values[m] = 100 * feas_rate(sub)
-    _bar_methods(ax, values, yerr, "Charging-required feasibility (%)", ylim=(0, 110), fmt="{:.1f}%")
-    _save(fig, "fig07_charging_required", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
+    _bar_methods(ax, values, yerr, "Charging-required feasibility (%)", ylim=(0, 105), fmt="{:.1f}%")
+    _save(fig, "fig07_charging_required", split="TEST", sources=["results/v4/test/raw/synthcharge_v4_test.jsonl"])
 
 
 def fig08_ecdf(rows: list[dict]) -> None:
@@ -856,7 +863,7 @@ def fig08_ecdf(rows: list[dict]) -> None:
     ax.set_ylabel("Empirical CDF")
     ax.set_ylim(0, 1.02)
     ax.legend(frameon=False, loc="lower right")
-    _save(fig, "fig08_performance_ecdf", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
+    _save(fig, "fig08_performance_ecdf", split="TEST", sources=["results/v4/test/raw/synthcharge_v4_test.jsonl"])
 
 
 def fig09_layout(rows: list[dict], stats: dict) -> None:
@@ -886,7 +893,7 @@ def fig09_layout(rows: list[dict], stats: dict) -> None:
     ax.set_ylabel("TEST feasibility (%)")
     ax.set_ylim(0, 105)
     ax.legend(frameon=False, ncol=2, fontsize=8)
-    _save(fig, "fig09_by_layout", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
+    _save(fig, "fig09_by_layout", split="TEST", sources=["results/v4/test/raw/synthcharge_v4_test.jsonl"])
 
 
 def fig10_length(stats: dict) -> None:
@@ -904,7 +911,7 @@ def fig10_length(stats: dict) -> None:
     ax.set_ylabel("FA-HPPO TEST feasibility (%)")
     ax.set_ylim(0, 105)
     ax.set_xlabel("Frozen-route-length bin")
-    _save(fig, "fig10_by_length", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
+    _save(fig, "fig10_by_length", split="TEST", sources=["results/v4/test/raw/synthcharge_v4_test.jsonl"])
 
 
 def fig11_heatmap(stats: dict) -> None:
@@ -924,7 +931,7 @@ def fig11_heatmap(stats: dict) -> None:
     fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04, label="Feasibility (%)")
     ax.set_xlabel("Frozen-route-length bin")
     ax.set_ylabel("Layout")
-    _save(fig, "fig11_difficulty_heatmap", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
+    _save(fig, "fig11_difficulty_heatmap", split="TEST", sources=["results/v4/test/raw/synthcharge_v4_test.jsonl"])
 
 
 def fig12_ablation() -> None:
@@ -956,7 +963,7 @@ def fig12_ablation() -> None:
         if ax is axes[0]:
             ax.set_ylim(0, 105)
     fig.tight_layout()
-    _save(fig, "fig12_reward_ablation_val", split="VAL", sources=["results/v4_reward/SUMMARY.json"])
+    _save(fig, "fig12_reward_ablation_val", split="VAL", sources=["results/v4/reward_development/SUMMARY.json"])
 
 
 def _load_auth_curves() -> dict[int, list[dict]]:
@@ -1005,7 +1012,7 @@ def fig13_reward() -> None:
         fig,
         "fig13_reward_evolution",
         split="TRAIN",
-        sources=[f"results/v4_reward/final_authoritative/V4_BASE_NO_L_FAIL/seed_{s}/curves.jsonl" for s in SEEDS],
+        sources=[f"results/v4/reward_development/final_authoritative/V4_BASE_NO_L_FAIL/seed_{s}/curves.jsonl" for s in SEEDS],
     )
 
 
@@ -1033,7 +1040,7 @@ def fig14_loss() -> None:
         fig,
         "fig14_loss_evolution",
         split="TRAIN",
-        sources=[f"results/v4_reward/final_authoritative/V4_BASE_NO_L_FAIL/seed_{s}/curves.jsonl" for s in SEEDS],
+        sources=[f"results/v4/reward_development/final_authoritative/V4_BASE_NO_L_FAIL/seed_{s}/curves.jsonl" for s in SEEDS],
     )
 
 
@@ -1052,7 +1059,7 @@ def fig15_val() -> None:
         fig,
         "fig15_validation_learning",
         split="VAL",
-        sources=[f"results/v4_reward/final_authoritative/V4_BASE_NO_L_FAIL/seed_{s}/curves.jsonl" for s in SEEDS],
+        sources=[f"results/v4/reward_development/final_authoritative/V4_BASE_NO_L_FAIL/seed_{s}/curves.jsonl" for s in SEEDS],
     )
 
 
@@ -1071,7 +1078,7 @@ def figA1_grad() -> None:
         fig,
         "figA01_gradient_norm",
         split="TRAIN",
-        sources=[f"results/v4_reward/final_authoritative/V4_BASE_NO_L_FAIL/seed_{s}/curves.jsonl" for s in SEEDS],
+        sources=[f"results/v4/reward_development/final_authoritative/V4_BASE_NO_L_FAIL/seed_{s}/curves.jsonl" for s in SEEDS],
     )
 
 
@@ -1087,7 +1094,7 @@ def figA3_seed_test(stats: dict) -> None:
     ax.set_xlabel("Seed")
     ax.set_ylabel("TEST feasibility (%)")
     ax.set_ylim(0, 105)
-    _save(fig, "figA03_per_seed_test_feasibility", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
+    _save(fig, "figA03_per_seed_test_feasibility", split="TEST", sources=["results/v4/test/raw/synthcharge_v4_test.jsonl"])
 
 
 def figA4_failures(rows: list[dict]) -> None:
@@ -1109,7 +1116,7 @@ def figA4_failures(rows: list[dict]) -> None:
         ax.invert_yaxis()
         ax.set_xlabel("Failure count (route×seed, pooled)")
     fig.tight_layout()
-    _save(fig, "figA04_failure_reasons", split="TEST", sources=["results/v4_test/raw/synthcharge_v4_test.jsonl"])
+    _save(fig, "figA04_failure_reasons", split="TEST", sources=["results/v4/test/raw/synthcharge_v4_test.jsonl"])
 
 
 # ---------------------------------------------------------------------------
@@ -1136,7 +1143,7 @@ Uncertainty conventions are stated explicitly per figure (never as generic "erro
 
 **Fig. 2 (methodology).** FA-HPPO control loop: fixed-route state → feasibility shield → features → hybrid PPO → CONTINUE/station → continuous amount $u$ with SOC mapping → simulator transition. Equations below the workflow state the normalized time-horizon reward and the SOC-target map $SOC_{\\mathrm{target}}=SOC_{\\mathrm{lower}}+u(SOC_{\\mathrm{upper}}-SOC_{\\mathrm{lower}})$.
 
-**Fig. 3 (methodology).** Single-decision SOC envelope (not a simulated trajectory). Vertical scale shows arrival SOC, energy-continuation lower bound $SOC_{\\mathrm{lower}}$, optimistic time-feasibility upper bound $SOC_{\\mathrm{upper}}$, and selected target SOC with $SOC_{\\mathrm{lower}}\\le SOC_{\\mathrm{target}}\\le SOC_{\\mathrm{upper}}$ and $SOC_{\\mathrm{target}}=SOC_{\\mathrm{lower}}+u(SOC_{\\mathrm{upper}}-SOC_{\\mathrm{lower}})$.
+**Fig. 3 (methodology).** Single-decision SOC envelope (not a simulated trajectory). Vertical scale shows arrival SOC below the target lower bound $SOC_{\\mathrm{lower}}=\\max($arrival SOC, energy-continuation requirement$)$, optimistic time-feasibility upper bound $SOC_{\\mathrm{upper}}$, and selected target SOC with $SOC_{\\mathrm{lower}}\\le SOC_{\\mathrm{target}}\\le SOC_{\\mathrm{upper}}$ and $SOC_{\\mathrm{target}}=SOC_{\\mathrm{lower}}+u(SOC_{\\mathrm{upper}}-SOC_{\\mathrm{lower}})$.
 
 **Fig. 4 (VALIDATION).** Real SOC trajectory from frozen V4 evidence (not TEST). Selection rule: __RULE__ Selected route `__ROUTE_ID__`, seed __SEED__. Markers show station arrivals and SOC envelopes at charge decisions.
 
@@ -1218,7 +1225,7 @@ python scripts/paper/build_v4_results_paper.py --verify
 ```
 
 Illustrative VAL trajectory source (Fig. 4):
-`results_v4_paper/data/illustrative_val_trajectory.json`
+`results/v4/paper/data/illustrative_val_trajectory.json`
 (regenerate with `python scripts/paper/record_v4_illustrative_val_trajectory.py` only if needed; do not retrain).
 
 ## Benchmark strata
@@ -1241,7 +1248,7 @@ def write_manifest(stats: dict) -> dict:
     _dump_json(MAN / "FIGURE_MANIFEST.json", fig_manifest)
     tables = sorted(TAB.glob("*.*"))
     payload = {
-        "package": "results_v4_paper",
+        "package": "results/v4/paper",
         "standalone": True,
         "prior_version_comparisons": False,
         "reward": reward.get("equations"),
@@ -1347,7 +1354,7 @@ def verify(manifest: dict) -> None:
 
     # Fig. 4 must reference real VAL trajectory source
     fig4 = by_name["fig04_illustrative_soc.png"]
-    if "results_v4_paper/data/illustrative_val_trajectory.json" not in fig4.get("source_files", []):
+    if "results/v4/paper/data/illustrative_val_trajectory.json" not in fig4.get("source_files", []):
         raise SystemExit("--verify failed: Fig. 4 missing real VAL trajectory source")
     if not TRAJ.is_file():
         raise SystemExit("--verify failed: illustrative VAL trajectory file missing")
@@ -1360,7 +1367,7 @@ def verify(manifest: dict) -> None:
         raise SystemExit("--verify failed: Fig. 4 must use seed 42")
     if not traj.get("feasible") or int(traj.get("n_charge_actions", 0)) < 1:
         raise SystemExit("--verify failed: Fig. 4 trajectory must be feasible with ≥1 charge")
-    traj_hash = fig4["source_hashes"].get("results_v4_paper/data/illustrative_val_trajectory.json")
+    traj_hash = fig4["source_hashes"].get("results/v4/paper/data/illustrative_val_trajectory.json")
     if traj_hash != _sha(TRAJ):
         raise SystemExit("--verify failed: Fig. 4 trajectory source hash mismatch")
 

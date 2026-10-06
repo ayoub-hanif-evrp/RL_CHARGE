@@ -18,7 +18,7 @@ import torch
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
-sys.path.insert(0, str(ROOT / "scripts" / "v3_hppo"))
+sys.path.insert(0, str(ROOT / "scripts" / "v3"))
 
 from domain.load_convention import LoadConvention  # noqa: E402
 from experiments.dataset import parse_route_instance  # noqa: E402
@@ -38,7 +38,7 @@ from simulation.simulator import FixedRouteSimulator  # noqa: E402
 
 from common import SYNTH_CKPT, dump_json, sha256  # noqa: E402
 
-OUT = ROOT / "results_paper" / "case_study" / "illustrative_val_episode.json"
+OUT = ROOT / "results" / "v3" / "paper" / "case_study" / "illustrative_val_episode.json"
 SEED = 42
 SELECTION = {
     "split": "validation",

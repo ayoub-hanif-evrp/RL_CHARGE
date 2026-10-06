@@ -224,7 +224,7 @@ def test_reward_computer_deterministic(write_instance):
 
 
 def test_v3_freeze_integrity_untouched():
-    v3 = ROOT / "results" / "v3_hppo"
+    v3 = ROOT / "results" / "v3"
     lock = json.loads((v3 / "TEST_LOCK.json").read_text(encoding="utf-8"))
     consumed = json.loads((v3 / "EVALUATION_CONSUMED.json").read_text(encoding="utf-8"))
     assert consumed.get("consumed") is True
@@ -245,7 +245,7 @@ def test_figure_builder_is_pure_from_logs(tmp_path, monkeypatch):
 
     variant = "V4_PBRS"
     root = tmp_path
-    abl = root / "results" / "v4_reward" / "ablation" / variant
+    abl = root / "results" / "v4" / "reward_development" / "ablation" / variant
     for seed in (42, 43):
         d = abl / f"seed_{seed}"
         d.mkdir(parents=True)
@@ -269,12 +269,12 @@ def test_figure_builder_is_pure_from_logs(tmp_path, monkeypatch):
         figmod,
         "CURVE_ROOTS",
         (
-            root / "results" / "v4_reward" / "final_authoritative",
-            root / "results" / "v4_reward" / "final_clean",
-            root / "results" / "v4_reward" / "ablation",
+            root / "results" / "v4" / "reward_development" / "final_authoritative",
+            root / "results" / "v4" / "reward_development" / "final_clean",
+            root / "results" / "v4" / "reward_development" / "ablation",
         ),
     )
-    monkeypatch.setattr(figmod, "FIG", root / "results_v4" / "figures")
+    monkeypatch.setattr(figmod, "FIG", root / "results" / "v4" / "training_figures" / "figures")
     monkeypatch.setattr(figmod, "SEEDS", (42, 43))
     # ensure common-key fields exist for new preferred metrics
     for seed in (42, 43):

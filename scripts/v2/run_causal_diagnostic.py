@@ -213,7 +213,7 @@ def run_variant(name: str, seed: int) -> None:
     config.seed = int(seed)
     ablation = AblationConfig(name="FULL", time_aware=bool(spec["time_aware"]))
     scale = global_return_scale(train_routes) if spec["scale"] else None
-    out = ROOT / "checkpoints_v2" / name / f"seed_{seed}"
+    out = ROOT / "models" / "v2" / name / f"seed_{seed}"
     manifest = train_hybrid_ppo(
         train_routes=train_routes,
         val_routes=val_routes,

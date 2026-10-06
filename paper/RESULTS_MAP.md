@@ -1,11 +1,11 @@
-# Results map → `results_paper/`
+# Results map → `results/v3/paper/`
 
 ```bash
 python scripts/paper/build_results_paper.py
 python scripts/paper/build_results_paper.py --verify
 ```
 
-PNG only. Flat `figures/` (no appendix/). Captions in `results_paper/CAPTIONS.md`.
+PNG only. Flat `figures/` (no appendix/). Captions in `results/v3/paper/CAPTIONS.md`.
 
 ## Figures (20)
 
@@ -32,4 +32,4 @@ PNG only. Flat `figures/` (no appendix/). Captions in `results_paper/CAPTIONS.md
 | 19 | `fig19_charge_decision.png` | What does one charge decision look like? |
 | 20 | `fig20_frvcp_reference.png` | Native FRVCP reference? |
 
-Tables 1–4 and A1–A3 under `results_paper/tables/`.
+Tables 1–4 and A1–A3 under `results/v3/paper/tables/`.

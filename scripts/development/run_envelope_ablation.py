@@ -32,7 +32,7 @@ from routing.v2_corpus import global_return_scale  # noqa: E402
 
 SEEDS = (42, 43, 44, 45, 46)
 OUT_ROOT = ROOT / "results" / "development" / "envelope_ablation"
-CKPT_ROOT = ROOT / "checkpoints_development" / "envelope_ablation"
+CKPT_ROOT = ROOT / "models" / "development" / "envelope_ablation"
 
 VARIANTS = {
     "A_arrival_to_max": {

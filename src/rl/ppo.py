@@ -20,7 +20,7 @@ from .policy import HybridPolicy
 from .seed import seed_everything
 
 
-RL_CONFIG_DIR = REPO_ROOT / "configs" / "rl"
+RL_CONFIG_DIR = REPO_ROOT / "configs" / "common" / "rl"
 
 
 @dataclass

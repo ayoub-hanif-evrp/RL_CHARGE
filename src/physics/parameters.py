@@ -22,7 +22,7 @@ from .errors import (
     UnknownPhysicsProfileError,
 )
 
-PHYSICS_CONFIG_DIR = REPO_ROOT / "configs" / "physics"
+PHYSICS_CONFIG_DIR = REPO_ROOT / "configs" / "common" / "physics"
 DEFAULT_PROFILE_NAME = "official_evrptwgr"
 
 _REQUIRED_ENERGY_KEYS = (

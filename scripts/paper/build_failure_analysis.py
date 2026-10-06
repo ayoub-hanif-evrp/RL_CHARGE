@@ -13,12 +13,12 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "scripts" / "v3_hppo"))
+sys.path.insert(0, str(ROOT / "scripts" / "v3"))
 from common import SEEDS, V3  # noqa: E402
 
 RAW = V3 / "raw" / "synthcharge_test.jsonl"
-OUT = ROOT / "results_paper" / "failure_analysis"
-FIG_NOTE = "results_paper/figures/fig17_failure_by_regime.png"
+OUT = ROOT / "results" / "v3" / "paper" / "failure_analysis"
+FIG_NOTE = "results/v3/paper/figures/fig17_failure_by_regime.png"
 
 
 def main() -> None:
@@ -120,7 +120,7 @@ def main() -> None:
     lines += [f"- {u}" for u in findings["unavailable"]]
     lines += [
         "",
-        "Publication table: `results_paper/tables/tableA03_failure_routes.*`",
+        "Publication table: `results/v3/paper/tables/tableA03_failure_routes.*`",
         f"Figure (official builder): `{FIG_NOTE}`",
         "",
         "Regenerate publication figures with `python scripts/paper/build_results_paper.py`.",

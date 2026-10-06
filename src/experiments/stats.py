@@ -404,24 +404,7 @@ def seed_feasibility_summary(rows: Sequence[dict]) -> dict:
 
 
 def logical_checkpoint_path(path: str, filename: str | None = None) -> str:
-    """Replace absolute worktree paths with repository-relative checkpoint ids."""
-    text = str(path).replace("\\", "/")
-    lowered = text.lower()
-    # Prefer longer roots first so checkpoints_v4 is not truncated to checkpoints/.
-    for root in ("checkpoints_v4", "checkpoints_v3", "checkpoints_v2", "checkpoints_development", "checkpoints"):
-        marker = f"{root}/"
-        idx = lowered.rfind(marker)
-        if idx < 0:
-            continue
-        tail = text[idx + len(marker) :]
-        parts = [part for part in tail.split("/") if part]
-        if filename:
-            if len(parts) >= 2:
-                return f"{root}/{parts[0]}/{parts[1]}/{filename}"
-            if parts:
-                return f"{root}/{parts[0]}/{filename}"
-            return f"{root}/{filename}"
-        if parts:
-            return f"{root}/{'/'.join(parts)}"
-        return root
-    return text
+    """Replace absolute/legacy worktree paths with canonical models/ relative ids."""
+    from repo_paths import logical_model_path
+
+    return logical_model_path(path, filename)
