@@ -1,0 +1,50 @@
+conditioning,survivor_bias_warning,method,metric,n,mean,sd
+method_feasible_routes_only,True,FA-HPPO,completion_time,851,3.8028713147541118,0.8758561896714427
+method_feasible_routes_only,True,FA-HPPO,charging_time,851,0.2913320402538695,0.16943220181301216
+method_feasible_routes_only,True,FA-HPPO,energy_charged,851,0.2913320402538695,0.16943220181301216
+method_feasible_routes_only,True,FA-HPPO,n_station_visits,851,1.9964747356051704,1.432804499700137
+method_feasible_routes_only,True,FA-HPPO,terminal_soc,851,0.4071673699597952,0.19093864842418393
+method_feasible_routes_only,True,FA-HPPO,total_distance,851,2.1138603690798057,0.6161701992658226
+method_feasible_routes_only,True,FA-HPPO,runtime_s,851,0.10474066533704784,0.07878915707077883
+method_feasible_routes_only,True,One-step lookahead,completion_time,124,3.3985918310179786,0.6787776644622243
+method_feasible_routes_only,True,One-step lookahead,charging_time,124,0.20035002119567355,0.14314147842115196
+method_feasible_routes_only,True,One-step lookahead,energy_charged,124,0.20035002119567355,0.14314147842115196
+method_feasible_routes_only,True,One-step lookahead,n_station_visits,124,2.3306451612903225,1.4690396962517345
+method_feasible_routes_only,True,One-step lookahead,terminal_soc,124,0.30676450620971585,0.2706918625910099
+method_feasible_routes_only,True,One-step lookahead,total_distance,124,1.9105768748471488,0.43535609180492507
+method_feasible_routes_only,True,One-step lookahead,runtime_s,124,0.11594557258461963,0.09485397177327848
+method_feasible_routes_only,True,Greedy full charge,completion_time,95,3.51972432731143,0.7406551633668533
+method_feasible_routes_only,True,Greedy full charge,charging_time,95,0.22892183950459205,0.1806593002787427
+method_feasible_routes_only,True,Greedy full charge,energy_charged,95,0.22892183950459205,0.1806593002787427
+method_feasible_routes_only,True,Greedy full charge,n_station_visits,95,0.6210526315789474,0.4876986200605437
+method_feasible_routes_only,True,Greedy full charge,terminal_soc,95,0.5062010865106101,0.31581865230478395
+method_feasible_routes_only,True,Greedy full charge,total_distance,95,1.7057656196013926,0.4312871056144692
+method_feasible_routes_only,True,Greedy full charge,runtime_s,95,0.047321382108585615,0.03867992838204868
+method_feasible_routes_only,True,Greedy minimum charge,completion_time,80,3.1834524916232807,0.575984229579432
+method_feasible_routes_only,True,Greedy minimum charge,charging_time,80,0.02624496957902058,0.03192964148185068
+method_feasible_routes_only,True,Greedy minimum charge,energy_charged,80,0.02624496957902058,0.03192964148185068
+method_feasible_routes_only,True,Greedy minimum charge,n_station_visits,80,0.55,0.5006325113218328
+method_feasible_routes_only,True,Greedy minimum charge,terminal_soc,80,0.08104990587753458,0.14557364752258273
+method_feasible_routes_only,True,Greedy minimum charge,total_distance,80,1.5753000289120274,0.313264987788495
+method_feasible_routes_only,True,Greedy minimum charge,runtime_s,80,0.04596495625009993,0.042398200633249644
+matched_common_feasible,False,FA-HPPO minus One-step lookahead,completion_time,617,0.15300792449845724,0.35572108027980376
+matched_common_feasible,False,FA-HPPO minus One-step lookahead,charging_time,617,0.04917575514153241,0.15696910580343634
+matched_common_feasible,False,FA-HPPO minus One-step lookahead,energy_charged,617,0.04917575514153241,0.15696910580343634
+matched_common_feasible,False,FA-HPPO minus One-step lookahead,n_station_visits,617,-0.5072933549432739,1.4761178792185363
+matched_common_feasible,False,FA-HPPO minus One-step lookahead,terminal_soc,617,0.10796649098441748,0.31047753926201666
+matched_common_feasible,False,FA-HPPO minus One-step lookahead,total_distance,617,0.02395663499106169,0.29284837016687154
+matched_common_feasible,False,FA-HPPO minus One-step lookahead,runtime_s,617,-0.02167264035902163,0.04295245254164305
+matched_common_feasible,False,FA-HPPO minus Greedy full charge,completion_time,474,0.05704883091852966,0.34461709166489507
+matched_common_feasible,False,FA-HPPO minus Greedy full charge,charging_time,474,0.011644856714552882,0.16845146920117288
+matched_common_feasible,False,FA-HPPO minus Greedy full charge,energy_charged,474,0.011644856714552882,0.16845146920117288
+matched_common_feasible,False,FA-HPPO minus Greedy full charge,n_station_visits,474,1.0864978902953586,1.136975687306547
+matched_common_feasible,False,FA-HPPO minus Greedy full charge,terminal_soc,474,-0.08766493542055119,0.3651605166691483
+matched_common_feasible,False,FA-HPPO minus Greedy full charge,total_distance,474,0.18684332353109342,0.2630135470696469
+matched_common_feasible,False,FA-HPPO minus Greedy full charge,runtime_s,474,0.05203709345633156,0.04481118856019317
+matched_common_feasible,False,FA-HPPO minus Greedy minimum charge,completion_time,400,0.21413398805110515,0.2939101183215057
+matched_common_feasible,False,FA-HPPO minus Greedy minimum charge,charging_time,400,0.17951297669005864,0.12098116215830008
+matched_common_feasible,False,FA-HPPO minus Greedy minimum charge,energy_charged,400,0.17951297669005864,0.12098116215830008
+matched_common_feasible,False,FA-HPPO minus Greedy minimum charge,n_station_visits,400,0.93,0.9912398251570825
+matched_common_feasible,False,FA-HPPO minus Greedy minimum charge,terminal_soc,400,0.3430259487029585,0.23205830883307788
+matched_common_feasible,False,FA-HPPO minus Greedy minimum charge,total_distance,400,0.16921038883550105,0.24677332726897727
+matched_common_feasible,False,FA-HPPO minus Greedy minimum charge,runtime_s,400,0.045370109748619145,0.037942163801103025

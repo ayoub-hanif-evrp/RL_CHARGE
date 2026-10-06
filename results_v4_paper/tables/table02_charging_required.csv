@@ -1,0 +1,9 @@
+method,subset,n,feasibility,sd
+FA-HPPO,charging_required,144,0.9319444444444445,0.022715871158050172
+FA-HPPO,no_charge_required,36,1.0,0.0
+One-step lookahead,charging_required,144,0.6180555555555556,
+One-step lookahead,no_charge_required,36,0.9722222222222222,
+Greedy full charge,charging_required,144,0.4097222222222222,
+Greedy full charge,no_charge_required,36,1.0,
+Greedy minimum charge,charging_required,144,0.3055555555555556,
+Greedy minimum charge,no_charge_required,36,1.0,

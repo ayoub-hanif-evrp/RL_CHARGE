@@ -2,24 +2,25 @@
 
 Owner-only items are marked TODO where metadata is unavailable.
 
-## Automated / agent-completable
+## V4 package (current, standalone)
 
-- [x] Full test suite green (`python -m pytest tests -q`)
-- [x] Clean working tree on the release commit *(verify at tag time)*
-- [x] `results/v3_hppo/PAPER_PROTOCOL.json` committed before TEST evaluation
-- [x] `results/v3_hppo/CHECKPOINT_FREEZE.json` present with verified SHA256
-- [x] `results/v3_hppo/TEST_LOCK.json` verified
-- [x] `results/v3_hppo/EVALUATION_CONSUMED.json` present after one-shot TEST
-- [x] Paper artifacts regenerated: `python scripts/paper/build_results_paper.py --verify`
-- [x] Publication outputs live only in `results_paper/` (PNG figures)
-- [x] Rejected V3 candidate instances removed (180 locked members retained)
-- [x] Historical finalization notes archived under `docs/history/`
-- [x] V2 `results/v2/final/` untouched
-- [x] No DiscretePPO in V3 paper-facing TEST matrix
-- [x] Table 4 split into development vs TEST amount sensitivity
-- [x] Figure 9 regenerated from archived native FRVCP statistics
-- [x] Joint seed×route sensitivity JSON written (analysis-only)
-- [x] Wording clarifications: fresh SynthCharge TEST (not external generalization)
+- [x] Full test suite green (`python -m pytest tests -q` — 256 passed)
+- [x] Authoritative V4 reward freeze (`results/v4_reward/FINAL_REWARD_FREEZE.json`)
+- [x] Authoritative five-seed training under `final_authoritative/` with `code_git_dirty=false`
+- [x] V4 TEST protocol committed before generation
+- [x] `results/v4_test/CHECKPOINT_FREEZE.json` present
+- [x] `results/v4_test/TEST_LOCK.json` verified (180 routes; seed start 500000)
+- [x] `results/v4_test/EVALUATION_CONSUMED.json` present after one-shot TEST
+- [x] Standalone paper package: `python scripts/paper/build_v4_results_paper.py --verify`
+- [x] Publication outputs in `results_v4_paper/` (PNG only; no prior-version comparisons)
+- [x] Benchmark wording clarification (`docs/V4_BENCHMARK_WORDING.md`)
+- [x] Standalone claims (`paper/V4_CLAIMS.md`)
+- [x] Historical V1/V2/V3 evidence trees untouched
+
+## Historical V3 package (archived; do not reopen)
+
+- [x] V3 protocol / freeze / lock / consumed TEST under `results/v3_hppo/`
+- [x] Historical displays under `results_paper/`
 
 ## Owner TODO (do not invent)
 
@@ -31,27 +32,13 @@ Do **not** invent license, author identity, ORCID, DOI, or venue.
 - [ ] Choose GitHub release tag name
 - [ ] Archive via GitHub/Zenodo and insert DOI into the manuscript **after** release
 - [ ] Confirm public distribution rights for any non-vendored external data
-- [ ] Write manuscript `.tex` / paper source from `paper/` artifacts
-
-## Scientific repair notes (agent-completable)
-
-- [x] Document frozen station-feature duplication (`docs/FROZEN_METHOD_NOTES.md`, `docs/STATION_FEATURE_AUDIT.md`)
-- [x] Provenance/semantic station-feature + SOC mapping tests
-- [x] Continuous-head limitation note (`docs/CONTINUOUS_HEAD_LIMITATION.md`)
-- [x] V4 proposal (`docs/V4_PROPOSAL.md`) — not trained
-- [x] Environment reproducibility note + capture script + partial lockfile
-- [x] Optimization comparator design (`docs/OPTIMIZATION_COMPARATOR_DESIGN.md`)
-- [x] SynthCharge envelope A/B/C ablation completed (development-only)
-- [x] SynthCharge B0–B2 same-domain script prepared (not fully executed; ~15–22 CPU-h)
-- [x] Frozen-raw failure analysis (`results_paper/failure_analysis/`, tableA03, figA05)
-- [x] `LICENSE.TEMPLATE` + `CITATION.cff.template` (owner TODOs)
-- [x] `docs/SCIENTIFIC_FIXES_REPORT.md` / `docs/REPO_CLEANUP_REPORT.md`
+- [ ] Write manuscript `.tex` / paper source from `results_v4_paper/` + `paper/V4_CLAIMS.md`
 
 ## Forbidden before release
 
 - Inventing DOI / ORCID / license / venue
 - Post-TEST hyperparameter or final-checkpoint changes
 - Deleting unfavorable ablation or baseline rows
-- Claiming frvcpy exactness for EVRPTW-GR
-- Claiming continuous amount learning beats FA-HPPO-Max on V3 without new evidence
-- Calling V3 “external domain generalization”
+- Claiming external-domain generalization for the SynthCharge held-out TEST
+- Mixing prior-version comparisons into the V4 paper-facing package
+- Reopening a consumed TEST

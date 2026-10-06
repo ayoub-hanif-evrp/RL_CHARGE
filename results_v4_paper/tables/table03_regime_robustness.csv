@@ -1,0 +1,10 @@
+layout,length_bin,feasibility
+C,short,0.99
+C,medium,0.99
+C,long,1.0
+R,short,0.8799999999999999
+R,medium,0.99
+R,long,0.9400000000000001
+RC,short,0.9
+RC,medium,0.8800000000000001
+RC,long,0.9400000000000001

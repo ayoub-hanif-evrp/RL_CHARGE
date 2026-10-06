@@ -1,0 +1,221 @@
+{
+  "benchmark_wording": "fresh independently generated held-out SynthCharge TEST",
+  "strata": "layout \u00d7 frozen-route-length bin",
+  "n_routes": 180,
+  "n_charging_required": 144,
+  "n_no_charge_required": 36,
+  "methods": {
+    "FA-HPPO": {
+      "feasibility_per_seed": {
+        "42": 0.95,
+        "43": 0.9722222222222222,
+        "44": 0.9388888888888889,
+        "45": 0.9444444444444444,
+        "46": 0.9222222222222223
+      },
+      "feasibility_mean": 0.9455555555555556,
+      "feasibility_sd": 0.018172696926440114,
+      "feasibility_t95": [
+        0.9229911720333341,
+        0.968119939077777
+      ],
+      "completion_per_seed": {
+        "42": 4.074814615458085,
+        "43": 4.1243058565932325,
+        "44": 4.158041059145598,
+        "45": 4.139461999692592,
+        "46": 4.204729184975765
+      },
+      "completion_mean": 4.140270543173054,
+      "completion_sd": 0.047462382931537345,
+      "completion_t95": [
+        4.081338211022202,
+        4.199202875323906
+      ],
+      "runtime_mean": 0.10150112633554575
+    },
+    "One-step lookahead": {
+      "feasibility_mean": 0.6888888888888889,
+      "feasibility_sd": null,
+      "completion_mean": 5.452363261367941,
+      "runtime_mean": 0.10665775889000441,
+      "n_routes": 180
+    },
+    "Greedy full charge": {
+      "feasibility_mean": 0.5277777777777778,
+      "feasibility_sd": null,
+      "completion_mean": 6.579854506081032,
+      "runtime_mean": 0.040457093333437416,
+      "n_routes": 180
+    },
+    "Greedy minimum charge": {
+      "feasibility_mean": 0.4444444444444444,
+      "feasibility_sd": null,
+      "completion_mean": 6.970423329610346,
+      "runtime_mean": 0.04075233555631712,
+      "n_routes": 180
+    }
+  },
+  "paired_feasibility_vs_baselines": {
+    "One-step lookahead": {
+      "fa_hppo_only_feasible": 234,
+      "baseline_only_feasible": 3,
+      "tie": 663,
+      "n": 900,
+      "analysis": "post-hoc descriptive counts on locked TEST"
+    },
+    "Greedy full charge": {
+      "fa_hppo_only_feasible": 377,
+      "baseline_only_feasible": 1,
+      "tie": 522,
+      "n": 900,
+      "analysis": "post-hoc descriptive counts on locked TEST"
+    },
+    "Greedy minimum charge": {
+      "fa_hppo_only_feasible": 451,
+      "baseline_only_feasible": 0,
+      "tie": 449,
+      "n": 900,
+      "analysis": "post-hoc descriptive counts on locked TEST"
+    }
+  },
+  "by_layout": {
+    "C": {
+      "mean": 0.9933333333333334,
+      "sd": 0.014907119849998594,
+      "t95": [
+        0.9748236993000001,
+        1.0118429673666667
+      ],
+      "per_seed": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.9666666666666667
+      ]
+    },
+    "R": {
+      "mean": 0.9366666666666668,
+      "sd": 0.029814239699997195,
+      "t95": [
+        0.8996473986000001,
+        0.9736859347333334
+      ],
+      "per_seed": [
+        0.9666666666666667,
+        0.9666666666666667,
+        0.9,
+        0.9333333333333333,
+        0.9166666666666666
+      ]
+    },
+    "RC": {
+      "mean": 0.9066666666666666,
+      "sd": 0.027888667551135844,
+      "t95": [
+        0.8720383122130146,
+        0.9412950211203186
+      ],
+      "per_seed": [
+        0.8833333333333333,
+        0.95,
+        0.9166666666666666,
+        0.9,
+        0.8833333333333333
+      ]
+    }
+  },
+  "by_length_bin": {
+    "long": {
+      "mean": 0.96,
+      "sd": 0.025276251480171805,
+      "t95": [
+        0.9286153885297619,
+        0.991384611470238
+      ],
+      "per_seed": [
+        0.9833333333333333,
+        0.9833333333333333,
+        0.9333333333333333,
+        0.9666666666666667,
+        0.9333333333333333
+      ]
+    },
+    "medium": {
+      "mean": 0.9533333333333334,
+      "sd": 0.029814239699997188,
+      "t95": [
+        0.9163140652666667,
+        0.9903526014
+      ],
+      "per_seed": [
+        0.9333333333333333,
+        1.0,
+        0.9666666666666667,
+        0.9333333333333333,
+        0.9333333333333333
+      ]
+    },
+    "short": {
+      "mean": 0.9233333333333335,
+      "sd": 0.014907119849998601,
+      "t95": [
+        0.9048236993000001,
+        0.9418429673666668
+      ],
+      "per_seed": [
+        0.9333333333333333,
+        0.9333333333333333,
+        0.9166666666666666,
+        0.9333333333333333,
+        0.9
+      ]
+    }
+  },
+  "by_charge_class": {
+    "charging_required": {
+      "mean": 0.9319444444444445,
+      "sd": 0.022715871158050172,
+      "t95": [
+        0.9037389650416676,
+        0.9601499238472213
+      ],
+      "per_seed": [
+        0.9375,
+        0.9652777777777778,
+        0.9236111111111112,
+        0.9305555555555556,
+        0.9027777777777778
+      ]
+    },
+    "no_charge_required": {
+      "mean": 1.0,
+      "sd": 0.0,
+      "t95": [
+        1.0,
+        1.0
+      ],
+      "per_seed": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "heatmap_layout_x_length": {
+    "C|short": 0.99,
+    "C|medium": 0.99,
+    "C|long": 1.0,
+    "R|short": 0.8799999999999999,
+    "R|medium": 0.99,
+    "R|long": 0.9400000000000001,
+    "RC|short": 0.9,
+    "RC|medium": 0.8800000000000001,
+    "RC|long": 0.9400000000000001
+  },
+  "prior_version_comparisons": false,
+  "test_rerun": false
+}

@@ -1,15 +1,19 @@
 # Paper area
 
-Manuscript claim discipline and results map. **Publication figures/tables live in `results_paper/`.**
+## Current (V4, standalone)
 
-- `CLAIMS.md` — claim discipline
-- `RESULTS_MAP.md` — every figure/table → raw source (`results_paper/`)
-
-Regenerate publication outputs:
+- `V4_CLAIMS.md` — standalone claim discipline and limitations
+- Publication figures/tables: `results_v4_paper/`
+- Benchmark wording: `docs/V4_BENCHMARK_WORDING.md`
 
 ```bash
-python scripts/paper/build_results_paper.py
-python scripts/paper/build_results_paper.py --verify
+python scripts/paper/build_v4_results_paper.py
+python scripts/paper/build_v4_results_paper.py --verify
 ```
 
-Do **not** retrain or re-open TEST from this directory.
+## Historical (do not mix into V4 manuscript package)
+
+- `CLAIMS.md` / `RESULTS_MAP.md` — historical V3 claim map
+- `results_paper/` — historical V3 publication displays
+
+Do **not** retrain or re-open a consumed TEST from this directory.
