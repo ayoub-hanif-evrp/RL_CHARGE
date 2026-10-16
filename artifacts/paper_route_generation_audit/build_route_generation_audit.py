@@ -937,10 +937,10 @@ def draw_pipeline() -> None:
     (OUT / "figure_route_generation_pipeline_caption.txt").write_text(
         "Route-generation pipeline used to build the frozen customer sequences. "
         "SynthCharge draws a source instance. PyVRP then solves a customer-only capacitated pickup vehicle-routing problem with time windows and does not decide battery charging. "
-        "Each ordered vehicle route is submitted to a whole-route charging-certificate search, which looks for one feasible charging trajectory and is not a globally exact charging optimizer. "
-        "Routes are classified by charging requirement and retained only while layout, frozen-route-length, and charging-requirement quotas remain open. "
-        "The retained sequences are frozen. FA-HPPO later chooses charging insertions and charge amounts on those sequences; it does not create or reorder customers. "
-        "A compact horizontal version with the unverified-search and quota-rejection branches is given in figure_route_generation_pipeline_horizontal.\n",
+        "The horizontal figure shows the order implemented in the builder: length eligibility is checked before the charging-certificate search. "
+        "An unverified certificate search returns no witness and is not a proof of infeasibility. "
+        "A certified route is classified by charging requirement and retained only while its layout, length-bin, and charge-class quota remains open. "
+        "FA-HPPO later chooses charging insertions and charge amounts on the frozen sequences; it does not create or reorder customers.\n",
         encoding="utf-8",
     )
     draw_pipeline_horizontal()
@@ -979,65 +979,102 @@ def _flow_arrow(ax, start, end, dashed=False):
 
 
 def draw_pipeline_horizontal() -> None:
-    """Compact horizontal pipeline. The vertical figure is left unchanged."""
+    """Horizontal pipeline in the order implemented by the route builder."""
     plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 7, "pdf.fonttype": 42, "ps.fonttype": 42})
-    fig, ax = plt.subplots(figsize=(7.4, 2.72))
+    fig, ax = plt.subplots(figsize=(7.6, 4.55))
     ax.set_xlim(0, 100)
-    ax.set_ylim(0, 36)
+    ax.set_ylim(0, 100)
     ax.axis("off")
-    main = [
-        (2.0, "SynthCharge\ninstance", "#E8F1F8"),
-        (18.2, "PyVRP\ncustomer-only\nVRPTW", "#E8F1F8"),
-        (34.4, "Extract ordered\nvehicle routes", "#E8F1F8"),
-        (50.6, "Charging-\ncertificate\nsearch", "#F8EFE6"),
-        (66.8, "Classify and\napply quotas", "#F4F4F4"),
-        (83.0, "Frozen routes;\nFA-HPPO", "#E7F6EF"),
+    box_w, box_h, col_gap = 16.8, 15.5, 2.2
+    x0 = (100 - (5 * box_w + 4 * col_gap)) / 2
+    cols = [x0 + i * (box_w + col_gap) for i in range(5)]
+    row_top, row_mid, row_low, row_quota = 82.0, 58.0, 30.0, 4.0
+    top = [
+        ("1\nSynthCharge\ninstance", "#E8F1F8"),
+        ("2\nPyVRP\ncustomer-only", "#E8F1F8"),
+        ("3\nExtract\nroutes", "#E8F1F8"),
+        ("4\nLength check\n3–15 customers", "#F4F4F4"),
+        ("5\nCertificate\nsearch", "#F8EFE6"),
     ]
-    box_w, box_h, main_y = 14.6, 13.2, 20.2
-    for x, text, face in main:
-        _flow_box(ax, x, main_y, box_w, box_h, text, face, fontsize=6.7)
-    for (x0, _, _), (x1, _, _) in zip(main, main[1:]):
-        _flow_arrow(ax, (x0 + box_w, main_y + box_h / 2), (x1, main_y + box_h / 2))
-    _flow_box(
-        ax,
-        42.4,
-        1.3,
-        22.6,
-        12.4,
-        "Unverified timeout or\nexhausted search\n(not infeasibility)",
-        "#FBF6F1",
-        fontsize=6.4,
-        dashed=True,
+    low = [
+        ("6\nCharge-class\nlabel", "#F8EFE6"),
+        ("7\nQuota\nverification", "#F4F4F4"),
+        ("8\nFrozen route\nselection", "#E7F6EF"),
+        ("9\nFA-HPPO\ncharging", "#E8F1F8"),
+    ]
+    for (text, face), x in zip(top, cols):
+        _flow_box(ax, x, row_top, box_w, box_h, text, face, fontsize=6.6)
+    for (text, face), x in zip(low, cols):
+        _flow_box(ax, x, row_low, box_w, box_h, text, face, fontsize=6.6)
+    for left, right, y in (
+        *[(cols[i], cols[i + 1], row_top) for i in range(4)],
+        *[(cols[i], cols[i + 1], row_low) for i in range(3)],
+    ):
+        _flow_arrow(ax, (left + box_w, y + box_h / 2), (right, y + box_h / 2))
+    # Wrap from certificate search to classification around the right margin, below the dashed exits.
+    rail_y = 50.0
+    margin_x = 98.6
+    exit_y = row_top + box_h / 2
+    entry_x = cols[0] + box_w / 2
+    ax.plot(
+        [cols[4] + box_w, margin_x, margin_x, entry_x],
+        [exit_y, exit_y, rail_y, rail_y],
+        color="#333333",
+        linewidth=0.8,
+        solid_capstyle="butt",
+        zorder=2,
     )
+    _flow_arrow(ax, (entry_x, rail_y), (entry_x, row_low + box_h))
     _flow_box(
         ax,
-        68.6,
-        1.3,
-        22.6,
-        12.4,
-        "Outside length bins\nor quota full\n(not retained)",
+        cols[3],
+        row_mid,
+        box_w,
+        box_h,
+        "Outside 3–15\n(not retained)",
         "#F7F7F7",
-        fontsize=6.4,
+        fontsize=6.3,
         dashed=True,
     )
-    cert_x = main[3][0] + box_w / 2
-    quota_x = main[4][0] + box_w / 2
-    _flow_arrow(ax, (cert_x, main_y), (53.7, 13.7), dashed=True)
-    _flow_arrow(ax, (quota_x, main_y), (79.9, 13.7), dashed=True)
+    _flow_box(
+        ax,
+        cols[4],
+        row_mid,
+        box_w,
+        box_h,
+        "Unverified timeout\nor exhausted search\n(not infeasibility)",
+        "#FBF6F1",
+        fontsize=6.0,
+        dashed=True,
+    )
+    _flow_arrow(ax, (cols[3] + box_w / 2, row_top), (cols[3] + box_w / 2, row_mid + box_h), dashed=True)
+    _flow_arrow(ax, (cols[4] + box_w / 2, row_top), (cols[4] + box_w / 2, row_mid + box_h), dashed=True)
+    _flow_box(
+        ax,
+        cols[1],
+        row_quota,
+        box_w,
+        12.5,
+        "Quota full\n(not retained)",
+        "#F7F7F7",
+        fontsize=6.3,
+        dashed=True,
+    )
+    _flow_arrow(ax, (cols[1] + box_w / 2, row_low), (cols[1] + box_w / 2, row_quota + 12.5), dashed=True)
     fig.savefig(OUT / "figure_route_generation_pipeline_horizontal.pdf", bbox_inches="tight", pad_inches=0.04)
     fig.savefig(OUT / "figure_route_generation_pipeline_horizontal.svg", bbox_inches="tight", pad_inches=0.04)
     fig.savefig(OUT / "figure_route_generation_pipeline_horizontal.png", dpi=300, bbox_inches="tight", pad_inches=0.04)
     plt.close(fig)
     (OUT / "figure_route_generation_pipeline_horizontal_caption.txt").write_text(
-        "Compact route-generation pipeline. "
-        "The upper row is the path from a SynthCharge instance to a frozen customer sequence and the later FA-HPPO charging controller. "
-        "PyVRP solves a customer-only capacitated pickup vehicle-routing problem with time windows and does not decide battery charging. "
-        "The charging-certificate search looks for one feasible charging trajectory; it is not a globally exact charging optimizer. "
-        "Dashed branches are routes that are not retained. "
-        "An unverified timeout or an exhausted search means no witness was returned and is not a proof of infeasibility. "
-        "A route outside the frozen-route length bins, or a route whose layout, length, and charging-requirement quota is already full, is not retained. "
-        "FA-HPPO chooses charging insertions and charge amounts on the frozen sequences and does not create or reorder customers. "
-        "The vertical pipeline figure remains available as figure_route_generation_pipeline.\n",
+        "Route-generation pipeline in the order implemented by the builder. "
+        "SynthCharge draws a source instance. PyVRP then constructs customer-only capacitated pickup-VRPTW routes and does not decide battery charging. "
+        "Individual customer routes are extracted, and a route is eligible for the charging-certificate search only when it has 3–15 customers. "
+        "A route outside that range is not retained and is not submitted to the certificate search. "
+        "The certificate search looks for one feasible charging trajectory; it is not a globally exact charging optimizer. "
+        "An unverified timeout or an exhausted search means no witness was returned. That outcome is not a proof of infeasibility. "
+        "A certified route is labeled charging-required or no-charge-required, then retained only if the quota for its layout, length bin, and charge class is still open. "
+        "A full quota cell means the route is not retained. "
+        "Accepted routes are frozen. FA-HPPO later optimizes charging insertions and charge amounts on those sequences and does not create or reorder customers.\n",
         encoding="utf-8",
     )
 
@@ -1149,8 +1186,9 @@ def write_report(example: dict, caption: str, summary: dict, characteristics: li
         "",
         "## Figure B",
         "",
-        "The vertical pipeline figure separates instance generation, customer-only PyVRP routing, certificate search, quota filtering, freezing, and the later FA-HPPO charging controller.",
-        "The compact horizontal figure keeps that path and adds two dashed branches: unverified certificate searches, which are not proofs of infeasibility, and routes rejected because the frozen-route length bin is outside the accepted range or the quota cell is already full.",
+        "The horizontal pipeline follows the route builder. Length eligibility (3–15 customers) is checked before the charging-certificate search. A route outside that range is not retained and is not submitted to the search. A certified route is labeled charging-required or no-charge-required, then kept only while its layout, length-bin, and charge-class quota is open. Accepted routes are frozen. FA-HPPO later optimizes charging on those sequences and does not reorder customers.",
+        "Dashed branches leave the stage that produces them: outside the 3–15 customer range (not retained); unverified timeout or exhausted certificate search (no witness was returned, which is not a proof of infeasibility); and a quota cell that is already full (not retained).",
+        "The vertical figure is a coarser overview. The horizontal figure is the implemented step order.",
         "",
         "## Checks against metadata and quotas",
         "",
@@ -1163,6 +1201,7 @@ def write_report(example: dict, caption: str, summary: dict, characteristics: li
             "## Provenance",
             "",
             f"- Git commit: `{provenance['git_commit']}`",
+            "- This commit identifies the source snapshot used when these artifacts were generated. It is not necessarily the latest repository commit.",
             "- Input SHA-256 values are listed in `provenance.json`.",
             "",
             "## Limitations",
@@ -1228,6 +1267,7 @@ def main() -> None:
     ]
     provenance = {
         "git_commit": git_head(),
+        "git_commit_note": "Commit of the source snapshot used to generate these artifacts. It is not necessarily the latest repository commit.",
         "selected_validation_route": {
             "route_id": example["route_id"],
             "generator_seed": example["generator_seed"],

@@ -36,8 +36,9 @@ Certificate station visits count `CHARGE` steps in the stored trace. In these th
 
 ## Figure B
 
-The vertical pipeline figure separates instance generation, customer-only PyVRP routing, certificate search, quota filtering, freezing, and the later FA-HPPO charging controller.
-The compact horizontal figure keeps that path and adds two dashed branches: unverified certificate searches, which are not proofs of infeasibility, and routes rejected because the frozen-route length bin is outside the accepted range or the quota cell is already full.
+The horizontal pipeline follows the route builder. Length eligibility (3–15 customers) is checked before the charging-certificate search. A route outside that range is not retained and is not submitted to the search. A certified route is labeled charging-required or no-charge-required, then kept only while its layout, length-bin, and charge-class quota is open. Accepted routes are frozen. FA-HPPO later optimizes charging on those sequences and does not reorder customers.
+Dashed branches leave the stage that produces them: outside the 3–15 customer range (not retained); unverified timeout or exhausted certificate search (no witness was returned, which is not a proof of infeasibility); and a quota cell that is already full (not retained).
+The vertical figure is a coarser overview. The horizontal figure is the implemented step order.
 
 ## Checks against metadata and quotas
 
@@ -46,6 +47,7 @@ The compact horizontal figure keeps that path and adds two dashed branches: unve
 ## Provenance
 
 - Git commit: `d65389f7a80b74ccbea8d39e76c393c548a1c5dc`
+- This commit identifies the source snapshot used when these artifacts were generated. It is not necessarily the latest repository commit.
 - Input SHA-256 values are listed in `provenance.json`.
 
 ## Limitations
