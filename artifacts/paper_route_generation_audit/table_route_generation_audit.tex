@@ -1,0 +1,29 @@
+% Table A. V4 TEST route-generation audit
+\begin{tabular}{llrll}
+\hline
+Section & Item & Count & Unit & Note \\
+\hline
+instances & candidate source instances examined & 2090 & source instance &  \\
+instances & instances yielding one accepted route & 180 & source instance & at most one route is kept per instance \\
+instances & instances yielding no accepted route & 1910 & source instance &  \\
+rejections & recorded route-evaluation rejections & 6322 & candidate-route evaluation & not distinct source instances \\
+rejection\_reason & outside\_length\_bins & 1726 & candidate-route evaluation &  \\
+rejection\_reason & quota\_full & 3674 & candidate-route evaluation &  \\
+rejection\_reason & unverified\_search\_exhausted & 100 & candidate-route evaluation & unverified search outcome; not proof of infeasibility \\
+rejection\_reason & unverified\_timeout & 822 & candidate-route evaluation & unverified search outcome; not proof of infeasibility \\
+rejections & rejection events on instances that were later accepted & 157 & candidate-route evaluation & earlier vehicle routes of an accepted instance \\
+rejections & rejection events on instances with no accepted route & 6165 & candidate-route evaluation &  \\
+accepted\_layout & C & 60 & accepted route & spatial layout of the source instance \\
+accepted\_layout & R & 60 & accepted route & spatial layout of the source instance \\
+accepted\_layout & RC & 60 & accepted route & spatial layout of the source instance \\
+accepted\_source\_size & source customers = 15 & 84 & accepted route & not the frozen-route length \\
+accepted\_source\_size & source customers = 30 & 55 & accepted route & not the frozen-route length \\
+accepted\_source\_size & source customers = 50 & 41 & accepted route & not the frozen-route length \\
+frozen\_route\_length & short & 60 & accepted route & short 3-5, medium 6-10, long 11-15 customers on the frozen route \\
+frozen\_route\_length & medium & 60 & accepted route & short 3-5, medium 6-10, long 11-15 customers on the frozen route \\
+frozen\_route\_length & long & 60 & accepted route & short 3-5, medium 6-10, long 11-15 customers on the frozen route \\
+charge\_class & charging\_required & 144 & accepted route & quota label from continue-only replay plus certificate; not an FA-HPPO outcome \\
+charge\_class & no\_charge\_required & 36 & accepted route & quota label from continue-only replay plus certificate; not an FA-HPPO outcome \\
+cross\_check & frozen V4 TEST corpus routes & 180 & frozen route & expected 180 \\
+\hline
+\end{tabular}

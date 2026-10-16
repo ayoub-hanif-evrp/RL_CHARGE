@@ -1,0 +1,43 @@
+{
+  "n_candidate_instances": 2090,
+  "n_instances_one_accepted_route": 180,
+  "n_instances_no_accepted_route": 1910,
+  "n_rejection_events": 6322,
+  "rejection_events_by_reason": {
+    "unverified_timeout": 822,
+    "outside_length_bins": 1726,
+    "unverified_search_exhausted": 100,
+    "quota_full": 3674
+  },
+  "rejection_events_on_eventually_accepted_instances": 157,
+  "rejection_events_on_instances_with_no_accepted_route": 6165,
+  "accepted_by_layout": {
+    "R": 60,
+    "C": 60,
+    "RC": 60
+  },
+  "accepted_by_source_customer_count": {
+    "15": 84,
+    "30": 55,
+    "50": 41
+  },
+  "accepted_by_frozen_route_length_group": {
+    "medium": 60,
+    "short": 60,
+    "long": 60
+  },
+  "accepted_by_charge_class": {
+    "charging_required": 144,
+    "no_charge_required": 36
+  },
+  "corpus_route_count": 180,
+  "accepted_ids_missing_from_corpus": [],
+  "corpus_ids_missing_from_audit": [],
+  "duplicate_accepted_ids": [],
+  "length_bin_mismatches": [],
+  "counting_unit": {
+    "audit_line": "one attempted source instance",
+    "rejection_reasons": "candidate-route evaluations rejected before acceptance or before the instance was exhausted; not distinct rejected instances",
+    "unverified_timeout_and_unverified_search_exhausted": "search did not certify a trajectory; not proof of infeasibility"
+  }
+}

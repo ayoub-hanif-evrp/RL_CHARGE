@@ -1,0 +1,28 @@
+# Table A. V4 TEST route-generation audit
+
+Each line of `candidate_audit.jsonl` is one attempted source instance. `rejection_reasons` counts candidate-route evaluations, not distinct rejected instances. `unverified_timeout` and `unverified_search_exhausted` mean the certificate search did not finish with a witness; they are not proofs of infeasibility. The retained benchmark is quota-balanced by spatial layout, actual frozen-route length, and charging requirement, not by the source-instance customer count (15, 30, or 50).
+
+| Section | Item | Count | Unit | Note |
+|---|---|---:|---|---|
+| instances | candidate source instances examined | 2090 | source instance |  |
+| instances | instances yielding one accepted route | 180 | source instance | at most one route is kept per instance |
+| instances | instances yielding no accepted route | 1910 | source instance |  |
+| rejections | recorded route-evaluation rejections | 6322 | candidate-route evaluation | not distinct source instances |
+| rejection_reason | outside_length_bins | 1726 | candidate-route evaluation |  |
+| rejection_reason | quota_full | 3674 | candidate-route evaluation |  |
+| rejection_reason | unverified_search_exhausted | 100 | candidate-route evaluation | unverified search outcome; not proof of infeasibility |
+| rejection_reason | unverified_timeout | 822 | candidate-route evaluation | unverified search outcome; not proof of infeasibility |
+| rejections | rejection events on instances that were later accepted | 157 | candidate-route evaluation | earlier vehicle routes of an accepted instance |
+| rejections | rejection events on instances with no accepted route | 6165 | candidate-route evaluation |  |
+| accepted_layout | C | 60 | accepted route | spatial layout of the source instance |
+| accepted_layout | R | 60 | accepted route | spatial layout of the source instance |
+| accepted_layout | RC | 60 | accepted route | spatial layout of the source instance |
+| accepted_source_size | source customers = 15 | 84 | accepted route | not the frozen-route length |
+| accepted_source_size | source customers = 30 | 55 | accepted route | not the frozen-route length |
+| accepted_source_size | source customers = 50 | 41 | accepted route | not the frozen-route length |
+| frozen_route_length | short | 60 | accepted route | short 3-5, medium 6-10, long 11-15 customers on the frozen route |
+| frozen_route_length | medium | 60 | accepted route | short 3-5, medium 6-10, long 11-15 customers on the frozen route |
+| frozen_route_length | long | 60 | accepted route | short 3-5, medium 6-10, long 11-15 customers on the frozen route |
+| charge_class | charging_required | 144 | accepted route | quota label from continue-only replay plus certificate; not an FA-HPPO outcome |
+| charge_class | no_charge_required | 36 | accepted route | quota label from continue-only replay plus certificate; not an FA-HPPO outcome |
+| cross_check | frozen V4 TEST corpus routes | 180 | frozen route | expected 180 |

@@ -1,0 +1,51 @@
+{
+  "git_commit": "14a13b6ebcef3b2f06811713d0df5f5cb08abd34",
+  "selected_validation_route": {
+    "route_id": "v2sc_sc_R_n15_s200000_00",
+    "generator_seed": 200000,
+    "raw_instance_id": "sc_R_n15_s200000",
+    "n_customers": 8,
+    "layout": "R",
+    "length_bin": "medium",
+    "charge_class": "charging_required",
+    "selection_rule": "lowest generator_seed among charging-required VALIDATION routes with 6-10 customers and an available instance file plus certificate trace"
+  },
+  "quotas": {
+    "train_expected": 180,
+    "validation_expected": 90,
+    "v4_test_expected": 180,
+    "v4_charging_required_expected": 144,
+    "v4_no_charge_expected": 36,
+    "v2_test_seed_start_not_used": 300000,
+    "v4_test_seed_start": 500000,
+    "train_seed_start": 100000,
+    "validation_seed_start": 200000
+  },
+  "input_sha256": {
+    "configs/v2/synthcharge_final_benchmark.json": "ce78a65fc18320d06154e823b6e487ba74ef9acf868d531fdd16e934e430303c",
+    "results/v4/test/configs/synthcharge_v4_test.json": "aa06417553e578b3f299852616ed9dd36800470be5e389597dbd094124e97e39",
+    "data/routes_v2/synthcharge_final/train/corpus.jsonl": "fd5bc04169d0a6cbcda2c7042f5d4a99d5dd1efc83cff4865c29e286f4a17c1d",
+    "data/routes_v2/synthcharge_final/train/certificates.jsonl": "a5a27161496fa0b0a70c70b3c7fc2d90469cc3654a20a425b9bea597437f35d0",
+    "data/routes_v2/synthcharge_final/train/corpus_metadata.json": "7b65ce22039259fdb4e387596b192f56858821a40e4475b37f8be4345d490aed",
+    "data/routes_v2/synthcharge_final/validation/corpus.jsonl": "85a6e267b4af4d7c211d826926cf4fa6f124381dc40a38ef84060b081e79fe71",
+    "data/routes_v2/synthcharge_final/validation/certificates.jsonl": "76992ad36f424f58a1dab5ab44fb638c88ef02d97aae0c6abf7b6e35a74a00f7",
+    "data/routes_v2/synthcharge_final/validation/corpus_metadata.json": "3caae88523f3fb5291f74302c7f2d123959746c5bc5c83f37eac5208d548ee2c",
+    "data/routes_v2/synthcharge_v4_test/corpus.jsonl": "975f50d85c2022eea2b44a6c6dee3efbf7800b65e478179422247b88e13330d0",
+    "data/routes_v2/synthcharge_v4_test/certificates.jsonl": "bf71c6e65146030347c212fe692ec594e873a25f65c2bf6c4aeece6bd098bf7e",
+    "data/routes_v2/synthcharge_v4_test/candidate_audit.jsonl": "cfd6984f1962e8d2de2e4b4b8444d3e0fb4d6d9b15d044912a56c2631cd53a55",
+    "data/routes_v2/synthcharge_v4_test/corpus_metadata.json": "f883766ce6a41870083ba131ed9bcc17475ddd813721fa0eb29714b7eb5c3d28",
+    "data/routes_v2/synthcharge_final/instances/sc_R_n15_s200000.txt": "ad4fb9a8607d201a2fea0193041dceb70b09ecd05f467457a35caf59e4d95832",
+    "src/routing/pyvrp_generator.py": "353014e559102f8bd93638e67c51b3093512fce71a2feefa42c20289ba40ff8d",
+    "src/routing/synthcharge_benchmark.py": "31ddce8df1f9bb306e647469659102e664aa7bf063a40db84aa1de6cebc4da8e",
+    "src/routing/synthcharge_instance.py": "81cce6920b05201d84b9a47dc6aeab08ca05102d8b17e5d0a17ce9c3f8a3a46d",
+    "src/exact/charging_certificate.py": "b6c3238733672ff7985a15cf75fee5a130f4da56dc843d7ba4acdbc1053f8e80",
+    "scripts/v4/test/generate_v4_test.py": "b2635f5f1308a9924ae9246048738964816452f74b72d821a8181099e7d0f9e3"
+  },
+  "not_opened": [
+    "data/routes_v2/synthcharge_v3_test/",
+    "V2 confirmatory test seed range starting at 300000"
+  ],
+  "inconsistencies": [
+    "No disagreement was found among corpus counts, metadata, audit IDs, length bins, and the declared quotas."
+  ]
+}
