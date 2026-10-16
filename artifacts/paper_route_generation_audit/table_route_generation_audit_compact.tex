@@ -1,0 +1,21 @@
+% Compact Table A. Source-instance counts are separate from route-evaluation events.
+\begin{tabular}{llr}
+\hline
+Counting unit & Item & Count \\
+\hline
+Source instance & Candidate instances examined & 2090 \\
+Source instance & Instances with one accepted route & 180 \\
+Source instance & Instances with no accepted route & 1910 \\
+Route evaluation & Rejection events & 6322 \\
+Route evaluation & Outside length bins & 1726 \\
+Route evaluation & Quota full & 3674 \\
+Route evaluation & Unverified timeout & 822 \\
+Route evaluation & Unverified search exhausted & 100 \\
+Route evaluation & Events on instances later accepted & 157 \\
+Route evaluation & Events on instances with no accepted route & 6165 \\
+\hline
+\end{tabular}
+
+% Source instances: examined = accepted + not accepted.
+% Route-evaluation events: reason rows sum to the event total, and the last two rows partition that same total.
+% unverified timeout and unverified search exhausted are not proofs of infeasibility.

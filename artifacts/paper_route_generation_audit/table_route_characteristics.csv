@@ -1,4 +1,4 @@
-split,n_routes,customers_mean,customers_min,customers_median,customers_max,mean_customer_only_distance,n_charging_required,n_no_charge_required,layout_C,layout_R,layout_RC,length_short,length_medium,length_long,certificate_station_visits_mean,certificate_station_visits_min,certificate_station_visits_median,certificate_station_visits_max
+split,n_routes,customers_mean,customers_min,customers_median,customers_max,mean_customer_only_distance_coordinate_units,n_charging_required,n_no_charge_required,layout_C,layout_R,layout_RC,length_short,length_medium,length_long,certificate_station_visits_mean,certificate_station_visits_min,certificate_station_visits_median,certificate_station_visits_max
 TRAIN,180,8.677777777777777,3,8.5,15,1.7444980445567568,135,45,60,60,60,60,60,60,0.7722222222222223,0,1.0,3
 VALIDATION,90,8.5,4,8.5,15,1.820447126087328,72,18,30,30,30,30,30,30,0.8333333333333334,0,1.0,2
 V4 TEST,180,8.566666666666666,3,8.5,15,1.804767455854018,144,36,60,60,60,60,60,60,0.8555555555555555,0,1.0,2

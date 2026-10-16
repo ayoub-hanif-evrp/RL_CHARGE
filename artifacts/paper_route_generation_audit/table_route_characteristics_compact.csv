@@ -1,0 +1,4 @@
+split,n_routes,customers_mean,customers_min,customers_median,customers_max,mean_distance_coordinate_units,n_charging_required,n_no_charge_required,layout_C_R_RC,length_short_medium_long,certificate_station_visits_mean,certificate_station_visits_min,certificate_station_visits_median,certificate_station_visits_max
+TRAIN,180,8.68,3,8.5,15,1.744,135,45,60/60/60,60/60/60,0.77,0,1.0,3
+VALIDATION,90,8.50,4,8.5,15,1.820,72,18,30/30/30,30/30/30,0.83,0,1.0,2
+V4 TEST,180,8.57,3,8.5,15,1.805,144,36,60/60/60,60/60/60,0.86,0,1.0,2

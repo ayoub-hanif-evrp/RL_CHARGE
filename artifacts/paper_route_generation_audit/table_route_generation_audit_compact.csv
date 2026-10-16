@@ -1,0 +1,11 @@
+counting_unit,item,count,note
+Source instance,Candidate instances examined,2090,Sum of the next two rows
+Source instance,Instances with one accepted route,180,At most one route is kept per instance
+Source instance,Instances with no accepted route,1910,
+Route evaluation,Rejection events,6322,"Candidate vehicle routes, not source instances"
+Route evaluation,Outside length bins,1726,Frozen-route length outside 3–15 customers
+Route evaluation,Quota full,3674,"Layout, length, and charge-class cell already filled"
+Route evaluation,Unverified timeout,822,Search ended without a witness; not infeasibility
+Route evaluation,Unverified search exhausted,100,Search ended without a witness; not infeasibility
+Route evaluation,Events on instances later accepted,157,Earlier vehicle routes of an accepted instance
+Route evaluation,Events on instances with no accepted route,6165,

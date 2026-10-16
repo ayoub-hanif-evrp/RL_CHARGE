@@ -152,33 +152,92 @@ def _arrow(ax, start, end, color, style="-"):
     ax.add_patch(patch)
 
 
+# Visit-order offsets for the frozen example v2sc_sc_R_n15_s200000_00 only.
+# Alternating sides keep labels 4–6 off the vertical customer stack.
+_CUSTOMER_LABEL_OFFSETS = {
+    "C14": (0, -10, "center", "top"),
+    "C3": (0, -10, "center", "top"),
+    "C9": (0, 9, "center", "bottom"),
+    "C5": (9, -4, "left", "top"),
+    "C10": (11, -7, "left", "top"),
+    "C12": (9, -8, "left", "top"),
+    "C4": (11, -9, "left", "top"),
+    "C8": (-10, 1, "right", "center"),
+}
+_STATION_LABEL_OFFSETS = {
+    "S1": (0, -13, "center", "top"),
+    "S2": (11, 7, "left", "bottom"),
+}
+
+
+def _order_label(ax, node_id: str, order: int, nodes: dict[str, dict]) -> None:
+    dx, dy, ha, va = _CUSTOMER_LABEL_OFFSETS[node_id]
+    node = nodes[node_id]
+    ax.annotate(
+        str(order),
+        (node["x"], node["y"]),
+        textcoords="offset points",
+        xytext=(dx, dy),
+        ha=ha,
+        va=va,
+        fontsize=7,
+        color=BLUE,
+        zorder=6,
+        annotation_clip=False,
+    )
+
+
 def draw_fixed_route_figure(route: dict, nodes: dict[str, dict], trace: list[dict], out_dir: Path) -> None:
     customers = list(route["customer_ids"])
+    if customers != list(_CUSTOMER_LABEL_OFFSETS):
+        raise SystemExit("customer-label offsets are tied to the disclosed validation example")
     selected = set(customers)
     witness = witness_path(customers, trace)
     xs = [node["x"] for node in nodes.values()]
     ys = [node["y"] for node in nodes.values()]
-    pad_x = 0.06 * (max(xs) - min(xs) + 1e-6)
-    pad_y = 0.08 * (max(ys) - min(ys) + 1e-6)
-    limits = (min(xs) - pad_x, max(xs) + pad_x, min(ys) - pad_y, max(ys) + pad_y)
+    span_x = max(xs) - min(xs)
+    span_y = max(ys) - min(ys)
+    limits = (
+        min(xs) - 0.11 * span_x,
+        max(xs) + 0.08 * span_x,
+        min(ys) - 0.09 * span_y,
+        max(ys) + 0.13 * span_y,
+    )
 
     plt.rcParams.update(
         {
             "font.family": "DejaVu Sans",
             "font.size": 8,
             "axes.linewidth": 0.6,
+            "axes.titlepad": 3,
             "pdf.fonttype": 42,
             "ps.fonttype": 42,
         }
     )
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.7), constrained_layout=True)
+    fig = plt.figure(figsize=(7.2, 4.15))
+    grid = fig.add_gridspec(
+        2,
+        2,
+        height_ratios=[1.0, 0.16],
+        hspace=0.16,
+        wspace=0.08,
+        left=0.025,
+        right=0.985,
+        top=0.90,
+        bottom=0.02,
+    )
+    axes = [fig.add_subplot(grid[0, 0]), fig.add_subplot(grid[0, 1])]
+    legend_ax = fig.add_subplot(grid[1, :])
+    legend_ax.axis("off")
 
-    def base(ax):
+    def base(ax, label_artists: bool):
         ax.set_xlim(limits[0], limits[1])
         ax.set_ylim(limits[2], limits[3])
         ax.set_aspect("equal", adjustable="box")
         ax.set_xticks([])
         ax.set_yticks([])
+        for spine in ax.spines.values():
+            spine.set_linewidth(0.6)
         other = [node for node in nodes.values() if node["kind"] == "customer" and node["id"] not in selected]
         if other:
             ax.scatter(
@@ -187,7 +246,7 @@ def draw_fixed_route_figure(route: dict, nodes: dict[str, dict], trace: list[dic
                 s=14,
                 c="#D0D0D0",
                 zorder=1,
-                label="Unselected source customer",
+                label="Unselected source customer" if label_artists else None,
             )
         stations = [node for node in nodes.values() if node["kind"] == "station"]
         ax.scatter(
@@ -199,32 +258,38 @@ def draw_fixed_route_figure(route: dict, nodes: dict[str, dict], trace: list[dic
             edgecolors=ORANGE,
             linewidths=0.9,
             zorder=3,
-            label="Charging station",
+            label="Charging station" if label_artists else None,
         )
         depot = nodes["D0"]
-        ax.scatter([depot["x"]], [depot["y"]], s=42, marker="s", c=BLACK, zorder=4, label="Depot")
+        ax.scatter(
+            [depot["x"]],
+            [depot["y"]],
+            s=42,
+            marker="s",
+            c=BLACK,
+            zorder=4,
+            label="Depot" if label_artists else None,
+        )
 
     ax = axes[0]
-    base(ax)
+    base(ax, True)
     seq = ["D0", *customers, "D0"]
     for a, b in zip(seq, seq[1:]):
         _arrow(ax, (nodes[a]["x"], nodes[a]["y"]), (nodes[b]["x"], nodes[b]["y"]), BLUE, "-")
-    sel_nodes = [nodes[cid] for cid in customers]
     ax.scatter(
-        [n["x"] for n in sel_nodes],
-        [n["y"] for n in sel_nodes],
+        [nodes[cid]["x"] for cid in customers],
+        [nodes[cid]["y"] for cid in customers],
         s=28,
         c=BLUE,
         zorder=4,
         label="Selected customer",
     )
     for order, cid in enumerate(customers, start=1):
-        node = nodes[cid]
-        ax.text(node["x"], node["y"] + 0.025, str(order), ha="center", va="bottom", fontsize=7, color=BLUE, zorder=5)
-    ax.set_title("(a) Customer-only PyVRP route", loc="left", fontsize=9)
+        _order_label(ax, cid, order, nodes)
+    ax.set_title("(a) Customer-only PyVRP route", loc="left", fontsize=8)
 
     ax = axes[1]
-    base(ax)
+    base(ax, False)
     for left, right in zip(witness, witness[1:]):
         charging = left["role"] == "station" or right["role"] == "station"
         _arrow(
@@ -240,56 +305,72 @@ def draw_fixed_route_figure(route: dict, nodes: dict[str, dict], trace: list[dic
         s=28,
         c=BLUE,
         zorder=4,
-        label="Selected customer",
     )
     for order, cid in enumerate(customers, start=1):
-        node = nodes[cid]
-        ax.text(node["x"], node["y"] + 0.025, str(order), ha="center", va="bottom", fontsize=7, color=BLUE, zorder=5)
+        _order_label(ax, cid, order, nodes)
     labeled = set()
     for point in witness:
         if point["role"] != "station" or point["id"] in labeled:
             continue
         labeled.add(point["id"])
+        if point["id"] not in _STATION_LABEL_OFFSETS:
+            raise SystemExit(f"no station-label offset for {point['id']}")
         node = nodes[point["id"]]
+        dx, dy, ha, va = _STATION_LABEL_OFFSETS[point["id"]]
         target = point.get("target_soc")
         label = point["id"] if target is None else f"{point['id']}\nSOC {float(target):.2f}"
         ax.annotate(
             label,
             (node["x"], node["y"]),
             textcoords="offset points",
-            xytext=(6, -10),
+            xytext=(dx, dy),
             fontsize=6.5,
             color=ORANGE,
-            ha="left",
-            zorder=5,
+            ha=ha,
+            va=va,
+            zorder=6,
+            annotation_clip=False,
+            bbox={"boxstyle": "round,pad=0.12", "facecolor": "white", "edgecolor": "none", "alpha": 0.88},
         )
-    ax.plot([], [], color=ORANGE, linestyle="--", linewidth=1.15, label="Charging detour")
-    ax.set_title("(b) Recorded charging-feasibility witness", loc="left", fontsize=9)
+    detour, = ax.plot([], [], color=ORANGE, linestyle="--", linewidth=1.15, label="Charging detour")
+    ax.set_title("(b) Charging-certificate witness", loc="left", fontsize=8)
 
-    handles, labels = axes[1].get_legend_handles_labels()
-    # Keep one copy of each label, preferring panel (b) entries plus unselected from panel (a).
-    seen = set()
-    uniq = []
-    for handle, label in zip(*axes[0].get_legend_handles_labels()):
-        if label not in seen:
-            uniq.append((handle, label))
-            seen.add(label)
-    for handle, label in zip(handles, labels):
-        if label not in seen:
-            uniq.append((handle, label))
-            seen.add(label)
-    fig.legend(
-        [h for h, _ in uniq],
-        [lab for _, lab in uniq],
-        loc="lower center",
+    handles, labels = axes[0].get_legend_handles_labels()
+    order = [
+        "Depot",
+        "Selected customer",
+        "Unselected source customer",
+        "Charging station",
+        "Charging detour",
+    ]
+    by_label = dict(zip(labels, handles))
+    by_label["Charging detour"] = detour
+    legend_ax.legend(
+        [by_label[name] for name in order],
+        order,
+        loc="center",
         ncol=3,
         frameon=False,
         fontsize=7,
-        bbox_to_anchor=(0.5, -0.02),
+        handletextpad=0.45,
+        columnspacing=1.15,
+        borderaxespad=0.0,
     )
-    fig.savefig(out_dir / "figure_fixed_route_generation.pdf", bbox_inches="tight")
-    fig.savefig(out_dir / "figure_fixed_route_generation.svg", bbox_inches="tight")
-    fig.savefig(out_dir / "figure_fixed_route_generation.png", dpi=300, bbox_inches="tight")
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    boxes = []
+    for artist in list(axes[0].texts) + list(axes[1].texts):
+        boxes.append((artist.get_text().replace("\n", " "), artist.axes, artist.get_window_extent(renderer).expanded(1.5, 1.5)))
+    overlaps = []
+    for i, (left_text, left_ax, left_box) in enumerate(boxes):
+        for right_text, right_ax, right_box in boxes[i + 1 :]:
+            if left_ax is right_ax and left_box.overlaps(right_box):
+                overlaps.append(f"{left_text} / {right_text}")
+    if overlaps:
+        raise SystemExit("figure labels overlap: " + "; ".join(overlaps))
+    fig.savefig(out_dir / "figure_fixed_route_generation.pdf")
+    fig.savefig(out_dir / "figure_fixed_route_generation.svg")
+    fig.savefig(out_dir / "figure_fixed_route_generation.png", dpi=300)
     plt.close(fig)
 
     n_stations = sum(1 for step in trace if step.get("kind") == "CHARGE")
@@ -297,12 +378,13 @@ def draw_fixed_route_figure(route: dict, nodes: dict[str, dict], trace: list[dic
         "Fixed-route construction on one existing SynthCharge validation instance "
         f"({route['route_id']}; generator seed {route['generator_seed']}; "
         f"{route['n_customers']} customers on the frozen route). "
+        "The legend applies to both panels and is placed below them. "
         "(a) PyVRP solves a customer-only capacitated pickup vehicle-routing problem with time windows. "
         "The solid arrows follow the selected customer sequence from the depot back to the depot. "
         "Charging stations are available facilities and are not inserted into this route. "
         "Faint markers are source-instance customers assigned to other vehicle routes and therefore not part of the frozen sequence. "
         "(b) The same customer order with the stored charging-certificate trajectory. "
-        f"Dashed arrows are charging detours ({n_stations} station visit(s) in this witness); "
+        f"Dashed arrows are charging detours ({n_stations} station visits in this witness); "
         "station labels report the target state of charge recorded in that trace. "
         "This panel is an existing feasible charging witness from the certificate search. "
         "It is not a globally optimal charging plan and it was not produced by FA-HPPO. "
@@ -473,6 +555,99 @@ def write_audit_tables(summary: dict) -> None:
     tex_lines.extend(["\\hline", "\\end{tabular}", ""])
     (OUT / "table_route_generation_audit.tex").write_text("\n".join(tex_lines), encoding="utf-8")
     (OUT / "route_generation_audit_summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+    write_compact_audit_table(summary)
+
+
+def write_compact_audit_table(summary: dict) -> None:
+    """Journal subset of Table A. Counts are copied from the full audit summary."""
+    reasons = summary["rejection_events_by_reason"]
+    instance_total = summary["n_instances_one_accepted_route"] + summary["n_instances_no_accepted_route"]
+    reason_total = (
+        int(reasons["outside_length_bins"])
+        + int(reasons["quota_full"])
+        + int(reasons["unverified_timeout"])
+        + int(reasons["unverified_search_exhausted"])
+    )
+    placement_total = (
+        summary["rejection_events_on_eventually_accepted_instances"]
+        + summary["rejection_events_on_instances_with_no_accepted_route"]
+    )
+    if instance_total != summary["n_candidate_instances"]:
+        raise SystemExit("compact Table A instance rows do not sum to the examined-instance count")
+    if reason_total != summary["n_rejection_events"] or placement_total != summary["n_rejection_events"]:
+        raise SystemExit("compact Table A rejection rows do not sum to the rejection-event count")
+    rows = [
+        ("Source instance", "Candidate instances examined", summary["n_candidate_instances"], "Sum of the next two rows"),
+        ("Source instance", "Instances with one accepted route", summary["n_instances_one_accepted_route"], "At most one route is kept per instance"),
+        ("Source instance", "Instances with no accepted route", summary["n_instances_no_accepted_route"], ""),
+        ("Route evaluation", "Rejection events", summary["n_rejection_events"], "Candidate vehicle routes, not source instances"),
+        ("Route evaluation", "Outside length bins", int(reasons["outside_length_bins"]), "Frozen-route length outside 3–15 customers"),
+        ("Route evaluation", "Quota full", int(reasons["quota_full"]), "Layout, length, and charge-class cell already filled"),
+        ("Route evaluation", "Unverified timeout", int(reasons["unverified_timeout"]), "Search ended without a witness; not infeasibility"),
+        ("Route evaluation", "Unverified search exhausted", int(reasons["unverified_search_exhausted"]), "Search ended without a witness; not infeasibility"),
+        ("Route evaluation", "Events on instances later accepted", summary["rejection_events_on_eventually_accepted_instances"], "Earlier vehicle routes of an accepted instance"),
+        ("Route evaluation", "Events on instances with no accepted route", summary["rejection_events_on_instances_with_no_accepted_route"], ""),
+    ]
+    note = (
+        "Compact Table A. The first block counts source instances "
+        f"({summary['n_candidate_instances']} = {summary['n_instances_one_accepted_route']} + {summary['n_instances_no_accepted_route']}). "
+        "The second block counts candidate-route evaluations, not source instances. "
+        f"The four reason rows sum to {summary['n_rejection_events']}, and the last two rows are a separate partition of the same events "
+        f"({summary['rejection_events_on_eventually_accepted_instances']} + {summary['rejection_events_on_instances_with_no_accepted_route']}). "
+        "Unverified timeout and unverified search exhausted mean the certificate search did not return a witness. "
+        "They are not proofs of infeasibility. "
+        "The full audit, including accepted layout, source size, length bin, and charge class, remains in `table_route_generation_audit`."
+    )
+    fieldnames = ["counting_unit", "item", "count", "note"]
+    with (OUT / "table_route_generation_audit_compact.csv").open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for unit, item, count, row_note in rows:
+            writer.writerow({"counting_unit": unit, "item": item, "count": count, "note": row_note})
+    md = [
+        "# Table A (compact). V4 TEST route generation",
+        "",
+        note,
+        "",
+        "| Counting unit | Item | Count | Note |",
+        "|---|---|---:|---|",
+    ]
+    for unit, item, count, row_note in rows:
+        md.append(f"| {unit} | {item} | {count} | {row_note} |")
+    md.append("")
+    (OUT / "table_route_generation_audit_compact.md").write_text("\n".join(md), encoding="utf-8")
+
+    def tex(text: str) -> str:
+        return (
+            str(text)
+            .replace("\\", "\\textbackslash{}")
+            .replace("&", "\\&")
+            .replace("%", "\\%")
+            .replace("_", "\\_")
+        )
+
+    tex_lines = [
+        "% Compact Table A. Source-instance counts are separate from route-evaluation events.",
+        "\\begin{tabular}{llr}",
+        "\\hline",
+        "Counting unit & Item & Count \\\\",
+        "\\hline",
+    ]
+    for unit, item, count, _row_note in rows:
+        tex_lines.append(f"{tex(unit)} & {tex(item)} & {count} \\\\")
+    tex_lines.extend(
+        [
+            "\\hline",
+            "\\end{tabular}",
+            "",
+            "% Source instances: examined = accepted + not accepted.",
+            "% Route-evaluation events: reason rows sum to the event total, and the last two rows partition that same total.",
+            "% unverified timeout and unverified search exhausted are not proofs of infeasibility.",
+            "",
+        ]
+    )
+    (OUT / "table_route_generation_audit_compact.tex").write_text("\n".join(tex_lines), encoding="utf-8")
+    (OUT / "table_route_generation_audit_compact_caption.txt").write_text(note + "\n", encoding="utf-8")
 
 
 def split_characteristics(name: str, routes: list[dict], certificates: dict[str, dict]) -> dict:
@@ -538,7 +713,7 @@ def write_characteristics(rows: list[dict]) -> None:
         "customers_min",
         "customers_median",
         "customers_max",
-        "mean_customer_only_distance",
+        "mean_customer_only_distance_coordinate_units",
         "n_charging_required",
         "n_no_charge_required",
         "layout_C",
@@ -556,18 +731,27 @@ def write_characteristics(rows: list[dict]) -> None:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
         for row in rows:
-            writer.writerow({key: row[key] for key in fieldnames})
+            payload = {key: row[key] for key in fieldnames if key != "mean_customer_only_distance_coordinate_units"}
+            payload["mean_customer_only_distance_coordinate_units"] = row["mean_customer_only_distance"]
+            writer.writerow(payload)
+    distance_note = (
+        "Mean customer-only distance is the mean length of the frozen depot–customers–depot sequence "
+        "in normalized SynthCharge coordinate units. "
+        "Instance coordinates lie in the generator's unit square. "
+        "These distances are not kilometers."
+    )
     md = [
         "# Table B. Frozen-route characteristics",
         "",
         "TRAIN and VALIDATION are the SynthCharge development corpora. "
         "TEST is the fresh V4 corpus only. "
-        "Customer counts and distances describe the frozen customer sequence. "
+        "Customer counts describe the frozen customer sequence. "
+        f"{distance_note} "
         "Station-visit statistics describe the stored charging certificate, not FA-HPPO decisions. "
         "A no-charge-required label means a continue-only replay completed. "
         "In these corpora that label coincides with zero certificate station visits, but the certificate remains one feasible witness rather than an FA-HPPO trajectory.",
         "",
-        "| Split | Routes | Customers mean [min, median, max] | Mean customer-only distance | Charging required | No charge required | C / R / RC | Short / medium / long | Certificate station visits mean [min, median, max] |",
+        "| Split | Routes | Customers mean [min, median, max] | Mean customer-only distance (coordinate units) | Charging required | No charge required | C / R / RC | Short / medium / long | Certificate station visits mean [min, median, max] |",
         "|---|---:|---|---:|---:|---:|---|---|---|",
     ]
     for row in rows:
@@ -581,6 +765,121 @@ def write_characteristics(rows: list[dict]) -> None:
         )
     md.append("")
     (OUT / "table_route_characteristics.md").write_text("\n".join(md), encoding="utf-8")
+    write_compact_characteristics(rows, distance_note)
+
+
+def write_compact_characteristics(rows: list[dict], distance_note: str) -> None:
+    fieldnames = [
+        "split",
+        "n_routes",
+        "customers_mean",
+        "customers_min",
+        "customers_median",
+        "customers_max",
+        "mean_distance_coordinate_units",
+        "n_charging_required",
+        "n_no_charge_required",
+        "layout_C_R_RC",
+        "length_short_medium_long",
+        "certificate_station_visits_mean",
+        "certificate_station_visits_min",
+        "certificate_station_visits_median",
+        "certificate_station_visits_max",
+    ]
+    packed = []
+    for row in rows:
+        packed.append(
+            {
+                "split": row["split"],
+                "n_routes": row["n_routes"],
+                "customers_mean": f"{row['customers_mean']:.2f}",
+                "customers_min": row["customers_min"],
+                "customers_median": f"{row['customers_median']:.1f}",
+                "customers_max": row["customers_max"],
+                "mean_distance_coordinate_units": f"{row['mean_customer_only_distance']:.3f}",
+                "n_charging_required": row["n_charging_required"],
+                "n_no_charge_required": row["n_no_charge_required"],
+                "layout_C_R_RC": f"{row['layout_C']}/{row['layout_R']}/{row['layout_RC']}",
+                "length_short_medium_long": f"{row['length_short']}/{row['length_medium']}/{row['length_long']}",
+                "certificate_station_visits_mean": f"{row['certificate_station_visits_mean']:.2f}",
+                "certificate_station_visits_min": row["certificate_station_visits_min"],
+                "certificate_station_visits_median": f"{row['certificate_station_visits_median']:.1f}",
+                "certificate_station_visits_max": row["certificate_station_visits_max"],
+            }
+        )
+    with (OUT / "table_route_characteristics_compact.csv").open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(packed)
+    caption = (
+        "Frozen customer-route characteristics for TRAIN, VALIDATION, and the V4 TEST corpus. "
+        f"{distance_note} "
+        "Charging-required and no-charge-required counts are quota labels. "
+        "Certificate station visits count CHARGE steps in the stored witness, not FA-HPPO decisions. "
+        "Layouts are clustered (C), random (R), and mixed (RC). "
+        "Length groups are short (3–5), medium (6–10), and long (11–15) customers on the frozen route."
+    )
+    md = [
+        "# Table B (compact). Frozen-route characteristics",
+        "",
+        caption,
+        "",
+        "| Split | Routes | Customers mean [min, median, max] | Mean distance (coordinate units) | Charging / no charge | C / R / RC | Short / medium / long | Certificate visits mean [min, median, max] |",
+        "|---|---:|---|---:|---|---|---|---|",
+    ]
+    for row in rows:
+        md.append(
+            "| {split} | {n_routes} | {customers_mean:.2f} [{customers_min}, {customers_median:.1f}, {customers_max}] | "
+            "{mean_customer_only_distance:.3f} | {n_charging_required} / {n_no_charge_required} | "
+            "{layout_C} / {layout_R} / {layout_RC} | {length_short} / {length_medium} / {length_long} | "
+            "{certificate_station_visits_mean:.2f} [{certificate_station_visits_min}, {certificate_station_visits_median:.1f}, {certificate_station_visits_max}] |".format(
+                **row
+            )
+        )
+    md.append("")
+    (OUT / "table_route_characteristics_compact.md").write_text("\n".join(md), encoding="utf-8")
+    (OUT / "table_route_characteristics_compact_caption.txt").write_text(caption + "\n", encoding="utf-8")
+    tex_lines = [
+        "% Compact Table B. Distance is in normalized SynthCharge coordinate units, not kilometers.",
+        "\\begin{tabular}{lrrrrlll}",
+        "\\hline",
+        "Split & Routes & Customers & Distance & Charging & No charge & C/R/RC & Short/medium/long \\\\",
+        "\\hline",
+    ]
+    for row in rows:
+        tex_lines.append(
+            "{split} & {n_routes} & {customers_mean:.2f} [{customers_min}, {customers_median:.1f}, {customers_max}] & "
+            "{mean_customer_only_distance:.3f} & {n_charging_required} & {n_no_charge_required} & "
+            "{layout_C}/{layout_R}/{layout_RC} & {length_short}/{length_medium}/{length_long} \\\\".format(**row)
+        )
+    tex_lines.extend(
+        [
+            "\\hline",
+            "\\end{tabular}",
+            "",
+            "% Distance: mean depot-customers-depot length in normalized SynthCharge coordinate units (unit square), not kilometers.",
+            "\\begin{tabular}{lrrrr}",
+            "\\hline",
+            "Split & Certificate visits mean & Min & Median & Max \\\\",
+            "\\hline",
+        ]
+    )
+    for row in rows:
+        tex_lines.append(
+            "{split} & {certificate_station_visits_mean:.2f} & {certificate_station_visits_min} & {certificate_station_visits_median:.1f} & {certificate_station_visits_max} \\\\".format(
+                **row
+            )
+        )
+    tex_lines.extend(
+        [
+            "\\hline",
+            "\\end{tabular}",
+            "",
+            "% Certificate station visits count CHARGE steps in the stored witness, not FA-HPPO decisions.",
+            "",
+        ]
+    )
+    (OUT / "table_route_characteristics_compact.tex").write_text("\n".join(tex_lines), encoding="utf-8")
 
 
 def draw_pipeline() -> None:
@@ -640,7 +939,105 @@ def draw_pipeline() -> None:
         "SynthCharge draws a source instance. PyVRP then solves a customer-only capacitated pickup vehicle-routing problem with time windows and does not decide battery charging. "
         "Each ordered vehicle route is submitted to a whole-route charging-certificate search, which looks for one feasible charging trajectory and is not a globally exact charging optimizer. "
         "Routes are classified by charging requirement and retained only while layout, frozen-route-length, and charging-requirement quotas remain open. "
-        "The retained sequences are frozen. FA-HPPO later chooses charging insertions and charge amounts on those sequences; it does not create or reorder customers.\n",
+        "The retained sequences are frozen. FA-HPPO later chooses charging insertions and charge amounts on those sequences; it does not create or reorder customers. "
+        "A compact horizontal version with the unverified-search and quota-rejection branches is given in figure_route_generation_pipeline_horizontal.\n",
+        encoding="utf-8",
+    )
+    draw_pipeline_horizontal()
+
+
+def _flow_box(ax, x, y, w, h, text, face, fontsize=7.0, dashed=False):
+    patch = FancyBboxPatch(
+        (x, y),
+        w,
+        h,
+        boxstyle="round,pad=0.012,rounding_size=0.02",
+        facecolor=face,
+        edgecolor="#333333",
+        linewidth=0.8,
+        linestyle="--" if dashed else "-",
+    )
+    ax.add_patch(patch)
+    ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=fontsize, color="#222222", linespacing=1.15)
+
+
+def _flow_arrow(ax, start, end, dashed=False):
+    ax.add_patch(
+        FancyArrowPatch(
+            start,
+            end,
+            arrowstyle="-|>",
+            mutation_scale=8,
+            linewidth=0.8,
+            color="#333333",
+            linestyle="--" if dashed else "-",
+            shrinkA=1,
+            shrinkB=1,
+            zorder=3,
+        )
+    )
+
+
+def draw_pipeline_horizontal() -> None:
+    """Compact horizontal pipeline. The vertical figure is left unchanged."""
+    plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 7, "pdf.fonttype": 42, "ps.fonttype": 42})
+    fig, ax = plt.subplots(figsize=(7.4, 2.72))
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 36)
+    ax.axis("off")
+    main = [
+        (2.0, "SynthCharge\ninstance", "#E8F1F8"),
+        (18.2, "PyVRP\ncustomer-only\nVRPTW", "#E8F1F8"),
+        (34.4, "Extract ordered\nvehicle routes", "#E8F1F8"),
+        (50.6, "Charging-\ncertificate\nsearch", "#F8EFE6"),
+        (66.8, "Classify and\napply quotas", "#F4F4F4"),
+        (83.0, "Frozen routes;\nFA-HPPO", "#E7F6EF"),
+    ]
+    box_w, box_h, main_y = 14.6, 13.2, 20.2
+    for x, text, face in main:
+        _flow_box(ax, x, main_y, box_w, box_h, text, face, fontsize=6.7)
+    for (x0, _, _), (x1, _, _) in zip(main, main[1:]):
+        _flow_arrow(ax, (x0 + box_w, main_y + box_h / 2), (x1, main_y + box_h / 2))
+    _flow_box(
+        ax,
+        42.4,
+        1.3,
+        22.6,
+        12.4,
+        "Unverified timeout or\nexhausted search\n(not infeasibility)",
+        "#FBF6F1",
+        fontsize=6.4,
+        dashed=True,
+    )
+    _flow_box(
+        ax,
+        68.6,
+        1.3,
+        22.6,
+        12.4,
+        "Outside length bins\nor quota full\n(not retained)",
+        "#F7F7F7",
+        fontsize=6.4,
+        dashed=True,
+    )
+    cert_x = main[3][0] + box_w / 2
+    quota_x = main[4][0] + box_w / 2
+    _flow_arrow(ax, (cert_x, main_y), (53.7, 13.7), dashed=True)
+    _flow_arrow(ax, (quota_x, main_y), (79.9, 13.7), dashed=True)
+    fig.savefig(OUT / "figure_route_generation_pipeline_horizontal.pdf", bbox_inches="tight", pad_inches=0.04)
+    fig.savefig(OUT / "figure_route_generation_pipeline_horizontal.svg", bbox_inches="tight", pad_inches=0.04)
+    fig.savefig(OUT / "figure_route_generation_pipeline_horizontal.png", dpi=300, bbox_inches="tight", pad_inches=0.04)
+    plt.close(fig)
+    (OUT / "figure_route_generation_pipeline_horizontal_caption.txt").write_text(
+        "Compact route-generation pipeline. "
+        "The upper row is the path from a SynthCharge instance to a frozen customer sequence and the later FA-HPPO charging controller. "
+        "PyVRP solves a customer-only capacitated pickup vehicle-routing problem with time windows and does not decide battery charging. "
+        "The charging-certificate search looks for one feasible charging trajectory; it is not a globally exact charging optimizer. "
+        "Dashed branches are routes that are not retained. "
+        "An unverified timeout or an exhausted search means no witness was returned and is not a proof of infeasibility. "
+        "A route outside the frozen-route length bins, or a route whose layout, length, and charging-requirement quota is already full, is not retained. "
+        "FA-HPPO chooses charging insertions and charge amounts on the frozen sequences and does not create or reorder customers. "
+        "The vertical pipeline figure remains available as figure_route_generation_pipeline.\n",
         encoding="utf-8",
     )
 
@@ -703,7 +1100,10 @@ def collect_inconsistencies(summary: dict, characteristics: list[dict], quotas: 
 
 
 def write_report(example: dict, caption: str, summary: dict, characteristics: list[dict], issues: list[str], provenance: dict) -> None:
-    test_note = characteristics[2]["certificate_vs_charge_class"]
+    for row in characteristics:
+        note = row["certificate_vs_charge_class"]
+        if note["no_charge_required_with_visit"] or note["charging_required_without_visit"]:
+            raise SystemExit(f"{row['split']} no longer matches the reported charge-class and certificate-visit pattern")
     lines = [
         "# Fixed-route construction audit",
         "",
@@ -726,6 +1126,10 @@ def write_report(example: dict, caption: str, summary: dict, characteristics: li
         "",
         "## Table A counting units",
         "",
+        "The full audit is `table_route_generation_audit`. "
+        "The journal subset is `table_route_generation_audit_compact` (10 rows). "
+        "Its first block counts source instances. Its second block counts candidate-route evaluations. Those units are not interchangeable.",
+        "",
         f"- Candidate instances examined: {summary['n_candidate_instances']}.",
         f"- Instances with one accepted route: {summary['n_instances_one_accepted_route']}.",
         f"- Instances with no accepted route: {summary['n_instances_no_accepted_route']}.",
@@ -735,14 +1139,18 @@ def write_report(example: dict, caption: str, summary: dict, characteristics: li
         "",
         "## Table B",
         "",
-        "Customer-only distance is the stored `route_distance` of the depot-customer-depot sequence. It matched `total_distance` on every analyzed route.",
-        "Certificate station visits count `CHARGE` steps in the stored trace. On the V4 TEST set, "
-        f"{test_note['no_charge_required_with_visit']} no-charge-required routes still contain at least one certificate station visit. "
-        "That does not change their label: no-charge-required means a continue-only replay completed, while the stored trace is one feasible witness from a search that prefers higher state of charge.",
+        "Customer-only distance is the stored `route_distance` of the depot-customer-depot sequence, expressed in normalized SynthCharge coordinate units. "
+        "Instance coordinates lie in the generator's unit square. The values are not kilometers. "
+        "`route_distance` matched `total_distance` on every analyzed route.",
+        "The full table is `table_route_characteristics`. The journal subset is `table_route_characteristics_compact`.",
+        "Certificate station visits count `CHARGE` steps in the stored trace. In these three corpora, every no-charge-required route has zero certificate station visits, and every charging-required route has at least one. "
+        "The label is still not defined by that count: no-charge-required means a continue-only replay completed. "
+        "The stored trace is one feasible witness, not the continue-only trajectory and not an FA-HPPO decision.",
         "",
         "## Figure B",
         "",
-        "The pipeline figure separates instance generation, customer-only PyVRP routing, certificate search, quota filtering, freezing, and the later FA-HPPO charging controller.",
+        "The vertical pipeline figure separates instance generation, customer-only PyVRP routing, certificate search, quota filtering, freezing, and the later FA-HPPO charging controller.",
+        "The compact horizontal figure keeps that path and adds two dashed branches: unverified certificate searches, which are not proofs of infeasibility, and routes rejected because the frozen-route length bin is outside the accepted range or the quota cell is already full.",
         "",
         "## Checks against metadata and quotas",
         "",
